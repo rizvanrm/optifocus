@@ -128,7 +128,8 @@
 
 
          ],
-    'depends': ['stock','sale','hr', 'sale_loyalty','purchase','account','report_xlsx'],
+    # 'depends': ['stock','sale','hr', 'sale_loyalty','purchase','account','report_xlsx'],
+        'depends': ['stock','sale','hr', 'sale_loyalty','purchase','account'],
 
     'installable': True
 }
