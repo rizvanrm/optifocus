@@ -1,0 +1,490 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+
+
+    <record id="claim_form_view" model="ir.ui.view">
+        <field name="name">insurance.claim.form</field>
+        <field name="model">insurance.claim</field>
+        <field name="arch" type="xml">
+            <form string="Insurance CLaim" >
+                <sheet>
+
+                <div class="oe_button_box" name="button_box">
+                    <button name="action_view_sale"
+                        type="object"
+                        class="oe_stat_button"
+                        icon="fa-dollar"
+                        attrs="{'invisible': [('sale_count', '=', 0)]}">
+                        <field name="sale_count" widget="statinfo" string="Sale"/>
+                    </button>
+
+                </div>
+
+                    <h1><field name="name"/></h1>
+                    <group name="claim_header" col="3">
+                        <group name="claim_details">
+                            <field name="partner_id"/>
+                            <field name="gender"/>
+                            <field name="mobile"/>
+                            <field name="id_no"/>
+                            <field name="prescription_id"
+                                   domain="[('partner_id', '=', partner_id)]"/>
+                        </group>
+                        <group>
+                            <field name="create_date" />
+                            <field name="pricelist_id" force_save="1"/>
+                            <field name="company_id"/>
+                            <field name="tax_country_id" invisible="1"/>
+                        </group>
+                        <group>
+                            <field name="insurance_id"/>
+                            <label for="policy_id" string="Policy"/>
+                            <div>
+                                <field name="policy_id" placeholder="e.g. 856948" style="width: 50%"
+                                       domain="[('insurance_company', '=', insurance_id)]"/>
+                                <field name="policy_class_id" placeholder="e.g. A" style="width: 50%"
+                                       domain="[('policy_id', '=', policy_id)]"/>
+                            </div>
+
+                            <field name="membership_no"/>
+                            <field name="approval_no" class="oe_inline"/>
+                            <field name="approval_date"/>
+                        </group>
+
+                    </group>
+
+                    <notebook>
+                        <page string="Claim Lines" name="claim_lines">
+                            <field
+                                    name="claim_line"
+                                    widget="section_and_note_one2many"
+                                    mode="tree,kanban">
+                                <!--                            attrs="{'readonly': [('state', 'in', ('done','cancel'))]}"-->
+
+
+                                <tree
+                                        string="Claim Order Lines"
+                                        editable="bottom"
+                                >
+
+                                    <field name="product_id"/>
+                                    <field name="name"/>
+                                    <field name="product_uom_qty" force_save="1" sum="Sum of Quantity"/>
+                                    <field name="price_unit"/>
+                                    <field name="approved_unit"/>
+                                    <field name="approved_subtotal" readonly="True" force_save="1"
+                                           sum="Sum of Approved"/>
+                                    <field name="claim_discount_subtotal" optional="hide" readonly="True" force_save="1"
+                                           sum="Sum of Insurance Discount"/>
+                                    <field name="member_discount_subtotal" optional="hide" readonly="True"
+                                           force_save="1"
+                                           sum="Sum of Member Discount"/>
+                                    <field name="discount_subtotal" optional="hide" readonly="True" force_save="1"
+                                           sum="Sum of Total Discount"/>
+                                    <field name="claim_subtotal" readonly="True" force_save="1" sum="Sum of Claim"/>
+                                    <field name="co_insurance_subtotal" readonly="True" force_save="1"
+                                           sum="Sum of Co-Insurance"/>
+                                    <field name="additional_subtotal" readonly="True" force_save="1"
+                                           sum="Sum of Co-Insurance"/>
+                                    <field name="member_subtotal" readonly="True" force_save="1" sum="Sum of Member"/>
+                                    <field name="company_id" invisible="1"/>
+
+                                    <field name="tax_id" widget="many2many_tags" options="{'no_create': True}"
+                                           context="{'search_view_ref': 'account.account_tax_view_search'}"
+                                           domain="[('type_tax_use','=','sale'),
+                                               ('company_id','=',parent.company_id), ('country_id', '=', parent.tax_country_id)]"
+                                    />
+                                    <field name="price_subtotal" readonly="True" force_save="1" sum="Sum of Subtotal"/>
+
+                                </tree>
+                            </field>
+
+
+                        </page>
+
+                    </notebook>
+
+
+                </sheet>
+            </form>
+
+        </field>
+    </record>
+
+    <record id="claim_footer_form_view" model="ir.ui.view">
+        <field name="name">insurance.claim.form.footer</field>
+        <field name="model">insurance.claim</field>
+        <field name="inherit_id" ref="optifocus.claim_form_view"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='claim_line']" position="after">
+                <group name="note_group" col="6">
+                    <group colspan="3">
+
+                    </group>
+                    <group colspan="1" class="oe_subtotal_footer oe_right">
+
+                        <table style="width:100%;" class="table table-sm table-bordered text-right text-nowrap">
+                            <thead>
+                                <tr class="bg-300">
+                                    <th></th>
+                                    <th>Untaxed</th>
+                                    <th>Taxes</th>
+                                    <th>Total</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr style="color: green;">
+                                    <td class="bg-300" style="color: green;">
+                                        <strong>Claim</strong>
+                                    </td>
+                                    <td>
+                                        <field name="claim_untaxed"/>
+                                    </td>
+                                    <td>
+                                        <field name="claim_tax"/>
+                                    </td>
+                                    <td>
+                                        <field name="claim_total"/>
+                                    </td>
+                                </tr>
+
+                                <tr>
+                                    <td class="bg-300">
+                                        <strong>Co-Insurance</strong>
+                                    </td>
+                                    <td>
+                                        <field name="co_insurance_untaxed"/>
+                                    </td>
+                                    <td>
+                                        <field name="co_insurance_tax"/>
+                                    </td>
+                                    <td>
+                                        <field name="co_insurance_total"/>
+                                    </td>
+                                </tr>
+
+                                <tr>
+
+                                    <td class="bg-300">
+                                        <strong>Additional</strong>
+
+                                    </td>
+                                    <td>
+                                        <field name="additional_untaxed"/>
+                                    </td>
+                                    <td>
+                                        <field name="additional_tax"/>
+                                    </td>
+                                    <td>
+                                        <field name="additional_total"/>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="bg-300">
+
+                                        <strong>Member</strong>
+                                    </td>
+                                    <td>
+                                        <field name="member_untaxed"/>
+                                    </td>
+                                    <td>
+                                        <field name="member_tax"/>
+                                    </td>
+                                    <td>
+                                        <field name="member_total"/>
+                                    </td>
+                                </tr>
+
+                            </tbody>
+
+                        </table>
+                    </group>
+                    <group colspan="2" class="oe_subtotal_footer oe_right">
+                        <field name="amount_untaxed" readonly="1" force_save="1"/>
+                        <field name="amount_tax" readonly="1" force_save="1"/>
+                        <field name="amount_total" readonly="1" force_save="1"/>
+                    </group>
+
+
+                </group>
+            </xpath>
+
+        </field>
+    </record>
+
+    <record id="claim_prescription_form_view" model="ir.ui.view">
+        <field name="name">insurance.claim.form.prescription</field>
+        <field name="model">insurance.claim</field>
+        <field name="inherit_id" ref="optifocus.claim_form_view"/>
+        <field name="arch" type="xml">
+
+
+            <page name="claim_lines" position="after">
+                <page name="prescription" string="Prescription">
+                    <group>
+                        <group>
+                            <field name="doctor"/>
+                            <field name="prescription_type"/>
+                        </group>
+
+                    </group>
+
+
+                    <table class="table table-sm table-bordered text-center">
+                        <thead>
+                            <tr class="bg-300">
+                                <th rowspan="2" class="align-middle" style="width: 10%;">
+                                    <strong>RX</strong>
+                                </th>
+                                <th colspan="4">
+                                    <strong>Right Eye</strong>
+                                </th>
+                                <th colspan="4">
+                                    <strong>Left Eye</strong>
+                                </th>
+                                <th rowspan="2" class="align-middle" style="width: 10%;">
+                                    <strong>IPD</strong>
+                                </th>
+
+                            </tr>
+                            <tr class="bg-300">
+                                <th>
+                                    <strong>SPH</strong>
+                                </th>
+                                <th>
+                                    <strong>CYL</strong>
+                                </th>
+                                <th>
+                                    <strong>Axis</strong>
+                                </th>
+                                <th>
+                                    <strong>VA</strong>
+                                </th>
+
+                                <th>
+                                    <strong>SPH</strong>
+                                </th>
+                                <th>
+                                    <strong>CYL</strong>
+                                </th>
+                                <th>
+                                    <strong>Axis</strong>
+                                </th>
+                                <th>
+                                    <strong>VA</strong>
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody>
+
+                            <tr>
+                                <td class="bg-300">
+                                    <strong>Distance</strong>
+                                </td>
+                                <td>
+                                    <field name="r_sph" style="width: 100%;"/>
+                                </td>
+                                <td>
+                                    <field name="r_cyl" style="width: 100%;"/>
+                                </td>
+                                <td>
+                                    <field name="r_axis" style="width: 100%;"/>
+                                </td>
+                                <td>
+                                    <field name="r_va" style="width: 100%;"/>
+                                </td>
+
+                                <td>
+                                    <field name="l_sph" style="width: 100%;"/>
+                                </td>
+                                <td>
+                                    <field name="l_cyl" style="width: 100%;"/>
+                                </td>
+                                <td>
+                                    <field name="l_axis" style="width: 100%;"/>
+                                </td>
+                                <td>
+                                    <field name="l_va" style="width: 100%;"/>
+                                </td>
+                                <td>
+                                    <field name="ipd_distance" style="width: 100%;"/>
+                                </td>
+
+
+                                <!--    style="background-color:#8bfddd"    -->
+                                <!--    style="background-color:#8aa8fd"    -->
+                            </tr>
+                            <tr>
+                                <td class="bg-300">
+                                    <strong>Addition</strong>
+                                </td>
+                                <td colspan="4">
+                                    <field name="r_add" style="width: 100%;"/>
+                                </td>
+                                <td colspan="4">
+                                    <field name="l_add" style="width: 100%;"/>
+                                </td>
+                                <td>
+                                    <field name="ipd_addition" style="width: 100%;"/>
+                                </td>
+                            </tr>
+                            <!--                            <tr>-->
+                            <!--                                <td class="bg-300">-->
+                            <!--                                    <strong>IPD</strong>-->
+                            <!--                                </td>-->
+                            <!--                                <td colspan="8">-->
+                            <!--                                    <field name="ipd" style="width: 100%;"/>-->
+                            <!--                                </td>-->
+                            <!--                            </tr>-->
+                        </tbody>
+                    </table>
+
+                    <field name="notes" placeholder="Notes"/>
+                </page>
+            </page>
+        </field>
+    </record>
+
+    <record id="claim_policy_form_view" model="ir.ui.view">
+        <field name="name">insurance.claim.form.policy</field>
+        <field name="model">insurance.claim</field>
+        <field name="inherit_id" ref="optifocus.claim_form_view"/>
+        <field name="arch" type="xml">
+
+            <xpath expr="//page[@name='prescription']" position="after">
+                <page name="policy" string="Policy">
+                    <group>
+                        <group name="policy" string="policy">
+                            <field name="policy_holder"/>
+                            <field name="inception_date"/>
+                            <field name="expiry_date"/>
+                            <field name="co_insurance_type"/>
+                            <field name="co_insurance_percent"
+                                   attrs="{'invisible': [('co_insurance_type', '=', 'fixed')]}"/>
+                            <field name="up_to"/>
+                        </group>
+                        <group name="insurance" string="insurance">
+                            <field name="insurance_company_plan"/>
+                            <field name="insurance_discount"/>
+                            <field name="member_discount"/>
+                        </group>
+                    </group>
+                </page>
+            </xpath>
+        </field>
+    </record>
+
+    <record id="insurance_claim_tree_view" model="ir.ui.view">
+        <field name="name">insurance.claim.tree</field>
+        <field name="model">insurance.claim</field>
+        <field name="arch" type="xml">
+            <tree string="Insurance Claim" >
+<!--                <tree string="Insurance Claim" create="false">-->
+                <field name="name" />
+<!--                <field name="user_id" optional="hide"/>-->
+                <field name="partner_id"/>
+                <field name="mobile"/>
+                <field name="id_no"/>
+                <field name="insurance_id"/>
+                <field name="policy_id"/>
+                <field name="policy_holder"/>
+                <field name="membership_no"/>
+                <field name="approval_no" />
+                <field name="approval_date"/>
+                <field name="create_date"/>
+                <field name="company_id"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="insurance_claim_kanban_view" model="ir.ui.view">
+        <field name="name">insurance.claim.kanban</field>
+        <field name="model">insurance.claim</field>
+        <field name="arch" type="xml">
+            <kanban class="o_kanban_mobile">
+                <field name="name"/>
+                <field name="insurance_id"/>
+                <field name="policy_id"/>
+                <field name="approval_no"/>
+                <templates>
+                    <t t-name="kanban-box">
+                        <div t-attf-class="oe_kanban_global_click">
+                            <div class="row">
+                                <div class="col-12">
+                                    <strong>
+                                        <field name="name"/>
+                                    </strong>
+                                </div>
+                            </div>
+                            <div>
+                                Insurance Company:
+                                <field name="insurance_id"/>
+                            </div>
+                            <div>
+                                Policy:
+                                <field name="policy_id"/>
+                            </div>
+
+                            <div>
+                                Approval No:
+                                <field name="approval_no"/>
+                            </div>
+                        </div>
+                    </t>
+                </templates>
+            </kanban>
+        </field>
+    </record>
+
+
+
+    <record id="insurance_claim_search_view" model="ir.ui.view">
+        <field name="name">insurance.claim.search</field>
+        <field name="model">insurance.claim</field>
+        <field name="arch" type="xml">
+            <search string="Insurance Claim">
+                <!-- Search by Search-->
+                <field name="name" />
+<!--                <field name="user_id" />-->
+                <field name="partner_id"/>
+                <field name="mobile"/>
+                <field name="id_no"/>
+                <field name="insurance_id"/>
+                <field name="policy_id"/>
+                <field name="policy_holder"/>
+                <field name="membership_no"/>
+                <field name="approval_no" />
+                <field name="approval_date"/>
+                <field name="create_date"/>
+                <field name="company_id"/>
+                <!-- Search by Filters-->
+                <!--                <filter string="BUPA" name="bupa" domain="[('name','=', 'BUPA')]"/>-->
+                <filter string="Create Date" name="filter_create_date" date="create_date"/>
+                <filter string="Approval Date" name="filter_approval_date" date="approval_date"/>
+                <!-- Search by  Group by -->
+                <!--                <filter name="insurance_company" string="Insurance Company" context="{'group_by':'name'}"/>-->
+                <filter string="Insurance Company" name="insurance_company" domain="[]"
+                        context="{'group_by': 'insurance_id'}"/>
+                <filter string="Policy" name="policy" domain="[]" context="{'group_by': 'policy_id'}"/>
+                <filter string="Create Date" name="create_month" domain="[]"
+                        context="{'group_by': 'create_date'}"/>
+                <filter string="Approval Date" name="approval_month" domain="[]"
+                        context="{'group_by': 'approval_date'}"/>
+            </search>
+
+        </field>
+    </record>
+
+
+
+    <record id="action_insurance_claim_form" model="ir.actions.act_window">
+        <field name="name">Insurance Claims</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">insurance.claim</field>
+        <field name="view_mode">tree,form,kanban</field>
+    </record>
+
+
+
+
+</odoo>

@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <data>
+
+        <template id="report_simple_label_ring">
+
+            <t t-if="product.is_product_variant!=True">
+                <t t-set="product_variant_ids" t-value="product.product_variant_ids"/>
+            </t>
+            <t t-else="">
+                <t t-set="product_variant_ids" t-value="product"/>
+            </t>
+
+            <t t-foreach="product_variant_ids" t-as="product_variant_id">
+                <div class="row row-no-gutters" t-att-style="table_style">
+
+                    <div t-attf-class="col-5" style="font-size:12px">
+                        <div class="text-start">
+                            <span t-esc="product_variant_id.brand_id.name[:15] if product_variant_id.brand_id.name else product_variant_id.brand_id.name "/>
+                        </div>
+                        <div class="text-start">
+                            <span t-esc="product_variant_id.model1_id.name[:15] if product_variant_id.model1_id.name else product_variant_id.model1_id.name "/>
+                        </div>
+                        <div class="text-start">
+                            <t t-set="attribute_value" t-value="''"/>
+
+                                <t t-foreach="product_variant_id.product_template_attribute_value_ids" t-as="value_id">
+                                    <t t-set="attribute_value"
+                                       t-value="attribute_value + (',' if attribute_value else '') +  value_id.name"/>
+                                </t>
+                            <span t-esc="attribute_value[:15]"/>
+                        </div>
+                    </div>
+                    <div t-attf-class="col-1">
+
+                    </div>
+                    <div t-attf-class="col-5" style="font-size:12px">
+                        <t t-if="product_variant_id.barcode">
+                            <!--                        `quiet=0` to remove the left and right margins on the barcode-->
+                            <div t-out="product_variant_id.barcode" style="padding:0"
+                                 t-options="{'widget': 'barcode', 'symbology': 'auto', 'img_style': barcode_size}"/>
+
+                            <div class="text-center">
+                                <t t-esc=" '[I]'+product_variant_id.barcode if product_variant_id.insurance_sale_ok==True else product_variant_id.barcode"/>
+                            </div>
+                        </t>
+
+                        <div class="text-center">
+                            <span t-field="product_variant_id.list_price"
+                                  t-options="{'widget': 'monetary', 'label_price': True}"/>
+                        </div>
+                    </div>
+
+                </div>
+                  <p style="page-break-before:always;"></p>
+            </t>
+
+
+        </template>
+
+        <template id="report_productlabel_ring">
+            <t t-call="web.html_container">
+
+                <t t-set="barcode_size" t-value="'width:30mm;height:4mm'"/>
+                <!--                <t t-set="barcode_size" t-value="'width:15mm;height:3mm'"/>-->
+                <t t-set="table_style" t-value="'width:100%;height:15mm;'"/>
+                <t t-set="padding_page" t-value="'padding: 2mm'"/>
+                <t t-foreach="quantity.items()" t-as="barcode_and_qty_by_product">
+                    <t t-set="product" t-value="barcode_and_qty_by_product[0]"/>
+                    <t t-foreach="barcode_and_qty_by_product[1]" t-as="barcode_and_qty">
+                        <t t-set="barcode" t-value="barcode_and_qty[0]"/>
+                        <t t-foreach="range(barcode_and_qty[1])" t-as="qty">
+                            <t t-call="optifocus.report_simple_label_ring"/>
+                        </t>
+                    </t>
+                </t>
+            </t>
+        </template>
+    </data>
+</odoo>

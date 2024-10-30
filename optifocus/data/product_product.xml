@@ -1,0 +1,441 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="1">
+
+        <record id="product_product_global_discount_product" model="product.product">
+            <field name="name">GLOBAL DISCOUNT</field>
+            <field name="barcode"></field>
+            <field name="categ_id" ref="product.product_category_all"/>
+            <field name="detailed_type">service</field>
+        </record>
+
+
+         <record id="product_product_consultation_charge_product" model="product.product">
+            <field name="name">CONSULTATION CHARGE</field>
+            <field name="barcode"></field>
+            <field name="categ_id" ref="product.product_category_all"/>
+            <field name="list_price">150.0</field>
+            <field name="detailed_type">service</field>
+        </record>
+
+
+        <record id="product_product_1_product_template" model="product.template">
+            <field name="name">RAY-BAN , RB 6497 , 2501 , 51</field>
+            <field name="barcode"></field>
+            <field name="brand_id" ref="optifocus.product_brand_1"/>
+            <field name="model1_id" ref="optifocus.product_model_1"/>
+            <field name="categ_id" ref="product_category_frame"/>
+            <field name="standard_price">500.0</field>
+            <field name="list_price">925.0</field>
+            <field name="detailed_type">product</field>
+            <field name="max_retail_line_discount">25</field>
+            <field name="max_wholesale_line_discount">30</field>
+        </record>
+        <record id="product_1_attribute_1_product_template_attribute_line" model="product.template.attribute.line">
+            <field name="product_tmpl_id" ref="product_product_1_product_template"/>
+            <field name="attribute_id" ref="product_attribute_frame_color"/>
+            <field name="value_ids" eval="[(6,0,[ref('product_attribute_value_1')])]"/>
+        </record>
+        <record id="product_1_attribute_2_product_template_attribute_line" model="product.template.attribute.line">
+            <field name="product_tmpl_id" ref="product_product_1_product_template"/>
+            <field name="attribute_id" ref="product_attribute_size"/>
+            <field name="value_ids" eval="[(6,0,[ref('product_attribute_value_3')])]"/>
+        </record>
+
+        <record id="product_product_2_product_template" model="product.template">
+            <field name="name">RAY-BAN , RB 3708 , 002/K8 , GRY/PLZ , 56 , PLASTIC</field>
+            <field name="barcode"></field>
+            <field name="brand_id" ref="optifocus.product_brand_1"/>
+            <field name="model1_id" ref="optifocus.product_model_2"/>
+            <field name="categ_id" ref="product_category_sunglass"/>
+            <field name="standard_price">500.0</field>
+            <field name="list_price">1370.0</field>
+            <field name="detailed_type">product</field>
+            <field name="max_retail_line_discount">25</field>
+            <field name="max_wholesale_line_discount">30</field>
+        </record>
+
+        <record id="product_2_attribute_1_product_template_attribute_line" model="product.template.attribute.line">
+            <field name="product_tmpl_id" ref="product_product_2_product_template"/>
+            <field name="attribute_id" ref="product_attribute_frame_color"/>
+            <field name="value_ids" eval="[(6,0,[ref('product_attribute_value_2')])]"/>
+        </record>
+        <record id="product_2_attribute_2_product_template_attribute_line" model="product.template.attribute.line">
+            <field name="product_tmpl_id" ref="product_product_2_product_template"/>
+            <field name="attribute_id" ref="product_attribute_lens_color"/>
+            <field name="value_ids" eval="[(6,0,[ref('product_attribute_value_5')])]"/>
+        </record>
+          <record id="product_2_attribute_3_product_template_attribute_line" model="product.template.attribute.line">
+            <field name="product_tmpl_id" ref="product_product_2_product_template"/>
+            <field name="attribute_id" ref="product_attribute_size"/>
+            <field name="value_ids" eval="[(6,0,[ref('product_attribute_value_4')])]"/>
+        </record>
+        <record id="product_2_attribute_4_product_template_attribute_line" model="product.template.attribute.line">
+            <field name="product_tmpl_id" ref="product_product_2_product_template"/>
+            <field name="attribute_id" ref="product_attribute_lens_material"/>
+            <field name="value_ids" eval="[(6,0,[ref('product_attribute_value_18')])]"/>
+        </record>
+
+         <record id="product_product_3_product_template" model="product.template">
+            <field name="name">ESSILOR, BLUE UV CAPTURE 1.59 AIRWEAR, CRIZAL PREVINCIA</field>
+            <field name="barcode"></field>
+            <field name="brand_id" ref="optifocus.product_brand_3"/>
+            <field name="model1_id" ref="optifocus.product_model_5"/>
+            <field name="categ_id" ref="product_category_powerlens"/>
+            <field name="standard_price">200.0</field>
+            <field name="list_price">635.0</field>
+            <field name="detailed_type">product</field>
+            <field name="max_retail_line_discount">25</field>
+            <field name="max_wholesale_line_discount">30</field>
+        </record>
+
+        <record id="product_3_attribute_1_product_template_attribute_line" model="product.template.attribute.line">
+            <field name="product_tmpl_id" ref="product_product_3_product_template"/>
+            <field name="attribute_id" ref="product_attribute_lens_material"/>
+            <field name="value_ids" eval="[(6,0,[ref('product_attribute_value_18')])]"/>
+
+        </record>
+         <record id="product_3_attribute_2_product_template_attribute_line" model="product.template.attribute.line">
+            <field name="product_tmpl_id" ref="product_product_3_product_template"/>
+            <field name="attribute_id" ref="product_attribute_lens_index"/>
+            <field name="value_ids" eval="[(6,0,[ref('product_attribute_value_7')])]"/>
+
+        </record>
+          <record id="product_3_attribute_3_product_template_attribute_line" model="product.template.attribute.line">
+            <field name="product_tmpl_id" ref="product_product_3_product_template"/>
+            <field name="attribute_id" ref="product_attribute_focal"/>
+            <field name="value_ids" eval="[(6,0,[ref('product_attribute_value_9')])]"/>
+
+        </record>
+                <record id="product_3_attribute_4_product_template_attribute_line" model="product.template.attribute.line">
+            <field name="product_tmpl_id" ref="product_product_3_product_template"/>
+            <field name="attribute_id" ref="product_attribute_coating"/>
+            <field name="value_ids" eval="[(6,0,[ref('product_attribute_value_13')])]"/>
+
+        </record>
+          <record id="product_3_attribute_5_product_template_attribute_line" model="product.template.attribute.line">
+            <field name="product_tmpl_id" ref="product_product_3_product_template"/>
+            <field name="attribute_id" ref="product_attribute_sphere"/>
+            <field name="value_ids" eval="[(6,0,[ref('product_attribute_value_sphere_m800') ,
+                                                ref('product_attribute_value_sphere_m775'),
+                                                ref('product_attribute_value_sphere_m750'),
+                                                ref('product_attribute_value_sphere_m725'),
+                                                ref('product_attribute_value_sphere_m700'),
+                                                ref('product_attribute_value_sphere_m675'),
+                                                ref('product_attribute_value_sphere_m650'),
+                                                ref('product_attribute_value_sphere_m625'),
+                                                ref('product_attribute_value_sphere_m600'),
+                                                ref('product_attribute_value_sphere_m575'),
+                                                ref('product_attribute_value_sphere_m550'),
+                                                ref('product_attribute_value_sphere_m525'),
+                                                ref('product_attribute_value_sphere_m500'),
+                                                ref('product_attribute_value_sphere_m475'),
+                                                ref('product_attribute_value_sphere_m450'),
+                                                ref('product_attribute_value_sphere_m425'),
+                                                ref('product_attribute_value_sphere_m400'),
+                                                ref('product_attribute_value_sphere_m375'),
+                                                ref('product_attribute_value_sphere_m350'),
+                                                ref('product_attribute_value_sphere_m325'),
+                                                ref('product_attribute_value_sphere_m300'),
+                                                ref('product_attribute_value_sphere_m275'),
+                                                ref('product_attribute_value_sphere_m250'),
+                                                ref('product_attribute_value_sphere_m225'),
+                                                ref('product_attribute_value_sphere_m200'),
+                                                ref('product_attribute_value_sphere_m175'),
+                                                ref('product_attribute_value_sphere_m150'),
+                                                ref('product_attribute_value_sphere_m125'),
+                                                ref('product_attribute_value_sphere_m100'),
+                                                ref('product_attribute_value_sphere_m075'),
+                                                ref('product_attribute_value_sphere_m050'),
+                                                ref('product_attribute_value_sphere_m025'),
+                                                ref('product_attribute_value_sphere_000'),
+                                                ref('product_attribute_value_sphere_p025'),
+                                                ref('product_attribute_value_sphere_p050'),
+                                                ref('product_attribute_value_sphere_p075'),
+                                                ref('product_attribute_value_sphere_p100'),
+                                                ref('product_attribute_value_sphere_p125'),
+                                                ref('product_attribute_value_sphere_p150'),
+                                                ref('product_attribute_value_sphere_p175'),
+                                                ref('product_attribute_value_sphere_p200'),
+                                                ref('product_attribute_value_sphere_p225'),
+                                                ref('product_attribute_value_sphere_p250'),
+                                                ref('product_attribute_value_sphere_p275'),
+                                                ref('product_attribute_value_sphere_p300'),
+                                                ref('product_attribute_value_sphere_p325'),
+                                                ref('product_attribute_value_sphere_p350'),
+                                                ref('product_attribute_value_sphere_p375'),
+                                                ref('product_attribute_value_sphere_p400'),
+                                                ref('product_attribute_value_sphere_p425'),
+                                                ref('product_attribute_value_sphere_p450'),
+                                                ref('product_attribute_value_sphere_p475'),
+                                                ref('product_attribute_value_sphere_p500'),
+                                                ref('product_attribute_value_sphere_p525'),
+                                                ref('product_attribute_value_sphere_p550'),
+                                                ref('product_attribute_value_sphere_p575'),
+                                                ref('product_attribute_value_sphere_p600'),
+                                                ref('product_attribute_value_sphere_p625'),
+                                                ref('product_attribute_value_sphere_p650'),
+                                                ref('product_attribute_value_sphere_p675'),
+                                                ref('product_attribute_value_sphere_p700'),
+                                                ref('product_attribute_value_sphere_p725'),
+                                                ref('product_attribute_value_sphere_p750'),
+                                                ref('product_attribute_value_sphere_p775'),
+                                                ref('product_attribute_value_sphere_p800')
+                         ])]"/>
+
+        </record>
+        <record id="product_3_attribute_6_product_template_attribute_line" model="product.template.attribute.line">
+            <field name="product_tmpl_id" ref="product_product_3_product_template"/>
+            <field name="attribute_id" ref="product_attribute_cylinder"/>
+            <field name="value_ids" eval="[(6,0,[
+                                               ref('product_attribute_value_cylinder_m400'),
+                                                ref('product_attribute_value_cylinder_m375'),
+                                                ref('product_attribute_value_cylinder_m350'),
+                                                ref('product_attribute_value_cylinder_m325'),
+                                                ref('product_attribute_value_cylinder_m300'),
+                                                ref('product_attribute_value_cylinder_m275'),
+                                                ref('product_attribute_value_cylinder_m250'),
+                                                ref('product_attribute_value_cylinder_m225'),
+                                                ref('product_attribute_value_cylinder_m200'),
+                                                ref('product_attribute_value_cylinder_m175'),
+                                                ref('product_attribute_value_cylinder_m150'),
+                                                ref('product_attribute_value_cylinder_m125'),
+                                                ref('product_attribute_value_cylinder_m100'),
+                                                ref('product_attribute_value_cylinder_m075'),
+                                                ref('product_attribute_value_cylinder_m050'),
+                                                ref('product_attribute_value_cylinder_m025'),
+                                                ref('product_attribute_value_cylinder_000')
+                         ])]"/>
+
+        </record>
+
+        <record id="product_product_40_product_template" model="product.template">
+            <field name="name">ACUVUE , 1-DAY OASYS HYDRALUXE , CLEAR</field>
+            <field name="barcode"></field>
+            <field name="brand_id" ref="optifocus.product_brand_2"/>
+            <field name="model1_id" ref="optifocus.product_model_3"/>
+            <field name="categ_id" ref="product_category_contactlens"/>
+            <field name="standard_price">100.0</field>
+            <field name="list_price">200.0</field>
+            <field name="detailed_type">product</field>
+            <field name="max_retail_line_discount">25</field>
+            <field name="max_wholesale_line_discount">30</field>
+        </record>
+
+        <record id="product_40_attribute_1_product_template_attribute_line" model="product.template.attribute.line">
+            <field name="product_tmpl_id" ref="product_product_40_product_template"/>
+            <field name="attribute_id" ref="product_attribute_lens_color"/>
+            <field name="value_ids" eval="[(6,0,[ref('product_attribute_value_clear')])]"/>
+        </record>
+         <record id="product_40_attribute_2_product_template_attribute_line" model="product.template.attribute.line">
+            <field name="product_tmpl_id" ref="product_product_40_product_template"/>
+            <field name="attribute_id" ref="product_attribute_sphere"/>
+            <field name="value_ids" eval="[(6,0,[ref('product_attribute_value_sphere_m400'),
+                                                ref('product_attribute_value_sphere_m375'),
+                                                ref('product_attribute_value_sphere_m350'),
+                                                ref('product_attribute_value_sphere_m325'),
+                                                ref('product_attribute_value_sphere_m300'),
+                                                ref('product_attribute_value_sphere_m275'),
+                                                ref('product_attribute_value_sphere_m250'),
+                                                ref('product_attribute_value_sphere_m225'),
+                                                ref('product_attribute_value_sphere_m200'),
+                                                ref('product_attribute_value_sphere_m175'),
+                                                ref('product_attribute_value_sphere_m150'),
+                                                ref('product_attribute_value_sphere_m125'),
+                                                ref('product_attribute_value_sphere_m100'),
+                                                ref('product_attribute_value_sphere_m075')
+
+
+            ])]"/>
+        </record>
+         <record id="product_40_attribute_3_product_template_attribute_line" model="product.template.attribute.line">
+            <field name="product_tmpl_id" ref="product_product_40_product_template"/>
+            <field name="attribute_id" ref="product_attribute_bc"/>
+            <field name="value_ids" eval="[(6,0,[ref('product_attribute_value_bc_850')])]"/>
+        </record>
+          <record id="product_40_attribute_4_product_template_attribute_line" model="product.template.attribute.line">
+            <field name="product_tmpl_id" ref="product_product_40_product_template"/>
+            <field name="attribute_id" ref="product_attribute_diameter"/>
+            <field name="value_ids" eval="[(6,0,[ref('product_attribute_value_diameter_1430')])]"/>
+        </record>
+
+          <record id="product_3_attribute_5_product_template_attribute_line" model="product.template.attribute.line">
+            <field name="product_tmpl_id" ref="product_product_3_product_template"/>
+            <field name="attribute_id" ref="product_attribute_sphere"/>
+            <field name="value_ids" eval="[(6,0,[ref('product_attribute_value_sphere_m800') ,
+                                                ref('product_attribute_value_sphere_m775'),
+                                                ref('product_attribute_value_sphere_m750'),
+                                                ref('product_attribute_value_sphere_m725'),
+                                                ref('product_attribute_value_sphere_m700'),
+                                                ref('product_attribute_value_sphere_m675'),
+                                                ref('product_attribute_value_sphere_m650'),
+                                                ref('product_attribute_value_sphere_m625'),
+                                                ref('product_attribute_value_sphere_m600'),
+                                                ref('product_attribute_value_sphere_m575'),
+                                                ref('product_attribute_value_sphere_m550'),
+                                                ref('product_attribute_value_sphere_m525'),
+                                                ref('product_attribute_value_sphere_m500'),
+                                                ref('product_attribute_value_sphere_m475'),
+                                                ref('product_attribute_value_sphere_m450'),
+                                                ref('product_attribute_value_sphere_m425'),
+                                                ref('product_attribute_value_sphere_m400'),
+                                                ref('product_attribute_value_sphere_m375'),
+                                                ref('product_attribute_value_sphere_m350'),
+                                                ref('product_attribute_value_sphere_m325'),
+                                                ref('product_attribute_value_sphere_m300'),
+                                                ref('product_attribute_value_sphere_m275'),
+                                                ref('product_attribute_value_sphere_m250'),
+                                                ref('product_attribute_value_sphere_m225'),
+                                                ref('product_attribute_value_sphere_m200'),
+                                                ref('product_attribute_value_sphere_m175'),
+                                                ref('product_attribute_value_sphere_m150'),
+                                                ref('product_attribute_value_sphere_m125'),
+                                                ref('product_attribute_value_sphere_m100'),
+                                                ref('product_attribute_value_sphere_m075'),
+                                                ref('product_attribute_value_sphere_m050'),
+                                                ref('product_attribute_value_sphere_m025'),
+                                                ref('product_attribute_value_sphere_000'),
+                                                ref('product_attribute_value_sphere_p025'),
+                                                ref('product_attribute_value_sphere_p050'),
+                                                ref('product_attribute_value_sphere_p075'),
+                                                ref('product_attribute_value_sphere_p100'),
+                                                ref('product_attribute_value_sphere_p125'),
+                                                ref('product_attribute_value_sphere_p150'),
+                                                ref('product_attribute_value_sphere_p175'),
+                                                ref('product_attribute_value_sphere_p200'),
+                                                ref('product_attribute_value_sphere_p225'),
+                                                ref('product_attribute_value_sphere_p250'),
+                                                ref('product_attribute_value_sphere_p275'),
+                                                ref('product_attribute_value_sphere_p300'),
+                                                ref('product_attribute_value_sphere_p325'),
+                                                ref('product_attribute_value_sphere_p350'),
+                                                ref('product_attribute_value_sphere_p375'),
+                                                ref('product_attribute_value_sphere_p400'),
+                                                ref('product_attribute_value_sphere_p425'),
+                                                ref('product_attribute_value_sphere_p450'),
+                                                ref('product_attribute_value_sphere_p475'),
+                                                ref('product_attribute_value_sphere_p500'),
+                                                ref('product_attribute_value_sphere_p525'),
+                                                ref('product_attribute_value_sphere_p550'),
+                                                ref('product_attribute_value_sphere_p575'),
+                                                ref('product_attribute_value_sphere_p600'),
+                                                ref('product_attribute_value_sphere_p625'),
+                                                ref('product_attribute_value_sphere_p650'),
+                                                ref('product_attribute_value_sphere_p675'),
+                                                ref('product_attribute_value_sphere_p700'),
+                                                ref('product_attribute_value_sphere_p725'),
+                                                ref('product_attribute_value_sphere_p750'),
+                                                ref('product_attribute_value_sphere_p775'),
+                                                ref('product_attribute_value_sphere_p800')
+                         ])]"/>
+
+        </record>
+        <record id="product_3_attribute_6_product_template_attribute_line" model="product.template.attribute.line">
+            <field name="product_tmpl_id" ref="product_product_3_product_template"/>
+            <field name="attribute_id" ref="product_attribute_cylinder"/>
+            <field name="value_ids" eval="[(6,0,[
+                                               ref('product_attribute_value_cylinder_m400'),
+                                                ref('product_attribute_value_cylinder_m375'),
+                                                ref('product_attribute_value_cylinder_m350'),
+                                                ref('product_attribute_value_cylinder_m325'),
+                                                ref('product_attribute_value_cylinder_m300'),
+                                                ref('product_attribute_value_cylinder_m275'),
+                                                ref('product_attribute_value_cylinder_m250'),
+                                                ref('product_attribute_value_cylinder_m225'),
+                                                ref('product_attribute_value_cylinder_m200'),
+                                                ref('product_attribute_value_cylinder_m175'),
+                                                ref('product_attribute_value_cylinder_m150'),
+                                                ref('product_attribute_value_cylinder_m125'),
+                                                ref('product_attribute_value_cylinder_m100'),
+                                                ref('product_attribute_value_cylinder_m075'),
+                                                ref('product_attribute_value_cylinder_m050'),
+                                                ref('product_attribute_value_cylinder_m025'),
+                                                ref('product_attribute_value_cylinder_000')
+                         ])]"/>
+
+        </record>
+
+         <record id="product_product_5_product_template" model="product.template">
+            <field name="name">COOPER VISION , BIOMEDICS SOLUTION , 120 ML</field>
+            <field name="barcode"></field>
+            <field name="brand_id" ref="optifocus.product_brand_4"/>
+            <field name="model1_id" ref="optifocus.product_model_7"/>
+            <field name="categ_id" ref="product_category_solution"/>
+            <field name="standard_price">5.0</field>
+            <field name="list_price">25.0</field>
+            <field name="detailed_type">product</field>
+            <field name="max_retail_line_discount">25</field>
+            <field name="max_wholesale_line_discount">30</field>
+        </record>
+
+        <record id="product_5_attribute_1_product_template_attribute_line" model="product.template.attribute.line">
+            <field name="product_tmpl_id" ref="product_product_5_product_template"/>
+            <field name="attribute_id" ref="product_attribute_size"/>
+            <field name="value_ids" eval="[(6,0,[ref('product_attribute_value_250ml')])]"/>
+        </record>
+
+        <record id="product_product_6_product_template" model="product.template">
+            <field name="name">LXG-PERSOL , GLS. , ASS. 35% (OR) ORGADUR MELANIN 75 % (OR) BRN. 35% , D(70) , B(6)</field>
+            <field name="barcode"></field>
+            <field name="brand_id" ref="optifocus.product_brand_5"/>
+            <field name="model1_id" ref="optifocus.product_model_8"/>
+            <field name="categ_id" ref="product_category_sunlens"/>
+            <field name="standard_price">50.0</field>
+            <field name="list_price">200.0</field>
+            <field name="detailed_type">product</field>
+            <field name="max_retail_line_discount">25</field>
+            <field name="max_wholesale_line_discount">30</field>
+        </record>
+
+        <record id="product_6_attribute_1_product_template_attribute_line" model="product.template.attribute.line">
+            <field name="product_tmpl_id" ref="product_product_6_product_template"/>
+            <field name="attribute_id" ref="product_attribute_lens_material"/>
+            <field name="value_ids" eval="[(6,0,[ref('product_attribute_value_19')])]"/>
+        </record>
+        <record id="product_6_attribute_2_product_template_attribute_line" model="product.template.attribute.line">
+            <field name="product_tmpl_id" ref="product_product_6_product_template"/>
+            <field name="attribute_id" ref="product_attribute_diameter"/>
+            <field name="value_ids" eval="[(6,0,[ref('product_attribute_value_diameter_70')])]"/>
+        </record>
+        <record id="product_6_attribute_3_product_template_attribute_line" model="product.template.attribute.line">
+            <field name="product_tmpl_id" ref="product_product_6_product_template"/>
+            <field name="attribute_id" ref="product_attribute_bc"/>
+            <field name="value_ids" eval="[(6,0,[ref('product_attribute_value_bc_6')])]"/>
+        </record>
+
+         <record id="product_product_7_product_template" model="product.template">
+            <field name="name">MAUI JIM , MJ.178 , 02, 56</field>
+            <field name="barcode"></field>
+            <field name="brand_id" ref="optifocus.product_brand_6"/>
+            <field name="model1_id" ref="optifocus.product_model_10"/>
+            <field name="categ_id" ref="product_category_temple"/>
+            <field name="standard_price">50.0</field>
+            <field name="list_price">200.0</field>
+            <field name="detailed_type">product</field>
+            <field name="max_retail_line_discount">25</field>
+            <field name="max_wholesale_line_discount">30</field>
+        </record>
+
+        <record id="product_7_attribute_1_product_template_attribute_line" model="product.template.attribute.line">
+            <field name="product_tmpl_id" ref="product_product_7_product_template"/>
+            <field name="attribute_id" ref="product_attribute_color"/>
+            <field name="value_ids" eval="[(6,0,[ref('product_attribute_value_02')])]"/>
+        </record>
+        <record id="product_7_attribute_2_product_template_attribute_line" model="product.template.attribute.line">
+            <field name="product_tmpl_id" ref="product_product_7_product_template"/>
+            <field name="attribute_id" ref="product_attribute_size"/>
+            <field name="value_ids" eval="[(6,0,[ref('product_attribute_value_4')])]"/>
+        </record>
+
+
+
+
+
+
+
+
+
+
+
+    </data>
+</odoo>

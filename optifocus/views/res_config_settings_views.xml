@@ -1,0 +1,160 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="res_config_settings_view_form" model="ir.ui.view">
+        <field name="name">res.config.settings.view.form.inherit.optical</field>
+        <field name="model">res.config.settings</field>
+        <field name="priority" eval="15"/>
+        <field name="inherit_id" ref="base.res_config_settings_view_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//div[hasclass('settings')]" position="inside">
+                <div class="app_settings_block" data-string="Optifocus" string="Optifocus" data-key="optifocus"
+                     groups="base.group_system">
+
+                    <h2>Power Range</h2>
+                    <div class="row mt16 o_settings_container" name="power_range_setting_container">
+                            <div class="col-12 col-lg-5 o_setting_box" id="power_range">
+                            <table class="table table-sm">
+                                <thead>
+                                    <tr class="bg-200">
+                                        <th width="30%">
+                                            <strong>Power Type</strong>
+                                        </th>
+                                        <th class="text-center">
+                                            <strong>Min</strong>
+                                        </th>
+                                        <th class="text-center">
+                                            <strong>Max</strong>
+                                        </th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr class="bg-100">
+                                        <td>
+                                            <label for="sphere_min" string="Sphere"/>
+                                        </td>
+                                        <td class="text-center">
+                                            <field name="sphere_min"/>
+                                        </td>
+                                        <td class="text-center">
+                                            <field name="sphere_max"/>
+                                        </td>
+
+                                    </tr>
+                                    <tr class="bg-100">
+                                        <td>
+                                            <label for="cylinder_min" string="Cylinder"/>
+                                        </td>
+                                        <td class="text-center">
+                                            <field name="cylinder_min"/>
+                                        </td>
+                                        <td class="text-center">
+                                            <field name="cylinder_max"/>
+                                        </td>
+
+                                    </tr>
+                                    <tr class="bg-100">
+                                        <td>
+                                            <label for="axis_min" string="Axis"/>
+                                        </td>
+                                        <td class="text-center">
+                                            <field name="axis_min"/>
+                                        </td>
+                                        <td class="text-center">
+                                            <field name="axis_max"/>
+                                        </td>
+
+                                    </tr>
+                                    <tr class="bg-100">
+                                        <td>
+                                            <label for="addition_min" string="Addition"/>
+                                        </td>
+                                        <td class="text-center">
+                                            <field name="addition_min"/>
+                                        </td>
+                                        <td class="text-center">
+                                            <field name="addition_max"/>
+                                        </td>
+
+                                    </tr>
+                                    <tr class="bg-100">
+                                        <td>
+                                            <label for="va_min" string="VA"/>
+                                        </td>
+                                        <td class="text-center">
+                                            <field name="va_min"/>
+                                        </td>
+                                        <td class="text-center">
+                                            <field name="va_max"/>
+                                        </td>
+
+                                    </tr>
+                                    <tr class="bg-100">
+                                        <td>
+                                            <label for="ipd_min" string="IPD"/>
+                                        </td>
+                                        <td class="text-center">
+                                            <field name="ipd_min"/>
+                                        </td>
+                                        <td class="text-center">
+                                            <field name="ipd_max"/>
+                                        </td>
+
+                                    </tr>
+
+                                </tbody>
+                            </table>
+                        </div>
+
+<!--                        <div class="col-12 col-lg-5 o_setting_box" id="other_range">-->
+<!--                            <table class="table table-sm">-->
+<!--                                <thead>-->
+<!--                                    <tr class="bg-200">-->
+<!--                                        <th width="30%">-->
+<!--                                            <strong>Attribute Type</strong>-->
+<!--                                        </th>-->
+<!--                                        <th class="text-center">-->
+<!--                                            <strong>Min</strong>-->
+<!--                                        </th>-->
+<!--                                        <th class="text-center">-->
+<!--                                            <strong>Max</strong>-->
+<!--                                        </th>-->
+<!--                                    </tr>-->
+<!--                                </thead>-->
+<!--                                <tbody>-->
+
+<!--                                    <tr class="bg-100">-->
+<!--                                        <td>-->
+<!--                                            <label for="base_curve_min" string="Base Curve"/>-->
+<!--                                        </td>-->
+<!--                                        <td class="text-center">-->
+<!--                                            <field name="base_curve_min"/>-->
+<!--                                        </td>-->
+<!--                                        <td class="text-center">-->
+<!--                                            <field name="base_curve_max"/>-->
+<!--                                        </td>-->
+
+<!--                                    </tr>-->
+<!--                                    <tr class="bg-100">-->
+<!--                                        <td>-->
+<!--                                            <label for="diameter_min" string="Diameter"/>-->
+<!--                                        </td>-->
+<!--                                        <td class="text-center">-->
+<!--                                            <field name="diameter_min"/>-->
+<!--                                        </td>-->
+<!--                                        <td class="text-center">-->
+<!--                                            <field name="diameter_max"/>-->
+<!--                                        </td>-->
+
+<!--                                    </tr>-->
+<!--                                </tbody>-->
+<!--                            </table>-->
+<!--                        </div>-->
+
+                    </div>
+                </div>
+
+
+            </xpath>
+        </field>
+    </record>
+</odoo>

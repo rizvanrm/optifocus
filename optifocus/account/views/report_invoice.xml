@@ -1,0 +1,121 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <template id="report_invoice_document" inherit_id="account.report_invoice_document">
+        
+
+        <xpath expr="//div[@t-field='o.partner_shipping_id']" position="attributes">
+            <attribute name="t-options">{"widget": "contact", "fields": ["address","phone", "mobile","name"],
+                "no_marker":
+                True,"phone_icons": True}
+            </attribute>
+        </xpath>
+        <xpath expr="//div[@name='address_not_same_as_shipping']/t/address[@t-field='o.partner_id']"
+               position="attributes">
+            <attribute name="t-options">{"widget": "contact", "fields": ["address", "phone", "mobile","name"],
+                "no_marker":
+                True,"phone_icons": True}
+            </attribute>
+        </xpath>
+        <xpath expr="//div[@name='address_same_as_shipping']/t/address[@t-field='o.partner_id']" position="attributes">
+            <attribute name="t-options">{"widget": "contact", "fields": ["address", "phone", "mobile","name"],
+                "no_marker":
+                True,"phone_icons": True}
+            </attribute>
+        </xpath>
+
+        <xpath expr="//div[@name='no_shipping']/t/address[@t-field='o.partner_id']" position="attributes">
+            <attribute name="t-options">{"widget": "contact", "fields": ["address", "mobile","name"], "no_marker":
+                True,"phone_icons": True}
+            </attribute>
+        </xpath>
+
+
+        <xpath expr="//div[@name='reference']" position="after">
+            <div t-if="o.invoice_filter_type_domain=='sale'" class="col-auto col-3 mw-100 mb-2" name="invoice_type">
+                <strong>Invoice Type:</strong>
+                <p class="m-0" t-field="o.cust_move_type"/>
+            </div>
+        </xpath>
+
+
+        <xpath expr="//div[@id='informations']" position="after">
+            <div t-if="o.invoice_line_ids.sale_line_ids.order_id.sale_type=='insurance'" id="informations1"
+                 class="row mt-2 mb-2">
+                <div t-if="o.invoice_filter_type_domain=='sale'" class="col-auto col-3 mw-100 mb-2">
+                    <strong>Insurance Company:</strong>
+                    <p class="m-0" t-field="o.invoice_line_ids.sale_line_ids.order_id.insurance_id"/>
+                </div>
+                <div t-if="o.invoice_filter_type_domain=='sale'" class="col-auto col-3 mw-100 mb-2">
+                    <strong>Insurance Plan:</strong>
+                    <p class="m-0" t-field="o.invoice_line_ids.sale_line_ids.order_id.insurance_company_plan"/>
+                </div>
+
+                <div t-if="o.invoice_filter_type_domain=='sale'" class="col-auto col-3 mw-100 mb-2">
+                    <strong>Policy :</strong>
+                    <t t-set="policy"
+                       t-value="o.invoice_line_ids.sale_line_ids.order_id.policy_id.policy_no+ ' - ' + o.invoice_line_ids.sale_line_ids.order_id.policy_holder"/>
+                    <p class="m-0" t-esc="policy"/>
+                </div>
+                <div t-if="o.invoice_filter_type_domain=='sale'" class="col-auto col-3 mw-100 mb-2">
+                    <strong>Approval No:</strong>
+                    <p class="m-0" t-field="o.invoice_line_ids.sale_line_ids.order_id.approval_no"/>
+                </div>
+            </div>
+        </xpath>
+
+        <xpath expr="//div[@id='total']/div[1]" position="attributes">
+            <attribute name="t-attf-class">
+                #{'col-6' if report_type != 'html' else 'col-sm-7 col-md-6'}
+
+            </attribute>
+        </xpath>
+
+
+        <xpath expr="//table[@class='table table-sm o_main_table table-borderless']//thead//tr//th['th_description']"
+               position="before">
+<!--        <xpath expr="//table[hasclass('table', 'table-sm', 'o_main_table', 'table-borderless')]//thead//tr//th['th_description']"-->
+
+            <th name="th_barcode" class="text-start">
+                <strong>Barcode</strong>
+            </th>
+        </xpath>
+
+        <xpath expr="//table[hasclass('table', 'table-sm', 'o_main_table', 'table-borderless')]//tbody//tr//td[@name='account_invoice_line_name']"
+                               position="before">
+                            <td>
+                                <span t-field="line.product_id.barcode"/>
+                            </td>
+                  </xpath>
+
+                <xpath expr="//div[@id='total']/div[1]" position="before">
+                    <t t-set="show_arabic_transaltion" t-value="False"/>
+                    <div t-attf-class="#{'col-5' if report_type != 'html' else 'col-sm-7 col-md-6'}">
+                        <!-- Insurance totals -->
+                        <t t-if="line.sale_line_ids.order_id.sale_type=='insurance'">
+                            <t t-set="order_id" t-value="line.sale_line_ids.order_id"/>
+                            <t t-set="show_claim_line_flag" t-value="False"/>
+                            <t t-if="o.cust_move_type=='claim'">
+                                <t t-set="show_claim_line_flag" t-value="True"/>
+                            </t>
+                            <t t-call="optifocus.document_insurance_totals"/>
+                        </t>
+                        <t t-else="">
+                        </t>
+                    </div>
+                    <div t-attf-class="#{'col-1' if report_type != 'html' else 'col-sm-2 col-md-1'}">
+
+                    </div>
+                </xpath>
+
+                <xpath expr="//p[@name='payment_communication']" position="before">
+                    <br></br>
+                    <div t-if="line.sale_line_ids.order_id.prescription_id" class="row" name="prescription">
+                        <t t-set="prescription_id" t-value="line.sale_line_ids.order_id.prescription_id"/>
+                        <t t-call="optifocus.report_prescription_document"/>
+                    </div>
+                </xpath>
+
+    </template>
+
+</odoo>

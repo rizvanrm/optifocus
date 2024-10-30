@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="audit_claim_report" model="ir.actions.report">
+        <field name="name">Audit Claim</field>
+        <field name="model">audit.claim.wizard</field>
+        <field name="report_type">qweb-pdf</field>
+        <field name="print_report_name">'Audit Claim - %s' % (time.strftime('%Y-%m-%d'))'</field>
+        <field name="report_name">optifocus.report_audit_claim</field>
+    </record>
+
+     <record id="claim_invoice_report" model="ir.actions.report">
+        <field name="name">Claim Invoice</field>
+        <field name="model">claim.invoice.wizard</field>
+        <field name="report_type">qweb-pdf</field>
+        <field name="print_report_name">'Claim Invoice - %s' % (time.strftime('%Y-%m-%d'))'</field>
+        <field name="report_name">optifocus.report_claim_invoice</field>
+    </record>
+
+     <record id="group_summary_statement_report" model="ir.actions.report">
+        <field name="name">Group Summary Statement</field>
+        <field name="model">group.summary.statement.wizard</field>
+        <field name="report_type">qweb-pdf</field>
+        <field name="print_report_name">'GSS - %s' % (time.strftime('%Y-%m-%d'))'</field>
+        <field name="report_name">optifocus.report_group_summary_statement</field>
+    </record>
+
+       <record id="action_report_claim" model="ir.actions.report">
+            <field name="name">Claim Invoice</field>
+            <field name="model">insurance.claim</field>
+            <field name="report_type">qweb-pdf</field>
+            <field name="report_name">optifocus.report_claim</field>
+            <field name="report_file">optifocus.report_claim</field>
+            <field name="print_report_name">'%s' % (object.name) </field>
+            <field name="binding_model_id" ref="model_insurance_claim"/>
+            <field name="binding_type">report</field>
+        </record>
+
+     <record id="claim_report" model="ir.actions.report">
+        <field name="name">Claim Export</field>
+        <field name="model">claim.export.report.wizard</field>
+        <field name="report_type">xlsx</field>
+        <field name="report_name">optifocus.report_claim_export</field>
+        <field name="report_file">optifocus.report_claim_export</field>
+        <field name="binding_type">report</field>
+        <field name="print_report_name">'Claim Export - %s' %  (time.strftime('%Y-%m-%d'))'</field>
+    </record>
+
+
+
+</odoo>

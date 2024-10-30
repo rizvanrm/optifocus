@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+   <template id="report_prescription_document">
+
+
+                    <table class="table table-sm text-center border-top: 0; "  >
+                        <thead  >
+                            <tr>
+                                <th rowspan="2" class="align-middle" style="width: 10%;">
+                                    <strong>RX</strong>
+                                </th>
+                                <th colspan="4">
+                                    <strong>Right Eye</strong>
+                                </th>
+                                <th colspan="4">
+                                    <strong>Left Eye</strong>
+                                </th>
+                                <th rowspan="2" class="align-middle" style="width: 10%;">
+                                    <strong>IPD</strong>
+                                </th>
+
+                            </tr>
+                            <tr>
+                                <th>
+                                    <strong>SPH</strong>
+                                </th>
+                                <th>
+                                    <strong>CYL</strong>
+                                </th>
+                                <th>
+                                    <strong>Axis</strong>
+                                </th>
+                                <th>
+                                    <strong>VA</strong>
+                                </th>
+                                <th>
+                                    <strong>SPH</strong>
+                                </th>
+                                <th>
+                                    <strong>CYL</strong>
+                                </th>
+                                <th>
+                                    <strong>Axis</strong>
+                                </th>
+                                <th>
+                                    <strong>VA</strong>
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody>
+
+                            <tr t-if="prescription_id.prescription_type in ('distance','bifocal_progressive')">
+                                <td >
+                                    <strong>Distance</strong>
+                                </td>
+                                <td>
+                                    <span t-field="prescription_id.r_sph"/>
+                                </td>
+                                <td>
+                                    <span t-field="prescription_id.r_cyl"/>
+                                </td>
+                                <td>
+                                    <span t-field="prescription_id.r_axis"/>
+                                </td>
+                                <td>
+                                    <span t-field="prescription_id.r_va"/>
+                                </td>
+
+                                <td>
+                                    <span t-field="prescription_id.l_sph"/>
+                                </td>
+                                <td>
+                                    <span t-field="prescription_id.l_cyl"/>
+                                </td>
+                                <td>
+                                    <span t-field="prescription_id.l_axis"/>
+                                </td>
+                                <td>
+                                    <span t-field="prescription_id.l_va"/>
+                                </td>
+                                <td>
+                                    <span t-field="prescription_id.ipd_distance"/>
+                                </td>
+
+                            </tr>
+                            <tr t-if="prescription_id.prescription_type in ('reading')">
+                                <td>
+                                    <strong>Reading</strong>
+                                </td>
+                                <td colspan="4">
+                                    <span t-esc="prescription_id.r_sph+prescription_id.r_add"/>
+                                </td>
+                                <td colspan="4">
+                                    <span t-esc="prescription_id.l_sph+prescription_id.l_add"/>
+                                </td>
+                                <td>
+                                    <span t-field="prescription_id.ipd_addition"/>
+                                </td>
+                            </tr>
+                            <tr t-if="prescription_id.prescription_type in ('bifocal_progressive')">
+                                <td>
+                                    <strong>Addition</strong>
+                                </td>
+                                <td colspan="4">
+                                    <span t-field="prescription_id.r_add"/>
+                                </td>
+                                <td colspan="4">
+                                    <span t-field="prescription_id.l_add"/>
+                                </td>
+                                <td>
+                                    <span t-field="prescription_id.ipd_addition"/>
+                                </td>
+                            </tr>
+
+                        </tbody>
+                    </table>
+   </template>
+</odoo>

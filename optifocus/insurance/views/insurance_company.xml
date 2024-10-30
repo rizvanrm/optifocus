@@ -1,0 +1,150 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="insurance_company_form_view" model="ir.ui.view">
+        <field name="name">insurance.company.form</field>
+        <field name="model">insurance.company</field>
+        <field name="arch" type="xml">
+            <form string="Insurance Company">
+                <sheet>
+                    <div class="oe_button_box" name="button_box">
+                    <button name="action_view_policy"
+                        type="object"
+                        class="oe_stat_button"
+                        icon="fa-th-list"
+                        attrs="{'invisible': [('policy_count', '=', 0)]}">
+                        <field name="policy_count" widget="statinfo" string="Policy"/>
+                    </button>
+
+                        <button name="action_view_sale"
+                        type="object"
+                        class="oe_stat_button"
+                        icon="fa-dollar"
+                        attrs="{'invisible': [('sale_count', '=', 0)]}">
+                        <field name="sale_count" widget="statinfo" string="Sale"/>
+                    </button>
+                         <button name="action_view_claim"
+                        type="object"
+                        class="oe_stat_button"
+                        icon="fa-list-alt"
+                        attrs="{'invisible': [('claim_count', '=', 0)]}">
+                        <field name="claim_count" widget="statinfo" string="Claim"/>
+                    </button>
+
+
+                </div>
+
+
+                    <label for="name"/>
+                        <h1><field name="name" placeholder="e.g. BUPA"/></h1>
+                   <group >
+                    <group >
+                            <field name="short_name"/>
+                            <field name="provider_id"/>
+                    </group>
+                    <group >
+                            <field name="partner_id"/>
+                            <field name="pricelist_id"/>
+                    </group>
+                </group>
+
+                    <notebook>
+                        <page string="Plans">
+
+                            <field name="insurance_company_line">
+                                <tree editable="bottom">
+                                    <field name="name"/>
+                                    <field name="insurance_discount"/>
+                                    <field name="member_discount"/>
+                                </tree>
+
+                            </field>
+
+                        </page>
+
+
+                    </notebook>
+
+
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="insurance_company_tree_view" model="ir.ui.view">
+        <field name="name">insurance.company.tree</field>
+        <field name="model">insurance.company</field>
+        <field name="arch" type="xml">
+            <tree string="Insurance Company">
+                <field name="name"/>
+                <field name="short_name"/>
+                <field name="provider_id"/>
+                <field name="pricelist_id"/>
+<!--                <field name="journal_id"/>-->
+            </tree>
+        </field>
+    </record>
+
+        <record id="insurance_company_kanban_view" model="ir.ui.view">
+            <field name="name">insurance.company.kanban</field>
+            <field name="model">insurance.company</field>
+            <field name="arch" type="xml">
+                <kanban class="o_kanban_mobile">
+                    <field name="name"/>
+                    <field name="short_name"/>
+                    <field name="provider_id"/>
+
+                    <templates>
+                        <t t-name="kanban-box">
+                            <div t-attf-class="oe_kanban_global_click">
+                                <div class="row">
+                                    <div class="col-6">
+                                        <strong><field name="name"/></strong>
+                                    </div>
+                                </div>
+                                <div>
+                                    Short Name: <field name="short_name"/>
+                                </div>
+                                <div>
+                                    Provider ID: <field name="provider_id"/>
+                                </div>
+                            </div>
+                        </t>
+                    </templates>
+                </kanban>
+            </field>
+        </record>
+
+
+    <record id="insurance_company_search_view" model="ir.ui.view">
+        <field name="name">insurance.company.search</field>
+        <field name="model">insurance.company</field>
+        <field name="arch" type="xml">
+            <search string="Insurance Company">
+                <!-- Search by Search-->
+                <field name="name"/>
+                <field name="provider_id"/>
+                <field name="pricelist_id"/>
+                <!-- Search by Filters-->
+                <!--                <filter string="BUPA" name="bupa" domain="[('name','=', 'BUPA')]"/>-->
+                <!-- Search by  Group by -->
+                <!--                <filter name="insurance_company" string="Insurance Company" context="{'group_by':'name'}"/>-->
+            </search>
+
+        </field>
+    </record>
+
+    <record id="favorite_filter" model="ir.filters">
+        <field name="name">My favorite</field>
+        <field name="model_id">insurance.company</field>
+        <field name="is_default">False</field>
+        <!--        <field name="domain">[['name', 'like','BUPA']] </field>-->
+    </record>
+
+    <record id="action_insurance_company_form" model="ir.actions.act_window">
+        <field name="name">Insurance Companies</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">insurance.company</field>
+        <field name="view_mode">tree,form,kanban</field>
+    </record>
+
+</odoo>

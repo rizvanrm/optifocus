@@ -1,0 +1,1563 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <template id="report_inventory_adjustment">
+        <t t-call="web.html_container">
+            <t t-call="optifocus.inventory_adjustment_layout">
+
+                <div class="page">
+
+                    <t t-if="state=='confirmed' ">
+                        <t t-if="group_by=='category'">
+                            <t t-if="report_type=='detail'">
+                                <t t-call="optifocus.report_inventory_adjustment_category_detail_confirmed"/>
+                            </t>
+                            <t t-elif="report_type=='summary'">
+                                <t t-call="optifocus.report_inventory_adjustment_category_summary_confirmed"/>
+                            </t>
+                        </t>
+
+                        <t t-elif="group_by=='brand'">
+                            <t t-if="report_type=='detail'">
+                                <t t-call="optifocus.report_inventory_adjustment_brand_detail_confirmed"/>
+                            </t>
+                            <t t-elif="report_type=='summary'">
+                                <t t-call="optifocus.report_inventory_adjustment_brand_summary_confirmed"/>
+                            </t>
+                        </t>
+                    </t>
+                    <t t-if="state=='draft' ">
+                        <t t-if="group_by=='category'">
+                            <t t-if="report_type=='detail'">
+                                <t t-call="optifocus.report_inventory_adjustment_category_detail_draft"/>
+                            </t>
+                            <t t-elif="report_type=='summary'">
+                                <t t-call="optifocus.report_inventory_adjustment_category_summary_draft"/>
+                            </t>
+                        </t>
+
+                        <t t-elif="group_by=='brand'">
+                            <t t-if="report_type=='detail'">
+                                <t t-call="optifocus.report_inventory_adjustment_brand_detail_draft"/>
+                            </t>
+                            <t t-elif="report_type=='summary'">
+                                <t t-call="optifocus.report_inventory_adjustment_brand_summary_draft"/>
+                            </t>
+                        </t>
+                    </t>
+
+                </div>
+
+            </t>
+        </t>
+    </template>
+    <template id="inventory_adjustment_layout">
+       <div class="header">
+            <div class="text-center">
+                    <h5 t-esc="inventory_adjustment_history_id.company_id.name"/>
+                <h6>INVENTORY ADJUSTMENT</h6>
+                <t t-if="state=='confirmed' ">
+                INVENTORY ADJUSTMENT REFERENCE:
+                <t t-esc="inventory_adjustment_history_id.name"/>
+                </t>
+            </div>
+            <div class="row mt-2 mb-2">
+                <div class="col-6 text-start">
+                    DATE :
+                    <span t-esc="context_timestamp(datetime.datetime.now()).strftime('%d-%m-%Y %H:%M')"/>
+                </div>
+
+                <div class="col-6 text-end" >
+                    PAGE
+                    <span class="page"/>
+                    OF
+                    <span class="topage"/>
+                </div>
+            </div>
+        </div>
+        <div class="article o_report_layout_standard">
+            <t t-out="0"/>
+        </div>
+        <!--        <div class="footer o_standard_footer">-->
+        <!--            <div class="text-center">-->
+        <!--                <h1>MY FOOTER</h1>-->
+        <!--            </div>-->
+        <!--        </div>-->
+    </template>
+
+
+
+    <template id="report_inventory_adjustment_brand_detail_confirmed">
+        <t t-set="total_quantity" t-value="0"/>
+        <t t-set="total_value" t-value="0"/>
+        <t t-set="total_inventory_quantity" t-value="0"/>
+        <t t-set="total_inventory_value" t-value="0"/>
+        <t t-set="total_inventory_diff_quantity" t-value="0"/>
+        <t t-set="total_inventory_diff_value" t-value="0"/>
+
+        <t t-set="product_brand_ids" t-value="[]"/>
+        <t t-foreach="inventory_adjustment_history_id.inventory_adjustment_history_line" t-as="l">
+            <t t-set="product_brand_ids" t-value="product_brand_ids+[l.product_id.brand_id]"/>
+
+        </t>
+
+
+        <table class="table table-sm"
+               style="font-size: 14px;margin-bottom:30px; border:hidden;border-top:2px;border-bottom:2px;">
+            <thead>
+                <tr>
+                    <th class="text-start" style="border:hidden;border-top:1px;">BARCODE</th>
+                    <th class="text-start" style="border:hidden;border-top:1px;">DESCRIPTION</th>
+                    <th class="text-end" style="border:hidden;border-top:1px;">SALE PRICE</th>
+                    <th class="text-end" style="border:hidden;border-top:1px;">ON HAND QUANTITY</th>
+                    <th class="text-end" style="border:hidden;border-top:1px;">ON HAND VALUE</th>
+                    <th class="text-end" style="border:hidden;border-top:1px;">COUNTED QUANTITY</th>
+                    <th class="text-end" style="border:hidden;border-top:1px;">COUNTED VALUE</th>
+                    <th class="text-end" style="border:hidden;border-top:1px;">DIFFERENCE QUANTITY</th>
+                    <th class="text-end" style="border:hidden;border-top:1px;">DIFFERENCE VALUE</th>
+
+                </tr>
+
+            </thead>
+
+            <tbody>
+                <tr>
+
+                </tr>
+
+                <t t-foreach="set(product_brand_ids)" t-as="product_brand_id">
+
+
+                    <t t-set="brand_quantity" t-value="0"/>
+                    <t t-set="brand_value" t-value="0"/>
+                    <t t-set="brand_inventory_quantity" t-value="0"/>
+                    <t t-set="brand_inventory_value" t-value="0"/>
+                    <t t-set="brand_inventory_diff_quantity" t-value="0"/>
+                    <t t-set="brand_inventory_diff_value" t-value="0"/>
+
+                    <tr>
+                        <td colspan="9" style="border:hidden;border-top:1px;">
+                            <strong>
+                                <u>
+                                    <t t-esc="product_brand_id.name"/>
+                                </u>
+                            </strong>
+                        </td>
+                    </tr>
+
+
+                    <t t-foreach="inventory_adjustment_history_id.inventory_adjustment_history_line"
+                       t-as="inv_adj_line">
+
+
+                        <t t-if="product_brand_id.name==inv_adj_line.product_id.brand_id.name">
+
+
+                            <tr>
+                                <td style="border:hidden;">
+                                    <t t-esc="inv_adj_line.product_id.barcode"/>
+                                </td>
+                                <td style="border:hidden;">
+                                    <t t-esc="inv_adj_line.product_id.display_name"/>
+                                </td>
+                                <td class="text-end" style="border:hidden;">
+                                    <t t-esc="inv_adj_line.list_price" t-options='{"widget": "float", "precision": 0}'/>
+                                </td>
+                                <td class="text-end" style="border:hidden;">
+                                    <t t-esc="inv_adj_line.quantity" t-options='{"widget": "float", "precision": 0}'/>
+                                </td>
+                                <td class="text-end" style="border:hidden;">
+                                    <t t-esc="inv_adj_line.value" t-options='{"widget": "float", "precision": 0}'/>
+                                </td>
+                                <td class="text-end" style="border:hidden;">
+                                    <t t-esc="inv_adj_line.inventory_quantity"
+                                       t-options='{"widget": "float", "precision": 0}'/>
+                                </td>
+                                <td class="text-end" style="border:hidden;">
+                                    <t t-esc="inv_adj_line.inventory_value"
+                                       t-options='{"widget": "float", "precision": 0}'/>
+                                </td>
+                                <td class="text-end" style="border:hidden;">
+                                    <t t-esc="inv_adj_line.inventory_diff_quantity"
+                                       t-options='{"widget": "float", "precision": 0}'/>
+                                </td>
+                                <td class="text-end" style="border:hidden;">
+                                    <t t-esc="inv_adj_line.inventory_diff_value"
+                                       t-options='{"widget": "float", "precision": 0}'/>
+                                </td>
+
+
+                            </tr>
+
+                            <t t-set="brand_quantity" t-value="brand_quantity+inv_adj_line.quantity"/>
+                            <t t-set="brand_value" t-value="brand_value+inv_adj_line.value"/>
+                            <t t-set="brand_inventory_quantity"
+                               t-value="brand_inventory_quantity+inv_adj_line.inventory_quantity"/>
+                            <t t-set="brand_inventory_value"
+                               t-value="brand_inventory_value+inv_adj_line.inventory_value"/>
+                            <t t-set="brand_inventory_diff_quantity"
+                               t-value="brand_inventory_diff_quantity+inv_adj_line.inventory_diff_quantity"/>
+                            <t t-set="brand_inventory_diff_value"
+                               t-value="brand_inventory_diff_value+inv_adj_line.inventory_diff_value"/>
+
+                            <t t-set="total_quantity" t-value="total_quantity+inv_adj_line.quantity"/>
+                            <t t-set="total_value" t-value="total_value+inv_adj_line.value"/>
+                            <t t-set="total_inventory_quantity"
+                               t-value="total_inventory_quantity+inv_adj_line.inventory_quantity"/>
+                            <t t-set="total_inventory_value"
+                               t-value="total_inventory_value+inv_adj_line.inventory_value"/>
+                            <t t-set="total_inventory_diff_quantity"
+                               t-value="total_inventory_diff_quantity+inv_adj_line.inventory_diff_quantity"/>
+                            <t t-set="total_inventory_diff_value"
+                               t-value="total_inventory_diff_value+inv_adj_line.inventory_diff_value"/>
+
+
+                        </t>
+
+
+                    </t>
+
+                    <tr>
+                        <td colspan="9" style="border:hidden;border-bottom:1px"/>
+                    </tr>
+
+                    <tr>
+                        <td colspan="3" style="border:hidden;border-bottom:1px;border-top:1px">
+                            <strong>
+                                <t t-esc="product_brand_id.name"/>
+                            </strong>
+                        </td>
+
+                        <td class="text-end" style="border:hidden;border-bottom:1px;border-top:1px">
+                            <strong>
+                                <t t-esc="brand_quantity" t-options='{"widget": "float", "precision": 0}'/>
+                            </strong>
+                        </td>
+                        <td class="text-end" style="border:hidden;border-bottom:1px;border-top:1px">
+                            <strong>
+                                <t t-esc="brand_value" t-options='{"widget": "float", "precision": 0}'/>
+                            </strong>
+                        </td>
+                        <td class="text-end" style="border:hidden;border-bottom:1px;border-top:1px">
+                            <strong>
+                                <t t-esc="brand_inventory_quantity"
+                                   t-options='{"widget": "float", "precision": 0}'/>
+                            </strong>
+                        </td>
+                        <td class="text-end" style="border:hidden;border-bottom:1px;border-top:1px">
+                            <strong>
+                                <t t-esc="brand_inventory_value"
+                                   t-options='{"widget": "float", "precision": 0}'/>
+                            </strong>
+                        </td>
+                        <td class="text-end" style="border:hidden;border-bottom:1px;border-top:1px">
+                            <strong>
+                                <t t-esc="brand_inventory_diff_quantity"
+                                   t-options='{"widget": "float", "precision": 0}'/>
+                            </strong>
+                        </td>
+                        <td class="text-end" style="border:hidden;border-bottom:1px;border-top:1px">
+                            <strong>
+                                <t t-esc="brand_inventory_diff_value"
+                                   t-options='{"widget": "float", "precision": 0}'/>
+                            </strong>
+                        </td>
+
+
+                    </tr>
+
+
+                </t>
+
+                <tr>
+                    <td colspan="9"></td>
+                </tr>
+
+                <tr>
+                    <td colspan="3" style="border:hidden;border-top:1px;border-bottom:1px;">
+                        <strong>TOTAL</strong>
+                    </td>
+
+                    <td class="text-end" style="border:hidden;border-top:1px;border-bottom:1px;">
+                        <t t-esc="total_quantity" t-options='{"widget": "float", "precision": 0}'/>
+                    </td>
+                    <td class="text-end" style="border:hidden;border-top:1px;border-bottom:1px;">
+                        <t t-esc="total_value" t-options='{"widget": "float", "precision": 0}'/>
+                    </td>
+                    <td class="text-end" style="border:hidden;border-top:1px;border-bottom:1px;">
+                        <t t-esc="total_inventory_quantity" t-options='{"widget": "float", "precision": 0}'/>
+                    </td>
+                    <td class="text-end" style="border:hidden;border-top:1px;border-bottom:1px;">
+                        <t t-esc="total_inventory_value" t-options='{"widget": "float", "precision": 0}'/>
+                    </td>
+                    <td class="text-end" style="border:hidden;border-top:1px;border-bottom:1px;">
+                        <t t-esc="total_inventory_diff_quantity" t-options='{"widget": "float", "precision": 0}'/>
+                    </td>
+                    <td class="text-end" style="border:hidden;border-top:1px;border-bottom:1px;">
+                        <t t-esc="total_inventory_diff_value" t-options='{"widget": "float", "precision": 0}'/>
+                    </td>
+                </tr>
+
+
+            </tbody>
+
+
+        </table>
+
+    </template>
+    <template id="report_inventory_adjustment_brand_summary_confirmed">
+
+        <t t-set="total_quantity" t-value="0"/>
+        <t t-set="total_value" t-value="0"/>
+        <t t-set="total_inventory_quantity" t-value="0"/>
+        <t t-set="total_inventory_value" t-value="0"/>
+        <t t-set="total_inventory_diff_quantity" t-value="0"/>
+        <t t-set="total_inventory_diff_value" t-value="0"/>
+
+
+        <t t-set="product_brands" t-value="[]"/>
+        <t t-foreach="inventory_adjustment_history_id.inventory_adjustment_history_line" t-as="l">
+            <t t-set="product_brands" t-value="product_brands+[l.product_id.brand_id.name]"/>
+        </t>
+
+
+        <table class="table table-sm"
+               style="font-size: 14px;margin-bottom:30px; border:hidden;border-top:2px;border-bottom:2px;">
+            <thead>
+                <tr>
+                    <th class="text-start" style="border:hidden;border-top:1px;">BRAND</th>
+                    <th class="text-end" style="border:hidden;border-top:1px;">ON HAND QUANTITY</th>
+                    <th class="text-end" style="border:hidden;border-top:1px;">ON HAND VALUE</th>
+                    <th class="text-end" style="border:hidden;border-top:1px;">COUNTED QUANTITY</th>
+                    <th class="text-end" style="border:hidden;border-top:1px;">COUNTED VALUE</th>
+                    <th class="text-end" style="border:hidden;border-top:1px;">DIFFERENCE QUANTITY</th>
+                    <th class="text-end" style="border:hidden;border-top:1px;">DIFFERENCE VALUE</th>
+
+                </tr>
+            </thead>
+
+            <tbody>
+                <tr>
+
+                </tr>
+
+                <t t-foreach="set(product_brands)" t-as="product_brand">
+
+                    <t t-set="brand_quantity" t-value="0"/>
+                    <t t-set="brand_value" t-value="0"/>
+                    <t t-set="brand_inventory_quantity" t-value="0"/>
+                    <t t-set="brand_inventory_value" t-value="0"/>
+                    <t t-set="brand_inventory_diff_quantity" t-value="0"/>
+                    <t t-set="brand_inventory_diff_value" t-value="0"/>
+
+
+                    <t t-foreach="inventory_adjustment_history_id.inventory_adjustment_history_line"
+                       t-as="inv_adj_line">
+
+
+                        <t t-if="product_brand==inv_adj_line.product_id.brand_id.name">
+
+                            <t t-set="brand_quantity" t-value="brand_quantity+inv_adj_line.quantity"/>
+                            <t t-set="brand_value" t-value="brand_value+inv_adj_line.value"/>
+                            <t t-set="brand_inventory_quantity"
+                               t-value="brand_inventory_quantity+inv_adj_line.inventory_quantity"/>
+                            <t t-set="brand_inventory_value"
+                               t-value="brand_inventory_value+inv_adj_line.inventory_value"/>
+                            <t t-set="brand_inventory_diff_quantity"
+                               t-value="brand_inventory_diff_quantity+inv_adj_line.inventory_diff_quantity"/>
+                            <t t-set="brand_inventory_diff_value"
+                               t-value="brand_inventory_diff_value+inv_adj_line.inventory_diff_value"/>
+                        </t>
+
+                        <t t-set="total_quantity" t-value="total_quantity+inv_adj_line.quantity"/>
+                        <t t-set="total_value" t-value="total_value+inv_adj_line.value"/>
+                        <t t-set="total_inventory_quantity"
+                           t-value="total_inventory_quantity+inv_adj_line.inventory_quantity"/>
+                        <t t-set="total_inventory_value"
+                           t-value="total_inventory_value+inv_adj_line.inventory_value"/>
+                        <t t-set="total_inventory_diff_quantity"
+                           t-value="total_inventory_diff_quantity+inv_adj_line.inventory_diff_quantity"/>
+                        <t t-set="total_inventory_diff_value"
+                           t-value="total_inventory_diff_value+inv_adj_line.inventory_diff_value"/>
+
+
+                    </t>
+
+
+                    <tr>
+                        <td class="text-start" style="border:hidden;">
+                            <t t-esc="product_brand"/>
+                        </td>
+
+                        <td class="text-end" style="border:hidden;">
+                            <t t-esc="brand_quantity" t-options='{"widget": "float", "precision": 0}'/>
+                        </td>
+                        <td class="text-end" style="border:hidden;">
+                            <t t-esc="brand_value" t-options='{"widget": "float", "precision": 0}'/>
+                        </td>
+                        <td class="text-end" style="border:hidden;">
+                            <t t-esc="brand_inventory_quantity" t-options='{"widget": "float", "precision": 0}'/>
+                        </td>
+                        <td class="text-end" style="border:hidden;">
+                            <t t-esc="brand_inventory_value" t-options='{"widget": "float", "precision": 0}'/>
+                        </td>
+                        <td class="text-end" style="border:hidden;">
+                            <t t-esc="brand_inventory_diff_quantity"
+                               t-options='{"widget": "float", "precision": 0}'/>
+                        </td>
+                        <td class="text-end" style="border:hidden;">
+                            <t t-esc="brand_inventory_diff_value"
+                               t-options='{"widget": "float", "precision": 0}'/>
+                        </td>
+
+
+                    </tr>
+
+
+                </t>
+                <tr>
+                    <td colspan="7"></td>
+                </tr>
+
+                <tr>
+                    <td style="border:hidden;border-top:1px;border-bottom:1px;">
+                        <strong>TOTAL</strong>
+                    </td>
+
+                    <td class="text-end" style="border:hidden;border-top:1px;border-bottom:1px;">
+                        <t t-esc="total_quantity" t-options='{"widget": "float", "precision": 0}'/>
+                    </td>
+                    <td class="text-end" style="border:hidden;border-top:1px;border-bottom:1px;">
+                        <t t-esc="total_value" t-options='{"widget": "float", "precision": 0}'/>
+                    </td>
+                    <td class="text-end" style="border:hidden;border-top:1px;border-bottom:1px;">
+                        <t t-esc="total_inventory_quantity" t-options='{"widget": "float", "precision": 0}'/>
+                    </td>
+                    <td class="text-end" style="border:hidden;border-top:1px;border-bottom:1px;">
+                        <t t-esc="total_inventory_value" t-options='{"widget": "float", "precision": 0}'/>
+                    </td>
+                    <td class="text-end" style="border:hidden;border-top:1px;border-bottom:1px;">
+                        <t t-esc="total_inventory_diff_quantity" t-options='{"widget": "float", "precision": 0}'/>
+                    </td>
+                    <td class="text-end" style="border:hidden;border-top:1px;border-bottom:1px;">
+                        <t t-esc="total_inventory_diff_value" t-options='{"widget": "float", "precision": 0}'/>
+                    </td>
+                </tr>
+
+
+            </tbody>
+
+
+        </table>
+
+    </template>
+    <template id="report_inventory_adjustment_category_detail_confirmed">
+
+        <t t-set="total_quantity" t-value="0"/>
+        <t t-set="total_value" t-value="0"/>
+        <t t-set="total_inventory_quantity" t-value="0"/>
+        <t t-set="total_inventory_value" t-value="0"/>
+        <t t-set="total_inventory_diff_quantity" t-value="0"/>
+        <t t-set="total_inventory_diff_value" t-value="0"/>
+
+        <t t-set="product_categ_ids" t-value="[]"/>
+        <t t-foreach="inventory_adjustment_history_id.inventory_adjustment_history_line" t-as="l">
+            <t t-set="product_categ_ids" t-value="product_categ_ids+[l.product_id.categ_id]"/>
+        </t>
+
+
+        <table class="table table-sm"
+               style="font-size: 14px;margin-bottom:30px; border:hidden;border-top:2px;border-bottom:2px;">
+            <thead>
+                <tr>
+                    <th class="text-start" style="border:hidden;border-top:1px;">BARCODE</th>
+                    <th class="text-start" style="border:hidden;border-top:1px;">DESCRIPTION</th>
+                    <th class="text-end" style="border:hidden;border-top:1px;">SALE PRICE</th>
+                    <th class="text-end" style="border:hidden;border-top:1px;">ON HAND QUANTITY</th>
+                    <th class="text-end" style="border:hidden;border-top:1px;">ON HAND VALUE</th>
+                    <th class="text-end" style="border:hidden;border-top:1px;">COUNTED QUANTITY</th>
+                    <th class="text-end" style="border:hidden;border-top:1px;">COUNTED VALUE</th>
+                    <th class="text-end" style="border:hidden;border-top:1px;">DIFFERENCE QUANTITY</th>
+                    <th class="text-end" style="border:hidden;border-top:1px;">DIFFERENCE VALUE</th>
+
+                </tr>
+            </thead>
+
+            <tbody>
+                <tr>
+
+                </tr>
+
+                <t t-foreach="set(product_categ_ids)" t-as="product_categ_id">
+
+
+                    <t t-set="categ_quantity" t-value="0"/>
+                    <t t-set="categ_value" t-value="0"/>
+                    <t t-set="categ_inventory_quantity" t-value="0"/>
+                    <t t-set="categ_inventory_value" t-value="0"/>
+                    <t t-set="categ_inventory_diff_quantity" t-value="0"/>
+                    <t t-set="categ_inventory_diff_value" t-value="0"/>
+
+                    <tr>
+                        <td colspan="9" style="border:hidden;border-top:1px;">
+                            <strong>
+                                <u>
+                                    <t t-esc="product_categ_id.name"/>
+                                </u>
+                            </strong>
+                        </td>
+                    </tr>
+
+
+                    <t t-foreach="inventory_adjustment_history_id.inventory_adjustment_history_line"
+                       t-as="inv_adj_line">
+
+
+                        <t t-if="product_categ_id.name==inv_adj_line.product_id.categ_id.name">
+
+
+                            <tr>
+                                <td style="border:hidden;">
+                                    <t t-esc="inv_adj_line.product_id.barcode"/>
+                                </td>
+                                <td style="border:hidden;">
+                                    <t t-esc="inv_adj_line.product_id.display_name"/>
+
+                                </td>
+                                <td class="text-end" style="border:hidden;">
+                                    <t t-esc="inv_adj_line.list_price" t-options='{"widget": "float", "precision": 0}'/>
+                                </td>
+                                <td class="text-end" style="border:hidden;">
+                                    <t t-esc="inv_adj_line.quantity" t-options='{"widget": "float", "precision": 0}'/>
+                                </td>
+                                <td class="text-end" style="border:hidden;">
+                                    <t t-esc="inv_adj_line.value" t-options='{"widget": "float", "precision": 0}'/>
+                                </td>
+                                <td class="text-end" style="border:hidden;">
+                                    <t t-esc="inv_adj_line.inventory_quantity"
+                                       t-options='{"widget": "float", "precision": 0}'/>
+                                </td>
+                                <td class="text-end" style="border:hidden;">
+                                    <t t-esc="inv_adj_line.inventory_value"
+                                       t-options='{"widget": "float", "precision": 0}'/>
+                                </td>
+                                <td class="text-end" style="border:hidden;">
+                                    <t t-esc="inv_adj_line.inventory_diff_quantity"
+                                       t-options='{"widget": "float", "precision": 0}'/>
+                                </td>
+                                <td class="text-end" style="border:hidden;">
+                                    <t t-esc="inv_adj_line.inventory_diff_value"
+                                       t-options='{"widget": "float", "precision": 0}'/>
+                                </td>
+
+
+                            </tr>
+
+                            <t t-set="categ_quantity" t-value="categ_quantity+inv_adj_line.quantity"/>
+                            <t t-set="categ_value" t-value="categ_value+inv_adj_line.value"/>
+                            <t t-set="categ_inventory_quantity"
+                               t-value="categ_inventory_quantity+inv_adj_line.inventory_quantity"/>
+                            <t t-set="categ_inventory_value"
+                               t-value="categ_inventory_value+inv_adj_line.inventory_value"/>
+                            <t t-set="categ_inventory_diff_quantity"
+                               t-value="categ_inventory_diff_quantity+inv_adj_line.inventory_diff_quantity"/>
+                            <t t-set="categ_inventory_diff_value"
+                               t-value="categ_inventory_diff_value+inv_adj_line.inventory_diff_value"/>
+
+                            <t t-set="total_quantity" t-value="total_quantity+inv_adj_line.quantity"/>
+                            <t t-set="total_value" t-value="total_value+inv_adj_line.value"/>
+                            <t t-set="total_inventory_quantity"
+                               t-value="total_inventory_quantity+inv_adj_line.inventory_quantity"/>
+                            <t t-set="total_inventory_value"
+                               t-value="total_inventory_value+inv_adj_line.inventory_value"/>
+                            <t t-set="total_inventory_diff_quantity"
+                               t-value="total_inventory_diff_quantity+inv_adj_line.inventory_diff_quantity"/>
+                            <t t-set="total_inventory_diff_value"
+                               t-value="total_inventory_diff_value+inv_adj_line.inventory_diff_value"/>
+
+
+                        </t>
+
+
+                    </t>
+
+                    <tr>
+                        <td colspan="9" style="border:hidden;border-bottom:1px"/>
+                    </tr>
+
+                    <tr>
+                        <td colspan="3" style="border:hidden;border-bottom:1px;border-top:1px">
+                            <strong>
+                                <t t-esc="product_categ_id.name"/>
+                            </strong>
+                        </td>
+
+                        <td class="text-end" style="border:hidden;border-bottom:1px;border-top:1px">
+                            <strong>
+                                <t t-esc="categ_quantity" t-options='{"widget": "float", "precision": 0}'/>
+                            </strong>
+                        </td>
+                        <td class="text-end" style="border:hidden;border-bottom:1px;border-top:1px">
+                            <strong>
+                                <t t-esc="categ_value" t-options='{"widget": "float", "precision": 0}'/>
+                            </strong>
+                        </td>
+                        <td class="text-end" style="border:hidden;border-bottom:1px;border-top:1px">
+                            <strong>
+                                <t t-esc="categ_inventory_quantity"
+                                   t-options='{"widget": "float", "precision": 0}'/>
+                            </strong>
+                        </td>
+                        <td class="text-end" style="border:hidden;border-bottom:1px;border-top:1px">
+                            <strong>
+                                <t t-esc="categ_inventory_value"
+                                   t-options='{"widget": "float", "precision": 0}'/>
+                            </strong>
+                        </td>
+                        <td class="text-end" style="border:hidden;border-bottom:1px;border-top:1px">
+                            <strong>
+                                <t t-esc="categ_inventory_diff_quantity"
+                                   t-options='{"widget": "float", "precision": 0}'/>
+                            </strong>
+                        </td>
+                        <td class="text-end" style="border:hidden;border-bottom:1px;border-top:1px">
+                            <strong>
+                                <t t-esc="categ_inventory_diff_value"
+                                   t-options='{"widget": "float", "precision": 0}'/>
+                            </strong>
+                        </td>
+
+
+                    </tr>
+
+
+                </t>
+
+                <tr>
+                    <td colspan="9"></td>
+                </tr>
+
+                <tr>
+                    <td colspan="3" style="border:hidden;border-top:1px;border-bottom:1px;">
+                        <strong>TOTAL</strong>
+                    </td>
+
+                    <td class="text-end" style="border:hidden;border-top:1px;border-bottom:1px;">
+                        <t t-esc="total_quantity" t-options='{"widget": "float", "precision": 0}'/>
+                    </td>
+                    <td class="text-end" style="border:hidden;border-top:1px;border-bottom:1px;">
+                        <t t-esc="total_value" t-options='{"widget": "float", "precision": 0}'/>
+                    </td>
+                    <td class="text-end" style="border:hidden;border-top:1px;border-bottom:1px;">
+                        <t t-esc="total_inventory_quantity" t-options='{"widget": "float", "precision": 0}'/>
+                    </td>
+                    <td class="text-end" style="border:hidden;border-top:1px;border-bottom:1px;">
+                        <t t-esc="total_inventory_value" t-options='{"widget": "float", "precision": 0}'/>
+                    </td>
+                    <td class="text-end" style="border:hidden;border-top:1px;border-bottom:1px;">
+                        <t t-esc="total_inventory_diff_quantity" t-options='{"widget": "float", "precision": 0}'/>
+                    </td>
+                    <td class="text-end" style="border:hidden;border-top:1px;border-bottom:1px;">
+                        <t t-esc="total_inventory_diff_value" t-options='{"widget": "float", "precision": 0}'/>
+                    </td>
+                </tr>
+
+
+            </tbody>
+
+
+        </table>
+
+    </template>
+    <template id="report_inventory_adjustment_category_summary_confirmed">
+
+        <t t-set="total_quantity" t-value="0"/>
+        <t t-set="total_value" t-value="0"/>
+        <t t-set="total_inventory_quantity" t-value="0"/>
+        <t t-set="total_inventory_value" t-value="0"/>
+        <t t-set="total_inventory_diff_quantity" t-value="0"/>
+        <t t-set="total_inventory_diff_value" t-value="0"/>
+
+
+        <t t-set="product_categ_ids" t-value="[]"/>
+        <t t-foreach="inventory_adjustment_history_id.inventory_adjustment_history_line" t-as="l">
+            <t t-set="product_categ_ids" t-value="product_categ_ids+[l.product_id.categ_id]"/>
+        </t>
+
+
+        <table class="table table-sm"
+               style="font-size: 14px;margin-bottom:30px; border:hidden;border-top:2px;border-bottom:2px;">
+            <thead>
+
+                 <tr>
+                    <th colspan="7" class="text-start" style="border:hidden;"></th>
+                </tr>
+                <tr>
+                    <th class="text-start" style="border:hidden;border-top:1px;">PRODUCT CATEGORY</th>
+                    <th class="text-end" style="border:hidden;border-top:1px;">ON HAND QUANTITY</th>
+                    <th class="text-end" style="border:hidden;border-top:1px;">ON HAND VALUE</th>
+                    <th class="text-end" style="border:hidden;border-top:1px;">COUNTED QUANTITY</th>
+                    <th class="text-end" style="border:hidden;border-top:1px;">COUNTED VALUE</th>
+                    <th class="text-end" style="border:hidden;border-top:1px;">DIFFERENCE QUANTITY</th>
+                    <th class="text-end" style="border:hidden;border-top:1px;">DIFFERENCE VALUE</th>
+
+                </tr>
+            </thead>
+
+            <tbody>
+                <tr>
+
+                </tr>
+
+                <t t-foreach="set(product_categ_ids)" t-as="product_categ_id">
+
+                    <t t-set="categ_quantity" t-value="0"/>
+                    <t t-set="categ_value" t-value="0"/>
+                    <t t-set="categ_inventory_quantity" t-value="0"/>
+                    <t t-set="categ_inventory_value" t-value="0"/>
+                    <t t-set="categ_inventory_diff_quantity" t-value="0"/>
+                    <t t-set="categ_inventory_diff_value" t-value="0"/>
+
+
+                    <t t-foreach="inventory_adjustment_history_id.inventory_adjustment_history_line"
+                       t-as="inv_adj_line">
+
+
+                        <t t-if="product_categ_id.name==inv_adj_line.product_id.categ_id.name">
+
+                            <t t-set="categ_quantity" t-value="categ_quantity+inv_adj_line.quantity"/>
+                            <t t-set="categ_value" t-value="categ_value+inv_adj_line.value"/>
+                            <t t-set="categ_inventory_quantity"
+                               t-value="categ_inventory_quantity+inv_adj_line.inventory_quantity"/>
+                            <t t-set="categ_inventory_value"
+                               t-value="categ_inventory_value+inv_adj_line.inventory_value"/>
+                            <t t-set="categ_inventory_diff_quantity"
+                               t-value="categ_inventory_diff_quantity+inv_adj_line.inventory_diff_quantity"/>
+                            <t t-set="categ_inventory_diff_value"
+                               t-value="categ_inventory_diff_value+inv_adj_line.inventory_diff_value"/>
+
+
+                            <t t-set="total_quantity" t-value="total_quantity+inv_adj_line.quantity"/>
+                            <t t-set="total_value" t-value="total_value+inv_adj_line.value"/>
+                            <t t-set="total_inventory_quantity"
+                               t-value="total_inventory_quantity+inv_adj_line.inventory_quantity"/>
+                            <t t-set="total_inventory_value"
+                               t-value="total_inventory_value+inv_adj_line.inventory_value"/>
+                            <t t-set="total_inventory_diff_quantity"
+                               t-value="total_inventory_diff_quantity+inv_adj_line.inventory_diff_quantity"/>
+                            <t t-set="total_inventory_diff_value"
+                               t-value="total_inventory_diff_value+inv_adj_line.inventory_diff_value"/>
+                        </t>
+
+                    </t>
+
+
+                    <tr>
+                        <td class="text-start" style="border:hidden;">
+                            <t t-esc="product_categ_id.name"/>
+                        </td>
+
+                        <td class="text-end" style="border:hidden;">
+                            <t t-esc="categ_quantity" t-options='{"widget": "float", "precision": 0}'/>
+                        </td>
+                        <td class="text-end" style="border:hidden;">
+                            <t t-esc="categ_value" t-options='{"widget": "float", "precision": 0}'/>
+                        </td>
+                        <td class="text-end" style="border:hidden;">
+                            <t t-esc="categ_inventory_quantity" t-options='{"widget": "float", "precision": 0}'/>
+                        </td>
+                        <td class="text-end" style="border:hidden;">
+                            <t t-esc="categ_inventory_value" t-options='{"widget": "float", "precision": 0}'/>
+                        </td>
+                        <td class="text-end" style="border:hidden;">
+                            <t t-esc="categ_inventory_diff_quantity"
+                               t-options='{"widget": "float", "precision": 0}'/>
+                        </td>
+                        <td class="text-end" style="border:hidden;">
+                            <t t-esc="categ_inventory_diff_value"
+                               t-options='{"widget": "float", "precision": 0}'/>
+                        </td>
+
+
+                    </tr>
+
+
+                </t>
+                <tr>
+                    <td colspan="7"></td>
+                </tr>
+
+                <tr>
+                    <td style="border:hidden;border-top:1px;border-bottom:1px;">
+                        <strong>TOTAL</strong>
+                    </td>
+
+                    <td class="text-end" style="border:hidden;border-top:1px;border-bottom:1px;">
+                        <t t-esc="total_quantity" t-options='{"widget": "float", "precision": 0}'/>
+                    </td>
+                    <td class="text-end" style="border:hidden;border-top:1px;border-bottom:1px;">
+                        <t t-esc="total_value" t-options='{"widget": "float", "precision": 0}'/>
+                    </td>
+                    <td class="text-end" style="border:hidden;border-top:1px;border-bottom:1px;">
+                        <t t-esc="total_inventory_quantity" t-options='{"widget": "float", "precision": 0}'/>
+                    </td>
+                    <td class="text-end" style="border:hidden;border-top:1px;border-bottom:1px;">
+                        <t t-esc="total_inventory_value" t-options='{"widget": "float", "precision": 0}'/>
+                    </td>
+                    <td class="text-end" style="border:hidden;border-top:1px;border-bottom:1px;">
+                        <t t-esc="total_inventory_diff_quantity" t-options='{"widget": "float", "precision": 0}'/>
+                    </td>
+                    <td class="text-end" style="border:hidden;border-top:1px;border-bottom:1px;">
+                        <t t-esc="total_inventory_diff_value" t-options='{"widget": "float", "precision": 0}'/>
+                    </td>
+                </tr>
+
+
+            </tbody>
+
+
+        </table>
+
+    </template>
+    <template id="report_inventory_adjustment_brand_detail_draft">
+
+        <t t-set="total_quantity" t-value="0"/>
+        <t t-set="total_value" t-value="0"/>
+        <t t-set="total_inventory_quantity" t-value="0"/>
+        <t t-set="total_inventory_value" t-value="0"/>
+        <t t-set="total_inventory_diff_quantity" t-value="0"/>
+        <t t-set="total_inventory_diff_value" t-value="0"/>
+
+        <t t-set="product_brand_ids" t-value="[]"/>
+        <t t-foreach="inventory_adjustment_history_id" t-as="l">
+            <t t-set="product_brand_ids" t-value="product_brand_ids+[l.product_id.brand_id]"/>
+        </t>
+
+
+        <table class="table table-sm"
+               style="font-size: 14px;margin-bottom:30px; border:hidden;border-top:2px;border-bottom:2px;">
+            <thead>
+                <tr>
+                    <th class="text-start" style="border:hidden;border-top:1px;">BARCODE</th>
+                    <th class="text-start" style="border:hidden;border-top:1px;">DESCRIPTION</th>
+                    <th class="text-end" style="border:hidden;border-top:1px;">SALE PRICE</th>
+                    <th class="text-end" style="border:hidden;border-top:1px;">ON HAND QUANTITY</th>
+                    <th class="text-end" style="border:hidden;border-top:1px;">ON HAND VALUE</th>
+                    <th class="text-end" style="border:hidden;border-top:1px;">COUNTED QUANTITY</th>
+                    <th class="text-end" style="border:hidden;border-top:1px;">COUNTED VALUE</th>
+                    <th class="text-end" style="border:hidden;border-top:1px;">DIFFERENCE QUANTITY</th>
+                    <th class="text-end" style="border:hidden;border-top:1px;">DIFFERENCE VALUE</th>
+
+                </tr>
+            </thead>
+
+            <tbody>
+                <tr>
+
+                </tr>
+
+                <t t-foreach="set(product_brand_ids)" t-as="product_brand_id">
+
+
+                    <t t-set="brand_quantity" t-value="0"/>
+                    <t t-set="brand_value" t-value="0"/>
+                    <t t-set="brand_inventory_quantity" t-value="0"/>
+                    <t t-set="brand_inventory_value" t-value="0"/>
+                    <t t-set="brand_inventory_diff_quantity" t-value="0"/>
+                    <t t-set="brand_inventory_diff_value" t-value="0"/>
+
+                    <tr>
+                        <td colspan="9" style="border:hidden;border-top:1px;">
+                            <strong>
+                                <u>
+                                    <t t-esc="product_brand_id.name"/>
+                                </u>
+                            </strong>
+                        </td>
+                    </tr>
+
+
+                    <t t-foreach="inventory_adjustment_history_id"
+                       t-as="inv_adj_line">
+
+
+                        <t t-if="product_brand_id.name==inv_adj_line.product_id.brand_id.name">
+
+                            <tr>
+                                <td style="border:hidden;">
+                                    <t t-esc="inv_adj_line.product_id.barcode"/>
+                                </td>
+                                <td style="border:hidden;">
+                                    <t t-esc="inv_adj_line.product_id.display_name"/>
+                                </td>
+                                <td class="text-end" style="border:hidden;">
+                                    <t t-esc="inv_adj_line.product_id.list_price"
+                                       t-options='{"widget": "float", "precision": 0}'/>
+                                </td>
+                                <td class="text-end" style="border:hidden;">
+                                    <t t-esc="inv_adj_line.quantity" t-options='{"widget": "float", "precision": 0}'/>
+                                </td>
+                                <td class="text-end" style="border:hidden;">
+                                    <t t-esc="inv_adj_line.value" t-options='{"widget": "float", "precision": 0}'/>
+                                </td>
+                                <td class="text-end" style="border:hidden;">
+                                    <t t-esc="inv_adj_line.inventory_quantity"
+                                       t-options='{"widget": "float", "precision": 0}'/>
+                                </td>
+                                <td class="text-end" style="border:hidden;">
+                                    <t t-esc="inv_adj_line.inventory_value"
+                                       t-options='{"widget": "float", "precision": 0}'/>
+                                </td>
+                                <td class="text-end" style="border:hidden;">
+                                    <t t-esc="inv_adj_line.inventory_diff_quantity"
+                                       t-options='{"widget": "float", "precision": 0}'/>
+                                </td>
+                                <td class="text-end" style="border:hidden;">
+                                    <t t-esc="inv_adj_line.inventory_diff_value"
+                                       t-options='{"widget": "float", "precision": 0}'/>
+                                </td>
+
+
+                            </tr>
+
+                            <t t-set="brand_quantity" t-value="brand_quantity+inv_adj_line.quantity"/>
+                            <t t-set="brand_value" t-value="brand_value+inv_adj_line.value"/>
+                            <t t-set="brand_inventory_quantity"
+                               t-value="brand_inventory_quantity+inv_adj_line.inventory_quantity"/>
+                            <t t-set="brand_inventory_value"
+                               t-value="brand_inventory_value+inv_adj_line.inventory_value"/>
+                            <t t-set="brand_inventory_diff_quantity"
+                               t-value="brand_inventory_diff_quantity+inv_adj_line.inventory_diff_quantity"/>
+                            <t t-set="brand_inventory_diff_value"
+                               t-value="brand_inventory_diff_value+inv_adj_line.inventory_diff_value"/>
+
+                            <t t-set="total_quantity" t-value="total_quantity+inv_adj_line.quantity"/>
+                            <t t-set="total_value" t-value="total_value+inv_adj_line.value"/>
+                            <t t-set="total_inventory_quantity"
+                               t-value="total_inventory_quantity+inv_adj_line.inventory_quantity"/>
+                            <t t-set="total_inventory_value"
+                               t-value="total_inventory_value+inv_adj_line.inventory_value"/>
+                            <t t-set="total_inventory_diff_quantity"
+                               t-value="total_inventory_diff_quantity+inv_adj_line.inventory_diff_quantity"/>
+                            <t t-set="total_inventory_diff_value"
+                               t-value="total_inventory_diff_value+inv_adj_line.inventory_diff_value"/>
+
+
+                        </t>
+
+
+                    </t>
+
+                    <tr>
+                        <td colspan="9" style="border:hidden;border-bottom:1px"/>
+                    </tr>
+
+                    <tr>
+                        <td colspan="3" style="border:hidden;border-bottom:1px;border-top:1px">
+                            <strong>
+                                <t t-esc="product_brand_id.name"/>
+                            </strong>
+                        </td>
+
+                        <td class="text-end" style="border:hidden;border-bottom:1px;border-top:1px">
+                            <strong>
+                                <t t-esc="brand_quantity" t-options='{"widget": "float", "precision": 0}'/>
+                            </strong>
+                        </td>
+                        <td class="text-end" style="border:hidden;border-bottom:1px;border-top:1px">
+                            <strong>
+                                <t t-esc="brand_value" t-options='{"widget": "float", "precision": 0}'/>
+                            </strong>
+                        </td>
+                        <td class="text-end" style="border:hidden;border-bottom:1px;border-top:1px">
+                            <strong>
+                                <t t-esc="brand_inventory_quantity"
+                                   t-options='{"widget": "float", "precision": 0}'/>
+                            </strong>
+                        </td>
+                        <td class="text-end" style="border:hidden;border-bottom:1px;border-top:1px">
+                            <strong>
+                                <t t-esc="brand_inventory_value"
+                                   t-options='{"widget": "float", "precision": 0}'/>
+                            </strong>
+                        </td>
+                        <td class="text-end" style="border:hidden;border-bottom:1px;border-top:1px">
+                            <strong>
+                                <t t-esc="brand_inventory_diff_quantity"
+                                   t-options='{"widget": "float", "precision": 0}'/>
+                            </strong>
+                        </td>
+                        <td class="text-end" style="border:hidden;border-bottom:1px;border-top:1px">
+                            <strong>
+                                <t t-esc="brand_inventory_diff_value"
+                                   t-options='{"widget": "float", "precision": 0}'/>
+                            </strong>
+                        </td>
+
+
+                    </tr>
+
+
+                </t>
+
+                <tr>
+                    <td colspan="9"></td>
+                </tr>
+
+                <tr>
+                    <td colspan="3" style="border:hidden;border-top:1px;border-bottom:1px;">
+                        <strong>TOTAL</strong>
+                    </td>
+
+                    <td class="text-end" style="border:hidden;border-top:1px;border-bottom:1px;">
+                        <t t-esc="total_quantity" t-options='{"widget": "float", "precision": 0}'/>
+                    </td>
+                    <td class="text-end" style="border:hidden;border-top:1px;border-bottom:1px;">
+                        <t t-esc="total_value" t-options='{"widget": "float", "precision": 0}'/>
+                    </td>
+                    <td class="text-end" style="border:hidden;border-top:1px;border-bottom:1px;">
+                        <t t-esc="total_inventory_quantity" t-options='{"widget": "float", "precision": 0}'/>
+                    </td>
+                    <td class="text-end" style="border:hidden;border-top:1px;border-bottom:1px;">
+                        <t t-esc="total_inventory_value" t-options='{"widget": "float", "precision": 0}'/>
+                    </td>
+                    <td class="text-end" style="border:hidden;border-top:1px;border-bottom:1px;">
+                        <t t-esc="total_inventory_diff_quantity" t-options='{"widget": "float", "precision": 0}'/>
+                    </td>
+                    <td class="text-end" style="border:hidden;border-top:1px;border-bottom:1px;">
+                        <t t-esc="total_inventory_diff_value" t-options='{"widget": "float", "precision": 0}'/>
+                    </td>
+                </tr>
+
+
+            </tbody>
+
+
+        </table>
+
+    </template>
+    <template id="report_inventory_adjustment_brand_summary_draft">
+
+        <t t-set="total_quantity" t-value="0"/>
+        <t t-set="total_value" t-value="0"/>
+        <t t-set="total_inventory_quantity" t-value="0"/>
+        <t t-set="total_inventory_value" t-value="0"/>
+        <t t-set="total_inventory_diff_quantity" t-value="0"/>
+        <t t-set="total_inventory_diff_value" t-value="0"/>
+
+        <t t-set="product_brand_ids" t-value="[]"/>
+        <t t-foreach="inventory_adjustment_history_id" t-as="l">
+            <t t-set="product_brand_ids" t-value="product_brand_ids+[l.product_id.brand_id]"/>
+        </t>
+
+
+        <table class="table table-sm"
+               style="font-size: 14px;margin-bottom:30px; border:hidden;border-top:2px;border-bottom:2px;">
+            <thead>
+                <tr>
+                    <th class="text-start" style="border:hidden;border-top:1px;">BRAND</th>
+                    <th class="text-end" style="border:hidden;border-top:1px;">ON HAND QUANTITY</th>
+                    <th class="text-end" style="border:hidden;border-top:1px;">ON HAND VALUE</th>
+                    <th class="text-end" style="border:hidden;border-top:1px;">COUNTED QUANTITY</th>
+                    <th class="text-end" style="border:hidden;border-top:1px;">COUNTED VALUE</th>
+                    <th class="text-end" style="border:hidden;border-top:1px;">DIFFERENCE QUANTITY</th>
+                    <th class="text-end" style="border:hidden;border-top:1px;">DIFFERENCE VALUE</th>
+
+                </tr>
+            </thead>
+
+            <tbody>
+                <tr>
+
+                </tr>
+
+                <t t-foreach="set(product_brand_ids)" t-as="product_brand_id">
+
+
+                    <t t-set="brand_quantity" t-value="0"/>
+                    <t t-set="brand_value" t-value="0"/>
+                    <t t-set="brand_inventory_quantity" t-value="0"/>
+                    <t t-set="brand_inventory_value" t-value="0"/>
+                    <t t-set="brand_inventory_diff_quantity" t-value="0"/>
+                    <t t-set="brand_inventory_diff_value" t-value="0"/>
+
+
+                    <t t-foreach="inventory_adjustment_history_id"
+                       t-as="inv_adj_line">
+
+
+                        <t t-if="product_brand_id.name==inv_adj_line.product_id.brand_id.name">
+
+
+                            <t t-set="brand_quantity" t-value="brand_quantity+inv_adj_line.quantity"/>
+                            <t t-set="brand_value" t-value="brand_value+inv_adj_line.value"/>
+                            <t t-set="brand_inventory_quantity"
+                               t-value="brand_inventory_quantity+inv_adj_line.inventory_quantity"/>
+                            <t t-set="brand_inventory_value"
+                               t-value="brand_inventory_value+inv_adj_line.inventory_value"/>
+                            <t t-set="brand_inventory_diff_quantity"
+                               t-value="brand_inventory_diff_quantity+inv_adj_line.inventory_diff_quantity"/>
+                            <t t-set="brand_inventory_diff_value"
+                               t-value="brand_inventory_diff_value+inv_adj_line.inventory_diff_value"/>
+
+                            <t t-set="total_quantity" t-value="total_quantity+inv_adj_line.quantity"/>
+                            <t t-set="total_value" t-value="total_value+inv_adj_line.value"/>
+                            <t t-set="total_inventory_quantity"
+                               t-value="total_inventory_quantity+inv_adj_line.inventory_quantity"/>
+                            <t t-set="total_inventory_value"
+                               t-value="total_inventory_value+inv_adj_line.inventory_value"/>
+                            <t t-set="total_inventory_diff_quantity"
+                               t-value="total_inventory_diff_quantity+inv_adj_line.inventory_diff_quantity"/>
+                            <t t-set="total_inventory_diff_value"
+                               t-value="total_inventory_diff_value+inv_adj_line.inventory_diff_value"/>
+
+
+                        </t>
+
+
+                    </t>
+
+                    <tr>
+                        <td  style="border:hidden;">
+                            <t t-esc="product_brand_id.name"/>
+                        </td>
+
+                        <td class="text-end" style="border:hidden;">
+                            <t t-esc="brand_quantity" t-options='{"widget": "float", "precision": 0}'/>
+                        </td>
+                        <td class="text-end" style="border:hidden;">
+                            <t t-esc="brand_value" t-options='{"widget": "float", "precision": 0}'/>
+                        </td>
+                        <td class="text-end" style="border:hidden;">
+                            <t t-esc="brand_inventory_quantity"
+                               t-options='{"widget": "float", "precision": 0}'/>
+                        </td>
+                        <td class="text-end" style="border:hidden;">
+                            <t t-esc="brand_inventory_value"
+                               t-options='{"widget": "float", "precision": 0}'/>
+                        </td>
+                        <td class="text-end" style="border:hidden;">
+                            <t t-esc="brand_inventory_diff_quantity"
+                               t-options='{"widget": "float", "precision": 0}'/>
+                        </td>
+                        <td class="text-end" style="border:hidden;">
+                            <t t-esc="brand_inventory_diff_value"
+                               t-options='{"widget": "float", "precision": 0}'/>
+                        </td>
+
+
+                    </tr>
+
+
+                </t>
+
+                <tr>
+                    <td colspan="7"></td>
+                </tr>
+
+                <tr>
+                    <td style="border:hidden;border-top:1px;border-bottom:1px;">
+                        <strong>TOTAL</strong>
+                    </td>
+
+                    <td class="text-end" style="border:hidden;border-top:1px;border-bottom:1px;">
+                        <t t-esc="total_quantity" t-options='{"widget": "float", "precision": 0}'/>
+                    </td>
+                    <td class="text-end" style="border:hidden;border-top:1px;border-bottom:1px;">
+                        <t t-esc="total_value" t-options='{"widget": "float", "precision": 0}'/>
+                    </td>
+                    <td class="text-end" style="border:hidden;border-top:1px;border-bottom:1px;">
+                        <t t-esc="total_inventory_quantity" t-options='{"widget": "float", "precision": 0}'/>
+                    </td>
+                    <td class="text-end" style="border:hidden;border-top:1px;border-bottom:1px;">
+                        <t t-esc="total_inventory_value" t-options='{"widget": "float", "precision": 0}'/>
+                    </td>
+                    <td class="text-end" style="border:hidden;border-top:1px;border-bottom:1px;">
+                        <t t-esc="total_inventory_diff_quantity" t-options='{"widget": "float", "precision": 0}'/>
+                    </td>
+                    <td class="text-end" style="border:hidden;border-top:1px;border-bottom:1px;">
+                        <t t-esc="total_inventory_diff_value" t-options='{"widget": "float", "precision": 0}'/>
+                    </td>
+                </tr>
+
+
+            </tbody>
+
+
+        </table>
+
+    </template>
+    <template id="report_inventory_adjustment_category_detail_draft">
+
+        <t t-set="total_quantity" t-value="0"/>
+        <t t-set="total_value" t-value="0"/>
+        <t t-set="total_inventory_quantity" t-value="0"/>
+        <t t-set="total_inventory_value" t-value="0"/>
+        <t t-set="total_inventory_diff_quantity" t-value="0"/>
+        <t t-set="total_inventory_diff_value" t-value="0"/>
+
+        <t t-set="product_categ_ids" t-value="[]"/>
+        <t t-foreach="inventory_adjustment_history_id" t-as="l">
+            <t t-set="product_categ_ids" t-value="product_categ_ids+[l.product_id.categ_id]"/>
+        </t>
+
+
+        <table class="table table-sm"
+               style="font-size: 14px;margin-bottom:30px; border:hidden;border-top:2px;border-bottom:2px;">
+            <thead>
+                <tr>
+                    <th class="text-start" style="border:hidden;border-top:1px;">BARCODE</th>
+                    <th class="text-start" style="border:hidden;border-top:1px;">DESCRIPTION</th>
+                    <th class="text-end" style="border:hidden;border-top:1px;">SALE PRICE</th>
+                    <th class="text-end" style="border:hidden;border-top:1px;">ON HAND QUANTITY</th>
+                    <th class="text-end" style="border:hidden;border-top:1px;">ON HAND VALUE</th>
+                    <th class="text-end" style="border:hidden;border-top:1px;">COUNTED QUANTITY</th>
+                    <th class="text-end" style="border:hidden;border-top:1px;">COUNTED VALUE</th>
+                    <th class="text-end" style="border:hidden;border-top:1px;">DIFFERENCE QUANTITY</th>
+                    <th class="text-end" style="border:hidden;border-top:1px;">DIFFERENCE VALUE</th>
+
+                </tr>
+            </thead>
+
+            <tbody>
+                <tr>
+
+                </tr>
+
+                <t t-foreach="set(product_categ_ids)" t-as="product_categ_id">
+
+
+                    <t t-set="categ_quantity" t-value="0"/>
+                    <t t-set="categ_value" t-value="0"/>
+                    <t t-set="categ_inventory_quantity" t-value="0"/>
+                    <t t-set="categ_inventory_value" t-value="0"/>
+                    <t t-set="categ_inventory_diff_quantity" t-value="0"/>
+                    <t t-set="categ_inventory_diff_value" t-value="0"/>
+
+                    <tr>
+                        <td colspan="9" style="border:hidden;border-top:1px;">
+                            <strong>
+                                <u>
+                                    <t t-esc="product_categ_id.name"/>
+
+                                </u>
+                            </strong>
+                        </td>
+                    </tr>
+
+
+                    <t t-foreach="inventory_adjustment_history_id"
+                       t-as="inv_adj_line">
+
+
+                        <t t-if="product_categ_id.name==inv_adj_line.product_id.categ_id.name">
+
+                            <tr>
+                                <td style="border:hidden;">
+                                    <t t-esc="inv_adj_line.product_id.barcode"/>
+                                </td>
+                                <td style="border:hidden;">
+                                    <t t-esc="inv_adj_line.product_id.display_name"/>
+
+                                </td>
+                                <td class="text-end" style="border:hidden;">
+                                    <t t-esc="inv_adj_line.product_id.list_price"
+                                       t-options='{"widget": "float", "precision": 0}'/>
+                                </td>
+                                <td class="text-end" style="border:hidden;">
+                                    <t t-esc="inv_adj_line.quantity" t-options='{"widget": "float", "precision": 0}'/>
+                                </td>
+                                <td class="text-end" style="border:hidden;">
+                                    <t t-esc="inv_adj_line.value" t-options='{"widget": "float", "precision": 0}'/>
+                                </td>
+                                <td class="text-end" style="border:hidden;">
+                                    <t t-esc="inv_adj_line.inventory_quantity"
+                                       t-options='{"widget": "float", "precision": 0}'/>
+                                </td>
+                                <td class="text-end" style="border:hidden;">
+                                    <t t-esc="inv_adj_line.inventory_value"
+                                       t-options='{"widget": "float", "precision": 0}'/>
+                                </td>
+                                <td class="text-end" style="border:hidden;">
+                                    <t t-esc="inv_adj_line.inventory_diff_quantity"
+                                       t-options='{"widget": "float", "precision": 0}'/>
+                                </td>
+                                <td class="text-end" style="border:hidden;">
+                                    <t t-esc="inv_adj_line.inventory_diff_value"
+                                       t-options='{"widget": "float", "precision": 0}'/>
+                                </td>
+
+
+                            </tr>
+
+                            <t t-set="categ_quantity" t-value="categ_quantity+inv_adj_line.quantity"/>
+                            <t t-set="categ_value" t-value="categ_value+inv_adj_line.value"/>
+                            <t t-set="categ_inventory_quantity"
+                               t-value="categ_inventory_quantity+inv_adj_line.inventory_quantity"/>
+                            <t t-set="categ_inventory_value"
+                               t-value="categ_inventory_value+inv_adj_line.inventory_value"/>
+                            <t t-set="categ_inventory_diff_quantity"
+                               t-value="categ_inventory_diff_quantity+inv_adj_line.inventory_diff_quantity"/>
+                            <t t-set="categ_inventory_diff_value"
+                               t-value="categ_inventory_diff_value+inv_adj_line.inventory_diff_value"/>
+
+                            <t t-set="total_quantity" t-value="total_quantity+inv_adj_line.quantity"/>
+                            <t t-set="total_value" t-value="total_value+inv_adj_line.value"/>
+                            <t t-set="total_inventory_quantity"
+                               t-value="total_inventory_quantity+inv_adj_line.inventory_quantity"/>
+                            <t t-set="total_inventory_value"
+                               t-value="total_inventory_value+inv_adj_line.inventory_value"/>
+                            <t t-set="total_inventory_diff_quantity"
+                               t-value="total_inventory_diff_quantity+inv_adj_line.inventory_diff_quantity"/>
+                            <t t-set="total_inventory_diff_value"
+                               t-value="total_inventory_diff_value+inv_adj_line.inventory_diff_value"/>
+
+
+                        </t>
+
+
+                    </t>
+
+                    <tr>
+                        <td colspan="9" style="border:hidden;border-bottom:1px"/>
+                    </tr>
+
+                    <tr>
+                        <td colspan="3" style="border:hidden;border-bottom:1px;border-top:1px">
+                            <strong>
+                                <t t-esc="product_categ_id.name"/>
+                            </strong>
+                        </td>
+
+                        <td class="text-end" style="border:hidden;border-bottom:1px;border-top:1px">
+                            <strong>
+                                <t t-esc="categ_quantity" t-options='{"widget": "float", "precision": 0}'/>
+                            </strong>
+                        </td>
+                        <td class="text-end" style="border:hidden;border-bottom:1px;border-top:1px">
+                            <strong>
+                                <t t-esc="categ_value" t-options='{"widget": "float", "precision": 0}'/>
+                            </strong>
+                        </td>
+                        <td class="text-end" style="border:hidden;border-bottom:1px;border-top:1px">
+                            <strong>
+                                <t t-esc="categ_inventory_quantity"
+                                   t-options='{"widget": "float", "precision": 0}'/>
+                            </strong>
+                        </td>
+                        <td class="text-end" style="border:hidden;border-bottom:1px;border-top:1px">
+                            <strong>
+                                <t t-esc="categ_inventory_value"
+                                   t-options='{"widget": "float", "precision": 0}'/>
+                            </strong>
+                        </td>
+                        <td class="text-end" style="border:hidden;border-bottom:1px;border-top:1px">
+                            <strong>
+                                <t t-esc="categ_inventory_diff_quantity"
+                                   t-options='{"widget": "float", "precision": 0}'/>
+                            </strong>
+                        </td>
+                        <td class="text-end" style="border:hidden;border-bottom:1px;border-top:1px">
+                            <strong>
+                                <t t-esc="categ_inventory_diff_value"
+                                   t-options='{"widget": "float", "precision": 0}'/>
+                            </strong>
+                        </td>
+
+
+                    </tr>
+
+
+                </t>
+
+                <tr>
+                    <td colspan="9"></td>
+                </tr>
+
+                <tr>
+                    <td colspan="3" style="border:hidden;border-top:1px;border-bottom:1px;">
+                        <strong>TOTAL</strong>
+                    </td>
+
+                    <td class="text-end" style="border:hidden;border-top:1px;border-bottom:1px;">
+                        <t t-esc="total_quantity" t-options='{"widget": "float", "precision": 0}'/>
+                    </td>
+                    <td class="text-end" style="border:hidden;border-top:1px;border-bottom:1px;">
+                        <t t-esc="total_value" t-options='{"widget": "float", "precision": 0}'/>
+                    </td>
+                    <td class="text-end" style="border:hidden;border-top:1px;border-bottom:1px;">
+                        <t t-esc="total_inventory_quantity" t-options='{"widget": "float", "precision": 0}'/>
+                    </td>
+                    <td class="text-end" style="border:hidden;border-top:1px;border-bottom:1px;">
+                        <t t-esc="total_inventory_value" t-options='{"widget": "float", "precision": 0}'/>
+                    </td>
+                    <td class="text-end" style="border:hidden;border-top:1px;border-bottom:1px;">
+                        <t t-esc="total_inventory_diff_quantity" t-options='{"widget": "float", "precision": 0}'/>
+                    </td>
+                    <td class="text-end" style="border:hidden;border-top:1px;border-bottom:1px;">
+                        <t t-esc="total_inventory_diff_value" t-options='{"widget": "float", "precision": 0}'/>
+                    </td>
+                </tr>
+
+
+            </tbody>
+
+
+        </table>
+
+    </template>
+    <template id="report_inventory_adjustment_category_summary_draft">
+
+        <t t-set="total_quantity" t-value="0"/>
+        <t t-set="total_value" t-value="0"/>
+        <t t-set="total_inventory_quantity" t-value="0"/>
+        <t t-set="total_inventory_value" t-value="0"/>
+        <t t-set="total_inventory_diff_quantity" t-value="0"/>
+        <t t-set="total_inventory_diff_value" t-value="0"/>
+
+        <t t-set="product_categ_ids" t-value="[]"/>
+        <t t-foreach="inventory_adjustment_history_id" t-as="l">
+            <t t-set="product_categ_ids" t-value="product_categ_ids+[l.product_id.categ_id]"/>
+        </t>
+
+
+        <table class="table table-sm"
+               style="font-size: 14px;margin-bottom:30px; border:hidden;border-top:2px;border-bottom:2px;">
+            <thead>
+                <tr>
+                    <th class="text-start" style="border:hidden;border-top:1px;">PRODUCT CATEGORY</th>
+                    <th class="text-end" style="border:hidden;border-top:1px;">ON HAND QUANTITY</th>
+                    <th class="text-end" style="border:hidden;border-top:1px;">ON HAND VALUE</th>
+                    <th class="text-end" style="border:hidden;border-top:1px;">COUNTED QUANTITY</th>
+                    <th class="text-end" style="border:hidden;border-top:1px;">COUNTED VALUE</th>
+                    <th class="text-end" style="border:hidden;border-top:1px;">DIFFERENCE QUANTITY</th>
+                    <th class="text-end" style="border:hidden;border-top:1px;">DIFFERENCE VALUE</th>
+
+                </tr>
+            </thead>
+
+            <tbody>
+                <tr>
+
+                </tr>
+
+                <t t-foreach="set(product_categ_ids)" t-as="product_categ_id">
+
+
+                    <t t-set="categ_quantity" t-value="0"/>
+                    <t t-set="categ_value" t-value="0"/>
+                    <t t-set="categ_inventory_quantity" t-value="0"/>
+                    <t t-set="categ_inventory_value" t-value="0"/>
+                    <t t-set="categ_inventory_diff_quantity" t-value="0"/>
+                    <t t-set="categ_inventory_diff_value" t-value="0"/>
+
+
+                    <t t-foreach="inventory_adjustment_history_id"
+                       t-as="inv_adj_line">
+
+
+                        <t t-if="product_categ_id.name==inv_adj_line.product_id.categ_id.name">
+
+
+                            <t t-set="categ_quantity" t-value="categ_quantity+inv_adj_line.quantity"/>
+                            <t t-set="categ_value" t-value="categ_value+inv_adj_line.value"/>
+                            <t t-set="categ_inventory_quantity"
+                               t-value="categ_inventory_quantity+inv_adj_line.inventory_quantity"/>
+                            <t t-set="categ_inventory_value"
+                               t-value="categ_inventory_value+inv_adj_line.inventory_value"/>
+                            <t t-set="categ_inventory_diff_quantity"
+                               t-value="categ_inventory_diff_quantity+inv_adj_line.inventory_diff_quantity"/>
+                            <t t-set="categ_inventory_diff_value"
+                               t-value="categ_inventory_diff_value+inv_adj_line.inventory_diff_value"/>
+
+                            <t t-set="total_quantity" t-value="total_quantity+inv_adj_line.quantity"/>
+                            <t t-set="total_value" t-value="total_value+inv_adj_line.value"/>
+                            <t t-set="total_inventory_quantity"
+                               t-value="total_inventory_quantity+inv_adj_line.inventory_quantity"/>
+                            <t t-set="total_inventory_value"
+                               t-value="total_inventory_value+inv_adj_line.inventory_value"/>
+                            <t t-set="total_inventory_diff_quantity"
+                               t-value="total_inventory_diff_quantity+inv_adj_line.inventory_diff_quantity"/>
+                            <t t-set="total_inventory_diff_value"
+                               t-value="total_inventory_diff_value+inv_adj_line.inventory_diff_value"/>
+
+
+                        </t>
+
+
+                    </t>
+
+                    <tr>
+                        <td  style="border:hidden;">
+                            <t t-esc="product_categ_id.name"/>
+                        </td>
+
+                        <td class="text-end" style="border:hidden;">
+                            <t t-esc="categ_quantity" t-options='{"widget": "float", "precision": 0}'/>
+                        </td>
+                        <td class="text-end" style="border:hidden;">
+                            <t t-esc="categ_value" t-options='{"widget": "float", "precision": 0}'/>
+                        </td>
+                        <td class="text-end" style="border:hidden;">
+                            <t t-esc="categ_inventory_quantity"
+                               t-options='{"widget": "float", "precision": 0}'/>
+                        </td>
+                        <td class="text-end" style="border:hidden;">
+                            <t t-esc="categ_inventory_value"
+                               t-options='{"widget": "float", "precision": 0}'/>
+                        </td>
+                        <td class="text-end" style="border:hidden;">
+                            <t t-esc="categ_inventory_diff_quantity"
+                               t-options='{"widget": "float", "precision": 0}'/>
+                        </td>
+                        <td class="text-end" style="border:hidden;">
+                            <t t-esc="categ_inventory_diff_value"
+                               t-options='{"widget": "float", "precision": 0}'/>
+                        </td>
+
+
+                    </tr>
+
+
+                </t>
+
+                <tr>
+                    <td colspan="7"></td>
+                </tr>
+
+                <tr>
+                    <td style="border:hidden;border-top:1px;border-bottom:1px;">
+                        <strong>TOTAL</strong>
+                    </td>
+
+                    <td class="text-end" style="border:hidden;border-top:1px;border-bottom:1px;">
+                        <t t-esc="total_quantity" t-options='{"widget": "float", "precision": 0}'/>
+                    </td>
+                    <td class="text-end" style="border:hidden;border-top:1px;border-bottom:1px;">
+                        <t t-esc="total_value" t-options='{"widget": "float", "precision": 0}'/>
+                    </td>
+                    <td class="text-end" style="border:hidden;border-top:1px;border-bottom:1px;">
+                        <t t-esc="total_inventory_quantity" t-options='{"widget": "float", "precision": 0}'/>
+                    </td>
+                    <td class="text-end" style="border:hidden;border-top:1px;border-bottom:1px;">
+                        <t t-esc="total_inventory_value" t-options='{"widget": "float", "precision": 0}'/>
+                    </td>
+                    <td class="text-end" style="border:hidden;border-top:1px;border-bottom:1px;">
+                        <t t-esc="total_inventory_diff_quantity" t-options='{"widget": "float", "precision": 0}'/>
+                    </td>
+                    <td class="text-end" style="border:hidden;border-top:1px;border-bottom:1px;">
+                        <t t-esc="total_inventory_diff_value" t-options='{"widget": "float", "precision": 0}'/>
+                    </td>
+                </tr>
+
+
+            </tbody>
+
+
+        </table>
+
+    </template>
+
+ 
+    
+
+</odoo>

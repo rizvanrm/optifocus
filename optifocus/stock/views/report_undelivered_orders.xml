@@ -1,0 +1,281 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <template id="report_undelivered_orders">
+        <t t-call="web.html_container">
+            <t t-call="optifocus.undelivered_orders_layout">
+
+                <div class="page">
+                    <t t-call="optifocus.report_undelivered_orders_detail"/>
+                </div>
+
+            </t>
+        </t>
+    </template>
+
+    <template id="undelivered_orders_layout">
+        <t t-set="company" t-value="company_id"/>
+        <div class="header">
+            <div class="text-center">
+                <h5 t-esc="order_ids.company_id.name"></h5>
+                <h6>UNDELIVERED ORDERS</h6>
+                <span t-esc="date_from" t-options='{"widget": "date","format": "dd-MM-yyyy"}'/>
+                TO
+                <span t-esc="date_to" t-options='{"widget": "date","format": "dd-MM-yyyy"}'/>
+            </div>
+            <div class="row mt-2 mb-2">
+                <div class="col-6 text-start">
+                    DATE :
+                    <span t-esc="context_timestamp(datetime.datetime.now()).strftime('%d-%m-%Y %H:%M')"/>
+                </div>
+
+                <div class="col-6 text-end">
+                    <!--                    class="col-xs-2 pull-right">-->
+                    PAGE
+                    <span class="page"/>
+                    OF
+                    <span class="topage"/>
+                </div>
+            </div>
+        </div>
+        <div class="article o_report_layout_standard">
+            <t t-out="0"/>
+        </div>
+
+    </template>
+
+
+    <template id="report_undelivered_orders_detail">
+
+        <t t-set="total_retail_order_count" t-value="0"/>
+        <t t-set="total_retail_order_amount" t-value="0"/>
+        <t t-set="total_retail_order_paid" t-value="0"/>
+        <t t-set="total_retail_order_due" t-value="0"/>
+        <t t-set="total_insurance_order_count" t-value="0"/>
+        <t t-set="total_insurance_order_amount" t-value="0"/>
+        <t t-set="total_insurance_order_paid" t-value="0"/>
+        <t t-set="total_insurance_order_due" t-value="0"/>
+        <t t-set="total_wholesale_order_count" t-value="0"/>
+        <t t-set="total_wholesale_order_amount" t-value="0"/>
+        <t t-set="total_wholesale_order_paid" t-value="0"/>
+        <t t-set="total_wholesale_order_due" t-value="0"/>
+        <t t-set="total_orders_count" t-value="0"/>
+        <t t-set="total_orders_amount" t-value="0"/>
+        <t t-set="total_orders_paid" t-value="0"/>
+        <t t-set="total_orders_due" t-value="0"/>
+
+
+        <table class="table table-sm"
+               style="font-size: 14px;margin-bottom:30px; border:hidden;border-top:2px;border-bottom:2px;">
+            <thead>
+
+
+                <tr>
+                    <th class="text-start" style="border:hidden;border-top:1px;">NUMBER</th>
+                    <th class="text-start" style="border:hidden;border-top:1px;">SALE TYPE</th>
+                    <th class="text-start" style="border:hidden;border-top:1px;">DATE</th>
+                    <th class="text-start" style="border:hidden;border-top:1px;">CUSTOMER</th>
+                    <th class="text-start" style="border:hidden;border-top:1px;">MOBILE</th>
+                    <th class="text-end" style="border:hidden;border-top:1px;">AMOUNT</th>
+                    <th class="text-end" style="border:hidden;border-top:1px;">PAID</th>
+                    <th class="text-end" style="border:hidden;border-top:1px;">AMOUNT DUE</th>
+                </tr>
+
+
+            </thead>
+            <tbody>
+                <tr>
+
+                </tr>
+                <t t-foreach="order_ids" t-as="order_id">
+                    <t t-set="amount_residual_signed" t-value="0"/>
+                    <t t-set="partially_or_not_paid_flag" t-value="True"/>
+                    <t t-foreach="order_id.invoice_ids" t-as="o_invoice_id">
+
+                        <t t-foreach="o_invoice_id" t-as="invoice_id">
+                            <t t-set="amount_residual_signed"
+                               t-value="amount_residual_signed+invoice_id.amount_residual_signed"/>
+
+                        </t>
+                    </t>
+
+                    <t t-if="partially_or_not_paid==True  and amount_residual_signed==0">
+                        <t t-set="partially_or_not_paid_flag" t-value="False"/>
+                    </t>
+
+
+                    <t t-if="partially_or_not_paid_flag==True">
+                        <tr>
+                            <td style="border:hidden;">
+                                <t t-esc="order_id.name"/>
+                            </td>
+                            <td style="border:hidden;">
+                                <t t-esc="order_id.sale_type.upper()"/>
+                            </td>
+                            <td style="border:hidden;">
+                                <t t-esc="order_id.date_order" t-options='{"widget": "date","format": "yyyy-MM-dd"}'/>
+                            </td>
+                            <td style="border:hidden;">
+                                <t t-esc="order_id.partner_id.display_name"/>
+                            </td>
+                            <td style="border:hidden;">
+                                <t t-esc="order_id.partner_id.mobile"/>
+                            </td>
+                            <td class="text-end" style="border:hidden;">
+                                <t t-esc="order_id.amount_total" t-options='{"widget": "float", "precision": 2}'/>
+                            </td>
+                            <td class="text-end" style="border:hidden;">
+                                <t t-esc="amount_residual_signed"
+                                   t-options='{"widget": "float", "precision": 2}'/>
+
+                            </td>
+                            <td class="text-end" style="border:hidden;">
+                                <t t-esc="order_id.amount_total-amount_residual_signed" t-options='{"widget": "float", "precision": 2}'/>
+                            </td>
+
+                        </tr>
+
+                        <t t-if="order_id.sale_type=='retail'">
+                            <t t-set="total_retail_order_count" t-value="total_retail_order_count+1"/>
+                            <t t-set="total_retail_order_amount" t-value="total_retail_order_amount+order_id.amount_total"/>
+                            <t t-set="total_retail_order_paid"
+                               t-value="total_retail_order_paid+order_id.amount_total-amount_residual_signed"/>
+                            <t t-set="total_retail_order_due" t-value="total_retail_order_due+amount_residual_signed"/>
+
+                        </t>
+                        <t t-elif="order_id.sale_type=='insurance'">
+                            <t t-set="total_insurance_order_count" t-value="total_insurance_order_count+1"/>
+                            <t t-set="total_insurance_order_amount"
+                               t-value="total_insurance_order_amount+order_id.amount_total"/>
+                            <t t-set="total_insurance_order_paid"
+                               t-value="total_insurance_order_paid+order_id.amount_total-amount_residual_signed"/>
+                            <t t-set="total_insurance_order_due"
+                               t-value="total_insurance_order_due+amount_residual_signed"/>
+
+                        </t>
+                        <t t-elif="order_id.sale_type=='wholesale'">
+                            <t t-set="total_wholesale_order_count" t-value="total_wholesale_order_count+1"/>
+                            <t t-set="total_wholesale_order_amount"
+                               t-value="total_wholesale_order_amount+order_id.amount_total"/>
+                            <t t-set="total_wholesale_order_paid"
+                               t-value="total_wholesale_order_paid+order_id.amount_total-amount_residual_signed"/>
+                            <t t-set="total_wholesale_order_due"
+                               t-value="total_wholesale_order_due+amount_residual_signed"/>
+                        </t>
+
+                        <t t-set="total_orders_count" t-value="total_orders_count+1"/>
+                        <t t-set="total_orders_amount" t-value="total_orders_amount+order_id.amount_total"/>
+                        <t t-set="total_orders_paid"
+                           t-value="total_orders_paid+order_id.amount_total-amount_residual_signed"/>
+                        <t t-set="total_orders_due" t-value="total_orders_due+amount_residual_signed"/>
+
+                    </t>
+
+                </t>
+
+                <tr>
+                    <td colspan="8"/>
+                </tr>
+            </tbody>
+        </table>
+
+        <div class="row">
+
+            <div class="col-3"/>
+            <div class="col-6">
+                <table class="table table-sm"
+                       style="font-size: 14px;margin-bottom: 0px; border:hidden;border-top:1px;border-bottom:1px;">
+                    <thead>
+                        <tr>
+                            <th class="text-start" style="border:hidden;border-top:1px;">SALE TYPE</th>
+                            <th class="text-end" style="border:hidden;border-top:1px;">COUNT</th>
+                            <th class="text-end" style="border:hidden;border-top:1px;">AMOUNT</th>
+                            <th class="text-end" style="border:hidden;border-top:1px;">PAID</th>
+                            <th class="text-end" style="border:hidden;border-top:1px;">AMOUNT DUE</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td class="text-start" style="border:hidden;border-top:1px;">RETAIL</td>
+                            <td class="text-end" style="border:hidden;border-top:1px;">
+                                <t t-esc="total_retail_order_count"/>
+                            </td>
+                            <td class="text-end" style="border:hidden;border-top:1px;">
+                                <t t-esc="total_retail_order_amount if total_retail_order_amount else 0"
+                                   t-options='{"widget": "float", "precision": 2}'/>
+                            </td>
+                            <td class="text-end" style="border:hidden;border-top:1px;">
+                                <t t-esc="total_retail_order_paid if total_retail_order_paid else 0"
+                                   t-options='{"widget": "float", "precision": 2}'/>
+                            </td>
+
+                            <td class="text-end" style="border:hidden;border-top:1px;">
+                                <t t-esc="total_retail_order_due if total_retail_order_due else 0"
+                                   t-options='{"widget": "float", "precision": 2}'/>
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <td class="text-start" style="border:hidden;">INSURANCE</td>
+                            <td class="text-end" style="border:hidden;border-top:1px;">
+                                <t t-esc="total_insurance_order_count"/>
+                            </td>
+                            <td class="text-end" style="border:hidden;border-top:1px;">
+                                <t t-esc="total_insurance_order_amount"
+                                   t-options='{"widget": "float", "precision": 2}'/>
+                            </td>
+                            <td class="text-end" style="border:hidden;border-top:1px;">
+                                <t t-esc="total_insurance_order_paid" t-options='{"widget": "float", "precision": 2}'/>
+                            </td>
+
+                            <td class="text-end" style="border:hidden;border-top:1px;">
+                                <t t-esc="total_insurance_order_due" t-options='{"widget": "float", "precision": 2}'/>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="text-start" style="border:hidden;">WHOLESALE</td>
+                            <td class="text-end" style="border:hidden;border-top:1px;">
+                                <t t-esc="total_wholesale_order_count"/>
+                            </td>
+                            <td class="text-end" style="border:hidden;border-top:1px;">
+                                <t t-esc="total_wholesale_order_amount"
+                                   t-options='{"widget": "float", "precision": 2}'/>
+                            </td>
+                            <td class="text-end" style="border:hidden;border-top:1px;">
+                                <t t-esc="total_wholesale_order_paid" t-options='{"widget": "float", "precision": 2}'/>
+                            </td>
+
+                            <td class="text-end" style="border:hidden;border-top:1px;">
+                                <t t-esc="total_wholesale_order_due" t-options='{"widget": "float", "precision": 2}'/>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td colspan="5"></td>
+                        </tr>
+                        <tr>
+                            <td class="text-start" style="border:hidden;border-top:1px; border-bottom:1px;">TOTAL</td>
+                            <td class="text-end" style="border:hidden;border-top:1px;border-bottom:1px;">
+                                <t t-esc="total_orders_count"/>
+                            </td>
+                            <td class="text-end" style="border:hidden;border-top:1px;border-bottom:1px;">
+                                <t t-esc="total_orders_amount" t-options='{"widget": "float", "precision": 2}'/>
+                            </td>
+                            <td class="text-end" style="border:hidden;border-top:1px;border-bottom:1px;">
+                                <t t-esc="total_orders_paid" t-options='{"widget": "float", "precision": 2}'/>
+                            </td>
+                            <td class="text-end" style="border:hidden;border-top:1px;border-bottom:1px;">
+                                <t t-esc="total_orders_due" t-options='{"widget": "float", "precision": 2}'/>
+                            </td>
+
+                        </tr>
+
+                    </tbody>
+
+                </table>
+            </div>
+            <div class="col-3"/>
+        </div>
+
+
+    </template>
+
+</odoo>

@@ -1,0 +1,375 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <template id="report_customer_payments">
+        <t t-call="web.html_container">
+
+
+            <t t-call="optifocus.customer_payments_layout">
+                <div class="page">
+                    <t t-call="optifocus.report_customer_payments_detail"/>
+                    <!--                    <t t-esc="move_ids"/>-->
+                </div>
+
+            </t>
+        </t>
+    </template>
+
+    <template id="customer_payments_layout">
+        <div class="header">
+            <div class="text-center">
+                <h5 t-esc="payment_ids.company_id.name"/>
+                <h6>CUSTOMER PAYMENTS</h6>
+                <span t-esc="date_from" t-options='{"widget": "date","format": "dd-MM-yyyy"}'/>
+                TO
+                <span t-esc="date_to" t-options='{"widget": "date","format": "dd-MM-yyyy"}'/>
+            </div>
+            <div class="row mt-2 mb-2">
+                <div class="col-6 text-start">
+                    DATE :
+                    <span t-esc="context_timestamp(datetime.datetime.now()).strftime('%d-%m-%Y %H:%M')"/>
+                </div>
+
+                <div class="col-6 text-end">
+                    <!--                    class="col-xs-2 pull-right">-->
+                    PAGE
+                    <span class="page"/>
+                    OF
+                    <span class="topage"/>
+                </div>
+            </div>
+        </div>
+        <div class="article o_report_layout_standard">
+            <t t-out="0"/>
+        </div>
+
+    </template>
+
+    <template id="report_customer_payments_detail">
+        <t t-set="retail_payments" t-value="0"/>
+        <t t-set="member_payments" t-value="0"/>
+        <t t-set="claim_payments" t-value="0"/>
+        <t t-set="wholesale_payments" t-value="0"/>
+        <t t-set="other_payments" t-value="0"/>
+        <t t-set="difference_amount" t-value="0"/>
+        <t t-set="creditnote_payments" t-value="0"/>
+        <t t-set="outstanding_credits" t-value="0"/>
+        <t t-set="allocated_payments" t-value="0"/>
+
+        <t t-set="total_payments" t-value="0"/>
+        <t t-set="total_journal_amount" t-value="0"/>
+        <t t-set="amount" t-value="0"/>
+
+
+        <table class="table table-sm"
+               style="font-size: 14px;margin-bottom:30px; border:hidden;border-top:2px;border-bottom:2px;">
+            <thead>
+                <tr>
+                    <th class="text-start" style="border:hidden;border-top:1px;">PAYMENT</th>
+                    <th class="text-start" style="border:hidden;border-top:1px;">DATE</th>
+                    <th class="text-start" style="border:hidden;border-top:1px;">PAYMENT TYPE</th>
+                    <th class="text-start" style="border:hidden;border-top:1px;">JOURNAL</th>
+                    <th class="text-start" style="border:hidden;border-top:1px;">APPROVAL CODE</th>
+                    <th class="text-end" style="border:hidden;border-top:1px;">AMOUNT</th>
+                </tr>
+
+
+            </thead>
+            <tbody>
+                <tr>
+
+                </tr>
+                <t t-set="invoice_type"
+                   t-value="(['retail','member','claim','wholesale',False] if invoice_type=='all' else [invoice_type]  )"/>
+
+                <t t-foreach="payment_ids" t-as="payment_id">
+                    <t t-set="allocated_payments" t-value="0"/>
+                    <t t-set="invoice_type_flag" t-value="False"/>
+                    <t t-foreach="payment_id.reconciled_invoice_ids" t-as="invoice_id">
+
+                        <t t-if="(invoice_id.cust_move_type in invoice_type)">
+                            <t t-set="invoice_type_flag" t-value="True"/>
+                            <t t-set="foo" t-value="True"/>
+                        </t>
+                    </t>
+
+                    <t t-if="invoice_type_flag==True">
+                        <tr>
+                            <td style="border:hidden;">
+                                <t t-esc="payment_id.name"/>
+                            </td>
+                            <td style="border:hidden;">
+                                <t t-esc="payment_id.date"/>
+                            </td>
+                            <td style="border:hidden;">
+                                <t t-esc="'RECEIVE' if payment_id.payment_type=='inbound' else 'SEND'"/>
+                            </td>
+                            <td style="border:hidden;">
+                                <t t-esc="payment_id.journal_id.name.upper()"/>
+                            </td>
+                            <td style="border:hidden;">
+                                <t t-esc="payment_id.approval_code[:40] if payment_id.approval_code else ''"/>
+                            </td>
+                            <td class="text-end" style="border:hidden;">
+                                <t t-esc="payment_id.amount_company_currency_signed"
+                                   t-options='{"widget": "float", "precision": 2}'/>
+                            </td>
+                        </tr>
+
+
+                        <t t-foreach="payment_id.reconciled_invoice_ids" t-as="invoice_id">
+                            <t t-foreach="invoice_id.invoice_payments_widget['content']" t-as="i">
+
+                                <t t-if="i['account_payment_id']==payment_id.id ">
+
+                                    <t t-if="invoice_id.move_type in ['out_invoice','out_refund']">
+                                        <t t-set="amount"  t-value="i['amount']"/>
+
+                                        <t t-if="invoice_id.move_type =='out_invoice'">
+                                            <t t-if="i['amount'] > payment_id.amount_company_currency_signed">
+                                                <t t-set="difference_amount"
+                                                        t-value="difference_amount+(i['amount']-payment_id.amount_company_currency_signed)"/>
+                                                <t t-set="amount"
+                                                    t-value="(payment_id.amount_company_currency_signed)"/>
+                                            </t>
+                                        </t>
+                                        <t t-if="invoice_id.move_type =='out_refund'">
+                                            <t t-set="amount"  t-value="i['amount']*-1"/>
+                                            <t t-if="payment_id.amount_company_currency_signed > i['amount']*-1">
+                                                <t t-set="difference_amount"
+                                                        t-value="difference_amount+(i['amount']+payment_id.amount_company_currency_signed)"/>
+                                                <t t-set="amount"
+                                                    t-value="(payment_id.amount_company_currency_signed)"/>
+                                            </t>
+                                        </t>
+
+                                        <t t-if="invoice_id.cust_move_type == 'retail' and invoice_id.move_type =='out_invoice'">
+                                                <t t-set="retail_payments" t-value="retail_payments+amount"/>
+                                        </t>
+                                        <t t-elif="invoice_id.cust_move_type=='member' and invoice_id.move_type =='out_invoice'">
+                                            <t t-set="member_payments" t-value="member_payments+amount"/>
+                                        </t>
+                                        <t t-elif="invoice_id.cust_move_type=='claim' and invoice_id.move_type =='out_invoice'">
+                                            <t t-set="claim_payments" t-value="claim_payments+amount"/>
+                                        </t>
+                                        <t t-elif="invoice_id.cust_move_type=='wholesale' and invoice_id.move_type =='out_invoice'">
+                                            <t t-set="wholesale_payments" t-value="wholesale_payments+amount"/>
+                                        </t>
+                                        <t t-elif="invoice_id.cust_move_type==False and invoice_id.move_type =='out_invoice'">
+                                            <t t-set="other_payments" t-value="other_payments+amount"/>
+                                        </t>
+
+                                    </t>
+                                    <t t-if="invoice_id.move_type=='out_refund'">
+                                        <t t-set="creditnote_payments" t-value="creditnote_payments+amount"/>
+                                    </t>
+
+                                    <t t-if="(invoice_id.cust_move_type in invoice_type)">
+
+                                        <tr>
+                                            <td style="border:hidden;">
+                                                <div class="row black" style="padding-left: 15px;">
+                                                    <t t-esc="invoice_id.invoice_origin"/>
+                                                </div>
+                                            </td>
+                                            <td style="border:hidden;">
+                                                <div class="row black" style="padding-left: 15px;">
+                                                    <t t-esc="invoice_id.name"/>
+                                                </div>
+                                            </td>
+
+                                            <td style="border:hidden;">
+                                                <div class="row black" style="padding-left: 15px;">
+                                                    <t t-esc="str(invoice_id.cust_move_type if invoice_id.cust_move_type else '').upper()"/>
+                                                </div>
+                                            </td>
+                                            <td class="text-end" style="border:hidden;">
+                                                <t t-esc="amount" t-options='{"widget": "float", "precision": 2}'/>
+                                            </td>
+                                        </tr>
+
+                                    </t>
+                                    <t t-set="allocated_payments" t-value="allocated_payments+amount"/>
+                                </t>
+                            </t>
+
+                        </t>
+
+                        <t t-set="total_payments" t-value="total_payments+payment_id.amount_company_currency_signed"/>
+                        <t t-set="outstanding_credits" t-value="outstanding_credits+payment_id.amount_company_currency_signed-allocated_payments"/>
+
+
+                    </t>
+
+
+                </t>
+
+                <tr>
+                    <td colspan="6"/>
+                </tr>
+            </tbody>
+        </table>
+
+        <div class="row">
+
+            <div class="col-2"/>
+            <div class="col-4">
+
+                <table class="table table-sm"
+                       style="font-size: 14px;margin-bottom: 0px; border:hidden;border-top:1px;border-bottom:1px;">
+                    <thead>
+                        <tr>
+                            <th class="text-start" style="border:hidden;border-top:1px;">INVOICE TYPE</th>
+                            <th class="text-end" style="border:hidden;border-top:1px;">AMOUNT</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td class="text-start" style="border:hidden;border-top:1px;">RETAIL</td>
+                            <td class="text-end" style="border:hidden;border-top:1px;">
+                                <t t-esc="retail_payments" t-options='{"widget": "float", "precision": 2}'/>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="text-start" style="border:hidden;border-top:1px;">MEMBER</td>
+                            <td class="text-end" style="border:hidden;border-top:1px;">
+                                <t t-esc="member_payments" t-options='{"widget": "float", "precision": 2}'/>
+                            </td>
+                        </tr>
+
+
+                        <tr>
+                            <td class="text-start" style="border:hidden;">CLAIM</td>
+                            <td class="text-end" style="border:hidden;">
+                                <t t-esc="claim_payments" t-options='{"widget": "float", "precision": 2}'/>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="text-start" style="border:hidden;">WHOLESALE</td>
+                            <td class="text-end" style="border:hidden;">
+                                <t t-esc="wholesale_payments" t-options='{"widget": "float", "precision": 2}'/>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="text-start" style="border:hidden;">OTHER</td>
+                            <td class="text-end" style="border:hidden;">
+                                <t t-esc="other_payments" t-options='{"widget": "float", "precision": 2}'/>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="text-start" style="border:hidden;">CREDIT NOTE</td>
+                            <td class="text-end" style="border:hidden;">
+                                <t t-set="creditnote_payments" t-value="creditnote_payments"/>
+                                <t t-esc="creditnote_payments" t-options='{"widget": "float", "precision": 2}'/>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="text-start" style="border:hidden;border-bottom:1px;">OUTSTANDING CREDITS</td>
+                            <td class="text-end" style="border:hidden;border-bottom:1px;">
+                                <!--                                <t t-esc="total_payments-retail_payments-member_payments-claim_payments-wholesale_payments-creditnote_payments-other_payments"-->
+                                <!--                                   t-options='{"widget": "float", "precision": 2}'/>-->
+                                <t t-esc="outstanding_credits"
+                                   t-options='{"widget": "float", "precision": 2}'/>
+                            </td>
+                        </tr>
+<!--                        <tr>-->
+<!--                            <td colspan="2"></td>-->
+<!--                        </tr>-->
+
+                        <tr>
+                            <td class="text-start" style="border:hidden;border-top:1px; border-bottom:1px;">TOTAL</td>
+                            <td class="text-end" style="border:hidden;border-top:1px; border-bottom:1px;">
+                                <t t-esc="total_payments" t-options='{"widget": "float", "precision": 2}'/>
+                            </td>
+                        </tr>
+
+                         <tr>
+                            <td class="text-start" style="border:hidden;border-top:1px; border-bottom:1px;">DIFFERENCE AMOUNT</td>
+                            <td class="text-end" style="border:hidden;border-top:1px;border-bottom:1px;">
+                                <t t-esc="difference_amount"
+                                   t-options='{"widget": "float", "precision": 2}'/>
+                            </td>
+                        </tr>
+
+                    </tbody>
+
+
+                </table>
+            </div>
+            <div class="col-1"/>
+            <div class="col-3">
+
+                <t t-set="journal" t-value="[]"/>
+                <t t-foreach="payment_ids" t-as="payment_id">
+                    <t t-set="journal" t-value="journal+[payment_id.journal_id]"/>
+                </t>
+
+                <table class="table table-sm"
+                       style="font-size: 14px;margin-bottom: 0px;border:hidden;border-top:1px;border-bottom:1px">
+                    <thead>
+                        <tr>
+                            <th class="text-start" style="border:hidden;border-top:1px;">JOURNAL TYPE</th>
+                            <th class="text-end" style="border:hidden;border-top:1px;">AMOUNT</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+
+                        </tr>
+
+
+                        <t t-foreach="set(journal)" t-as="journal">
+                            <t t-set="journal_amount" t-value="0.00"/>
+                            <t t-foreach="payment_ids" t-as="payment_id">
+
+                                <t t-set="invoice_type_flag" t-value="False"/>
+                                <t t-foreach="payment_id.reconciled_invoice_ids" t-as="invoice_id">
+                                    <t t-if="(invoice_id.cust_move_type in invoice_type)">
+                                        <t t-set="invoice_type_flag" t-value="True"/>
+                                        <t t-set="foo" t-value="True"/>
+                                    </t>
+                                </t>
+
+                                <t t-if="invoice_type_flag==True">
+                                    <t t-if="payment_id.journal_id.id==journal.id">
+                                        <t t-set="journal_amount"
+                                           t-value="journal_amount+payment_id.amount_company_currency_signed"
+                                           t-options='{"widget": "float", "precision": 2}'/>
+                                    </t>
+                                </t>
+                            </t>
+                            <tr>
+                                <td class="text-start" style="border:hidden;">
+                                    <t t-esc="journal.name.upper()"/>
+                                </td>
+                                <td class="text-end" style="border:hidden;">
+                                    <t t-esc="journal_amount" t-options='{"widget": "float", "precision": 2}'/>
+                                </td>
+                            </tr>
+
+                            <t t-set="total_journal_amount" t-value="total_journal_amount+journal_amount"/>
+
+                        </t>
+
+                        <tr>
+                            <td colspan="2"></td>
+                        </tr>
+
+                        <tr>
+                            <td class="text-start" style="border:hidden;border-top:1px;border-bottom:1px;">TOTAL</td>
+                            <td class="text-end" style="border:hidden;border-top:1px;border-bottom:1px;">
+                                <t t-esc="total_journal_amount"
+                                   t-options='{"widget": "float", "precision": 2}'/>
+                            </td>
+                        </tr>
+                    </tbody>
+
+                </table>
+
+            </div>
+            <div class="col-2"/>
+        </div>
+
+
+    </template>
+
+</odoo>

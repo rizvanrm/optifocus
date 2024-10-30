@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="1">
+        <record id="product_category_accessory" model="product.category">
+            <field name="parent_id" ref="product.product_category_all"/>
+            <field name="name">ACCESSORY</field>
+            <field name="barcode_prefix"></field>
+        </record>
+        <record id="product_category_temple" model="product.category">
+            <field name="parent_id" ref="optifocus.product_category_accessory"/>
+            <field name="name">TEMPLE</field>
+            <field name="barcode_prefix"></field>
+        </record>
+
+        <record id="product_category_contactlens" model="product.category">
+            <field name="parent_id" ref="product.product_category_all"/>
+            <field name="name">CONTACT LENS</field>
+            <field name="barcode_prefix"></field>
+        </record>
+
+        <record id="product_category_frame" model="product.category">
+            <field name="parent_id" ref="product.product_category_all"/>
+            <field name="name">FRAME</field>
+            <field name="barcode_prefix"></field>
+        </record>
+
+        <record id="product_category_powerlens" model="product.category">
+            <field name="parent_id" ref="product.product_category_all"/>
+            <field name="name">POWER LENS</field>
+            <field name="barcode_prefix"></field>
+        </record>
+        <record id="product_category_sunglass" model="product.category">
+            <field name="parent_id" ref="product.product_category_all"/>
+            <field name="name">SUNGLASS</field>
+            <field name="barcode_prefix"></field>
+        </record>
+        <record id="product_category_sunlens" model="product.category">
+            <field name="parent_id" ref="product.product_category_all"/>
+            <field name="name">SUN LENS</field>
+            <field name="barcode_prefix"></field>
+        </record>
+           <record id="product_category_solution" model="product.category">
+            <field name="parent_id" ref="product.product_category_all"/>
+            <field name="name">SOLUTION</field>
+            <field name="barcode_prefix"></field>
+        </record>
+
+
+    </data>
+</odoo>

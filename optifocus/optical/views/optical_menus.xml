@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <menuitem id="optical_menu_root"
+              name="Optical"
+              sequence="20">
+
+        <menuitem id="menu_optical"
+                  name="Optical"
+                  sequence="10">
+
+            <menuitem
+                        id="prescription"
+                        name="Prescription"
+                        action="action_optical_prescription_form"
+                        sequence="0"/>
+        </menuitem>
+    </menuitem>
+
+</odoo>

@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_stock_inventory_adjustment_report_wizard" model="ir.ui.view">
+        <field name="name">inventory.adjustment.wizard</field>
+        <field name="model">inventory.adjustment.wizard</field>
+        <field name="arch" type="xml">
+            <form string="Inventory Adjustment">
+                <group>
+                    <group>
+                        <field name="state" widget="radio" options="{'horizontal': true}" />
+                        <field name="inventory_adjustment_history_id" options="{'no_create': True, 'no_create_edit':True,'no_open': True}"
+                                attrs="{'invisible': [('state', 'in', ['draft'])]}"/>
+                    </group>
+                    <group>
+                        <field name="group_by"/>
+                        <field name="report_type"/>
+                    </group>
+
+                </group>
+                                <footer>
+                                    <button name="generate_report" string="Print" type="object" class="btn-primary" data-hotkey="q"/>
+                                    <button string="Cancel" class="btn-secondary" special="cancel" data-hotkey="z"/>
+                                </footer>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_stock_inventory_adjustment_report_wizard" model="ir.actions.act_window">
+        <field name="name">Inventory Adjustment</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">inventory.adjustment.wizard</field>
+        <field name="view_mode">form</field>
+        <field name="target">new</field>
+    </record>
+
+    <menuitem
+            id="menu_item_stock_inventory_adjustment_report"
+            name="Inventory Adjustment"
+            parent="stock.menu_warehouse_report"
+            action="action_stock_inventory_adjustment_report_wizard"
+            sequence="30"/>
+
+
+
+</odoo>

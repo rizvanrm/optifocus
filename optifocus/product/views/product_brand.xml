@@ -1,0 +1,130 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="product_brand_view" model="ir.ui.view">
+        <field name="name">product.brand.form</field>
+        <field name="model">product.brand</field>
+        <field name="arch" type="xml">
+            <form string="Brand">
+                <sheet>
+                    <div class="oe_title">
+                        <label for="name" string="Brand"/>
+                        <h1><field name="name" placeholder="e.g. RAYBAN"/></h1>
+                    </div>
+                    <group col="2">
+
+                        <group >
+                            <field name="short_name"/>
+                            <field name="parent_brand"/>
+                        </group>
+
+                        <group >
+                            <field name="barcode_prefix"/>
+                        </group>
+
+                    </group>
+                    <notebook>
+                        <page string="Models">
+
+                            <field name="model_ids">
+                                <tree editable="bottom">
+                                    <field name="name"/>
+                                    <field name="short_name"  />
+                                </tree>
+
+                            </field>
+
+                        </page>
+                    </notebook>
+
+
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+
+    <record id="product_brand_tree_view" model="ir.ui.view">
+        <field name="name">product.brand.tree</field>
+        <field name="model">product.brand</field>
+        <field name="arch" type="xml">
+
+            <tree string="Brand">
+                <field name="name"/>
+                <field name="short_name"/>
+                <field name="parent_brand"/>
+                <field name="barcode_prefix"/>
+
+            </tree>
+
+        </field>
+    </record>
+
+    <record id="product_brand_kanban_view" model="ir.ui.view">
+            <field name="name">product.brand.kanban</field>
+            <field name="model">product.brand</field>
+            <field name="arch" type="xml">
+                <kanban class="o_kanban_mobile">
+                    <field name="name"/>
+                    <field name="short_name"/>
+                    <field name="parent_brand"/>
+                    <field name="barcode_prefix"/>
+                    <templates>
+                        <t t-name="kanban-box">
+                            <div t-attf-class="oe_kanban_global_click">
+                                <div class="row">
+                                    <div class="col-6">
+                                        <strong><field name="name"/></strong>
+                                    </div>
+                                </div>
+                                <div>
+                                    Parent: <t t-esc="record.parent_brand.value"/>
+                                </div>
+                                <div>
+                                    Barcode Prefix: <t t-esc="record.barcode_prefix.value"/>
+                                </div>
+                            </div>
+                        </t>
+                    </templates>
+                </kanban>
+            </field>
+        </record>
+
+
+
+    <record id="product_brand_search_view" model="ir.ui.view">
+
+            <field name="name">product.brand.search</field>
+            <field name="model">product.brand</field>
+            <field name="arch" type="xml">
+
+            <search string="Brand">
+                <!-- Search by Search-->
+                    <field name="name"/>
+                    <field name="short_name"/>
+                    <field name="parent_brand"/>
+                    <field name="barcode_prefix"/>
+
+                <!-- Search by Filters-->
+                <!--                <filter string="BUPA" name="bupa" domain="[('name','=', 'BUPA')]"/>-->
+                <!-- Search by  Group by -->
+                <!--                <filter name="insurance_company" string="Insurance Company" context="{'group_by':'name'}"/>-->
+            </search>
+
+        </field>
+    </record>
+
+    <record id="action_brand_form" model="ir.actions.act_window">
+        <field name="name">Brand</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">product.brand</field>
+        <field name="view_mode">tree,form,kanban</field>
+    </record>
+
+
+    <menuitem
+            id="product_brand"
+            name="Brands"
+            parent="stock.menu_product_in_config_stock"
+            action="action_brand_form"
+            sequence="3"/>
+</odoo>

@@ -1,0 +1,518 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <template id="report_stock_pdf">
+        <t t-call="web.html_container">
+
+
+            <t t-call="optifocus.stock_pdf_layout">
+            <!--            <t t-call="web.internal_layout">-->
+
+                    <div class="page">
+
+                        <div class="row">
+                        <t t-if="group_by=='category'">
+                            <t t-if="report_type=='detail'">
+                                <t t-call="optifocus.report_stock_product_category_detail"/>
+                            </t>
+                            <t t-else="">
+                                <t t-call="optifocus.report_stock_product_category_summary"/>
+                            </t>
+                        </t>
+                        <t t-if="group_by=='brand'">
+                            <t t-if="report_type=='detail'">
+                                <t t-call="optifocus.report_stock_brand_detail"/>
+                            </t>
+                            <t t-else="">
+                                <t t-call="optifocus.report_stock_brand_summary"/>
+                            </t>
+                        </t>
+                        <t t-if="group_by=='model'">
+                            <t t-if="report_type=='detail'">
+                                <t t-call="optifocus.report_stock_model_detail"/>
+                            </t>
+                            <t t-else="">
+                                <t t-call="optifocus.report_stock_model_summary"/>
+                            </t>
+                        </t>
+
+                    </div>
+
+            </div>
+
+
+                </t>
+
+
+        </t>
+    </template>
+
+
+        <template id="stock_pdf_layout">
+        <div class="header">
+            <div class="text-center">
+                <h5 t-field="res_company.partner_id.name"/>
+                <h5>STOCK REPORT</h5>
+
+                <br/>
+            </div>
+            <div class="row mt-2 mb-2">
+                <div class="col-6 text-start">
+                    DATE :
+                    <span t-esc="context_timestamp(datetime.datetime.now()).strftime('%d-%m-%Y %H:%M')"/>
+                </div>
+
+                <div class="col-6 text-end">
+                    <!--                    class="col-xs-2 pull-right">-->
+                    PAGE
+                    <span class="page"/>
+                    OF
+                    <span class="topage"/>
+                </div>
+            </div>
+
+        </div>
+
+        <div class="article o_report_layout_standard">
+            <t t-out="0"/>
+        </div>
+    </template>
+
+    <template id="report_stock_product_category_detail">
+
+        <table class="table table-sm"
+               style="font-size: 14px;margin-bottom: 0px; border:hidden;border-top:1px">
+            <thead>
+                <tr>
+                    <th class="text-start" style="border:hidden;border-top:1px;">BARCODE</th>
+                    <th class="text-start" style="border:hidden;border-top:1px;">DESCRIPTION</th>
+                    <th class="text-start" style="border:hidden;border-top:1px;">BRAND</th>
+                    <th class="text-start" style="border:hidden;border-top:1px;">MODEL</th>
+                    <th class="text-end" style="border:hidden;border-top:1px;">QUANTITY ON HAND</th>
+                </tr>
+            </thead>
+            <tbody>
+                <t t-set="total_qty" t-value="0"/>
+
+                <t t-foreach="categ_ids" t-as="categ_id">
+                    <t t-set="sub_total_qty" t-value="0"/>
+                    <tr>
+                        <td style="border:hidden;border-top:1px;">
+                            <strong>
+                                <u>
+                                    <t t-esc="categ_id.name"/>
+                                </u>
+                            </strong>
+                        </td>
+                    </tr>
+
+                    <t t-foreach="product_ids" t-as="product_id">
+                        <t t-if="categ_id.id==product_id.categ_id.id">
+                            <tr>
+                                <td style="border:hidden;">
+                                    <t t-esc="product_id.barcode"/>
+                                </td>
+                                <td style="border:hidden;">
+                                    <t t-esc="product_id.name"/>
+                                </td>
+                                <td style="border:hidden;">
+                                    <t t-esc="product_id.brand_id.name"/>
+                                </td>
+                                <td style="border:hidden;">
+                                    <t t-esc="product_id.model1_id.name"/>
+                                </td>
+                                <td class="text-end" width="2%" style="border:hidden;">
+                                    <t t-esc="product_id.qty_available"
+                                       t-options='{"widget": "float", "precision": 2}'/>
+                                </td>
+                            </tr>
+                            <t t-set="sub_total_qty" t-value="sub_total_qty+product_id.qty_available"/>
+                            <t t-set="total_qty" t-value="total_qty+product_id.qty_available"/>
+                        </t>
+
+                    </t>
+
+                    <tr>
+                        <td colspan="2" style="border:hidden;border-bottom:1px"/>
+                    </tr>
+
+                    <tr>
+                        <td style="border:hidden;border-bottom:1px;border-top:1px">
+                            <strong>
+                                <t t-esc="categ_id.name"/>
+                            </strong>
+                        </td>
+
+                        <td colspan="4" class="text-end" style="border:hidden;border-bottom:1px;border-top:1px">
+                            <strong>
+                                <t t-esc="sub_total_qty" t-options='{"widget": "float", "precision": 2}'/>
+                            </strong>
+                        </td>
+                    </tr>
+                </t>
+                <tr>
+                    <td style="border:hidden;border-top:1px;border-bottom:1px;">
+                        <strong>TOTAL</strong>
+                    </td>
+                    <td colspan="4" class="text-end">
+                        <strong>
+                            <t t-esc="total_qty" t-options='{"widget": "float", "precision": 2}'/>
+                        </strong>
+                    </td>
+                </tr>
+
+            </tbody>
+
+            <tfoot>
+
+            </tfoot>
+        </table>
+    </template>
+
+    <template id="report_stock_product_category_summary">
+        <table class="table table-sm"
+               style="font-size: 14px;margin-bottom: 0px; border:hidden;border-top:1px">
+            <thead>
+                <tr>
+                    <th class="text-start" style="border:hidden;border-top:1px;">PRODUCT CATEGORY</th>
+                    <th class="text-end" style="border:hidden;border-top:1px;">QUANTITY ON HAND</th>
+                </tr>
+                <tr>
+                    <td style="border:hidden;border-top:1px;"/>
+                </tr>
+
+            </thead>
+            <tbody>
+                <t t-set="total_qty" t-value="0"/>
+                <t t-foreach="categ_ids" t-as="categ_id">
+                    <t t-set="sub_total_qty" t-value="0"/>
+                    <t t-foreach="product_ids" t-as="product_id">
+                        <t t-if="categ_id.id==product_id.categ_id.id">
+                            <t t-set="sub_total_qty" t-value="sub_total_qty+product_id.qty_available"/>
+                            <t t-set="total_qty" t-value="total_qty+product_id.qty_available"/>
+                        </t>
+                    </t>
+                    <tr>
+                        <td style="border:hidden;">
+                            <t t-esc="categ_id.name"/>
+                        </td>
+                        <td class="text-end" style="border:hidden;">
+                            <t t-esc="sub_total_qty" t-options='{"widget": "float", "precision": 2}'/>
+                        </td>
+                    </tr>
+                </t>
+
+                <tr>
+                    <td colspan="2" style="border:hidden;border-bottom:1px;"/>
+                </tr>
+                <tr>
+                    <td style="border:hidden;border-top:1px;border-bottom:1px;">
+                        <strong>TOTAL</strong>
+                    </td>
+                    <td class="text-end" style="border:hidden;border-top:1px;border-bottom:1px;">
+                        <strong>
+                            <t t-esc="total_qty" t-options='{"widget": "float", "precision": 2}'/>
+                        </strong>
+                    </td>
+                </tr>
+
+            </tbody>
+
+            <tfoot>
+
+            </tfoot>
+        </table>
+    </template>
+
+
+    <template id="report_stock_brand_detail">
+
+        <table class="table table-sm"
+               style="font-size: 14px;margin-bottom: 0px; border:hidden;border-top:1px">
+            <thead>
+                <tr>
+                    <th class="text-start" style="border:hidden;border-top:1px;">BARCODE</th>
+                    <th class="text-start" style="border:hidden;border-top:1px;">DESCRIPTION</th>
+                    <th class="text-start" style="border:hidden;border-top:1px;">PRODUCT CATEGORY</th>
+                    <th class="text-start" style="border:hidden;border-top:1px;">MODEL</th>
+                    <th class="text-end" style="border:hidden;border-top:1px;">QUANTITY ON HAND</th>
+                </tr>
+            </thead>
+            <tbody>
+                <t t-set="total_qty" t-value="0"/>
+                <t t-foreach="brand_ids" t-as="brand_id">
+                    <t t-set="sub_total_qty" t-value="0"/>
+                    <tr>
+                        <td style="border:hidden;border-top:1px;">
+                            <strong>
+                                <u>
+                                    <t t-esc="brand_id.name"/>
+                                </u>
+                            </strong>
+                        </td>
+                    </tr>
+
+                    <t t-foreach="product_ids" t-as="product_id">
+                        <t t-if="brand_id.id==product_id.brand_id.id">
+                            <tr>
+                                <td style="border:hidden;">
+                                    <t t-esc="product_id.barcode"/>
+                                </td>
+                                <td style="border:hidden;">
+                                    <t t-esc="product_id.name"/>
+                                </td>
+                                <td style="border:hidden;">
+                                    <t t-esc="product_id.categ_id.name"/>
+                                </td>
+                                <td style="border:hidden;">
+                                    <t t-esc="product_id.model1_id.name"/>
+                                </td>
+                                <td class="text-end" width="2%" style="border:hidden;">
+                                    <t t-esc="product_id.qty_available"
+                                       t-options='{"widget": "float", "precision": 2}'/>
+                                </td>
+                            </tr>
+                            <t t-set="sub_total_qty" t-value="sub_total_qty+product_id.qty_available"/>
+                            <t t-set="total_qty" t-value="total_qty+product_id.qty_available"/>
+                        </t>
+
+                    </t>
+
+                    <tr>
+                        <td colspan="2" style="border:hidden;border-bottom:1px"/>
+                    </tr>
+
+                    <tr>
+                        <td style="border:hidden;border-bottom:1px;border-top:1px">
+                            <strong>
+                                <t t-esc="brand_id.name"/>
+                            </strong>
+                        </td>
+
+                        <td colspan="4" class="text-end" style="border:hidden;border-bottom:1px;border-top:1px">
+                            <strong>
+                                <t t-esc="sub_total_qty" t-options='{"widget": "float", "precision": 2}'/>
+                            </strong>
+                        </td>
+                    </tr>
+                </t>
+                <tr>
+                    <td style="border:hidden;border-top:1px;border-bottom:1px;">
+                        <strong>TOTAL</strong>
+                    </td>
+                    <td colspan="4" class="text-end">
+                        <strong>
+                            <t t-esc="total_qty" t-options='{"widget": "float", "precision": 2}'/>
+                        </strong>
+                    </td>
+                </tr>
+
+            </tbody>
+
+            <tfoot>
+
+            </tfoot>
+        </table>
+    </template>
+
+    <template id="report_stock_brand_summary">
+        <table class="table table-sm"
+               style="font-size: 14px;margin-bottom: 0px; border:hidden;border-top:1px">
+            <thead>
+                <tr>
+                    <th class="text-start" style="border:hidden;border-top:1px;">BRAND</th>
+                    <th class="text-end" style="border:hidden;border-top:1px;">QUANTITY ON HAND</th>
+                </tr>
+                <tr>
+                    <td style="border:hidden;border-top:1px;"/>
+                </tr>
+
+            </thead>
+            <tbody>
+                <t t-set="total_qty" t-value="0"/>
+                <t t-foreach="brand_ids" t-as="brand_id">
+                    <t t-set="sub_total_qty" t-value="0"/>
+                    <t t-foreach="product_ids" t-as="product_id">
+                        <t t-if="brand_id.id==product_id.brand_id.id">
+                            <t t-set="sub_total_qty" t-value="sub_total_qty+product_id.qty_available"/>
+                            <t t-set="total_qty" t-value="total_qty+product_id.qty_available"/>
+                        </t>
+                    </t>
+                    <tr>
+                        <td style="border:hidden;">
+                            <t t-esc="brand_id.name"/>
+                        </td>
+                        <td class="text-end" style="border:hidden;">
+                            <t t-esc="sub_total_qty" t-options='{"widget": "float", "precision": 2}'/>
+                        </td>
+                    </tr>
+                </t>
+
+                <tr>
+                    <td colspan="2" style="border:hidden;border-bottom:1px;"/>
+                </tr>
+                <tr>
+                    <td style="border:hidden;border-top:1px;border-bottom:1px;">
+                        <strong>TOTAL</strong>
+                    </td>
+                    <td class="text-end" style="border:hidden;border-top:1px;border-bottom:1px;">
+                        <strong>
+                            <t t-esc="total_qty" t-options='{"widget": "float", "precision": 2}'/>
+                        </strong>
+                    </td>
+                </tr>
+
+            </tbody>
+
+            <tfoot>
+
+            </tfoot>
+        </table>
+    </template>
+
+    <template id="report_stock_model_detail">
+
+        <table class="table table-sm"
+               style="font-size: 14px;margin-bottom: 0px; border:hidden;border-top:1px">
+            <thead>
+                <tr>
+                    <th class="text-start" style="border:hidden;border-top:1px;">BARCODE</th>
+                    <th class="text-start" style="border:hidden;border-top:1px;">DESCRIPTION</th>
+                    <th class="text-start" style="border:hidden;border-top:1px;">PRODUCT CATEGORY</th>
+                    <th class="text-start" style="border:hidden;border-top:1px;">BRAND</th>
+                    <th class="text-end" style="border:hidden;border-top:1px;">QUANTITY ON HAND</th>
+                </tr>
+            </thead>
+            <tbody>
+                <t t-set="total_qty" t-value="0"/>
+                <t t-foreach="model_ids" t-as="model_id">
+                    <t t-set="sub_total_qty" t-value="0"/>
+                    <tr>
+                        <td style="border:hidden;border-top:1px;">
+                            <strong>
+                                <u>
+                                    <t t-esc="model_id.name"/>
+                                </u>
+                            </strong>
+                        </td>
+                    </tr>
+
+                    <t t-foreach="product_ids" t-as="product_id">
+                        <t t-if="model_id.id==product_id.model1_id.id">
+                            <tr>
+                                <td style="border:hidden;">
+                                    <t t-esc="product_id.barcode"/>
+                                </td>
+                                <td style="border:hidden;">
+                                    <t t-esc="product_id.name"/>
+                                </td>
+                                <td style="border:hidden;">
+                                    <t t-esc="product_id.categ_id.name"/>
+                                </td>
+                                <td style="border:hidden;">
+                                    <t t-esc="product_id.brand_id.name"/>
+                                </td>
+                                <td class="text-end" width="2%" style="border:hidden;">
+                                    <t t-esc="product_id.qty_available"
+                                       t-options='{"widget": "float", "precision": 2}'/>
+                                </td>
+                            </tr>
+                            <t t-set="sub_total_qty" t-value="sub_total_qty+product_id.qty_available"/>
+                            <t t-set="total_qty" t-value="total_qty+product_id.qty_available"/>
+                        </t>
+
+                    </t>
+
+                    <tr>
+                        <td colspan="2" style="border:hidden;border-bottom:1px"/>
+                    </tr>
+
+                    <tr>
+                        <td style="border:hidden;border-bottom:1px;border-top:1px">
+                            <strong>
+                                <t t-esc="model_id.name"/>
+                            </strong>
+                        </td>
+
+                        <td colspan="4" class="text-end" style="border:hidden;border-bottom:1px;border-top:1px">
+                            <strong>
+                                <t t-esc="sub_total_qty" t-options='{"widget": "float", "precision": 2}'/>
+                            </strong>
+                        </td>
+                    </tr>
+                </t>
+                <tr>
+                    <td style="border:hidden;border-top:1px;border-bottom:1px;">
+                        <strong>TOTAL</strong>
+                    </td>
+                    <td colspan="4" class="text-end">
+                        <strong>
+                            <t t-esc="total_qty" t-options='{"widget": "float", "precision": 2}'/>
+                        </strong>
+                    </td>
+                </tr>
+
+            </tbody>
+
+            <tfoot>
+
+            </tfoot>
+        </table>
+    </template>
+
+    <template id="report_stock_model_summary">
+        <table class="table table-sm"
+               style="font-size: 14px;margin-bottom: 0px; border:hidden;border-top:1px">
+            <thead>
+                <tr>
+                    <th class="text-start" style="border:hidden;border-top:1px;">MODEL</th>
+                    <th class="text-end" style="border:hidden;border-top:1px;">QUANTITY ON HAND</th>
+                </tr>
+                <tr>
+                    <td style="border:hidden;border-top:1px;"/>
+                </tr>
+
+            </thead>
+            <tbody>
+                <t t-set="total_qty" t-value="0"/>
+                <t t-foreach="model_ids" t-as="model_id">
+                    <t t-set="sub_total_qty" t-value="0"/>
+                    <t t-foreach="product_ids" t-as="product_id">
+                        <t t-if="model_id.id==product_id.model1_id.id">
+                            <t t-set="sub_total_qty" t-value="sub_total_qty+product_id.qty_available"/>
+                            <t t-set="total_qty" t-value="total_qty+product_id.qty_available"/>
+                        </t>
+                    </t>
+                    <tr>
+                        <td style="border:hidden;">
+                            <t t-esc="model_id.name"/>
+                        </td>
+                        <td class="text-end" style="border:hidden;">
+                            <t t-esc="sub_total_qty" t-options='{"widget": "float", "precision": 2}'/>
+                        </td>
+                    </tr>
+                </t>
+
+                <tr>
+                    <td colspan="2" style="border:hidden;border-bottom:1px;"/>
+                </tr>
+                <tr>
+                    <td style="border:hidden;border-top:1px;border-bottom:1px;">
+                        <strong>TOTAL</strong>
+                    </td>
+                    <td class="text-end" style="border:hidden;border-top:1px;border-bottom:1px;">
+                        <strong>
+                            <t t-esc="total_qty" t-options='{"widget": "float", "precision": 2}'/>
+                        </strong>
+                    </td>
+                </tr>
+
+            </tbody>
+
+            <tfoot>
+
+            </tfoot>
+        </table>
+    </template>
+
+
+</odoo>

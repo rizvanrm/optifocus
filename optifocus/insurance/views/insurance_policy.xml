@@ -1,0 +1,154 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="insurance_policy_form_view" model="ir.ui.view">
+        <field name="name">insurance.policy.form</field>
+        <field name="model">insurance.policy</field>
+        <field name="arch" type="xml">
+            <form string="Insurance Policy">
+                <sheet>
+                    <label for="policy_no"/>
+                    <h1>
+                        <field name="policy_no"/>
+                    </h1>
+                    <group col="2">
+
+                        <group string="Policy">
+                            <field name="policy_holder"/>
+
+                            <label for="inception_date" string="Date"/>
+                            <div>
+                                <field name="inception_date" widget="daterange" nolabel="1" class="oe_inline"
+                                       options="{'related_end_date': 'expiry_date'}"/>
+                                <field name="expiry_date" widget="daterange" nolabel="1" class="oe_inline"
+                                       options="{'related_start_date': 'inception_date'}"/>
+                            </div>
+                            <!--                            <field name="inception_date" widget="daterange" options="{'related_end_date': 'expiry_date'}"/>-->
+                            <!--                            <field name="expiry_date" widget="daterange" options="{'related_start_date': 'inception_date'}"/>-->
+                        </group>
+
+                        <group string="Insurance">
+                            <field name="insurance_company"/>
+                            <field name="insurance_company_plan"/>
+                            <field name="insurance_discount"/>
+                            <field name="member_discount"/>
+                        </group>
+
+                    </group>
+                    <notebook>
+                        <page string="Class">
+
+                            <field name="policy_line">
+                                <tree editable="bottom">
+                                    <field name="name"/>
+                                    <field name="co_insurance_type"/>
+                                    <field name="co_insurance_percent"
+                                           attrs="{'readonly':[('co_insurance_type', '=', 'fixed')]}"/>
+                                    <field name="up_to"/>
+                                </tree>
+
+                            </field>
+
+                        </page>
+                    </notebook>
+
+
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+
+    <record id="insurance_policy_tree_view" model="ir.ui.view">
+        <field name="name">insurance.policy.tree</field>
+        <field name="model">insurance.policy</field>
+        <field name="arch" type="xml">
+            <tree string="Insurance Policy">
+                <field name="policy_no"/>
+                <field name="policy_holder"/>
+                <field name="inception_date"/>
+                <field name="expiry_date"/>
+                <field name="insurance_company"/>
+                <field name="insurance_company_plan"/>
+                <field name="insurance_discount"/>
+                <field name="member_discount"/>
+            </tree>
+        </field>
+    </record>
+    <record id="insurance_policy_kanban_view" model="ir.ui.view">
+        <field name="name">insurance.policy.kanban</field>
+        <field name="model">insurance.policy</field>
+        <field name="arch" type="xml">
+            <kanban class="o_kanban_mobile">
+                <field name="policy_holder"/>
+                <field name="policy_no"/>
+                <field name="inception_date"/>
+                <field name="expiry_date"/>
+                <field name="insurance_company"/>
+                <templates>
+                    <t t-name="kanban-box">
+                        <div t-attf-class="oe_kanban_global_click">
+                            <div class="row">
+                                <div class="col-12">
+                                    <strong>
+                                        <field name="policy_holder"/>
+                                    </strong>
+                                </div>
+                            </div>
+                            <div>
+                                Policy No:
+                                <field name="policy_no"/>
+                            </div>
+                            <div>
+                                Date:
+                                <field name="inception_date"/>
+                                   -
+                                 <field name="expiry_date"/>
+                            </div>
+                            <div>
+                                Insurance Company:
+                                <field name="insurance_company"/>
+                            </div>
+                        </div>
+                    </t>
+                </templates>
+            </kanban>
+        </field>
+    </record>
+
+    <record id="insurance_policy_search_view" model="ir.ui.view">
+        <field name="name">insurance.policy.search</field>
+        <field name="model">insurance.policy</field>
+        <field name="arch" type="xml">
+            <search string="Insurance Policy">
+                <!-- Search by Search-->
+                <field name="policy_no"/>
+                <field name="policy_holder"/>
+                <field name="insurance_company"/>
+                <field name="insurance_company_plan"/>
+
+                <!-- Search by Filters-->
+
+                <!-- Search by  Group by -->
+                <filter name="insurance_company" string="Insurance Company" context="{'group_by':'insurance_company'}"/>
+            </search>
+
+        </field>
+    </record>
+
+    <record id="favorite_filter" model="ir.filters">
+        <field name="name">My favorite</field>
+        <field name="model_id">insurance.policy</field>
+        <field name="is_default">False</field>
+        <!--        <field name="domain">[['name', 'like','BUPA ']] </field>-->
+    </record>
+
+
+    <record id="action_insurance_policy_form" model="ir.actions.act_window">
+        <field name="name">Insurance Policies</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">insurance.policy</field>
+        <field name="view_mode">tree,form,kanban</field>
+    </record>
+
+
+</odoo>

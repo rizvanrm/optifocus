@@ -1,0 +1,184 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+          <data noupdate="1">
+        <record model="ir.ui.menu" id="sale.menu_sale_report">
+            <field name="groups_id" eval="[(4, ref('sales_team.group_sale_salesman'))]"/>
+        </record>
+
+        <record model="res.partner" id="partner_sp">
+            <field name="name">Sales Person</field>
+            <field name="company_id" ref="base.main_company"/>
+            <field name="email">sp@optifocus.com</field>
+        </record>
+
+
+        <record id="pk_user_sp" model="res.users">
+            <field name="name">Sales Person</field>
+            <field name="login">sp</field>
+            <field name="password">sp</field>
+            <field name="partner_id" ref="partner_sp"/>
+            <field name="company_id" ref="base.main_company"/>
+            <field name="company_ids" eval="[(4, ref('base.main_company'))]"/>
+            <field name="groups_id"
+                   eval="[
+                   	     (4, ref('account.group_account_invoice'))
+                         ,(4, ref('optifocus.group_insurance_user'))
+                         ,(4, ref('purchase.group_purchase_user'))
+                         ,(4, ref('sales_team.group_sale_salesman'))
+                         ,(4, ref('stock.group_stock_user'))
+                         ,(4, ref('optifocus.group_optical_manager'))]"/>
+            <field name="signature"><![CDATA[<span>-- <br/>
+                                Sales Person</span>]]></field>
+        </record>
+
+
+        <record model="res.partner" id="partner_is">
+            <field name="name">Insurance Supervisor</field>
+            <field name="company_id" ref="base.main_company"/>
+            <field name="email">ias@optifocus.com</field>
+        </record>
+
+        <record id="pk_user_is" model="res.users">
+            <field name="name">Insurance Supervisor</field>
+            <field name="login">is</field>
+            <field name="password">is</field>
+            <field name="partner_id" ref="partner_is"/>
+            <field name="company_id" ref="base.main_company"/>
+            <field name="company_ids" eval="[(4, ref('base.main_company'))]"/>
+            <field name="groups_id" eval="[(4, ref('group_insurance_supervisor'))]"/>
+
+            <field name="signature"><![CDATA[<span>-- <br/>
+                                Insurance Supervisor</span>]]></field>
+        </record>
+
+        <record model="res.partner" id="partner_sm">
+            <field name="name">Sales Manager</field>
+            <field name="company_id" ref="base.main_company"/>
+            <field name="email">sm@optifocus.com</field>
+        </record>
+
+        <record id="pk_user_sm" model="res.users">
+            <field name="name">Sales Manager</field>
+            <field name="login">sm</field>
+            <field name="password">sm</field>
+            <field name="partner_id" ref="partner_sm"/>
+            <field name="company_id" ref="base.main_company"/>
+            <field name="company_ids" eval="[(4, ref('base.main_company'))]"/>
+            <field name="groups_id"
+                   eval="[(4, ref('sales_team.group_sale_manager'))
+                         ,(4, ref('account.group_account_invoice'))
+                         ,(4, ref('optifocus.group_insurance_user'))
+                         ,(4, ref('purchase.group_purchase_user'))
+                         ,(4, ref('stock.group_stock_user'))
+                         ,(4, ref('optifocus.group_optical_manager'))
+                        ]"/>
+
+
+            <field name="signature"><![CDATA[<span>-- <br/>
+                                Sales Manager</span>]]></field>
+        </record>
+
+
+
+
+
+        <record model="res.partner" id="partner_invm">
+            <field name="name">Inventory Manager</field>
+            <field name="company_id" ref="base.main_company"/>
+            <field name="email">invm@optifocus.com</field>
+        </record>
+
+        <record id="pk_user_invm" model="res.users">
+            <field name="name">Inventory Manager</field>
+            <field name="login">invm</field>
+            <field name="password">invm</field>
+            <field name="partner_id" ref="partner_invm"/>
+            <field name="company_id" ref="base.main_company"/>
+            <field name="company_ids" eval="[(4, ref('base.main_company'))]"/>
+            <field name="groups_id"
+                   eval="[(4, ref('stock.group_stock_manager'))]"/>
+            <field name="signature"><![CDATA[<span>-- <br/>
+                                Inventory Manager</span>]]></field>
+        </record>
+
+        <record model="res.partner" id="partner_pm">
+            <field name="name">Purchase Manager</field>
+            <field name="company_id" ref="base.main_company"/>
+            <field name="email">pm@optifocus.com</field>
+        </record>
+
+        <record id="pk_user_pm" model="res.users">
+            <field name="name">Purchase Manager</field>
+            <field name="login">pm</field>
+            <field name="password">pm</field>
+            <field name="partner_id" ref="partner_pm"/>
+            <field name="company_id" ref="base.main_company"/>
+            <field name="company_ids" eval="[(4, ref('base.main_company'))]"/>
+            <field name="groups_id"
+                   eval="[(4, ref('purchase.group_purchase_manager'))]"/>
+            <field name="signature"><![CDATA[<span>-- <br/>
+                                Purchase Manager</span>]]></field>
+        </record>
+
+
+        <record model="res.partner" id="partner_insm">
+            <field name="name">Insurance Manager</field>
+            <field name="company_id" ref="base.main_company"/>
+            <field name="email">insm@optifocus.com</field>
+        </record>
+
+        <record id="pk_user_inm" model="res.users">
+            <field name="name">Insurance Manager</field>
+            <field name="login">insm</field>
+            <field name="password">insm</field>
+            <field name="partner_id" ref="partner_insm"/>
+            <field name="company_id" ref="base.main_company"/>
+            <field name="company_ids" eval="[(4, ref('base.main_company'))]"/>
+            <field name="groups_id"
+                   eval="[(4, ref('optifocus.group_insurance_manager'))]"/>
+
+            <field name="signature"><![CDATA[<span>-- <br/>
+                                Insurance Manager</span>]]></field>
+        </record>
+
+        <record model="res.partner" id="partner_tc">
+            <field name="name">Technician</field>
+            <field name="company_id" ref="base.main_company"/>
+            <field name="email">technician@optifocus.com</field>
+        </record>
+
+
+        <record id="pk_user_tc" model="res.users">
+            <field name="name">Technician</field>
+            <field name="login">tech</field>
+            <field name="password">tech</field>
+            <field name="partner_id" ref="partner_tc"/>
+            <field name="company_id" ref="base.main_company"/>
+            <field name="company_ids" eval="[(4, ref('base.main_company'))]"/>
+            <field name="groups_id"
+                   eval="[(4, ref('optifocus.group_technician'))]"/>
+            <field name="signature"><![CDATA[<span>-- <br/>
+                                Technician</span>]]></field>
+        </record>
+
+        <record model="res.partner" id="partner_dc">
+            <field name="name">Doctor</field>
+            <field name="company_id" ref="base.main_company"/>
+            <field name="email">doctor@optifocus.com</field>
+        </record>
+
+        <record id="pk_user_dc" model="res.users">
+            <field name="name">Doctor</field>
+            <field name="login">doctor</field>
+            <field name="password">doctor</field>
+            <field name="partner_id" ref="partner_dc"/>
+            <field name="company_id" ref="base.main_company"/>
+            <field name="company_ids" eval="[(4, ref('base.main_company'))]"/>
+            <field name="groups_id"
+                   eval="[(4, ref('optifocus.group_optical_manager')),(4, ref('base.group_user'))]"/>
+
+            <field name="signature"><![CDATA[<span>-- <br/>
+                                Doctor</span>]]></field>
+        </record>
+    </data>
+</odoo>

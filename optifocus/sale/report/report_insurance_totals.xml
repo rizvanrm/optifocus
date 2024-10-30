@@ -1,0 +1,165 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <template id="document_insurance_totals">
+
+        <table class="table table-sm ">
+            <thead>
+                <tr>
+                    <th>
+                        <strong></strong>
+                    </th>
+                    <th t-if="order_id.amount_tax!=0" class="text-end">
+                        <strong>Untaxed</strong>
+                    </th>
+                    <th t-if="order_id.amount_tax!=0" class="text-end">
+                        <strong>Taxes</strong>
+                    </th>
+                    <th class="text-end">
+                        <strong>Total</strong>
+                    </th>
+                </tr>
+            </thead>
+
+            <tbody>
+                <tr>
+                    <td>
+                        <t t-if="show_arabic_transaltion==True">
+                            <strong>Gross / إجمالي</strong>
+                        </t>
+                        <t t-else="">
+                            <strong>Gross</strong>
+                        </t>
+
+                    </td>
+                    <td t-if="order_id.amount_tax!=0" class="text-end">
+                        <span t-esc="order_id.gross_untaxed" t-options="{'widget': 'monetary', 'display_currency': order_id.currency_id}"/>
+                    </td>
+                    <td t-if="order_id.amount_tax!=0" class="text-end">
+                        <span t-field="order_id.gross_tax"/>
+                    </td>
+                    <td class="text-end">
+                        <span t-field="order_id.gross_total" t-options="{'widget': 'monetary', 'display_currency': order_id.currency_id}"/>
+                    </td>
+
+
+                </tr>
+
+                <tr>
+                    <td>
+                        <t t-if="show_arabic_transaltion==True">
+                            <strong>Approved / موافقة</strong>
+                        </t>
+                        <t t-else="">
+                            <strong>Approved</strong>
+                        </t>
+
+
+                    </td>
+                    <td t-if="order_id.amount_tax!=0" class="text-end">
+                        <span t-field="order_id.approved_untaxed" />
+                    </td>
+                    <td t-if="order_id.amount_tax!=0" class="text-end">
+                        <span t-field="order_id.approved_tax"/>
+                    </td>
+                    <td class="text-end">
+                        <span t-field="order_id.approved_total" t-options="{'widget': 'monetary', 'display_currency': order_id.currency_id}"/>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td>
+
+                        <t t-if="show_arabic_transaltion==True">
+                            <strong>Additional / إضافي</strong>
+                        </t>
+                        <t t-else="">
+                            <strong>Additional</strong>
+                        </t>
+
+                    </td>
+                    <td t-if="order_id.amount_tax!=0" class="text-end">
+                        <span t-field="order_id.additional_untaxed"/>
+                    </td>
+                    <td t-if="order_id.amount_tax!=0" class="text-end">
+                        <span t-field="order_id.additional_tax"/>
+                    </td>
+                    <td class="text-end">
+                        <span t-field="order_id.additional_total"/>
+                    </td>
+                </tr>
+
+
+                <tr>
+                    <td>
+
+                        <t t-if="show_arabic_transaltion==True">
+                            <strong>Co-Insurance / للخصم</strong>
+                        </t>
+                        <t t-else="">
+                            <strong>Co-Insurance</strong>
+                        </t>
+
+                    </td>
+                    <td t-if="order_id.amount_tax!=0" class="text-end">
+                        <span t-field="order_id.co_insurance_untaxed"/>
+                    </td>
+                    <td t-if="order_id.amount_tax!=0" class="text-end">
+                        <span t-field="order_id.co_insurance_tax"/>
+                    </td>
+                    <td class="text-end">
+                        <span t-field="order_id.co_insurance_total"/>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td>
+
+                        <t t-if="show_arabic_transaltion==True">
+                            <strong>Member / عضو</strong>
+                        </t>
+                        <t t-else="">
+                            <strong>Member</strong>
+                        </t>
+
+                    </td>
+                    <td t-if="order_id.amount_tax!=0" class="text-end">
+                        <span t-field="order_id.member_untaxed"/>
+                    </td>
+                    <td t-if="order_id.amount_tax!=0" class="text-end">
+                        <span t-field="order_id.member_tax"/>
+                    </td>
+                    <td class="text-end">
+                        <span t-field="order_id.member_total"/>
+                    </td>
+                </tr>
+
+                <tr t-if="show_claim_line_flag==True">
+
+                    <td>
+
+                        <t t-if="show_arabic_transaltion==True">
+                            <strong>Claim / مطالبة</strong>
+                        </t>
+                        <t t-else="">
+                            <strong>Claim</strong>
+                        </t>
+
+                    </td>
+                    <td t-if="order_id.amount_tax!=0" class="text-end">
+                        <span t-field="order_id.claim_untaxed"/>
+                    </td>
+                    <td t-if="order_id.amount_tax!=0" class="text-end">
+                        <span t-field="order_id.claim_tax"/>
+                    </td>
+                    <td class="text-end">
+                        <span t-field="order_id.claim_total"/>
+                    </td>
+                </tr>
+
+
+            </tbody>
+        </table>
+
+    </template>
+</odoo>

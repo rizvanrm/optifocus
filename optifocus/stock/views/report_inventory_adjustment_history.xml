@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <template id="report_inventory_adjustment_history_category_detail">
+        <t t-call="web.html_container">
+            <t t-set="state" t-value="'confirmed'"/>
+            <t t-foreach="docs" t-as="inventory_adjustment_history_id">
+                <t t-call="optifocus.inventory_adjustment_layout">
+                    <div class="page">
+                        <t t-call="optifocus.report_inventory_adjustment_category_detail_confirmed"/>
+                    </div>
+                </t>
+            </t>
+        </t>
+    </template>
+    <template id="report_inventory_adjustment_history_category_summary">
+        <t t-call="web.html_container">
+            <t t-set="state" t-value="'confirmed'"/>
+            <t t-foreach="docs" t-as="inventory_adjustment_history_id">
+                <t t-call="optifocus.inventory_adjustment_layout">
+                    <div class="page">
+                        <t t-call="optifocus.report_inventory_adjustment_category_summary_confirmed"/>
+                    </div>
+                </t>
+            </t>
+        </t>
+    </template>
+
+        <template id="report_inventory_adjustment_history_brand_detail">
+        <t t-call="web.html_container">
+            <t t-set="state" t-value="'confirmed'"/>
+            <t t-foreach="docs" t-as="inventory_adjustment_history_id">
+                <t t-call="optifocus.inventory_adjustment_layout">
+                    <div class="page">
+                        <t t-call="optifocus.report_inventory_adjustment_brand_detail_confirmed"/>
+                    </div>
+                </t>
+            </t>
+        </t>
+    </template>
+    <template id="report_inventory_adjustment_history_brand_summary">
+        <t t-call="web.html_container">
+            <t t-set="state" t-value="'confirmed'"/>
+            <t t-foreach="docs" t-as="inventory_adjustment_history_id">
+                <t t-call="optifocus.inventory_adjustment_layout">
+                    <div class="page">
+                        <t t-call="optifocus.report_inventory_adjustment_brand_summary_confirmed"/>
+                    </div>
+                </t>
+            </t>
+        </t>
+    </template>
+
+
+
+</odoo>

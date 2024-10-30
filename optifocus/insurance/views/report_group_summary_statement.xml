@@ -1,0 +1,253 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <template id="report_group_summary_statement">
+        <t t-call="web.html_container">
+            <t t-call="optifocus.group_summary_statement_layout">
+                <div class="page">
+                    <t t-call="optifocus.report_group_summary_statement_page_header"/>
+                    <t t-call="optifocus.report_group_summary_statement_lines"/>
+                    <t t-call="optifocus.report_group_summary_statement_footer"/>
+                </div>
+            </t>
+        </t>
+    </template>
+
+    <template id="group_summary_statement_layout">
+        <div class="header">
+
+           <div class="text-center">
+                <h5>GROUP SUMMARY STATEMENT</h5>
+            </div>
+            <div class="row mt-2 mb-2">
+                <div class="col-6 text-start">
+                    DATE :
+                    <span t-esc="context_timestamp(datetime.datetime.now()).strftime('%d-%m-%Y %H:%M')"/>
+                </div>
+
+                <div class="col-6 text-end">
+                    <!--                    class="col-xs-2 pull-right">-->
+                    PAGE
+                    <span class="page"/>
+                    OF
+                    <span class="topage"/>
+                </div>
+            </div>
+        </div>
+        <div class="article o_report_layout_standard">
+            <t t-out="0"/>
+        </div>
+
+
+    </template>
+
+    <template id="report_group_summary_statement_lines">
+        <t t-set="records" t-value="docs.run_sql('''select
+              ROW_NUMBER() OVER(ORDER BY (SELECT 1)) AS slno,
+              policy_id,max(policy_holder) as policy_holder,
+              count(name) as claim_count,
+              sum(approved_total) as approved_total,
+              sum(discount_total) as discount_total,
+              sum(co_insurance_total) as co_insurance_total,
+              sum(claim_untaxed) as claim_untaxed,
+              sum(claim_tax) as claim_tax,
+              sum(claim_total) as claim_total
+              from insurance_claim
+              where insurance_id=%s
+              and date(approval_date)>='%s' and date(approval_date)  &lt;='%s'
+              group by policy_id'''
+              % (insurance_id,date_from,date_to)
+              )"/>
+        <table class="table table-sm" style="border:1px">
+            <thead>
+                <tr>
+                    <th class="text-start">SL NO.</th>
+                    <th class="text-start">POLICY HOLDER</th>
+                    <th class="text-end">COUNT</th>
+                    <th class="text-end">GROSS</th>
+                    <th class="text-end">DISCOUNT</th>
+                    <th class="text-end">DEDUCTIBLE</th>
+                    <th class="text-end">NET AMOUNT</th>
+                    <th class="text-end">VAT</th>
+                    <th class="text-end">NET PAYABLE</th>
+
+                </tr>
+            </thead>
+            <tbody>
+                <t t-foreach="records" t-as="rec">
+                    <tr>
+                        <td class="text-start">
+                            <span t-esc="rec['slno']"/>
+                        </td>
+                        <td class="text-start">
+                            <span t-esc="rec['policy_holder']"/>
+                        </td>
+                        <td class="text-end">
+                            <span t-esc="rec['claim_count']"
+                                  t-options='{"widget": "float", "precision": 2}'/>
+                        </td>
+                        <td class="text-end">
+                            <span t-esc="rec['approved_total']"
+                                  t-options='{"widget": "float", "precision": 2}'/>
+                        </td>
+                        <td class="text-end">
+                            <span t-esc="rec['discount_total']"
+                                  t-options='{"widget": "float", "precision": 2}'/>
+                        </td>
+                        <td class="text-end">
+                            <span t-esc="rec['co_insurance_total']"
+                                  t-options='{"widget": "float", "precision": 2}'/>
+                        </td>
+                        <td class="text-end">
+                            <span t-esc="rec['claim_untaxed']"
+                                  t-options='{"widget": "float", "precision": 2}'/>
+                        </td>
+                        <td class="text-end">
+                            <span t-esc="rec['claim_tax']" t-options='{"widget": "float", "precision": 2}'/>
+                        </td>
+                        <td class="text-end">
+                            <span t-esc="rec['claim_total']"
+                                  t-options='{"widget": "float", "precision": 2}'/>
+                        </td>
+                    </tr>
+                </t>
+            </tbody>
+            <tfoot>
+                <tr>
+                    <td class="text-start">
+                        <strong>TOTAL</strong>
+                    </td>
+                    <td class="text-start">
+
+                    </td>
+                    <td class="text-end">
+
+                        <span t-esc="sum(rec['claim_count'] for rec in records)"
+                              t-options='{"widget": "float", "precision": 2}'/>
+                    </td>
+                    <td class="text-end">
+                        <span t-esc="sum(rec['approved_total'] for rec in records)"
+                              t-options='{"widget": "float", "precision": 2}'/>
+                    </td>
+                    <td class="text-end">
+
+                        <span t-esc="sum(rec['discount_total'] for rec in records)"
+                              t-options='{"widget": "float", "precision": 2}'/>
+                    </td>
+                    <td class="text-end">
+                        <span t-esc="sum(rec['co_insurance_total'] for rec in records)"
+                              t-options='{"widget": "float", "precision": 2}'/>
+                    </td>
+                    <td class="text-end">
+                        <span t-esc="sum(rec['claim_untaxed'] for rec in records)"
+                              t-options='{"widget": "float", "precision": 2}'/>
+                    </td>
+                    <td class="text-end">
+                        <span t-esc="sum(rec['claim_tax'] for rec in records)"
+                              t-options='{"widget": "float", "precision": 2}'/>
+                    </td>
+                    <td class="text-end">
+                        <span t-esc="sum(rec['claim_total'] for rec in records)"
+                              t-options='{"widget": "float", "precision": 2}'/>
+                    </td>
+                </tr>
+            </tfoot>
+        </table>
+    </template>
+
+    <template id="report_group_summary_statement_page_header">
+        <table class="table table-sm" >
+            <tr>
+                <td class="text-start">TO</td>
+                <td class="text-start">
+                    <t t-esc="insurance_company"/>
+                </td>
+                <td class="text-start">CONFIRMED BY</td>
+                <td class="text-start"></td>
+            </tr>
+            <tr>
+                <td class="text-start">CCHI</td>
+                <td class="text-start">
+                    <span t-esc="provider_data[0]['chi_id']"/>
+                </td>
+                <td class="text-start">MOBILE NO</td>
+                <td class="text-start">
+                    <span t-esc="provider_data[0]['mobile']"/>
+                </td>
+            </tr>
+            <tr>
+                <td class="text-start">PROVIDER CODE</td>
+                <td class="text-start">
+                    <span t-esc="provider_id[0]['provider_id']"/>
+                </td>
+                <td class="text-start">EMAIL</td>
+                <td class="text-start">
+                    <span t-esc="provider_data[0]['email']"/>
+                </td>
+            </tr>
+            <tr>
+                <td class="text-start">PROVIDER NAME</td>
+                <td class="text-start">
+                    <span t-esc="provider_data[0]['name']"/>
+                </td>
+                <td class="text-start">DATE TIME</td>
+                <td class="text-start">
+                    <span t-esc="time.strftime('%d-%m-%Y %H:%M:%S')"/>
+                </td>
+            </tr>
+            <tr>
+                <td class="text-start">CR #</td>
+                <td class="text-start">
+                    <span t-esc="provider_data[0]['company_registry']"/>
+                </td>
+                <td class="text-start"></td>
+                <td class="text-start"></td>
+            </tr>
+
+            <tr>
+                <td class="text-start">BATCH MONTH</td>
+                <td class="text-start">
+                    <t t-esc="date_from" t-options="{'widget': 'date','format': 'dd-MM-yyyy'}"/>
+                    -
+                    <t t-esc="date_to" t-options="{'widget': 'date','format': 'dd-MM-yyyy'}"/>
+                </td>
+                <td class="text-start"></td>
+                <td class="text-start"></td>
+            </tr>
+        </table>
+    </template>
+
+    <template id="report_group_summary_statement_footer">
+        <![CDATA[&nbsp;]]>
+        <table class="table table-sm "
+               style="border-collapse:collapse;border:hidden;margin-bottom:30px;">
+            <tr>
+                <td class="text-left" style="border:hidden;border-top:1px">
+                    <strong>AUTHORIZED NAME :</strong>
+                </td>
+
+            </tr>
+            <tr>
+                <td style="border:hidden;">
+                    <strong>DATE :</strong>
+                </td>
+
+            </tr>
+            <tr>
+
+                <td style="border:hidden;">
+                    <strong>SIGNATURE :</strong>
+                </td>
+
+            </tr>
+            <tr>
+
+                <td style="border:hidden;">
+                    <strong>STAMP :</strong>
+                </td>
+
+            </tr>
+
+        </table>
+    </template>
+
+</odoo>

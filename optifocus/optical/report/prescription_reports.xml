@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+        <record id="action_report_prescription" model="ir.actions.report">
+            <field name="name">Prescription</field>
+            <field name="model">optical.prescription</field>
+            <field name="report_type">qweb-pdf</field>
+            <field name="report_name">optifocus.report_prescription</field>
+            <field name="report_file">optifocus.report_prescription</field>
+            <field name="print_report_name">'Prescription - %s - %s' % ((object.partner_id.name),(object.prescription_date)) </field>
+            <field name="binding_model_id" ref="model_optical_prescription"/>
+            <field name="binding_type">report</field>
+        </record>
+
+</odoo>

@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_audit_claim_wizard" model="ir.ui.view">
+        <field name="name">audit.claim.wizard.form</field>
+        <field name="model">audit.claim.wizard</field>
+        <field name="arch" type="xml">
+            <form string="Audit Claim">
+                <group>
+                    <group>
+                        <field name="insurance_id"/>
+                    </group>
+                    <group>
+                        <field name="date_from"/>
+                        <field name="date_to"/>
+                    </group>
+
+                </group>
+                                <footer>
+                                    <button name="generate_report" string="Print" type="object" class="btn-primary" data-hotkey="q"/>
+                                    <button string="Cancel" class="btn-secondary" special="cancel" data-hotkey="z"/>
+                                </footer>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_audit_claim_form" model="ir.actions.act_window">
+        <field name="name">Audit Claim</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">audit.claim.wizard</field>
+        <field name="view_mode">form</field>
+        <field name="target">new</field>
+    </record>
+</odoo>
