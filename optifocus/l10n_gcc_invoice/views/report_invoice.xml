@@ -1,0 +1,225 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+
+    <template id="arabic_english_invoice" inherit_id="l10n_gcc_invoice.arabic_english_invoice">
+
+
+         <xpath expr="//t[@t-set='address']/address[@t-field='o.partner_id']" position="attributes">
+            <attribute name="t-options">{"widget": "contact", "fields": ["address","phone", "mobile","name"],
+                "no_marker":
+                True,"phone_icons": True}
+            </attribute>
+        </xpath>
+
+
+        <xpath expr="//div[@id='informations']"
+               position="attributes">
+            <attribute name="t-if">o.cust_move_type not in ('claim','member')</attribute>
+        </xpath>
+
+
+        <xpath expr="//div[@id='informations']" position="after" t-if="o.cust_move_type=='claim'">
+            <div id="insurance_information" t-if="o.invoice_line_ids.sale_line_ids.order_id.sale_type=='insurance'"
+                 class="pb-3">
+
+                <div class="row" name="row1">
+                    <div class="col-2">
+                        <strong style="white-space:nowrap">Insurance Company:
+                        </strong>
+                    </div>
+                    <div class="col-2">
+                        <span t-field="o.invoice_line_ids.sale_line_ids.order_id.insurance_id"/>
+                    </div>
+                    <div class="col-1 text-end">
+                        <strong style="white-space:nowrap">:
+                            شركة تأمين
+                        </strong>
+                    </div>
+                    <div class="col-1"/>
+                    <div class="col-2">
+                        <strong style="white-space:nowrap">Invoice Date:
+                        </strong>
+                    </div>
+                    <div class="col-2">
+                        <span t-field="o.invoice_date"/>
+                    </div>
+                    <div class="col-2 text-end">
+                        <strong style="white-space:nowrap">:
+                            تاريخ الفاتورة
+                        </strong>
+                    </div>
+
+                </div>
+                <div class="row" name="row2">
+                    <div class="col-2">
+                        <strong style="white-space:nowrap">Insurance Plan:
+                        </strong>
+                    </div>
+                    <div class="col-2">
+                        <span t-field="o.invoice_line_ids.sale_line_ids.order_id.insurance_company_plan"/>
+                    </div>
+                    <div class="col-1 text-end">
+                        <strong style="white-space:nowrap">:
+                            خطة التأمين
+                        </strong>
+                    </div>
+                    <div class="col-1"/>
+                    <div class="col-2">
+                        <strong style="white-space:nowrap">Due Date:
+                        </strong>
+                    </div>
+                    <div class="col-2">
+                        <span t-field="o.invoice_date_due"/>
+                    </div>
+                    <div class="col-2 text-end">
+                        <strong style="white-space:nowrap">:
+                            تاريخ الاستحقاق
+                        </strong>
+                    </div>
+                </div>
+                <div class="row" name="row3">
+                    <div class="col-2">
+                        <strong style="white-space:nowrap">Policy:
+                        </strong>
+                    </div>
+                    <div class="col-2">
+                        <t t-set="policy"
+                           t-value="o.invoice_line_ids.sale_line_ids.order_id.policy_holder"/>
+                        <p class="m-0" t-esc="policy[:15]"/>
+                    </div>
+                    <div class="col-1 text-end">
+                        <strong style="white-space:nowrap">:
+                            بوليصة التأمين
+                        </strong>
+                    </div>
+
+                    <div class="col-1"/>
+                    <div class="col-2">
+                        <strong style="white-space:nowrap">Delivery Date:
+                        </strong>
+                    </div>
+                    <div class="col-2">
+                        <span t-field="o.l10n_sa_delivery_date"/>
+                    </div>
+                    <div class="col-2 text-end">
+                        <strong style="white-space:nowrap">:
+                            تاريخ او الوصول
+                        </strong>
+                    </div>
+                </div>
+                <div class="row" name="row4">
+                    <div class="col-2">
+                        <strong style="white-space:nowrap">Membership No:
+                        </strong>
+                    </div>
+                    <div class="col-2">
+                        <t t-set="membership_no"
+                           t-value="o.invoice_line_ids.sale_line_ids.order_id.membership_no"/>
+                        <p class="m-0" t-esc="membership_no[:15]"/>
+                    </div>
+                    <div class="col-1 text-end">
+                        <strong style="white-space:nowrap">:
+                            رقم العضوية
+                        </strong>
+                    </div>
+                    <div class="col-1"/>
+                    <div class="col-2">
+                        <strong style="white-space:nowrap">Source:
+                        </strong>
+                    </div>
+                    <div class="col-2">
+                        <span t-field="o.invoice_origin"/>
+                    </div>
+                    <div class="col-2 text-end">
+                        <strong style="white-space:nowrap">:
+                            المصدر
+                        </strong>
+                    </div>
+                </div>
+                <div class="row" name="row5">
+                    <div class="col-2">
+                        <strong style="white-space:nowrap">Approval No:
+                        </strong>
+                    </div>
+                    <div class="col-2">
+                        <span t-field="o.invoice_line_ids.sale_line_ids.order_id.approval_no"/>
+                    </div>
+                    <div class="col-1 text-end">
+                        <strong style="white-space:nowrap">:
+                            عدد الموافقة
+                        </strong>
+                    </div>
+                    <div class="col-1"/>
+                     <div class="col-2">
+                        <strong style="white-space:nowrap">Approval Date:
+                        </strong>
+                    </div>
+                    <div class="col-2">
+                        <span t-field="o.invoice_line_ids.sale_line_ids.order_id.approval_date"/>
+                    </div>
+                    <div class="col-2 text-end">
+                        <strong style="white-space:nowrap">:
+                            تاريخ الموافقة
+                        </strong>
+                    </div>
+
+
+                </div>
+
+            </div>
+
+        </xpath>
+
+        <!--  <table class="table table-sm o_main_table" name="invoice_line_table">-->
+
+        <xpath expr="//table[@name='invoice_line_table']//thead//tr//th[@name='th_description']"
+               position="after">
+            <th name="th_barcode" class="text-end">
+                <span>
+                    الباركود
+                </span>
+                <br/>
+                <span>
+                    Barcode
+                </span>
+            </th>
+        </xpath>
+
+        <xpath expr="//table[@name='invoice_line_table']//tbody//tr//td[@name='account_invoice_line_name']"
+               position="after">
+            <td class="text-end">
+                <span t-field="line.product_id.barcode"/>
+            </td>
+        </xpath>
+
+        <xpath expr="//div[@id='total']/div[1]" position="before">
+            <div t-attf-class="#{'col-5' if report_type != 'html' else 'col-sm-7 col-md-6'}">
+                <!-- Insurance totals -->
+                <t t-if="line.sale_line_ids.order_id.sale_type=='insurance'">
+                    <t t-set="order_id" t-value="line.sale_line_ids.order_id"/>
+                    <t t-set="show_claim_line_flag" t-value="False"/>
+                    <t t-if="o.cust_move_type=='claim'">
+                        <t t-set="show_claim_line_flag" t-value="True"/>
+                    </t>
+                    <t t-call="optifocus.document_insurance_totals"/>
+                </t>
+                <t t-else="">
+                </t>
+            </div>
+            <div t-attf-class="#{'col-1' if report_type != 'html' else 'col-sm-2 col-md-1'}">
+
+            </div>
+        </xpath>
+
+        <xpath expr="//div[@id='total']" position="after">
+            <br/>
+            <div t-if="line.sale_line_ids.order_id.prescription_id" class="row" name="prescription">
+                <t t-set="prescription_id" t-value="line.sale_line_ids.order_id.prescription_id"/>
+                <t t-call="optifocus.report_prescription_document"/>
+            </div>
+        </xpath>
+
+
+    </template>
+</odoo>

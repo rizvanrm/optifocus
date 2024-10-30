@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <template id="report_picking" inherit_id="stock.report_picking">
+
+
+                <xpath expr="//div[hasclass('row','mt48','mb32')]/div['div_origin']" position="before">
+
+                <t t-if="o.picking_type_id.code=='internal' and o.location_dest_id.usage == 'transit'">
+
+                    <div class="col-auto" name="div_source_company">
+                        <strong>Source:</strong>
+                        <p t-field="o.company_id"/>
+
+                    </div>
+                    <div class="col-auto" name="div_destination_company">
+                        <strong>Destination:</strong>
+                        <p t-field="o.company_dest_id"/>
+                    </div>
+                </t>
+
+            </xpath>
+
+
+            <xpath expr="//table[hasclass('table','table-sm')]//thead//tr//th[1]" position="before">
+                    <th name="th_barcode">
+                        <strong>Barcode</strong>
+                    </th>
+
+            </xpath>
+
+
+            <xpath expr="//table[hasclass('table','table-sm')]//tbody//tr//td[1]" position="before">
+                    <td>
+                        <span t-field="ml.product_id.barcode"/>
+                    </td>
+
+            </xpath>
+
+
+            <xpath expr="//table[hasclass('table','table-sm')]//tbody" position="after">
+                    <tfoot>
+                        <tr>
+                            <td colspan="2" class="text-start">
+                                <strong>Total</strong>
+                            </td>
+
+                            <td  class="text-start">
+                                <span t-esc="sum(line.qty_done for line in docs.move_line_ids_without_package)" t-options='{"widget": "float", "precision": 2}'/>
+                            </td>
+                        </tr>
+                    </tfoot>
+
+            </xpath>
+
+
+            <xpath expr="//table[hasclass('table','table-sm')]" position="after">
+                <t t-if="o.picking_type_id.code=='internal' and o.location_dest_id.usage == 'transit'">
+
+                    <br></br>
+                    <br></br>
+                    <br></br>
+                    <br></br>
+                    <br></br>
+
+                    <div class="row mt48 mb32">
+                        <div class="col-auto">
+                            <strong>Sent By</strong>
+                        </div>
+                        <div class="col-auto">
+                            <strong>Driver</strong>
+                        </div>
+                        <div class="col-auto">
+                            <strong>Received By</strong>
+                        </div>
+                    </div>
+                </t>
+            </xpath>
+
+        </template>
+    </data>
+</odoo>

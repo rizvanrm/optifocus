@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+
+    <record id="view_purchase_order_search" model="ir.ui.view">
+        <field name="name">report.purchase.order.search</field>
+        <field name="model">purchase.report</field>
+        <field name="inherit_id" ref="purchase.view_purchase_order_search"/>
+
+        <field name="arch" type="xml">
+
+            <xpath expr="/search/group[1]/field[@name='category_id']" position="after">
+                <field name="brand_id"/>
+            </xpath>
+
+            <xpath expr="/search/group[2]/filter[@name='group_partner_id']" position="before">
+                    <xpath expr="/search/group[2]/filter[@name='company']" position="move"/>
+                </xpath>
+
+             <xpath expr="/search/group[2]/filter[@name='user_id']" position="after">
+                    <xpath expr="/search/group[2]/filter[@name='group_category_id']" position="move"/>
+             </xpath>
+
+              <xpath expr="/search/group[2]/filter[@name='user_id']" position="after">
+                    <xpath expr="/search/group[2]/filter[@name='group_category_id']" position="move"/>
+             </xpath>
+                <xpath expr="/search/group[2]/filter[@name='group_category_id']"
+                   position="after">
+                <filter string="Brand" name="brand_id" context="{'group_by':'brand_id'}"/>
+              </xpath>
+
+
+        </field>
+
+
+    </record>
+
+
+
+
+
+</odoo>

@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_undelivered_orders_wizard" model="ir.ui.view">
+        <field name="name">stock.picking.wizard</field>
+        <field name="model">stock.picking.wizard</field>
+        <field name="arch" type="xml">
+            <form string="Undelivered Orders">
+                <group>
+                    <group>
+                        <field name="sale_type"/>
+                    </group>
+                    <group>
+                        <field name="date_from"/>
+                        <field name="date_to"/>
+                    </group>
+                    <group>
+                        <field name="partially_or_not_paid"/>
+                    </group>
+
+                </group>
+                                <footer>
+                                    <button name="generate_report" string="Print" type="object" class="btn-primary" data-hotkey="q"/>
+                                    <button string="Cancel" class="btn-secondary" special="cancel" data-hotkey="z"/>
+                                </footer>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_undelivered_orders_wizard" model="ir.actions.act_window">
+        <field name="name">Undelivered Orders</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">stock.picking.wizard</field>
+        <field name="view_mode">form</field>
+        <field name="target">new</field>
+    </record>
+
+    <menuitem
+            id="sale_undelivered_orders"
+            name="Undelivered Orders"
+           parent="sale.menu_sale_report"
+            action="action_undelivered_orders_wizard"
+            sequence="60"/>
+
+    <menuitem
+            id="stock_undelivered_orders"
+            name="Undelivered Orders"
+            parent="stock.menu_warehouse_report"
+            action="action_undelivered_orders_wizard"
+            sequence="40"/>
+
+
+
+</odoo>

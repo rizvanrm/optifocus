@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="1">
+        <record id="product_brand_1" model="product.brand">
+            <field name="name">RAYBAN</field>
+            <field name="barcode_prefix"></field>
+        </record>
+
+        <record id="product_model_1" model="product.model1">
+            <field name="brand_id" ref="optifocus.product_brand_1"/>
+            <field name="name">RB 6497</field>
+        </record>
+        <record id="product_model_2" model="product.model1">
+            <field name="brand_id" ref="optifocus.product_brand_1"/>
+            <field name="name">RB 3708</field>
+        </record>
+
+         <record id="product_brand_2" model="product.brand">
+            <field name="name">ACUVUE1</field>
+            <field name="barcode_prefix"></field>
+        </record>
+
+        <record id="product_model_3" model="product.model1">
+            <field name="brand_id" ref="optifocus.product_brand_2"/>
+            <field name="name">1-DAY OASYS HYDRALUXE</field>
+        </record>
+        <record id="product_model_4" model="product.model1">
+            <field name="brand_id" ref="optifocus.product_brand_2"/>
+            <field name="name">OASYS WITH HYDRACLEAR PLUS</field>
+        </record>
+
+         <record id="product_brand_3" model="product.brand">
+            <field name="name">ESSILOR1</field>
+            <field name="barcode_prefix"></field>
+        </record>
+
+        <record id="product_model_5" model="product.model1">
+            <field name="brand_id" ref="optifocus.product_brand_3"/>
+            <field name="name">BLUE UV CAPTURE 1.59 AIRWEAR</field>
+        </record>
+        <record id="product_model_6" model="product.model1">
+            <field name="brand_id" ref="optifocus.product_brand_3"/>
+            <field name="name">TRANSITION 1.61 ORMIX</field>
+        </record>
+
+        <record id="product_brand_4" model="product.brand">
+            <field name="name">COOPER VISION1</field>
+            <field name="barcode_prefix"></field>
+        </record>
+
+        <record id="product_model_7" model="product.model1">
+            <field name="brand_id" ref="optifocus.product_brand_4"/>
+            <field name="name">BIOMEDICS SOLUTION</field>
+        </record>
+
+         <record id="product_brand_5" model="product.brand">
+            <field name="name">PERSOL</field>
+            <field name="barcode_prefix"></field>
+        </record>
+
+        <record id="product_model_8" model="product.model1">
+            <field name="brand_id" ref="optifocus.product_brand_5"/>
+            <field name="name">SFUMATO MARRONE 75%</field>
+
+        </record>
+        <record id="product_model_9" model="product.model1">
+            <field name="brand_id" ref="optifocus.product_brand_5"/>
+            <field name="name">ORGADUR MELANIN 75 %</field>
+        </record>
+
+
+         <record id="product_brand_6" model="product.brand">
+            <field name="name">MAUI JIM1</field>
+            <field name="barcode_prefix"></field>
+        </record>
+
+        <record id="product_model_10" model="product.model1">
+            <field name="brand_id" ref="optifocus.product_brand_6"/>
+            <field name="name">MJ.178</field>
+
+        </record>
+        <record id="product_model_11" model="product.model1">
+            <field name="brand_id" ref="optifocus.product_brand_6"/>
+            <field name="name">MJ.202</field>
+        </record>
+
+
+
+
+    </data>
+</odoo>

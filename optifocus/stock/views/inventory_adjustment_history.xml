@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="inventory_adjustment_form_view" model="ir.ui.view">
+        <field name="name">stock.inventory.adjustment.history.form</field>
+        <field name="model">stock.inventory.adjustment.history</field>
+        <field name="arch" type="xml">
+            <form string="Inventory Adjustment" edit="0" delete="false" duplicate="false" create="false">
+
+                <sheet>
+                        <label for="name"/>
+                        <h1><field name="name" /></h1>
+                    <group >
+                            <field name="create_date"/>
+                    </group>
+
+
+                    <notebook>
+                        <page string="Inventory Adjustment Lines">
+
+                            <field name="inventory_adjustment_history_line" >
+                                <tree >
+                                    <field name="location_id"  optional="hide"/>
+                                    <field name="barcode"/>
+                                    <field name="product_id"/>
+                                    <field name="list_price"/>
+                                    <field name="quantity"/>
+                                    <field name="value"/>
+                                    <field name="inventory_quantity"/>
+                                    <field name="inventory_value"/>
+                                    <field name="inventory_diff_quantity"/>
+                                    <field name="inventory_diff_value"/>
+
+
+
+                                </tree>
+
+                            </field>
+
+                        </page>
+                    </notebook>
+
+
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+
+
+
+    <record id="inventory_adjustment_tree_view" model="ir.ui.view">
+        <field name="name">stock.inventory.adjustment.history.tree</field>
+        <field name="model">stock.inventory.adjustment.history</field>
+        <field name="arch" type="xml">
+            <tree string="Inventory Adjustment" edit="0" delete="false" duplicate="false" create="false">
+                <field name="name"/>
+                <field name="create_date"/>
+                <field name="company_id"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="inventory_adjustment_search_view" model="ir.ui.view">
+        <field name="name">stock.inventory.adjustment.history.search</field>
+        <field name="model">stock.inventory.adjustment.history</field>
+        <field name="arch" type="xml">
+            <search string="Inventory Adjustment">
+                <!-- Search by Search-->
+                <field name="name"/>
+
+
+                <!-- Search by Filters-->
+<!--                         <filter string="TAWUNIYA" name="tawuniya" domain="[('insurance_company','=', 'TAWUNIY')]"/>-->
+                <filter string="Create Date" name="filter_create_date" date="create_date"/>
+                <!-- Search by  Group by -->
+                         <filter name="company_id" string="Company" context="{'group_by':'company_id'}"/>
+                        <filter string="Create Date" name="create_month" domain="[]"
+                        context="{'group_by': 'create_date'}"/>
+            </search>
+
+        </field>
+    </record>
+
+    <record id="action_inventory_adjustment_tree" model="ir.actions.act_window">
+        <field name="name">Inventory Adjustment</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">stock.inventory.adjustment.history</field>
+        <field name="view_mode">tree,form,kanban</field>
+    </record>
+
+       <menuitem
+            id="menu_item_inventory_adjustment_tree"
+            name="Inventory Adjustment History"
+            parent="stock.menu_warehouse_report"
+            action="action_inventory_adjustment_tree"
+            sequence="40"/>
+
+
+
+</odoo>

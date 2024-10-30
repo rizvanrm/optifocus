@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+
+    <record id="stock_scrap_form_view" model="ir.ui.view">
+        <field name="name">stock.scrap.form</field>
+        <field name="model">stock.scrap</field>
+        <field name="inherit_id" ref="stock.stock_scrap_form_view"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='product_id']" position="after">
+                <field name="product_barcode_id"/>
+            </xpath>
+            <xpath expr="/form/sheet/group/group/div" position="after">
+                <field name="product_standard_price_id"/>
+                <field name="total"/>
+            </xpath>
+            <xpath expr="//field[@name='origin']" position="after">
+                <field name="employee_id"/>
+            </xpath>
+        </field>
+    </record>
+
+    <record id="stock_scrap_tree_view" model="ir.ui.view">
+        <field name="name">stock.scrap.tree</field>
+        <field name="model">stock.scrap</field>
+        <field name="inherit_id" ref="stock.stock_scrap_tree_view"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='scrap_location_id']" position="after">
+                <field name="origin"/>
+                <field name="employee_id"/>
+            </xpath>
+            <xpath expr="//field[@name='product_id']" position="after">
+                <field name="product_barcode_id"/>
+            </xpath>
+            <xpath expr="//field[@name='scrap_qty']" position="after">
+
+                <field name="product_standard_price_id"/>
+                <field name="total" sum="Sum of Total"/>
+            </xpath>
+             <xpath expr="field[@name='scrap_qty']"   position="attributes">
+                <attribute name="sum">Sum of Qty</attribute>
+            </xpath>
+
+        </field>
+    </record>
+
+    <record id="stock_scrap_search_view" model="ir.ui.view">
+        <field name="name">stock.scrap.search</field>
+        <field name="model">stock.scrap</field>
+        <field name="inherit_id" ref="stock.stock_scrap_search_view"/>
+        <field name="arch" type="xml">
+
+            <xpath expr="//field[@name='scrap_location_id']" position="after">
+                <field name="employee_id"/>
+            </xpath>
+            <xpath expr="//filter[@name='transfer']" position="after">
+                <filter string="Employee" name="employee" domain="[]" context="{'group_by':'employee_id'}"/>
+            </xpath>
+
+            <search string="Search Scrap">
+
+                <!-- Search by Search-->
+
+                <!-- Search by Filters-->
+                <filter string="Done" name="done" domain="[('state','=', 'done')]"/>
+                <filter string="Draft" name="draft" domain="[('state','=', 'draft')]"/>
+                <separator/>
+                <filter string="Date" name="date_done" date="date_done"/>
+                <!-- Search by  Group by -->
+                <filter string="Date" name="scrap_date" domain="[]" context="{'group_by': 'date_done'}"/>
+            </search>
+
+        </field>
+    </record>
+
+
+</odoo>

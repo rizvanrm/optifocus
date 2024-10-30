@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+    <data >
+
+
+
+        <record model="res.company" id="base.main_company">
+            <field name="name">AL BASHAWRI OPTICAL (HEAD OFFICE) </field>
+            <field name="street">AL MARQAB </field>
+            <field name="street2">AL BATHA </field>
+            <field name="city">RIYADH </field>
+            <field name="state_id" ref="base.state_sa_70"/>
+            <field name="zip">12645 </field>
+            <field name="country_id" ref="base.sa"/>
+            <field name="chi_id">1234 </field>
+            <field name="nphies_id">4567 </field>
+        </record>
+
+
+
+        <record model="res.company" id="rc_yar">
+            <field name="name">AL BASHAWRI OPTICAL (AL YARMUK) </field>
+            <field name="street">IMAM ABDULLAH IBN SAUD IBN ABDULAZIZ RD </field>
+            <field name="street2">AL YARMUK </field>
+            <field name="city">RIYADH </field>
+            <field name="state_id" ref="base.state_sa_70"/>
+            <field name="zip">13316 </field>
+            <field name="country_id" ref="base.sa"/>
+            <field name="chi_id">123 </field>
+            <field name="nphies_id">456 </field>
+        </record>
+
+        <record model="res.company" id="rc_rab">
+            <field name="name">AL BASHAWRI OPTICAL (AL RABEA) </field>
+            <field name="street">KING ABDULAZIZ RD </field>
+            <field name="street2">AL RABI </field>
+            <field name="city">RIYADH </field>
+            <field name="state_id" ref="base.state_sa_70"/>
+            <field name="zip">13316 </field>
+            <field name="country_id" ref="base.sa"/>
+            <field name="chi_id">789 </field>
+            <field name="nphies_id">101 </field>
+        </record>
+
+
+
+
+    </data>
+</odoo>

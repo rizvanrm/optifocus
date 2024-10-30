@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+        <record id="stock.product_template_action_product" model="ir.actions.act_window">
+        <field name="view_mode">tree,form,kanban</field>
+        </record>
+
+        <record id="account.res_partner_action_customer" model="ir.actions.act_window">
+        <field name="context">{'search_default_customer': 1,'res_partner_search_mode': 'customer', 'default_is_company':
+           False, 'default_customer_rank': 1}
+        </field>
+        <field name="view_mode">tree,form,kanban</field>
+        </record>
+
+        <!-- Stock Report View -->
+        <record model="ir.ui.view" id="product_product_stock_tree">
+        <field name="name">product.product.stock.tree</field>
+        <field name="model">product.product</field>
+        <field name="inherit_id" ref="stock.product_product_stock_tree"/>
+        <field name="priority" eval="100"/>
+        <field name="arch" type="xml">
+
+            <xpath expr="//field[@name='display_name']" position="before">
+                <field name="barcode"/>
+            </xpath>
+
+            <xpath expr="//field[@name='categ_id']" position="after">
+                <field name="brand_id"/>
+                <field name="model1_id"/>
+
+            </xpath>
+            <xpath expr="//field[@name='model1_id']" position="after">
+                    <field name="list_price" optional="hide"/>
+            </xpath>
+
+            <xpath expr="//field[@name='free_qty']" position="attributes">
+                <attribute name="optional">show</attribute>
+            </xpath>
+        </field>
+    </record>
+
+        <record id="view_stock_product_tree" model="ir.ui.view">
+            <field name="name">product.stock.tree.inherit</field>
+            <field name="model">product.product</field>
+            <field name="inherit_id" ref="product.product_product_tree_view"/>
+            <field name="arch" type="xml">
+                  <xpath expr="//field[@name='virtual_available']" position="attributes">
+                        <attribute name="optional">hide</attribute>
+                  </xpath>
+            </field>
+        </record>
+
+
+    </data>
+</odoo>

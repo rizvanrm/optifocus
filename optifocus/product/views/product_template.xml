@@ -1,0 +1,139 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+
+
+    <record id="product_template_form_view" model="ir.ui.view">
+        <field name="name">product.template.form</field>
+        <field name="model">product.template</field>
+        <field name="inherit_id" ref="product.product_template_only_form_view"/>
+        <field name="arch" type="xml">
+
+             <xpath expr="//field[@name='name']" position="attributes">
+                <attribute name="placeholder">e.g. RAY-BAN , RB 3708 , 002/K8 , GRY/PLZ , 56 , PLASTIC</attribute>
+            </xpath>
+
+             <xpath expr="//div[@name='options']/span[2]" position="after">
+                  <span class="d-inline-block">
+                            <field name="insurance_sale_ok"/>
+                            <label for="insurance_sale_ok"/>
+                  </span>
+            </xpath>
+
+
+           <xpath expr="//page[@name='variants']/field[@name='attribute_line_ids']" position="before">
+               <group>
+                    <group>
+                        <field name="brand_id" options="{'no_quick_create': True}"/>
+                        <field name="model1_id" options="{'no_quick_create': True, 'no_create_edit' : True}"/>
+                    </group>
+
+                </group>
+            </xpath>
+
+
+
+             <xpath expr="/form/sheet/notebook" position="before">
+                    <group>
+                     <group name="categ_id">
+                     </group>
+                     <group name="barcode">
+                     </group>
+                    </group>
+             </xpath>
+             <xpath expr="//group[@name='categ_id']" position="inside">
+                 <xpath expr="//field[@name='categ_id']" position="move"/>
+             </xpath>
+
+            <xpath expr="//group[@name='barcode']" position="inside">
+                     <xpath expr="//field[@name='barcode']" position="move"/>
+            </xpath>
+
+            <xpath expr="//notebook" position="inside">
+                    <page name="discount" string="Discount" >
+                    <group name="max_line_discount" string="Max Line Discount">
+                        <group>
+                            <field name="max_retail_line_discount"/>
+                        </group>
+                        <group>
+                            <field name="max_wholesale_line_discount"/>
+                        </group>
+                     </group>
+                </page>
+            </xpath>
+
+        </field>
+    </record>
+
+
+    <record id="product_template_tree_view" model="ir.ui.view">
+        <field name="name">product.template.tree</field>
+        <field name="model">product.template</field>
+        <field name="inherit_id" ref="product.product_template_tree_view"/>
+        <field name="arch" type="xml">
+
+            <xpath expr="//field[@name='name']" position="before">
+                <xpath expr="//field[@name='barcode']" position="move"/>
+
+            </xpath>
+
+            <xpath expr="//field[@name='categ_id']" position="after">
+                <field name="brand_id"/>
+                <field name="model1_id"/>
+            </xpath>
+
+           <xpath expr="//field[@name='qty_available']" position="before">
+                <xpath expr="//field[@name='list_price']" position="move"/>
+           </xpath>
+
+            <xpath expr="//field[@name='default_code']" position="attributes">
+                <attribute name="invisible">1</attribute>
+            </xpath>
+            <xpath expr="//field[@name='responsible_id']" position="attributes">
+                <attribute name="invisible">1</attribute>
+            </xpath>
+            <xpath expr="//field[@name='product_tag_ids']" position="attributes">
+                <attribute name="invisible">1</attribute>
+            </xpath>
+            <xpath expr="//field[@name='standard_price']" position="attributes">
+                <attribute name="invisible">1</attribute>
+            </xpath>
+            <xpath expr="//field[@name='virtual_available']" position="attributes">
+                <attribute name="invisible">1</attribute>
+            </xpath>
+            <tree>
+
+            </tree>
+
+
+        </field>
+    </record>
+
+    <record id="product_template_search_view" model="ir.ui.view">
+        <field name="name">product.template.tree</field>
+        <field name="model">product.template</field>
+        <field name="inherit_id" ref="product.product_template_search_view"/>
+        <field name="arch" type="xml">
+
+
+            <search>
+                <!-- Search by Search-->
+
+                <field name="brand_id"/>
+                <field name="model1_id"/>
+                <!-- Search by Filters-->
+                <filter string="Frame" name="frame" domain="[('categ_id','=', 'All / FRAME')]"/>
+                <filter string="Sunglass" name="frame" domain="[('categ_id','=', 'All / SUNGLASS')]"/>
+                <filter string="Power Lens" name="frame" domain="[('categ_id','=', 'All / POWER LENS')]"/>
+                <filter string="Contact Lens" name="frame" domain="[('categ_id','=', 'All / CONTACT LENS')]"/>
+                <filter string="Sun Lens" name="frame" domain="[('categ_id','=', 'All / SUN LENS')]"/>
+                <filter string="Solution" name="frame" domain="[('categ_id','=', 'All / SOLUTION')]"/>
+                <filter string="Accessory" name="frame" domain="[('categ_id','=', 'All / ACCESSORY')]"/>
+                <!-- Search by  Group by -->
+                <filter name="product_brand" string="Brand" context="{'group_by':'brand_id'}"/>
+                <filter name="product_model" string="Model" context="{'group_by':'model1_id'}"/>
+            </search>
+
+        </field>
+    </record>
+
+</odoo>

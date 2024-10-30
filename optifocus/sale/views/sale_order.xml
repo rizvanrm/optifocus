@@ -1,0 +1,609 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+
+<data>
+ <record id="model_sale_order_action_generate_claim" model="ir.actions.server">
+        <field name="name">Generate Claim</field>
+        <field name="model_id" ref="sale.model_sale_order"/>
+        <field name="binding_model_id" ref="sale.model_sale_order"/>
+        <field name="binding_view_types">form,list</field>
+        <field name="state">code</field>
+        <field name="code">action = records.generate_claim()</field>
+
+ </record>
+
+
+
+
+    <record id="sale_order_form_view" model="ir.ui.view">
+        <field name="name">sale.order.form</field>
+        <field name="model">sale.order</field>
+        <field name="inherit_id" ref="sale.view_order_form"/>
+        <field name="arch" type="xml">
+
+           <xpath expr="//div[@name='button_box']" position="inside">
+                <button name="action_view_claim"
+                        type="object"
+                        class="oe_stat_button"
+                        icon="fa-list-alt"
+                        attrs="{'invisible': [('claim_count', '=', 0)]}">
+                        <field name="claim_count" widget="statinfo" string="Claim"/>
+                    </button>
+            </xpath>
+
+            <xpath expr="//field[@name='partner_id']" position="before">
+                <field name="order_line_count" invisible="1"/>
+                <field name="sale_type"
+
+                attrs="{'readonly': ['|',('state', 'not in', ('draft')),('order_line_count', '>', (0))]
+                    }"  force_save = "1"/>
+<!--                widget="radio" options="{'horizontal': true}"-->
+            </xpath>
+
+            <xpath expr="//field[@name='partner_id']" position="attributes">
+                <attribute name="options">{'no_quick_create': True}</attribute>
+            </xpath>
+
+            <xpath expr="//tree/field[@name='price_unit']" position="attributes">
+                <attribute name="readonly">1</attribute>
+            </xpath>
+            <xpath expr="//tree/field[@name='product_template_id']" position="attributes">
+                <attribute name="attrs">{'readonly': [('state', 'in', ['waiting_approval','approve'])]}</attribute>
+            </xpath>
+            <xpath expr="//tree/field[@name='name']" position="attributes">
+                <attribute name="attrs">{'readonly': [('state', 'in', ['waiting_approval','approve'])]}</attribute>
+            </xpath>
+            <xpath expr="//tree/field[@name='product_uom_qty']" position="attributes">
+                <attribute name="attrs">{'readonly': [('state', 'in', ['waiting_approval','approve'])]}</attribute>
+            </xpath>
+
+            <xpath expr="/form/header/button[@name='action_quotation_send']" position="after">
+                <button name="action_request_send" string="Send Insurance Request" type="object" class="btn-primary"
+                        attrs="{'invisible': ['|',('sale_type', '!=', 'insurance'),
+                                              '&amp;',('sale_type', '=','insurance'),('state', 'not in', ['draft','sent','revert'])]}"
+                        groups="!optifocus.group_insurance_supervisor"/>
+                <button name="action_approve" string="Approve" type="object" states="waiting_approval"
+                        class="btn-primary"
+                        groups="optifocus.group_insurance_supervisor,base.group_system"/>
+                <button name="action_reject" string="Reject" type="object" states="waiting_approval" class="btn-primary"
+                        groups="optifocus.group_insurance_supervisor,base.group_system"/>
+            </xpath>
+
+
+
+            <xpath expr="/form/header/button[@name='action_confirm']" position="after">
+                <button name="action_revert" string="Revert" type="object" class="btn-primary"
+                        attrs="{'invisible': ['|',('sale_type', '!=', 'insurance'),
+                                              '&amp;', ('sale_type', '=','insurance'),('state', 'in', ['draft','waiting_approval','sale','cancel'])
+                                              ]}" groups="!optifocus.group_insurance_supervisor"/>
+            </xpath>
+
+
+
+
+
+            <xpath expr="/form/header/button[@name='action_confirm']" position="after">
+                <button name="action_revert" string="Revert" type="object" class="btn-primary"
+                        attrs="{'invisible': ['|',('sale_type', '!=', 'insurance'),
+                                              '&amp;', ('sale_type', '=','insurance'),('state', 'not in', ['waiting_approval'])
+                                              ]}" groups="optifocus.group_insurance_supervisor,base.group_system"/>
+            </xpath>
+
+
+            <xpath expr="//button[@name='action_quotation_send'][1]" position="attributes">
+                <attribute name="groups">!optifocus.group_insurance_supervisor</attribute>
+            </xpath>
+            <xpath expr="//button[@name='action_quotation_send'][4]" position="attributes">
+                <attribute name="groups">!optifocus.group_insurance_supervisor</attribute>
+            </xpath>
+            <xpath expr="//button[@id='create_invoice']" position="attributes">
+                <attribute name="groups">!optifocus.group_insurance_supervisor</attribute>
+            </xpath>
+
+
+
+            <button id="create_invoice" name="%(sale.action_view_sale_advance_payment_inv)d" string="Create Invoice"
+                    type="action" class="btn-primary" data-hotkey="q"
+                    attrs="{'invisible': [('invoice_status', '!=', 'to invoice')]}"/>
+
+
+            <xpath expr="//button[@name='action_confirm'][1]" position="attributes">
+                <attribute name="attrs">{'invisible': [('state', 'not in', ['sent','approve'])]}</attribute>
+                <attribute name="groups">!optifocus.group_insurance_supervisor</attribute>
+            </xpath>
+            <xpath expr="//button[@name='action_confirm'][2]" position="attributes">
+                <attribute name="attrs">{'invisible': [ '|', ('sale_type', '=', 'insurance'),
+                    '&amp;',('sale_type', '!=','insurance') ,('state', '!=', 'draft') ]}
+                </attribute>
+                <attribute name="groups">!optifocus.group_insurance_supervisor</attribute>
+            </xpath>
+
+            <xpath expr="/form/header/button[@name='action_cancel']" position="attributes">
+                <attribute name="attrs">{'invisible': ['|', ('state', 'not in', ['draft', 'sent','reject','sale']),
+                    ('id', '=', False)]}
+                </attribute>
+                <attribute name="groups">!optifocus.group_insurance_supervisor</attribute>
+            </xpath>
+
+
+
+
+            <xpath expr="/form/header/field[@name='state']" position="replace">
+                <field name="state" widget="statusbar"
+                       statusbar_visible="draft,sent,waiting_approval,approve,reject,sale"
+                       attrs="{'invisible': [('sale_type', 'not in', ['insurance'])]}"/>
+                <field name="state" widget="statusbar" statusbar_visible="draft,sent,sale"
+                       attrs="{'invisible': [('sale_type', 'in', ['insurance'])]}"/>
+            </xpath>
+
+
+            <field name="partner_invoice_id" position="attributes">
+                <attribute name="invisible">1</attribute>
+            </field>
+
+
+            <field name="partner_shipping_id" position="attributes">
+                <attribute name="invisible">1</attribute>
+            </field>
+            <xpath expr="//group[@name='sale_header']" position="attributes">
+                <attribute name="col">3</attribute>
+            </xpath>
+
+
+            <xpath expr="//field[@name='sale_order_template_id']" position="attributes">
+                <attribute name="invisible">1</attribute>
+            </xpath>
+
+            <xpath expr="//field[@name='pricelist_id']" position="attributes">
+                <attribute name="attrs">{'readonly': [('sale_type', 'in',
+                    ['retail', 'insurance'])]}
+                </attribute>
+            </xpath>
+            <label for="pricelist_id" position="attributes">
+                <attribute name="attrs">{'readonly': [('sale_type', 'in', ['retail', 'insurance'])]}</attribute>
+            </label>
+
+
+            <xpath expr="//field[@name='partner_id']" position="after">
+                <field name="mobile" placeholder="Mobile"/>
+                <field name="id_no" attrs="{'invisible': [('sale_type', 'in', ['retail', 'wholesale'])]}"/>
+                <field name="birth_date" attrs="{'invisible': [('sale_type', 'in', ['retail', 'wholesale'])]}"/>
+                <field name="prescription_id" attrs="{'invisible': [('sale_type', 'in', ['wholesale'])],'readonly': [('state', 'in', ['waiting_approval','approve'])]}"
+                                               domain="[('partner_id', '=', partner_id)]"
+                                               context = "{'default_partner_id': partner_id}"
+                                               options="{'no_quick_create': True}"
+                />
+
+
+            </xpath>
+            <xpath expr="//group[@name='order_details']" position="after">
+                <group name="insurance_details">
+
+
+                    <field name="insurance_id" attrs="{
+                    'invisible': [('sale_type', 'in', ['retail', 'wholesale'])],
+                    'readonly': ['|',('state', 'not in', ('draft')),('order_line_count', '>', (0))]
+                    }" options="{'no_create': True}"  force_save = "1"/>
+
+
+                    <label for="policy_id" string="Policy"
+                           attrs="{'invisible': [('sale_type', 'in', ['retail', 'wholesale'])]}"/>
+
+                    <div>
+                        <field name="policy_id" placeholder="e.g. 856948" style="width: 50%"
+                               domain="[('insurance_company', '=', insurance_id)]"
+                               attrs="{'invisible': [('sale_type', 'in', ['retail', 'wholesale'])],
+                                       'readonly': [('state', 'not in', ('draft'))]}"
+                               options="{'no_quick_create': True}"/>
+                        <field name="policy_class_id" placeholder="e.g. A" style="width: 50%"
+                               domain="[('policy_id', '=', policy_id)]"
+                               attrs="{'invisible': [('sale_type', 'in', ['retail', 'wholesale'])],
+                                       'readonly': [('state', 'not in', ('draft'))]}"
+                               options="{'no_create': True}"/>
+                    </div>
+
+                    <field name="membership_no"
+                           attrs="{'invisible': [('sale_type', 'in', ['retail', 'wholesale'])],
+                                   'readonly': [('state', 'in', ['waiting_approval','approve'])]}"/>
+                    <field name="approval_no" class="oe_inline"
+                           attrs="{'invisible': [('sale_type', 'in', ['retail', 'wholesale'])],
+                           'readonly': [('state', 'in', ['approve'])]}"/>
+                    <field name="approval_date"
+                           attrs="{'invisible': [('sale_type', 'in', ['retail', 'wholesale'])],
+                           'readonly': [('state', 'in', ['approve'])]}"/>
+
+
+                    <field name="request_filename" invisible="1"/>
+                    <field name="prescription_filename" invisible="1"/>
+                    <field name="approval_filename" invisible="1"/>
+
+                    <field name="request_attach_id" placeholder="Reqeust" filename="request_filename"
+                           widget="work_permit_upload"
+                           attrs="{'invisible': [('sale_type', 'in', ['retail', 'wholesale'])],
+                                    'readonly': [('state', 'in', ['waiting_approval','approve'])]}"/>
+                    <field name="prescription_attach_id" filename="prescription_filename" widget="work_permit_upload"
+                           attrs="{'invisible': [('sale_type', 'in', ['retail', 'wholesale'])],
+                                    'readonly': [('state', 'in', ['waiting_approval','approve'])]}"/>
+                    <field name="approval_attach_id" filename="approval_filename" widget="work_permit_upload"
+                           attrs="{'invisible': [('sale_type', 'in', ['retail', 'wholesale'])],
+                                    'readonly': [('state', 'in', ['approve'])]}"/>
+
+                </group>
+            </xpath>
+
+
+            <xpath expr="//field[@name='date_order'][2]" position="attributes">
+                         <attribute name="attrs">{'readonly': [('state', 'in', ['waiting_approval','approve'])]}</attribute>
+            </xpath>
+            <xpath expr="//field[@name='validity_date']" position="attributes">
+                         <attribute name="attrs">{'invisible':  ['|',('sale_type', 'in', ['retail','insurance']),('state', 'in', ['sale', 'done'])]}</attribute>
+                [('state', 'in', ['sale', 'done'])]
+            </xpath>
+
+            <xpath expr="//div[hasclass('o_td_label')][2]" position="attributes">
+                <attribute name="attrs">{'invisible': [('state', 'in', ['draft', 'sent','waiting_approval','approve' ])]}
+                </attribute>
+            </xpath>
+             <xpath expr="//field[@name='date_order'][2]" position="attributes">
+                <attribute name="attrs">{'invisible': [('state', 'in', ['draft', 'sent','waiting_approval','approve' ])]}
+                </attribute>
+            </xpath>
+
+            <xpath expr="//div[hasclass('o_row')]" position="after">
+                <field name="delivery_status"    attrs="{'invisible': [('state', 'in', ['draft', 'sent','waiting_approval','approve'])]}"/>
+                <field name="invoice_status"    attrs="{'invisible': [('state', 'in', ['draft', 'sent','waiting_approval','approve'])]}"/>
+            </xpath>
+
+
+
+            <xpath expr="//field[@name='payment_term_id']" position="attributes">
+                <attribute name="attrs">{'invisible': ['|',('state', 'in', ['sale', 'done']),('sale_type', 'in',
+                    ['retail', 'insurance'])]}
+                </attribute>
+                <attribute name="required">false</attribute>
+            </xpath>
+
+            <xpath expr="//field[@name='sale_type']" position="after">
+                <xpath expr="//field[@name='user_id']" position="move"/>
+            </xpath>
+
+             <xpath expr="//group[@name='note_group']" position="before">
+                 <div class="oe_right">
+                    <button name="%(optifocus.sale_discount_wizard_action)d" class="btn btn-secondary" string="Discount"
+                            type="action"
+
+                            attrs="{'invisible': ['|', ('state', 'not in', ['draft','sent','sale']),('sale_type', '=', 'insurance')]}"/>
+
+                </div>
+            </xpath>
+
+            <xpath expr="//field[@name='user_id']" position="attributes">
+                 <attribute name="attrs">{'readonly': [('state', 'in', ['waiting_approval','approve'])]}</attribute>
+            </xpath>
+
+            <xpath expr="//field[@name='partner_id']" position="attributes">
+                 <attribute name="attrs">{'readonly': [('state', 'in', ['waiting_approval','approve','sale'])]}</attribute>
+            </xpath>
+
+
+            <xpath expr="//field[@name='order_line']" position="attributes">
+                 <attribute name="attrs">{'readonly': [('state', 'in', ['waiting_approval','sale'])]}</attribute>
+            </xpath>
+
+
+
+        </field>
+
+    </record>
+
+
+
+
+    <record id="sale_order_policy_form_view" model="ir.ui.view">
+        <field name="name">sale.order.policy</field>
+        <field name="model">sale.order</field>
+        <field name="inherit_id" ref="sale.view_order_form"/>
+        <field name="arch" type="xml">
+
+            <xpath expr="//page[@name='customer_signature']" position="after">
+                <page name="policy" string="Policy"
+                      attrs="{'invisible': [('sale_type', 'in', ['retail', 'wholesale'])]}">
+                    <group>
+                        <group name="policy" string="policy">
+                            <field name="policy_holder"/>
+                            <field name="inception_date"/>
+                            <field name="expiry_date"/>
+                            <field name="co_insurance_type"/>
+                            <field name="co_insurance_percent"
+                                   attrs="{'invisible': [('co_insurance_type', '=', 'fixed')]}"/>
+                            <field name="up_to"/>
+                        </group>
+                        <group name="insurance" string="insurance">
+                            <field name="insurance_company_plan"/>
+                            <field name="insurance_discount"/>
+                            <field name="member_discount"/>
+                        </group>
+                    </group>
+                </page>
+            </xpath>
+        </field>
+    </record>
+
+
+
+
+    <record id="sale_order_line_form_view" model="ir.ui.view">
+        <field name="name">sale.order.form</field>
+        <field name="model">sale.order</field>
+        <field name="inherit_id" ref="sale.view_order_form"/>
+
+        <field name="arch" type="xml">
+
+            <xpath expr="/form/sheet/notebook/page/field[@name='order_line']/tree/field[@name='product_template_id']" position="attributes">
+                    <attribute name="options">{'no_quick_create': True,'no_create': True}</attribute>
+            </xpath>
+
+            <xpath expr="/form/sheet/notebook/page/field[@name='order_line']/tree/field[@name='price_subtotal']" position="attributes">
+                    <attribute name="sum">Sum of Subtotal</attribute>
+            </xpath>
+
+            <xpath expr="/form/sheet/notebook/page/field[@name='order_line']/tree/field[@name='price_unit']"
+                   position="after">
+
+                <field name="gross_subtotal"
+                        invisible="1"/>
+
+                <field name="approved_unit"
+                       attrs="{'column_invisible': [('parent.sale_type', 'in', ['retail', 'wholesale'])]}"/>
+                <field name="approved_subtotal" readonly="True" force_save="1" sum="Sum of Approved"
+                       attrs="{'column_invisible': [('parent.sale_type', 'in', ['retail', 'wholesale'])]}"/>
+                <field name="claim_discount_subtotal" optional="hide" readonly="True" force_save="1"
+                       sum="Sum of Insurance Discount"
+                       attrs="{'column_invisible': [('parent.sale_type', 'in', ['retail', 'wholesale'])]}"/>
+                <field name="member_discount_subtotal" optional="hide" readonly="True" force_save="1"
+                       sum="Sum of Member Discount"
+                       attrs="{'column_invisible': [('parent.sale_type', 'in', ['retail', 'wholesale'])]}"/>
+                <field name="discount_subtotal" optional="hide" readonly="True" force_save="1"
+                       sum="Sum of Total Discount"
+                       attrs="{'column_invisible': [('parent.sale_type', 'in', ['retail', 'wholesale'])]}"/>
+                <field name="claim_subtotal" optional="hide" readonly="True" force_save="1" sum="Sum of Claim"
+                       attrs="{'column_invisible': [('parent.sale_type', 'in', ['retail', 'wholesale'])]}"/>
+                <field name="co_insurance_subtotal" readonly="True" force_save="1" sum="Sum of Co-Insurance"
+                       attrs="{'column_invisible': [('parent.sale_type', 'in', ['retail', 'wholesale'])]}"/>
+
+                <field name="additional_subtotal" readonly="True" force_save="1" sum="Sum of Additional"
+                       attrs="{'column_invisible': [('parent.sale_type', 'in', ['retail', 'wholesale'])]}"/>
+                <field name="member_subtotal" readonly="True" force_save="1" sum="Sum of Member"
+                       attrs="{'column_invisible': [('parent.sale_type', 'in', ['retail', 'wholesale'])]}"/>
+
+                </xpath>
+
+            <xpath expr="//field[@name='tax_totals']" position="before">
+
+                <div attrs="{'invisible': [('sale_type', 'not in', ['insurance'])]}">
+                    <table style="width:100%;" class="table table-sm table-bordered text-right text-nowrap">
+
+                        <thead>
+                            <tr class="bg-300">
+                                <th>
+
+                                </th>
+                                <th>
+                                    Untaxed
+                                </th>
+                                <th>
+                                    Taxes
+                                </th>
+                                <th>
+                                    Total
+                                </th>
+
+                            </tr>
+                        </thead>
+
+                        <tbody>
+                            <tr>
+                                <td class="bg-300">
+                                    <strong>Gross</strong>
+                                </td>
+                                <td>
+                                    <field name="gross_untaxed"/>
+                                </td>
+                                <td>
+                                    <field name="gross_tax"/>
+                                </td>
+                                <td>
+                                    <field name="gross_total"/>
+                                </td>
+                            </tr>
+
+
+
+                            <tr>
+                                <td class="bg-300">
+                                    <strong>Claim</strong>
+                                </td>
+                                <td>
+                                    <field name="claim_untaxed"/>
+                                </td>
+                                <td>
+                                    <field name="claim_tax"/>
+                                </td>
+                                <td>
+                                    <field name="claim_total"/>
+                                </td>
+                            </tr>
+
+                            <tr>
+                                <td class="bg-300">
+                                    <strong>Co-Insurance</strong>
+                                </td>
+                                <td>
+                                    <field name="co_insurance_untaxed"/>
+                                </td>
+                                <td>
+                                    <field name="co_insurance_tax"/>
+                                </td>
+                                <td>
+                                    <field name="co_insurance_total"/>
+                                </td>
+                            </tr>
+
+                            <tr>
+
+                                <td class="bg-300">
+                                    <strong>Additional</strong>
+
+                                </td>
+                                <td>
+                                    <field name="additional_untaxed"/>
+                                </td>
+                                <td>
+                                    <field name="additional_tax"/>
+                                </td>
+                                <td>
+                                    <field name="additional_total"/>
+                                </td>
+                            </tr>
+                            <tr style="color: green;">
+                                <td class="bg-300" style="color: green;">
+
+                                    <strong>Member</strong>
+                                </td>
+                                <td>
+                                    <field name="member_untaxed"/>
+                                </td>
+                                <td>
+                                    <field name="member_tax"/>
+                                </td>
+                                <td>
+                                    <field name="member_total"/>
+                                </td>
+                            </tr>
+
+                        </tbody>
+                    </table>
+                </div>
+
+
+            </xpath>
+
+
+        </field>
+
+    </record>
+
+
+    <record id="view_sales_order_filter" model="ir.ui.view">
+        <field name="name">sale.order.list.select</field>
+        <field name="model">sale.order</field>
+        <field name="inherit_id" ref="sale.view_sales_order_filter"/>
+        <field name="arch" type="xml">
+
+            <xpath expr="//field[@name='team_id']" position="after">
+                <field name="mobile"/>
+                <field name="id_no"/>
+                <field name="insurance_id"/>
+                <field name="policy_id" />
+                <field name="policy_holder"/>
+                <field name="membership_no"/>
+                <field name="approval_no"/>
+
+            </xpath>
+            <xpath expr="//filter[@name='salesperson']" position="before">
+                <filter string="Sale Type" name="sale_type" domain="[]" context="{'group_by': 'sale_type'}"/>
+            </xpath>
+            <xpath expr="//filter[@name='customer']" position="after">
+                <filter string="Insurance Company" name="insurance_company" domain="[]"
+                        context="{'group_by': 'insurance_id'}"/>
+                <filter string="Policy" name="policy" domain="[]" context="{'group_by': 'policy_id'}"/>
+            </xpath>
+            <xpath expr="//filter[@name='order_month']" position="after">
+                <filter string="Approval Date" name="approval_month" domain="[]"
+                        context="{'group_by': 'approval_date'}"/>
+                <filter string="Status" name="state" domain="[]" context="{'group_by': 'state'}"/>
+                <filter string="Delivery Status" name="delivery_status" domain="[]" context="{'group_by': 'delivery_status'}"/>
+                <filter string="Invoice Status" name="invoice_status" domain="[]" context="{'group_by': 'invoice_status'}"/>
+
+            </xpath>
+        </field>
+    </record>
+
+    <record id="sale_order_view_search_inherit_quotation" model="ir.ui.view">
+        <field name="name">sale.order.search.inherit.quotation</field>
+        <field name="model">sale.order</field>
+        <!--        <field name="mode">primary</field>-->
+        <field name="inherit_id" ref="sale.sale_order_view_search_inherit_quotation"/>
+        <field name="arch" type="xml">
+            <xpath expr="//filter[@name='sales']" position="after">
+                <separator/>
+                <filter string="Retail" name="retail" domain="[('sale_type', '=', 'retail')]"/>
+                <filter string="Insurance" name="insurance" domain="[('sale_type', '=', 'insurance')]"/>
+                <filter string="Wholesale" name="wholesale" domain="[('sale_type', '=', 'wholesale')]"/>
+                <separator/>
+            </xpath>
+            <xpath expr="//filter[@name='filter_create_date']" position="after">
+                <filter string="Approval Date" name="filter_approval_date" date="approval_date"/>
+            </xpath>
+        </field>
+    </record>
+
+    <record id="view_quotation_tree" model="ir.ui.view">
+        <field name="name">sale.order.tree</field>
+        <field name="model">sale.order</field>
+        <field name="inherit_id" ref="sale.view_quotation_tree"/>
+        <field name="arch" type="xml">
+            <xpath expr="field[@name='team_id']" position="after">
+                <field name="mobile" optional="hide"/>
+                <field name="id_no" optional="hide"/>
+                <field name="insurance_id" optional="hide"/>
+                <field name="policy_id" optional="hide"/>
+                <field name="membership_no" optional="hide"/>
+                <field name="approval_no" optional="hide"/>
+                <field name="approval_date" optional="hide"/>
+            </xpath>
+        </field>
+    </record>
+
+    <record id="view_order_tree" model="ir.ui.view">
+        <field name="name">sale.order.tree</field>
+        <field name="model">sale.order</field>
+        <field name="inherit_id" ref="sale.view_order_tree"/>
+        <field name="arch" type="xml">
+                <xpath expr="field[@name='team_id']" position="after">
+                    <field name="mobile" optional="hide"/>
+                    <field name="id_no" optional="hide"/>
+                    <field name="insurance_id" optional="hide"/>
+                    <field name="policy_id" optional="hide"/>
+                    <field name="membership_no" optional="hide"/>
+                    <field name="approval_no" optional="hide"/>
+                    <field name="approval_date" optional="hide"/>
+                </xpath>
+
+            <xpath expr="//field[@name='amount_total']" position="after">
+                <field name="state" />
+            </xpath>
+
+            <xpath expr="//field[@name='invoice_status']" position="attributes">
+                <attribute name="optional">show</attribute>
+            </xpath>
+
+
+        </field>
+    </record>
+    <record id="sale_order_view_form_inherit_sale_loyalty" model="ir.ui.view">
+        <field name="name">sale.order.view.form.inherit.sale.loyalty.inherit</field>
+        <field name="model">sale.order</field>
+        <field name="inherit_id" ref="sale_loyalty.sale_order_view_form_inherit_sale_loyalty"/>
+        <field name="arch" type="xml">
+
+            <xpath expr="//div[hasclass('oe_right')]" position="attributes">
+                <attribute name="attrs">{'invisible': [('state', 'not in', ['sent','approve']), ('sale_type', '=', 'insurance')]}</attribute>
+            </xpath>
+
+        </field>
+     </record>
+
+
+</data>
+</odoo>

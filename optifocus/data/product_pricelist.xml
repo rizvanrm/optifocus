@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+    <data noupdate="1">
+         <record id="list1" model="product.pricelist">
+            <field name="name">AL RAJHI TAKAFUL</field>
+            <field name="sequence">2</field>
+        </record>
+        <record id="list2" model="product.pricelist">
+            <field name="name">BUPA</field>
+            <field name="sequence">3</field>
+        </record>
+
+
+    </data>
+</odoo>

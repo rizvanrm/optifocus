@@ -1,0 +1,1964 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+    <data noupdate="1">
+        <record id="product_attribute_frame_color" model="product.attribute">
+            <field name="name">FRAME COLOR</field>
+            <field name="display_type">select</field>
+            <field name="create_variant">always</field>
+        </record>
+
+        <record id="product_attribute_value_1" model="product.attribute.value">
+            <field name="name">2501</field>
+            <field name="attribute_id" ref="product_attribute_frame_color"/>
+        </record>
+        <record id="product_attribute_value_2" model="product.attribute.value">
+            <field name="name">002/K8</field>
+            <field name="attribute_id" ref="product_attribute_frame_color"/>
+        </record>
+
+        <record id="product_attribute_lens_color" model="product.attribute">
+            <field name="name">LENS COLOR</field>
+            <field name="display_type">select</field>
+            <field name="create_variant">always</field>
+        </record>
+        <record id="product_attribute_value_5" model="product.attribute.value">
+            <field name="name">GRY/PLZ</field>
+            <field name="attribute_id" ref="product_attribute_lens_color"/>
+        </record>
+         <record id="product_attribute_value_6" model="product.attribute.value">
+            <field name="name">BLUE</field>
+            <field name="attribute_id" ref="product_attribute_lens_color"/>
+        </record>
+          <record id="product_attribute_value_clear" model="product.attribute.value">
+            <field name="name">CLEAR</field>
+            <field name="attribute_id" ref="product_attribute_lens_color"/>
+        </record>
+
+        <record id="product_attribute_color" model="product.attribute">
+            <field name="name">COLOR</field>
+            <field name="display_type">select</field>
+            <field name="create_variant">always</field>
+        </record>
+        <record id="product_attribute_value_02" model="product.attribute.value">
+            <field name="name">02</field>
+            <field name="attribute_id" ref="product_attribute_color"/>
+        </record>
+
+        <record id="product_attribute_size" model="product.attribute">
+            <field name="name">SIZE</field>
+            <field name="display_type">select</field>
+            <field name="create_variant">always</field>
+        </record>
+        <record id="product_attribute_value_3" model="product.attribute.value">
+            <field name="name">51</field>
+            <field name="attribute_id" ref="product_attribute_size"/>
+        </record>
+        <record id="product_attribute_value_4" model="product.attribute.value">
+            <field name="name">56</field>
+            <field name="attribute_id" ref="product_attribute_size"/>
+        </record>
+
+
+        <record id="product_attribute_lens_material" model="product.attribute">
+            <field name="name">LENS MATERIAL</field>
+            <field name="display_type">select</field>
+            <field name="create_variant">dynamic</field>
+        </record>
+        <record id="product_attribute_value_18" model="product.attribute.value">
+            <field name="name">PLASTIC</field>
+            <field name="attribute_id" ref="product_attribute_lens_material"/>
+        </record>
+        <record id="product_attribute_value_19" model="product.attribute.value">
+            <field name="name">GLASS</field>
+            <field name="attribute_id" ref="product_attribute_lens_material"/>
+        </record>
+
+
+        <record id="product_attribute_lens_index" model="product.attribute">
+            <field name="name">LENS INDEX</field>
+            <field name="display_type">select</field>
+            <field name="create_variant">dynamic</field>
+
+        </record>
+        <record id="product_attribute_value_7" model="product.attribute.value">
+            <field name="name">1.59 AIRWEAR</field>
+            <field name="attribute_id" ref="product_attribute_lens_index"/>
+        </record>
+        <record id="product_attribute_value_8" model="product.attribute.value">
+            <field name="name">1.6</field>
+            <field name="attribute_id" ref="product_attribute_lens_index"/>
+        </record>
+        <record id="product_attribute_focal" model="product.attribute">
+            <field name="name">FOCAL</field>
+            <field name="display_type">select</field>
+            <field name="create_variant">dynamic</field>
+        </record>
+        <record id="product_attribute_value_9" model="product.attribute.value">
+            <field name="name">SINGLE</field>
+            <field name="attribute_id" ref="product_attribute_focal"/>
+        </record>
+        <record id="product_attribute_value_10" model="product.attribute.value">
+            <field name="name">PROGRESSIVE</field>
+            <field name="attribute_id" ref="product_attribute_focal"/>
+        </record>
+        <record id="product_attribute_transition" model="product.attribute">
+            <field name="name">TRANSITION</field>
+            <field name="display_type">select</field>
+            <field name="create_variant">dynamic</field>
+        </record>
+        <record id="product_attribute_value_11" model="product.attribute.value">
+            <field name="name">TRANSITION GRAY</field>
+            <field name="attribute_id" ref="product_attribute_transition"/>
+        </record>
+        <record id="product_attribute_value_12" model="product.attribute.value">
+            <field name="name">TRANSITION BROWN</field>
+            <field name="attribute_id" ref="product_attribute_transition"/>
+        </record>
+
+        <record id="product_attribute_coating" model="product.attribute">
+            <field name="name">COATING</field>
+            <field name="display_type">select</field>
+            <field name="create_variant">dynamic</field>
+        </record>
+
+        <record id="product_attribute_value_13" model="product.attribute.value">
+            <field name="name">CRIZAL PREVINCIA</field>
+            <field name="attribute_id" ref="product_attribute_coating"/>
+        </record>
+        <record id="product_attribute_value_14" model="product.attribute.value">
+            <field name="name">GREEN MULTICOAT</field>
+            <field name="attribute_id" ref="product_attribute_coating"/>
+        </record>
+
+        <record id="product_attribute_polarized" model="product.attribute">
+            <field name="name">POLARIZED</field>
+            <field name="display_type">select</field>
+            <field name="create_variant">dynamic</field>
+        </record>
+        <record id="product_attribute_value_15" model="product.attribute.value">
+            <field name="name">POLARIZED</field>
+            <field name="attribute_id" ref="product_attribute_polarized"/>
+        </record>
+        <record id="product_attribute_disposable" model="product.attribute">
+            <field name="name">DISPOSABLE</field>
+            <field name="display_type">select</field>
+            <field name="create_variant">always</field>
+        </record>
+        <record id="product_attribute_value_16" model="product.attribute.value">
+            <field name="name">DAILY</field>
+            <field name="attribute_id" ref="product_attribute_disposable"/>
+        </record>
+        <record id="product_attribute_value_17" model="product.attribute.value">
+            <field name="name">WEEKLY</field>
+            <field name="attribute_id" ref="product_attribute_disposable"/>
+        </record>
+
+
+
+        <record id="product_attribute_sphere" model="product.attribute">
+            <field name="name">SPHERE</field>
+            <field name="display_type">select</field>
+            <field name="create_variant">always</field>
+        </record>
+        <record id="product_attribute_value_sphere_m2000" model="product.attribute.value">
+            <field name="name">-20.00</field>
+            <field name="attribute_id" ref="product_attribute_sphere"/>
+        </record>
+        <record id="product_attribute_value_sphere_m1975" model="product.attribute.value">
+            <field name="name">-19.75</field>
+            <field name="attribute_id" ref="product_attribute_sphere"/>
+        </record>
+        <record id="product_attribute_value_sphere_m1950" model="product.attribute.value">
+            <field name="name">-19.50</field>
+            <field name="attribute_id" ref="product_attribute_sphere"/>
+        </record>
+        <record id="product_attribute_value_sphere_m1925" model="product.attribute.value">
+            <field name="name">-19.25</field>
+            <field name="attribute_id" ref="product_attribute_sphere"/>
+        </record>
+        <record id="product_attribute_value_sphere_m1900" model="product.attribute.value">
+            <field name="name">-19.00</field>
+            <field name="attribute_id" ref="product_attribute_sphere"/>
+        </record>
+        <record id="product_attribute_value_sphere_m1875" model="product.attribute.value">
+            <field name="name">-18.75</field>
+            <field name="attribute_id" ref="product_attribute_sphere"/>
+        </record>
+        <record id="product_attribute_value_sphere_m1850" model="product.attribute.value">
+            <field name="name">-18.50</field>
+            <field name="attribute_id" ref="product_attribute_sphere"/>
+        </record>
+        <record id="product_attribute_value_sphere_m1825" model="product.attribute.value">
+            <field name="name">-18.25</field>
+            <field name="attribute_id" ref="product_attribute_sphere"/>
+        </record>
+        <record id="product_attribute_value_sphere_m1800" model="product.attribute.value">
+            <field name="name">-18.00</field>
+            <field name="attribute_id" ref="product_attribute_sphere"/>
+        </record>
+        <record id="product_attribute_value_sphere_m1775" model="product.attribute.value">
+            <field name="name">-17.75</field>
+            <field name="attribute_id" ref="product_attribute_sphere"/>
+        </record>
+        <record id="product_attribute_value_sphere_m1750" model="product.attribute.value">
+            <field name="name">-17.50</field>
+            <field name="attribute_id" ref="product_attribute_sphere"/>
+        </record>
+        <record id="product_attribute_value_sphere_m1725" model="product.attribute.value">
+            <field name="name">-17.25</field>
+            <field name="attribute_id" ref="product_attribute_sphere"/>
+        </record>
+        <record id="product_attribute_value_sphere_m1700" model="product.attribute.value">
+            <field name="name">-17.00</field>
+            <field name="attribute_id" ref="product_attribute_sphere"/>
+        </record>
+        <record id="product_attribute_value_sphere_m1675" model="product.attribute.value">
+            <field name="name">-16.75</field>
+            <field name="attribute_id" ref="product_attribute_sphere"/>
+        </record>
+        <record id="product_attribute_value_sphere_m1650" model="product.attribute.value">
+            <field name="name">-16.50</field>
+            <field name="attribute_id" ref="product_attribute_sphere"/>
+        </record>
+        <record id="product_attribute_value_sphere_m1625" model="product.attribute.value">
+            <field name="name">-16.25</field>
+            <field name="attribute_id" ref="product_attribute_sphere"/>
+        </record>
+        <record id="product_attribute_value_sphere_m1600" model="product.attribute.value">
+            <field name="name">-16.00</field>
+            <field name="attribute_id" ref="product_attribute_sphere"/>
+        </record>
+
+        <record id="product_attribute_value_sphere_m1575" model="product.attribute.value">
+            <field name="name">-15.75</field>
+            <field name="attribute_id" ref="product_attribute_sphere"/>
+        </record>
+        <record id="product_attribute_value_sphere_m1550" model="product.attribute.value">
+            <field name="name">-15.50</field>
+            <field name="attribute_id" ref="product_attribute_sphere"/>
+        </record>
+        <record id="product_attribute_value_sphere_m1525" model="product.attribute.value">
+            <field name="name">-15.25</field>
+            <field name="attribute_id" ref="product_attribute_sphere"/>
+        </record>
+        <record id="product_attribute_value_sphere_m1500" model="product.attribute.value">
+            <field name="name">-15.00</field>
+            <field name="attribute_id" ref="product_attribute_sphere"/>
+        </record>
+
+        <record id="product_attribute_value_sphere_m1475" model="product.attribute.value">
+            <field name="name">-14.75</field>
+            <field name="attribute_id" ref="product_attribute_sphere"/>
+        </record>
+        <record id="product_attribute_value_sphere_m1450" model="product.attribute.value">
+            <field name="name">-14.50</field>
+            <field name="attribute_id" ref="product_attribute_sphere"/>
+        </record>
+        <record id="product_attribute_value_sphere_m1425" model="product.attribute.value">
+            <field name="name">-14.25</field>
+            <field name="attribute_id" ref="product_attribute_sphere"/>
+        </record>
+        <record id="product_attribute_value_sphere_m1400" model="product.attribute.value">
+            <field name="name">-14.00</field>
+            <field name="attribute_id" ref="product_attribute_sphere"/>
+        </record>
+        <record id="product_attribute_value_sphere_m1375" model="product.attribute.value">
+            <field name="name">-13.75</field>
+            <field name="attribute_id" ref="product_attribute_sphere"/>
+        </record>
+        <record id="product_attribute_value_sphere_m1350" model="product.attribute.value">
+            <field name="name">-13.50</field>
+            <field name="attribute_id" ref="product_attribute_sphere"/>
+        </record>
+        <record id="product_attribute_value_sphere_m1325" model="product.attribute.value">
+            <field name="name">-13.25</field>
+            <field name="attribute_id" ref="product_attribute_sphere"/>
+        </record>
+        <record id="product_attribute_value_sphere_m1300" model="product.attribute.value">
+            <field name="name">-13.00</field>
+            <field name="attribute_id" ref="product_attribute_sphere"/>
+        </record>
+        <record id="product_attribute_value_sphere_m1275" model="product.attribute.value">
+            <field name="name">-12.75</field>
+            <field name="attribute_id" ref="product_attribute_sphere"/>
+        </record>
+        <record id="product_attribute_value_sphere_m1250" model="product.attribute.value">
+            <field name="name">-12.50</field>
+            <field name="attribute_id" ref="product_attribute_sphere"/>
+        </record>
+        <record id="product_attribute_value_sphere_m1225" model="product.attribute.value">
+            <field name="name">-12.25</field>
+            <field name="attribute_id" ref="product_attribute_sphere"/>
+        </record>
+        <record id="product_attribute_value_sphere_m1200" model="product.attribute.value">
+            <field name="name">-12.00</field>
+            <field name="attribute_id" ref="product_attribute_sphere"/>
+        </record>
+        <record id="product_attribute_value_sphere_m1175" model="product.attribute.value">
+            <field name="name">-11.75</field>
+            <field name="attribute_id" ref="product_attribute_sphere"/>
+        </record>
+        <record id="product_attribute_value_sphere_m1150" model="product.attribute.value">
+            <field name="name">-11.50</field>
+            <field name="attribute_id" ref="product_attribute_sphere"/>
+        </record>
+        <record id="product_attribute_value_sphere_m1125" model="product.attribute.value">
+            <field name="name">-11.25</field>
+            <field name="attribute_id" ref="product_attribute_sphere"/>
+        </record>
+        <record id="product_attribute_value_sphere_m1100" model="product.attribute.value">
+            <field name="name">-11.00</field>
+            <field name="attribute_id" ref="product_attribute_sphere"/>
+        </record>
+        <record id="product_attribute_value_sphere_m1075" model="product.attribute.value">
+            <field name="name">-10.75</field>
+            <field name="attribute_id" ref="product_attribute_sphere"/>
+        </record>
+        <record id="product_attribute_value_sphere_m1050" model="product.attribute.value">
+            <field name="name">-10.50</field>
+            <field name="attribute_id" ref="product_attribute_sphere"/>
+        </record>
+        <record id="product_attribute_value_sphere_m1025" model="product.attribute.value">
+            <field name="name">-10.25</field>
+            <field name="attribute_id" ref="product_attribute_sphere"/>
+        </record>
+        <record id="product_attribute_value_sphere_m1000" model="product.attribute.value">
+            <field name="name">-10.00</field>
+            <field name="attribute_id" ref="product_attribute_sphere"/>
+        </record>
+        <record id="product_attribute_value_sphere_m975" model="product.attribute.value">
+            <field name="name">-9.75</field>
+            <field name="attribute_id" ref="product_attribute_sphere"/>
+        </record>
+        <record id="product_attribute_value_sphere_m950" model="product.attribute.value">
+            <field name="name">-9.50</field>
+            <field name="attribute_id" ref="product_attribute_sphere"/>
+        </record>
+        <record id="product_attribute_value_sphere_m925" model="product.attribute.value">
+            <field name="name">-9.25</field>
+            <field name="attribute_id" ref="product_attribute_sphere"/>
+        </record>
+        <record id="product_attribute_value_sphere_m900" model="product.attribute.value">
+            <field name="name">-9.00</field>
+            <field name="attribute_id" ref="product_attribute_sphere"/>
+        </record>
+        <record id="product_attribute_value_sphere_m875" model="product.attribute.value">
+            <field name="name">-8.75</field>
+            <field name="attribute_id" ref="product_attribute_sphere"/>
+        </record>
+        <record id="product_attribute_value_sphere_m850" model="product.attribute.value">
+            <field name="name">-8.50</field>
+            <field name="attribute_id" ref="product_attribute_sphere"/>
+        </record>
+        <record id="product_attribute_value_sphere_m825" model="product.attribute.value">
+            <field name="name">-8.25</field>
+            <field name="attribute_id" ref="product_attribute_sphere"/>
+        </record>
+        <record id="product_attribute_value_sphere_m800" model="product.attribute.value">
+            <field name="name">-8.00</field>
+            <field name="attribute_id" ref="product_attribute_sphere"/>
+        </record>
+        <record id="product_attribute_value_sphere_m775" model="product.attribute.value">
+            <field name="name">-7.75</field>
+            <field name="attribute_id" ref="product_attribute_sphere"/>
+        </record>
+        <record id="product_attribute_value_sphere_m750" model="product.attribute.value">
+            <field name="name">-7.50</field>
+            <field name="attribute_id" ref="product_attribute_sphere"/>
+        </record>
+        <record id="product_attribute_value_sphere_m725" model="product.attribute.value">
+            <field name="name">-7.25</field>
+            <field name="attribute_id" ref="product_attribute_sphere"/>
+        </record>
+        <record id="product_attribute_value_sphere_m700" model="product.attribute.value">
+            <field name="name">-7.00</field>
+            <field name="attribute_id" ref="product_attribute_sphere"/>
+        </record>
+        <record id="product_attribute_value_sphere_m675" model="product.attribute.value">
+            <field name="name">-6.75</field>
+            <field name="attribute_id" ref="product_attribute_sphere"/>
+        </record>
+        <record id="product_attribute_value_sphere_m650" model="product.attribute.value">
+            <field name="name">-6.50</field>
+            <field name="attribute_id" ref="product_attribute_sphere"/>
+        </record>
+        <record id="product_attribute_value_sphere_m625" model="product.attribute.value">
+            <field name="name">-6.25</field>
+            <field name="attribute_id" ref="product_attribute_sphere"/>
+        </record>
+        <record id="product_attribute_value_sphere_m600" model="product.attribute.value">
+            <field name="name">-6.00</field>
+            <field name="attribute_id" ref="product_attribute_sphere"/>
+        </record>
+        <record id="product_attribute_value_sphere_m575" model="product.attribute.value">
+            <field name="name">-5.75</field>
+            <field name="attribute_id" ref="product_attribute_sphere"/>
+        </record>
+        <record id="product_attribute_value_sphere_m550" model="product.attribute.value">
+            <field name="name">-5.50</field>
+            <field name="attribute_id" ref="product_attribute_sphere"/>
+        </record>
+        <record id="product_attribute_value_sphere_m525" model="product.attribute.value">
+            <field name="name">-5.25</field>
+            <field name="attribute_id" ref="product_attribute_sphere"/>
+        </record>
+        <record id="product_attribute_value_sphere_m500" model="product.attribute.value">
+            <field name="name">-5.00</field>
+            <field name="attribute_id" ref="product_attribute_sphere"/>
+        </record>
+        <record id="product_attribute_value_sphere_m475" model="product.attribute.value">
+            <field name="name">-4.75</field>
+            <field name="attribute_id" ref="product_attribute_sphere"/>
+        </record>
+        <record id="product_attribute_value_sphere_m450" model="product.attribute.value">
+            <field name="name">-4.50</field>
+            <field name="attribute_id" ref="product_attribute_sphere"/>
+        </record>
+        <record id="product_attribute_value_sphere_m425" model="product.attribute.value">
+            <field name="name">-4.25</field>
+            <field name="attribute_id" ref="product_attribute_sphere"/>
+        </record>
+        <record id="product_attribute_value_sphere_m400" model="product.attribute.value">
+            <field name="name">-4.00</field>
+            <field name="attribute_id" ref="product_attribute_sphere"/>
+        </record>
+
+        <record id="product_attribute_value_sphere_m375" model="product.attribute.value">
+            <field name="name">-3.75</field>
+            <field name="attribute_id" ref="product_attribute_sphere"/>
+        </record>
+        <record id="product_attribute_value_sphere_m350" model="product.attribute.value">
+            <field name="name">-3.50</field>
+            <field name="attribute_id" ref="product_attribute_sphere"/>
+        </record>
+        <record id="product_attribute_value_sphere_m325" model="product.attribute.value">
+            <field name="name">-3.25</field>
+            <field name="attribute_id" ref="product_attribute_sphere"/>
+        </record>
+        <record id="product_attribute_value_sphere_m300" model="product.attribute.value">
+            <field name="name">-3.00</field>
+            <field name="attribute_id" ref="product_attribute_sphere"/>
+        </record>
+
+        <record id="product_attribute_value_sphere_m275" model="product.attribute.value">
+            <field name="name">-2.75</field>
+            <field name="attribute_id" ref="product_attribute_sphere"/>
+        </record>
+        <record id="product_attribute_value_sphere_m250" model="product.attribute.value">
+            <field name="name">-2.50</field>
+            <field name="attribute_id" ref="product_attribute_sphere"/>
+        </record>
+        <record id="product_attribute_value_sphere_m225" model="product.attribute.value">
+            <field name="name">-2.25</field>
+            <field name="attribute_id" ref="product_attribute_sphere"/>
+        </record>
+        <record id="product_attribute_value_sphere_m200" model="product.attribute.value">
+            <field name="name">-2.00</field>
+            <field name="attribute_id" ref="product_attribute_sphere"/>
+        </record>
+
+        <record id="product_attribute_value_sphere_m175" model="product.attribute.value">
+            <field name="name">-1.75</field>
+            <field name="attribute_id" ref="product_attribute_sphere"/>
+        </record>
+        <record id="product_attribute_value_sphere_m150" model="product.attribute.value">
+            <field name="name">-1.50</field>
+            <field name="attribute_id" ref="product_attribute_sphere"/>
+        </record>
+        <record id="product_attribute_value_sphere_m125" model="product.attribute.value">
+            <field name="name">-1.25</field>
+            <field name="attribute_id" ref="product_attribute_sphere"/>
+        </record>
+        <record id="product_attribute_value_sphere_m100" model="product.attribute.value">
+            <field name="name">-1.00</field>
+            <field name="attribute_id" ref="product_attribute_sphere"/>
+        </record>
+
+        <record id="product_attribute_value_sphere_m075" model="product.attribute.value">
+            <field name="name">-0.75</field>
+            <field name="attribute_id" ref="product_attribute_sphere"/>
+        </record>
+        <record id="product_attribute_value_sphere_m050" model="product.attribute.value">
+            <field name="name">-0.50</field>
+            <field name="attribute_id" ref="product_attribute_sphere"/>
+        </record>
+        <record id="product_attribute_value_sphere_m025" model="product.attribute.value">
+            <field name="name">-0.25</field>
+            <field name="attribute_id" ref="product_attribute_sphere"/>
+        </record>
+        <record id="product_attribute_value_sphere_000" model="product.attribute.value">
+            <field name="name">0.00</field>
+            <field name="attribute_id" ref="product_attribute_sphere"/>
+        </record>
+
+        <record id="product_attribute_value_sphere_p025" model="product.attribute.value">
+            <field name="name">0.25</field>
+            <field name="attribute_id" ref="product_attribute_sphere"/>
+        </record>
+        <record id="product_attribute_value_sphere_p050" model="product.attribute.value">
+            <field name="name">0.50</field>
+            <field name="attribute_id" ref="product_attribute_sphere"/>
+        </record>
+        <record id="product_attribute_value_sphere_p075" model="product.attribute.value">
+            <field name="name">0.75</field>
+            <field name="attribute_id" ref="product_attribute_sphere"/>
+        </record>
+        <record id="product_attribute_value_sphere_p100" model="product.attribute.value">
+            <field name="name">1.00</field>
+            <field name="attribute_id" ref="product_attribute_sphere"/>
+        </record>
+        <record id="product_attribute_value_sphere_p125" model="product.attribute.value">
+            <field name="name">1.25</field>
+            <field name="attribute_id" ref="product_attribute_sphere"/>
+        </record>
+        <record id="product_attribute_value_sphere_p150" model="product.attribute.value">
+            <field name="name">1.50</field>
+            <field name="attribute_id" ref="product_attribute_sphere"/>
+        </record>
+        <record id="product_attribute_value_sphere_p175" model="product.attribute.value">
+            <field name="name">1.75</field>
+            <field name="attribute_id" ref="product_attribute_sphere"/>
+        </record>
+        <record id="product_attribute_value_sphere_p200" model="product.attribute.value">
+            <field name="name">2.00</field>
+            <field name="attribute_id" ref="product_attribute_sphere"/>
+        </record>
+        <record id="product_attribute_value_sphere_p225" model="product.attribute.value">
+            <field name="name">2.25</field>
+            <field name="attribute_id" ref="product_attribute_sphere"/>
+        </record>
+        <record id="product_attribute_value_sphere_p250" model="product.attribute.value">
+            <field name="name">2.50</field>
+            <field name="attribute_id" ref="product_attribute_sphere"/>
+        </record>
+        <record id="product_attribute_value_sphere_p275" model="product.attribute.value">
+            <field name="name">2.75</field>
+            <field name="attribute_id" ref="product_attribute_sphere"/>
+        </record>
+        <record id="product_attribute_value_sphere_p300" model="product.attribute.value">
+            <field name="name">3.00</field>
+            <field name="attribute_id" ref="product_attribute_sphere"/>
+        </record>
+        <record id="product_attribute_value_sphere_p325" model="product.attribute.value">
+            <field name="name">3.25</field>
+            <field name="attribute_id" ref="product_attribute_sphere"/>
+        </record>
+        <record id="product_attribute_value_sphere_p350" model="product.attribute.value">
+            <field name="name">3.50</field>
+            <field name="attribute_id" ref="product_attribute_sphere"/>
+        </record>
+        <record id="product_attribute_value_sphere_p375" model="product.attribute.value">
+            <field name="name">3.75</field>
+            <field name="attribute_id" ref="product_attribute_sphere"/>
+        </record>
+        <record id="product_attribute_value_sphere_p400" model="product.attribute.value">
+            <field name="name">4.00</field>
+            <field name="attribute_id" ref="product_attribute_sphere"/>
+        </record>
+        <record id="product_attribute_value_sphere_p425" model="product.attribute.value">
+            <field name="name">4.25</field>
+            <field name="attribute_id" ref="product_attribute_sphere"/>
+        </record>
+        <record id="product_attribute_value_sphere_p450" model="product.attribute.value">
+            <field name="name">4.50</field>
+            <field name="attribute_id" ref="product_attribute_sphere"/>
+        </record>
+        <record id="product_attribute_value_sphere_p475" model="product.attribute.value">
+            <field name="name">4.75</field>
+            <field name="attribute_id" ref="product_attribute_sphere"/>
+        </record>
+        <record id="product_attribute_value_sphere_p500" model="product.attribute.value">
+            <field name="name">5.00</field>
+            <field name="attribute_id" ref="product_attribute_sphere"/>
+        </record>
+        <record id="product_attribute_value_sphere_p525" model="product.attribute.value">
+            <field name="name">5.25</field>
+            <field name="attribute_id" ref="product_attribute_sphere"/>
+        </record>
+        <record id="product_attribute_value_sphere_p550" model="product.attribute.value">
+            <field name="name">5.50</field>
+            <field name="attribute_id" ref="product_attribute_sphere"/>
+        </record>
+        <record id="product_attribute_value_sphere_p575" model="product.attribute.value">
+            <field name="name">5.75</field>
+            <field name="attribute_id" ref="product_attribute_sphere"/>
+        </record>
+        <record id="product_attribute_value_sphere_p600" model="product.attribute.value">
+            <field name="name">6.00</field>
+            <field name="attribute_id" ref="product_attribute_sphere"/>
+        </record>
+        <record id="product_attribute_value_sphere_p625" model="product.attribute.value">
+            <field name="name">6.25</field>
+            <field name="attribute_id" ref="product_attribute_sphere"/>
+        </record>
+        <record id="product_attribute_value_sphere_p650" model="product.attribute.value">
+            <field name="name">6.50</field>
+            <field name="attribute_id" ref="product_attribute_sphere"/>
+        </record>
+        <record id="product_attribute_value_sphere_p675" model="product.attribute.value">
+            <field name="name">6.75</field>
+            <field name="attribute_id" ref="product_attribute_sphere"/>
+        </record>
+        <record id="product_attribute_value_sphere_p700" model="product.attribute.value">
+            <field name="name">7.00</field>
+            <field name="attribute_id" ref="product_attribute_sphere"/>
+        </record>
+        <record id="product_attribute_value_sphere_p725" model="product.attribute.value">
+            <field name="name">7.25</field>
+            <field name="attribute_id" ref="product_attribute_sphere"/>
+        </record>
+        <record id="product_attribute_value_sphere_p750" model="product.attribute.value">
+            <field name="name">7.50</field>
+            <field name="attribute_id" ref="product_attribute_sphere"/>
+        </record>
+        <record id="product_attribute_value_sphere_p775" model="product.attribute.value">
+            <field name="name">7.75</field>
+            <field name="attribute_id" ref="product_attribute_sphere"/>
+        </record>
+        <record id="product_attribute_value_sphere_p800" model="product.attribute.value">
+            <field name="name">8.00</field>
+            <field name="attribute_id" ref="product_attribute_sphere"/>
+        </record>
+        <record id="product_attribute_value_sphere_p825" model="product.attribute.value">
+            <field name="name">8.25</field>
+            <field name="attribute_id" ref="product_attribute_sphere"/>
+        </record>
+        <record id="product_attribute_value_sphere_p850" model="product.attribute.value">
+            <field name="name">8.50</field>
+            <field name="attribute_id" ref="product_attribute_sphere"/>
+        </record>
+        <record id="product_attribute_value_sphere_p875" model="product.attribute.value">
+            <field name="name">8.75</field>
+            <field name="attribute_id" ref="product_attribute_sphere"/>
+        </record>
+        <record id="product_attribute_value_sphere_p900" model="product.attribute.value">
+            <field name="name">9.00</field>
+            <field name="attribute_id" ref="product_attribute_sphere"/>
+        </record>
+        <record id="product_attribute_value_sphere_p925" model="product.attribute.value">
+            <field name="name">9.25</field>
+            <field name="attribute_id" ref="product_attribute_sphere"/>
+        </record>
+        <record id="product_attribute_value_sphere_p950" model="product.attribute.value">
+            <field name="name">9.50</field>
+            <field name="attribute_id" ref="product_attribute_sphere"/>
+        </record>
+        <record id="product_attribute_value_sphere_p975" model="product.attribute.value">
+            <field name="name">9.75</field>
+            <field name="attribute_id" ref="product_attribute_sphere"/>
+        </record>
+        <record id="product_attribute_value_sphere_p1000" model="product.attribute.value">
+            <field name="name">10.00</field>
+            <field name="attribute_id" ref="product_attribute_sphere"/>
+        </record>
+        <record id="product_attribute_value_sphere_p1025" model="product.attribute.value">
+            <field name="name">10.25</field>
+            <field name="attribute_id" ref="product_attribute_sphere"/>
+        </record>
+        <record id="product_attribute_value_sphere_p1050" model="product.attribute.value">
+            <field name="name">10.50</field>
+            <field name="attribute_id" ref="product_attribute_sphere"/>
+        </record>
+        <record id="product_attribute_value_sphere_p1075" model="product.attribute.value">
+            <field name="name">10.75</field>
+            <field name="attribute_id" ref="product_attribute_sphere"/>
+        </record>
+        <record id="product_attribute_value_sphere_p1100" model="product.attribute.value">
+            <field name="name">11.00</field>
+            <field name="attribute_id" ref="product_attribute_sphere"/>
+        </record>
+        <record id="product_attribute_value_sphere_p1125" model="product.attribute.value">
+            <field name="name">11.25</field>
+            <field name="attribute_id" ref="product_attribute_sphere"/>
+        </record>
+        <record id="product_attribute_value_sphere_p1150" model="product.attribute.value">
+            <field name="name">11.50</field>
+            <field name="attribute_id" ref="product_attribute_sphere"/>
+        </record>
+        <record id="product_attribute_value_sphere_p1175" model="product.attribute.value">
+            <field name="name">11.75</field>
+            <field name="attribute_id" ref="product_attribute_sphere"/>
+        </record>
+        <record id="product_attribute_value_sphere_p1200" model="product.attribute.value">
+            <field name="name">12.00</field>
+            <field name="attribute_id" ref="product_attribute_sphere"/>
+        </record>
+        <record id="product_attribute_value_sphere_p1225" model="product.attribute.value">
+            <field name="name">12.25</field>
+            <field name="attribute_id" ref="product_attribute_sphere"/>
+        </record>
+        <record id="product_attribute_value_sphere_p1250" model="product.attribute.value">
+            <field name="name">12.50</field>
+            <field name="attribute_id" ref="product_attribute_sphere"/>
+        </record>
+        <record id="product_attribute_value_sphere_p1275" model="product.attribute.value">
+            <field name="name">12.75</field>
+            <field name="attribute_id" ref="product_attribute_sphere"/>
+        </record>
+        <record id="product_attribute_value_sphere_p1300" model="product.attribute.value">
+            <field name="name">13.00</field>
+            <field name="attribute_id" ref="product_attribute_sphere"/>
+        </record>
+        <record id="product_attribute_value_sphere_p1325" model="product.attribute.value">
+            <field name="name">13.25</field>
+            <field name="attribute_id" ref="product_attribute_sphere"/>
+        </record>
+        <record id="product_attribute_value_sphere_p1350" model="product.attribute.value">
+            <field name="name">13.50</field>
+            <field name="attribute_id" ref="product_attribute_sphere"/>
+        </record>
+        <record id="product_attribute_value_sphere_p1375" model="product.attribute.value">
+            <field name="name">13.75</field>
+            <field name="attribute_id" ref="product_attribute_sphere"/>
+        </record>
+        <record id="product_attribute_value_sphere_p1400" model="product.attribute.value">
+            <field name="name">14.00</field>
+            <field name="attribute_id" ref="product_attribute_sphere"/>
+        </record>
+        <record id="product_attribute_value_sphere_p1425" model="product.attribute.value">
+            <field name="name">14.25</field>
+            <field name="attribute_id" ref="product_attribute_sphere"/>
+        </record>
+        <record id="product_attribute_value_sphere_p1450" model="product.attribute.value">
+            <field name="name">14.50</field>
+            <field name="attribute_id" ref="product_attribute_sphere"/>
+        </record>
+        <record id="product_attribute_value_sphere_p1475" model="product.attribute.value">
+            <field name="name">14.75</field>
+            <field name="attribute_id" ref="product_attribute_sphere"/>
+        </record>
+        <record id="product_attribute_value_sphere_p1500" model="product.attribute.value">
+            <field name="name">15.00</field>
+            <field name="attribute_id" ref="product_attribute_sphere"/>
+        </record>
+        <record id="product_attribute_value_sphere_p1525" model="product.attribute.value">
+            <field name="name">15.25</field>
+            <field name="attribute_id" ref="product_attribute_sphere"/>
+        </record>
+        <record id="product_attribute_value_sphere_p1550" model="product.attribute.value">
+            <field name="name">15.50</field>
+            <field name="attribute_id" ref="product_attribute_sphere"/>
+        </record>
+        <record id="product_attribute_value_sphere_p1575" model="product.attribute.value">
+            <field name="name">15.75</field>
+            <field name="attribute_id" ref="product_attribute_sphere"/>
+        </record>
+        <record id="product_attribute_value_sphere_p1600" model="product.attribute.value">
+            <field name="name">16.00</field>
+            <field name="attribute_id" ref="product_attribute_sphere"/>
+        </record>
+        <record id="product_attribute_value_sphere_p1625" model="product.attribute.value">
+            <field name="name">16.25</field>
+            <field name="attribute_id" ref="product_attribute_sphere"/>
+        </record>
+        <record id="product_attribute_value_sphere_p1650" model="product.attribute.value">
+            <field name="name">16.50</field>
+            <field name="attribute_id" ref="product_attribute_sphere"/>
+        </record>
+        <record id="product_attribute_value_sphere_p1675" model="product.attribute.value">
+            <field name="name">16.75</field>
+            <field name="attribute_id" ref="product_attribute_sphere"/>
+        </record>
+        <record id="product_attribute_value_sphere_p1700" model="product.attribute.value">
+            <field name="name">17.00</field>
+            <field name="attribute_id" ref="product_attribute_sphere"/>
+        </record>
+        <record id="product_attribute_value_sphere_p1725" model="product.attribute.value">
+            <field name="name">17.25</field>
+            <field name="attribute_id" ref="product_attribute_sphere"/>
+        </record>
+        <record id="product_attribute_value_sphere_p1750" model="product.attribute.value">
+            <field name="name">17.50</field>
+            <field name="attribute_id" ref="product_attribute_sphere"/>
+        </record>
+        <record id="product_attribute_value_sphere_p1775" model="product.attribute.value">
+            <field name="name">17.75</field>
+            <field name="attribute_id" ref="product_attribute_sphere"/>
+        </record>
+        <record id="product_attribute_value_sphere_p1800" model="product.attribute.value">
+            <field name="name">18.00</field>
+            <field name="attribute_id" ref="product_attribute_sphere"/>
+        </record>
+        <record id="product_attribute_value_sphere_p1825" model="product.attribute.value">
+            <field name="name">18.25</field>
+            <field name="attribute_id" ref="product_attribute_sphere"/>
+        </record>
+        <record id="product_attribute_value_sphere_p1850" model="product.attribute.value">
+            <field name="name">18.50</field>
+            <field name="attribute_id" ref="product_attribute_sphere"/>
+        </record>
+        <record id="product_attribute_value_sphere_p1875" model="product.attribute.value">
+            <field name="name">18.75</field>
+            <field name="attribute_id" ref="product_attribute_sphere"/>
+        </record>
+        <record id="product_attribute_value_sphere_p1900" model="product.attribute.value">
+            <field name="name">19.00</field>
+            <field name="attribute_id" ref="product_attribute_sphere"/>
+        </record>
+        <record id="product_attribute_value_sphere_p1925" model="product.attribute.value">
+            <field name="name">19.25</field>
+            <field name="attribute_id" ref="product_attribute_sphere"/>
+        </record>
+        <record id="product_attribute_value_sphere_p1950" model="product.attribute.value">
+            <field name="name">19.50</field>
+            <field name="attribute_id" ref="product_attribute_sphere"/>
+        </record>
+        <record id="product_attribute_value_sphere_p1975" model="product.attribute.value">
+            <field name="name">19.75</field>
+            <field name="attribute_id" ref="product_attribute_sphere"/>
+        </record>
+        <record id="product_attribute_value_sphere_p2000" model="product.attribute.value">
+            <field name="name">20.00</field>
+            <field name="attribute_id" ref="product_attribute_sphere"/>
+        </record>
+
+        <record id="product_attribute_cylinder" model="product.attribute">
+            <field name="name">CYLINDER</field>
+            <field name="display_type">select</field>
+            <field name="create_variant">always</field>
+        </record>
+
+        <record id="product_attribute_value_cylinder_m800" model="product.attribute.value">
+            <field name="name">-8.00</field>
+            <field name="attribute_id" ref="product_attribute_cylinder"/>
+        </record>
+        <record id="product_attribute_value_cylinder_m775" model="product.attribute.value">
+            <field name="name">-7.75</field>
+            <field name="attribute_id" ref="product_attribute_cylinder"/>
+        </record>
+        <record id="product_attribute_value_cylinder_m750" model="product.attribute.value">
+            <field name="name">-7.50</field>
+            <field name="attribute_id" ref="product_attribute_cylinder"/>
+        </record>
+        <record id="product_attribute_value_cylinder_m725" model="product.attribute.value">
+            <field name="name">-7.25</field>
+            <field name="attribute_id" ref="product_attribute_cylinder"/>
+        </record>
+        <record id="product_attribute_value_cylinder_m700" model="product.attribute.value">
+            <field name="name">-7.00</field>
+            <field name="attribute_id" ref="product_attribute_cylinder"/>
+        </record>
+        <record id="product_attribute_value_cylinder_m675" model="product.attribute.value">
+            <field name="name">-6.75</field>
+            <field name="attribute_id" ref="product_attribute_cylinder"/>
+        </record>
+        <record id="product_attribute_value_cylinder_m650" model="product.attribute.value">
+            <field name="name">-6.50</field>
+            <field name="attribute_id" ref="product_attribute_cylinder"/>
+        </record>
+        <record id="product_attribute_value_cylinder_m625" model="product.attribute.value">
+            <field name="name">-6.25</field>
+            <field name="attribute_id" ref="product_attribute_cylinder"/>
+        </record>
+        <record id="product_attribute_value_cylinder_m600" model="product.attribute.value">
+            <field name="name">-6.00</field>
+            <field name="attribute_id" ref="product_attribute_cylinder"/>
+        </record>
+        <record id="product_attribute_value_cylinder_m575" model="product.attribute.value">
+            <field name="name">-5.75</field>
+            <field name="attribute_id" ref="product_attribute_cylinder"/>
+        </record>
+        <record id="product_attribute_value_cylinder_m550" model="product.attribute.value">
+            <field name="name">-5.50</field>
+            <field name="attribute_id" ref="product_attribute_cylinder"/>
+        </record>
+        <record id="product_attribute_value_cylinder_m525" model="product.attribute.value">
+            <field name="name">-5.25</field>
+            <field name="attribute_id" ref="product_attribute_cylinder"/>
+        </record>
+        <record id="product_attribute_value_cylinder_m500" model="product.attribute.value">
+            <field name="name">-5.00</field>
+            <field name="attribute_id" ref="product_attribute_cylinder"/>
+        </record>
+        <record id="product_attribute_value_cylinder_m475" model="product.attribute.value">
+            <field name="name">-4.75</field>
+            <field name="attribute_id" ref="product_attribute_cylinder"/>
+        </record>
+        <record id="product_attribute_value_cylinder_m450" model="product.attribute.value">
+            <field name="name">-4.50</field>
+            <field name="attribute_id" ref="product_attribute_cylinder"/>
+        </record>
+        <record id="product_attribute_value_cylinder_m425" model="product.attribute.value">
+            <field name="name">-4.25</field>
+            <field name="attribute_id" ref="product_attribute_cylinder"/>
+        </record>
+        <record id="product_attribute_value_cylinder_m400" model="product.attribute.value">
+            <field name="name">-4.00</field>
+            <field name="attribute_id" ref="product_attribute_cylinder"/>
+        </record>
+
+        <record id="product_attribute_value_cylinder_m375" model="product.attribute.value">
+            <field name="name">-3.75</field>
+            <field name="attribute_id" ref="product_attribute_cylinder"/>
+        </record>
+        <record id="product_attribute_value_cylinder_m350" model="product.attribute.value">
+            <field name="name">-3.50</field>
+            <field name="attribute_id" ref="product_attribute_cylinder"/>
+        </record>
+        <record id="product_attribute_value_cylinder_m325" model="product.attribute.value">
+            <field name="name">-3.25</field>
+            <field name="attribute_id" ref="product_attribute_cylinder"/>
+        </record>
+        <record id="product_attribute_value_cylinder_m300" model="product.attribute.value">
+            <field name="name">-3.00</field>
+            <field name="attribute_id" ref="product_attribute_cylinder"/>
+        </record>
+
+        <record id="product_attribute_value_cylinder_m275" model="product.attribute.value">
+            <field name="name">-2.75</field>
+            <field name="attribute_id" ref="product_attribute_cylinder"/>
+        </record>
+        <record id="product_attribute_value_cylinder_m250" model="product.attribute.value">
+            <field name="name">-2.50</field>
+            <field name="attribute_id" ref="product_attribute_cylinder"/>
+        </record>
+        <record id="product_attribute_value_cylinder_m225" model="product.attribute.value">
+            <field name="name">-2.25</field>
+            <field name="attribute_id" ref="product_attribute_cylinder"/>
+        </record>
+        <record id="product_attribute_value_cylinder_m200" model="product.attribute.value">
+            <field name="name">-2.00</field>
+            <field name="attribute_id" ref="product_attribute_cylinder"/>
+        </record>
+
+        <record id="product_attribute_value_cylinder_m175" model="product.attribute.value">
+            <field name="name">-1.75</field>
+            <field name="attribute_id" ref="product_attribute_cylinder"/>
+        </record>
+        <record id="product_attribute_value_cylinder_m150" model="product.attribute.value">
+            <field name="name">-1.50</field>
+            <field name="attribute_id" ref="product_attribute_cylinder"/>
+        </record>
+        <record id="product_attribute_value_cylinder_m125" model="product.attribute.value">
+            <field name="name">-1.25</field>
+            <field name="attribute_id" ref="product_attribute_cylinder"/>
+        </record>
+        <record id="product_attribute_value_cylinder_m100" model="product.attribute.value">
+            <field name="name">-1.00</field>
+            <field name="attribute_id" ref="product_attribute_cylinder"/>
+        </record>
+
+        <record id="product_attribute_value_cylinder_m075" model="product.attribute.value">
+            <field name="name">-0.75</field>
+            <field name="attribute_id" ref="product_attribute_cylinder"/>
+        </record>
+        <record id="product_attribute_value_cylinder_m050" model="product.attribute.value">
+            <field name="name">-0.50</field>
+            <field name="attribute_id" ref="product_attribute_cylinder"/>
+        </record>
+        <record id="product_attribute_value_cylinder_m025" model="product.attribute.value">
+            <field name="name">-0.25</field>
+            <field name="attribute_id" ref="product_attribute_cylinder"/>
+        </record>
+        <record id="product_attribute_value_cylinder_000" model="product.attribute.value">
+            <field name="name">0.00</field>
+            <field name="attribute_id" ref="product_attribute_cylinder"/>
+        </record>
+
+        <record id="product_attribute_value_cylinder_p025" model="product.attribute.value">
+            <field name="name">0.25</field>
+            <field name="attribute_id" ref="product_attribute_cylinder"/>
+        </record>
+        <record id="product_attribute_value_cylinder_p050" model="product.attribute.value">
+            <field name="name">0.50</field>
+            <field name="attribute_id" ref="product_attribute_cylinder"/>
+        </record>
+        <record id="product_attribute_value_cylinder_p075" model="product.attribute.value">
+            <field name="name">0.75</field>
+            <field name="attribute_id" ref="product_attribute_cylinder"/>
+        </record>
+        <record id="product_attribute_value_cylinder_p100" model="product.attribute.value">
+            <field name="name">1.00</field>
+            <field name="attribute_id" ref="product_attribute_cylinder"/>
+        </record>
+        <record id="product_attribute_value_cylinder_p125" model="product.attribute.value">
+            <field name="name">1.25</field>
+            <field name="attribute_id" ref="product_attribute_cylinder"/>
+        </record>
+        <record id="product_attribute_value_cylinder_p150" model="product.attribute.value">
+            <field name="name">1.50</field>
+            <field name="attribute_id" ref="product_attribute_cylinder"/>
+        </record>
+        <record id="product_attribute_value_cylinder_p175" model="product.attribute.value">
+            <field name="name">1.75</field>
+            <field name="attribute_id" ref="product_attribute_cylinder"/>
+        </record>
+        <record id="product_attribute_value_cylinder_p200" model="product.attribute.value">
+            <field name="name">2.00</field>
+            <field name="attribute_id" ref="product_attribute_cylinder"/>
+        </record>
+        <record id="product_attribute_value_cylinder_p225" model="product.attribute.value">
+            <field name="name">2.25</field>
+            <field name="attribute_id" ref="product_attribute_cylinder"/>
+        </record>
+        <record id="product_attribute_value_cylinder_p250" model="product.attribute.value">
+            <field name="name">2.50</field>
+            <field name="attribute_id" ref="product_attribute_cylinder"/>
+        </record>
+        <record id="product_attribute_value_cylinder_p275" model="product.attribute.value">
+            <field name="name">2.75</field>
+            <field name="attribute_id" ref="product_attribute_cylinder"/>
+        </record>
+        <record id="product_attribute_value_cylinder_p300" model="product.attribute.value">
+            <field name="name">3.00</field>
+            <field name="attribute_id" ref="product_attribute_cylinder"/>
+        </record>
+        <record id="product_attribute_value_cylinder_p325" model="product.attribute.value">
+            <field name="name">3.25</field>
+            <field name="attribute_id" ref="product_attribute_cylinder"/>
+        </record>
+        <record id="product_attribute_value_cylinder_p350" model="product.attribute.value">
+            <field name="name">3.50</field>
+            <field name="attribute_id" ref="product_attribute_cylinder"/>
+        </record>
+        <record id="product_attribute_value_cylinder_p375" model="product.attribute.value">
+            <field name="name">3.75</field>
+            <field name="attribute_id" ref="product_attribute_cylinder"/>
+        </record>
+        <record id="product_attribute_value_cylinder_p400" model="product.attribute.value">
+            <field name="name">4.00</field>
+            <field name="attribute_id" ref="product_attribute_cylinder"/>
+        </record>
+        <record id="product_attribute_value_cylinder_p425" model="product.attribute.value">
+            <field name="name">4.25</field>
+            <field name="attribute_id" ref="product_attribute_cylinder"/>
+        </record>
+        <record id="product_attribute_value_cylinder_p450" model="product.attribute.value">
+            <field name="name">4.50</field>
+            <field name="attribute_id" ref="product_attribute_cylinder"/>
+        </record>
+        <record id="product_attribute_value_cylinder_p475" model="product.attribute.value">
+            <field name="name">4.75</field>
+            <field name="attribute_id" ref="product_attribute_cylinder"/>
+        </record>
+        <record id="product_attribute_value_cylinder_p500" model="product.attribute.value">
+            <field name="name">5.00</field>
+            <field name="attribute_id" ref="product_attribute_cylinder"/>
+        </record>
+        <record id="product_attribute_value_cylinder_p525" model="product.attribute.value">
+            <field name="name">5.25</field>
+            <field name="attribute_id" ref="product_attribute_cylinder"/>
+        </record>
+        <record id="product_attribute_value_cylinder_p550" model="product.attribute.value">
+            <field name="name">5.50</field>
+            <field name="attribute_id" ref="product_attribute_cylinder"/>
+        </record>
+        <record id="product_attribute_value_cylinder_p575" model="product.attribute.value">
+            <field name="name">5.75</field>
+            <field name="attribute_id" ref="product_attribute_cylinder"/>
+        </record>
+        <record id="product_attribute_value_cylinder_p600" model="product.attribute.value">
+            <field name="name">6.00</field>
+            <field name="attribute_id" ref="product_attribute_cylinder"/>
+        </record>
+        <record id="product_attribute_value_cylinder_p625" model="product.attribute.value">
+            <field name="name">6.25</field>
+            <field name="attribute_id" ref="product_attribute_cylinder"/>
+        </record>
+        <record id="product_attribute_value_cylinder_p650" model="product.attribute.value">
+            <field name="name">6.50</field>
+            <field name="attribute_id" ref="product_attribute_cylinder"/>
+        </record>
+        <record id="product_attribute_value_cylinder_p675" model="product.attribute.value">
+            <field name="name">6.75</field>
+            <field name="attribute_id" ref="product_attribute_cylinder"/>
+        </record>
+        <record id="product_attribute_value_cylinder_p700" model="product.attribute.value">
+            <field name="name">7.00</field>
+            <field name="attribute_id" ref="product_attribute_cylinder"/>
+        </record>
+        <record id="product_attribute_value_cylinder_p725" model="product.attribute.value">
+            <field name="name">7.25</field>
+            <field name="attribute_id" ref="product_attribute_cylinder"/>
+        </record>
+        <record id="product_attribute_value_cylinder_p750" model="product.attribute.value">
+            <field name="name">7.50</field>
+            <field name="attribute_id" ref="product_attribute_cylinder"/>
+        </record>
+        <record id="product_attribute_value_cylinder_p775" model="product.attribute.value">
+            <field name="name">7.75</field>
+            <field name="attribute_id" ref="product_attribute_cylinder"/>
+        </record>
+        <record id="product_attribute_value_cylinder_p800" model="product.attribute.value">
+            <field name="name">8.00</field>
+            <field name="attribute_id" ref="product_attribute_cylinder"/>
+        </record>
+
+        <record id="product_attribute_addition" model="product.attribute">
+            <field name="name">ADDITION</field>
+            <field name="display_type">select</field>
+            <field name="create_variant">always</field>
+        </record>
+
+
+        <record id="product_attribute_value_addition_p025" model="product.attribute.value">
+            <field name="name">0.25</field>
+            <field name="attribute_id" ref="product_attribute_addition"/>
+        </record>
+        <record id="product_attribute_value_addition_p050" model="product.attribute.value">
+            <field name="name">0.50</field>
+            <field name="attribute_id" ref="product_attribute_addition"/>
+        </record>
+        <record id="product_attribute_value_addition_p075" model="product.attribute.value">
+            <field name="name">0.75</field>
+            <field name="attribute_id" ref="product_attribute_addition"/>
+        </record>
+        <record id="product_attribute_value_addition_p100" model="product.attribute.value">
+            <field name="name">1.00</field>
+            <field name="attribute_id" ref="product_attribute_addition"/>
+        </record>
+        <record id="product_attribute_value_addition_p125" model="product.attribute.value">
+            <field name="name">1.25</field>
+            <field name="attribute_id" ref="product_attribute_addition"/>
+        </record>
+        <record id="product_attribute_value_addition_p150" model="product.attribute.value">
+            <field name="name">1.50</field>
+            <field name="attribute_id" ref="product_attribute_addition"/>
+        </record>
+        <record id="product_attribute_value_addition_p175" model="product.attribute.value">
+            <field name="name">1.75</field>
+            <field name="attribute_id" ref="product_attribute_addition"/>
+        </record>
+        <record id="product_attribute_value_addition_p200" model="product.attribute.value">
+            <field name="name">2.00</field>
+            <field name="attribute_id" ref="product_attribute_addition"/>
+        </record>
+        <record id="product_attribute_value_addition_p225" model="product.attribute.value">
+            <field name="name">2.25</field>
+            <field name="attribute_id" ref="product_attribute_addition"/>
+        </record>
+        <record id="product_attribute_value_addition_p250" model="product.attribute.value">
+            <field name="name">2.50</field>
+            <field name="attribute_id" ref="product_attribute_addition"/>
+        </record>
+        <record id="product_attribute_value_addition_p275" model="product.attribute.value">
+            <field name="name">2.75</field>
+            <field name="attribute_id" ref="product_attribute_addition"/>
+        </record>
+        <record id="product_attribute_value_addition_p300" model="product.attribute.value">
+            <field name="name">3.00</field>
+            <field name="attribute_id" ref="product_attribute_addition"/>
+        </record>
+        <record id="product_attribute_value_addition_p325" model="product.attribute.value">
+            <field name="name">3.25</field>
+            <field name="attribute_id" ref="product_attribute_addition"/>
+        </record>
+        <record id="product_attribute_value_addition_p350" model="product.attribute.value">
+            <field name="name">3.50</field>
+            <field name="attribute_id" ref="product_attribute_addition"/>
+        </record>
+        <record id="product_attribute_value_addition_p375" model="product.attribute.value">
+            <field name="name">3.75</field>
+            <field name="attribute_id" ref="product_attribute_addition"/>
+        </record>
+        <record id="product_attribute_value_addition_p400" model="product.attribute.value">
+            <field name="name">4.00</field>
+            <field name="attribute_id" ref="product_attribute_addition"/>
+        </record>
+        <record id="product_attribute_value_addition_p425" model="product.attribute.value">
+            <field name="name">4.25</field>
+            <field name="attribute_id" ref="product_attribute_addition"/>
+        </record>
+        <record id="product_attribute_value_addition_p450" model="product.attribute.value">
+            <field name="name">4.50</field>
+            <field name="attribute_id" ref="product_attribute_addition"/>
+        </record>
+        <record id="product_attribute_value_addition_p475" model="product.attribute.value">
+            <field name="name">4.75</field>
+            <field name="attribute_id" ref="product_attribute_addition"/>
+        </record>
+        <record id="product_attribute_value_addition_p500" model="product.attribute.value">
+            <field name="name">5.00</field>
+            <field name="attribute_id" ref="product_attribute_addition"/>
+        </record>
+
+        <record id="product_attribute_axis" model="product.attribute">
+            <field name="name">AXIS</field>
+            <field name="display_type">select</field>
+            <field name="create_variant">always</field>
+        </record>
+
+
+             <record id="product_attribute_value_axis_0" model="product.attribute.value">
+            <field name="name">0</field>
+            <field name="attribute_id" ref="product_attribute_axis"/>
+        </record>
+
+
+        <record id="product_attribute_value_axis_1" model="product.attribute.value">
+            <field name="name">1</field>
+            <field name="attribute_id" ref="product_attribute_axis"/>
+        </record>
+
+        <record id="product_attribute_value_axis_2" model="product.attribute.value">
+            <field name="name">2</field>
+            <field name="attribute_id" ref="product_attribute_axis"/>
+        </record>
+        <record id="product_attribute_value_axis_3" model="product.attribute.value">
+            <field name="name">3</field>
+            <field name="attribute_id" ref="product_attribute_axis"/>
+        </record>
+        <record id="product_attribute_value_axis_4" model="product.attribute.value">
+            <field name="name">4</field>
+            <field name="attribute_id" ref="product_attribute_axis"/>
+        </record>
+        <record id="product_attribute_value_axis_5" model="product.attribute.value">
+            <field name="name">5</field>
+            <field name="attribute_id" ref="product_attribute_axis"/>
+        </record>
+        <record id="product_attribute_value_axis_6" model="product.attribute.value">
+            <field name="name">6</field>
+            <field name="attribute_id" ref="product_attribute_axis"/>
+        </record>
+        <record id="product_attribute_value_axis_7" model="product.attribute.value">
+            <field name="name">7</field>
+            <field name="attribute_id" ref="product_attribute_axis"/>
+        </record>
+        <record id="product_attribute_value_axis_8" model="product.attribute.value">
+            <field name="name">8</field>
+            <field name="attribute_id" ref="product_attribute_axis"/>
+        </record>
+        <record id="product_attribute_value_axis_9" model="product.attribute.value">
+            <field name="name">9</field>
+            <field name="attribute_id" ref="product_attribute_axis"/>
+        </record>
+        <record id="product_attribute_value_axis_10" model="product.attribute.value">
+            <field name="name">10</field>
+            <field name="attribute_id" ref="product_attribute_axis"/>
+        </record>
+        <record id="product_attribute_value_axis_11" model="product.attribute.value">
+            <field name="name">11</field>
+            <field name="attribute_id" ref="product_attribute_axis"/>
+        </record>
+        <record id="product_attribute_value_axis_12" model="product.attribute.value">
+            <field name="name">12</field>
+            <field name="attribute_id" ref="product_attribute_axis"/>
+        </record>
+        <record id="product_attribute_value_axis_13" model="product.attribute.value">
+            <field name="name">13</field>
+            <field name="attribute_id" ref="product_attribute_axis"/>
+        </record>
+        <record id="product_attribute_value_axis_14" model="product.attribute.value">
+            <field name="name">14</field>
+            <field name="attribute_id" ref="product_attribute_axis"/>
+        </record>
+        <record id="product_attribute_value_axis_15" model="product.attribute.value">
+            <field name="name">15</field>
+            <field name="attribute_id" ref="product_attribute_axis"/>
+        </record>
+        <record id="product_attribute_value_axis_16" model="product.attribute.value">
+            <field name="name">16</field>
+            <field name="attribute_id" ref="product_attribute_axis"/>
+        </record>
+        <record id="product_attribute_value_axis_17" model="product.attribute.value">
+            <field name="name">17</field>
+            <field name="attribute_id" ref="product_attribute_axis"/>
+        </record>
+        <record id="product_attribute_value_axis_18" model="product.attribute.value">
+            <field name="name">18</field>
+            <field name="attribute_id" ref="product_attribute_axis"/>
+        </record>
+        <record id="product_attribute_value_axis_19" model="product.attribute.value">
+            <field name="name">19</field>
+            <field name="attribute_id" ref="product_attribute_axis"/>
+        </record>
+        <record id="product_attribute_value_axis_20" model="product.attribute.value">
+            <field name="name">20</field>
+            <field name="attribute_id" ref="product_attribute_axis"/>
+        </record>
+        <record id="product_attribute_value_axis_21" model="product.attribute.value">
+            <field name="name">21</field>
+            <field name="attribute_id" ref="product_attribute_axis"/>
+        </record>
+        <record id="product_attribute_value_axis_22" model="product.attribute.value">
+            <field name="name">22</field>
+            <field name="attribute_id" ref="product_attribute_axis"/>
+        </record>
+        <record id="product_attribute_value_axis_23" model="product.attribute.value">
+            <field name="name">23</field>
+            <field name="attribute_id" ref="product_attribute_axis"/>
+        </record>
+        <record id="product_attribute_value_axis_24" model="product.attribute.value">
+            <field name="name">24</field>
+            <field name="attribute_id" ref="product_attribute_axis"/>
+        </record>
+        <record id="product_attribute_value_axis_25" model="product.attribute.value">
+            <field name="name">25</field>
+            <field name="attribute_id" ref="product_attribute_axis"/>
+        </record>
+        <record id="product_attribute_value_axis_26" model="product.attribute.value">
+            <field name="name">26</field>
+            <field name="attribute_id" ref="product_attribute_axis"/>
+        </record>
+        <record id="product_attribute_value_axis_27" model="product.attribute.value">
+            <field name="name">27</field>
+            <field name="attribute_id" ref="product_attribute_axis"/>
+        </record>
+        <record id="product_attribute_value_axis_28" model="product.attribute.value">
+            <field name="name">28</field>
+            <field name="attribute_id" ref="product_attribute_axis"/>
+        </record>
+        <record id="product_attribute_value_axis_29" model="product.attribute.value">
+            <field name="name">29</field>
+            <field name="attribute_id" ref="product_attribute_axis"/>
+        </record>
+        <record id="product_attribute_value_axis_30" model="product.attribute.value">
+            <field name="name">30</field>
+            <field name="attribute_id" ref="product_attribute_axis"/>
+        </record>
+        <record id="product_attribute_value_axis_31" model="product.attribute.value">
+            <field name="name">31</field>
+            <field name="attribute_id" ref="product_attribute_axis"/>
+        </record>
+        <record id="product_attribute_value_axis_32" model="product.attribute.value">
+            <field name="name">32</field>
+            <field name="attribute_id" ref="product_attribute_axis"/>
+        </record>
+        <record id="product_attribute_value_axis_33" model="product.attribute.value">
+            <field name="name">33</field>
+            <field name="attribute_id" ref="product_attribute_axis"/>
+        </record>
+        <record id="product_attribute_value_axis_34" model="product.attribute.value">
+            <field name="name">34</field>
+            <field name="attribute_id" ref="product_attribute_axis"/>
+        </record>
+        <record id="product_attribute_value_axis_35" model="product.attribute.value">
+            <field name="name">35</field>
+            <field name="attribute_id" ref="product_attribute_axis"/>
+        </record>
+        <record id="product_attribute_value_axis_36" model="product.attribute.value">
+            <field name="name">36</field>
+            <field name="attribute_id" ref="product_attribute_axis"/>
+        </record>
+        <record id="product_attribute_value_axis_37" model="product.attribute.value">
+            <field name="name">37</field>
+            <field name="attribute_id" ref="product_attribute_axis"/>
+        </record>
+        <record id="product_attribute_value_axis_38" model="product.attribute.value">
+            <field name="name">38</field>
+            <field name="attribute_id" ref="product_attribute_axis"/>
+        </record>
+        <record id="product_attribute_value_axis_39" model="product.attribute.value">
+            <field name="name">39</field>
+            <field name="attribute_id" ref="product_attribute_axis"/>
+        </record>
+        <record id="product_attribute_value_axis_40" model="product.attribute.value">
+            <field name="name">40</field>
+            <field name="attribute_id" ref="product_attribute_axis"/>
+        </record>
+        <record id="product_attribute_value_axis_41" model="product.attribute.value">
+            <field name="name">41</field>
+            <field name="attribute_id" ref="product_attribute_axis"/>
+        </record>
+        <record id="product_attribute_value_axis_42" model="product.attribute.value">
+            <field name="name">42</field>
+            <field name="attribute_id" ref="product_attribute_axis"/>
+        </record>
+        <record id="product_attribute_value_axis_43" model="product.attribute.value">
+            <field name="name">43</field>
+            <field name="attribute_id" ref="product_attribute_axis"/>
+        </record>
+        <record id="product_attribute_value_axis_44" model="product.attribute.value">
+            <field name="name">44</field>
+            <field name="attribute_id" ref="product_attribute_axis"/>
+        </record>
+        <record id="product_attribute_value_axis_45" model="product.attribute.value">
+            <field name="name">45</field>
+            <field name="attribute_id" ref="product_attribute_axis"/>
+        </record>
+        <record id="product_attribute_value_axis_46" model="product.attribute.value">
+            <field name="name">46</field>
+            <field name="attribute_id" ref="product_attribute_axis"/>
+        </record>
+        <record id="product_attribute_value_axis_47" model="product.attribute.value">
+            <field name="name">47</field>
+            <field name="attribute_id" ref="product_attribute_axis"/>
+        </record>
+        <record id="product_attribute_value_axis_48" model="product.attribute.value">
+            <field name="name">48</field>
+            <field name="attribute_id" ref="product_attribute_axis"/>
+        </record>
+        <record id="product_attribute_value_axis_49" model="product.attribute.value">
+            <field name="name">49</field>
+            <field name="attribute_id" ref="product_attribute_axis"/>
+        </record>
+        <record id="product_attribute_value_axis_50" model="product.attribute.value">
+            <field name="name">50</field>
+            <field name="attribute_id" ref="product_attribute_axis"/>
+        </record>
+        <record id="product_attribute_value_axis_51" model="product.attribute.value">
+            <field name="name">51</field>
+            <field name="attribute_id" ref="product_attribute_axis"/>
+        </record>
+        <record id="product_attribute_value_axis_52" model="product.attribute.value">
+            <field name="name">52</field>
+            <field name="attribute_id" ref="product_attribute_axis"/>
+        </record>
+        <record id="product_attribute_value_axis_53" model="product.attribute.value">
+            <field name="name">53</field>
+            <field name="attribute_id" ref="product_attribute_axis"/>
+        </record>
+        <record id="product_attribute_value_axis_54" model="product.attribute.value">
+            <field name="name">54</field>
+            <field name="attribute_id" ref="product_attribute_axis"/>
+        </record>
+        <record id="product_attribute_value_axis_55" model="product.attribute.value">
+            <field name="name">55</field>
+            <field name="attribute_id" ref="product_attribute_axis"/>
+        </record>
+        <record id="product_attribute_value_axis_56" model="product.attribute.value">
+            <field name="name">56</field>
+            <field name="attribute_id" ref="product_attribute_axis"/>
+        </record>
+        <record id="product_attribute_value_axis_57" model="product.attribute.value">
+            <field name="name">57</field>
+            <field name="attribute_id" ref="product_attribute_axis"/>
+        </record>
+        <record id="product_attribute_value_axis_58" model="product.attribute.value">
+            <field name="name">58</field>
+            <field name="attribute_id" ref="product_attribute_axis"/>
+        </record>
+        <record id="product_attribute_value_axis_59" model="product.attribute.value">
+            <field name="name">59</field>
+            <field name="attribute_id" ref="product_attribute_axis"/>
+        </record>
+        <record id="product_attribute_value_axis_60" model="product.attribute.value">
+            <field name="name">60</field>
+            <field name="attribute_id" ref="product_attribute_axis"/>
+        </record>
+        <record id="product_attribute_value_axis_61" model="product.attribute.value">
+            <field name="name">61</field>
+            <field name="attribute_id" ref="product_attribute_axis"/>
+        </record>
+        <record id="product_attribute_value_axis_62" model="product.attribute.value">
+            <field name="name">62</field>
+            <field name="attribute_id" ref="product_attribute_axis"/>
+        </record>
+        <record id="product_attribute_value_axis_63" model="product.attribute.value">
+            <field name="name">63</field>
+            <field name="attribute_id" ref="product_attribute_axis"/>
+        </record>
+        <record id="product_attribute_value_axis_64" model="product.attribute.value">
+            <field name="name">64</field>
+            <field name="attribute_id" ref="product_attribute_axis"/>
+        </record>
+        <record id="product_attribute_value_axis_65" model="product.attribute.value">
+            <field name="name">65</field>
+            <field name="attribute_id" ref="product_attribute_axis"/>
+        </record>
+        <record id="product_attribute_value_axis_66" model="product.attribute.value">
+            <field name="name">66</field>
+            <field name="attribute_id" ref="product_attribute_axis"/>
+        </record>
+        <record id="product_attribute_value_axis_67" model="product.attribute.value">
+            <field name="name">67</field>
+            <field name="attribute_id" ref="product_attribute_axis"/>
+        </record>
+        <record id="product_attribute_value_axis_68" model="product.attribute.value">
+            <field name="name">68</field>
+            <field name="attribute_id" ref="product_attribute_axis"/>
+        </record>
+        <record id="product_attribute_value_axis_69" model="product.attribute.value">
+            <field name="name">69</field>
+            <field name="attribute_id" ref="product_attribute_axis"/>
+        </record>
+        <record id="product_attribute_value_axis_70" model="product.attribute.value">
+            <field name="name">70</field>
+            <field name="attribute_id" ref="product_attribute_axis"/>
+        </record>
+        <record id="product_attribute_value_axis_71" model="product.attribute.value">
+            <field name="name">71</field>
+            <field name="attribute_id" ref="product_attribute_axis"/>
+        </record>
+        <record id="product_attribute_value_axis_72" model="product.attribute.value">
+            <field name="name">72</field>
+            <field name="attribute_id" ref="product_attribute_axis"/>
+        </record>
+        <record id="product_attribute_value_axis_73" model="product.attribute.value">
+            <field name="name">73</field>
+            <field name="attribute_id" ref="product_attribute_axis"/>
+        </record>
+        <record id="product_attribute_value_axis_74" model="product.attribute.value">
+            <field name="name">74</field>
+            <field name="attribute_id" ref="product_attribute_axis"/>
+        </record>
+        <record id="product_attribute_value_axis_75" model="product.attribute.value">
+            <field name="name">75</field>
+            <field name="attribute_id" ref="product_attribute_axis"/>
+        </record>
+        <record id="product_attribute_value_axis_76" model="product.attribute.value">
+            <field name="name">76</field>
+            <field name="attribute_id" ref="product_attribute_axis"/>
+        </record>
+        <record id="product_attribute_value_axis_77" model="product.attribute.value">
+            <field name="name">77</field>
+            <field name="attribute_id" ref="product_attribute_axis"/>
+        </record>
+        <record id="product_attribute_value_axis_78" model="product.attribute.value">
+            <field name="name">78</field>
+            <field name="attribute_id" ref="product_attribute_axis"/>
+        </record>
+        <record id="product_attribute_value_axis_79" model="product.attribute.value">
+            <field name="name">79</field>
+            <field name="attribute_id" ref="product_attribute_axis"/>
+        </record>
+        <record id="product_attribute_value_axis_80" model="product.attribute.value">
+            <field name="name">80</field>
+            <field name="attribute_id" ref="product_attribute_axis"/>
+        </record>
+        <record id="product_attribute_value_axis_81" model="product.attribute.value">
+            <field name="name">81</field>
+            <field name="attribute_id" ref="product_attribute_axis"/>
+        </record>
+        <record id="product_attribute_value_axis_82" model="product.attribute.value">
+            <field name="name">82</field>
+            <field name="attribute_id" ref="product_attribute_axis"/>
+        </record>
+        <record id="product_attribute_value_axis_83" model="product.attribute.value">
+            <field name="name">83</field>
+            <field name="attribute_id" ref="product_attribute_axis"/>
+        </record>
+        <record id="product_attribute_value_axis_84" model="product.attribute.value">
+            <field name="name">84</field>
+            <field name="attribute_id" ref="product_attribute_axis"/>
+        </record>
+        <record id="product_attribute_value_axis_85" model="product.attribute.value">
+            <field name="name">85</field>
+            <field name="attribute_id" ref="product_attribute_axis"/>
+        </record>
+        <record id="product_attribute_value_axis_86" model="product.attribute.value">
+            <field name="name">86</field>
+            <field name="attribute_id" ref="product_attribute_axis"/>
+        </record>
+        <record id="product_attribute_value_axis_87" model="product.attribute.value">
+            <field name="name">87</field>
+            <field name="attribute_id" ref="product_attribute_axis"/>
+        </record>
+        <record id="product_attribute_value_axis_88" model="product.attribute.value">
+            <field name="name">88</field>
+            <field name="attribute_id" ref="product_attribute_axis"/>
+        </record>
+        <record id="product_attribute_value_axis_89" model="product.attribute.value">
+            <field name="name">89</field>
+            <field name="attribute_id" ref="product_attribute_axis"/>
+        </record>
+        <record id="product_attribute_value_axis_90" model="product.attribute.value">
+            <field name="name">90</field>
+            <field name="attribute_id" ref="product_attribute_axis"/>
+        </record>
+        <record id="product_attribute_value_axis_91" model="product.attribute.value">
+            <field name="name">91</field>
+            <field name="attribute_id" ref="product_attribute_axis"/>
+        </record>
+        <record id="product_attribute_value_axis_92" model="product.attribute.value">
+            <field name="name">92</field>
+            <field name="attribute_id" ref="product_attribute_axis"/>
+        </record>
+        <record id="product_attribute_value_axis_93" model="product.attribute.value">
+            <field name="name">93</field>
+            <field name="attribute_id" ref="product_attribute_axis"/>
+        </record>
+        <record id="product_attribute_value_axis_94" model="product.attribute.value">
+            <field name="name">94</field>
+            <field name="attribute_id" ref="product_attribute_axis"/>
+        </record>
+        <record id="product_attribute_value_axis_95" model="product.attribute.value">
+            <field name="name">95</field>
+            <field name="attribute_id" ref="product_attribute_axis"/>
+        </record>
+        <record id="product_attribute_value_axis_96" model="product.attribute.value">
+            <field name="name">96</field>
+            <field name="attribute_id" ref="product_attribute_axis"/>
+        </record>
+        <record id="product_attribute_value_axis_97" model="product.attribute.value">
+            <field name="name">97</field>
+            <field name="attribute_id" ref="product_attribute_axis"/>
+        </record>
+        <record id="product_attribute_value_axis_98" model="product.attribute.value">
+            <field name="name">98</field>
+            <field name="attribute_id" ref="product_attribute_axis"/>
+        </record>
+        <record id="product_attribute_value_axis_99" model="product.attribute.value">
+            <field name="name">99</field>
+            <field name="attribute_id" ref="product_attribute_axis"/>
+        </record>
+        <record id="product_attribute_value_axis_100" model="product.attribute.value">
+            <field name="name">100</field>
+            <field name="attribute_id" ref="product_attribute_axis"/>
+        </record>
+        <record id="product_attribute_value_axis_101" model="product.attribute.value">
+            <field name="name">101</field>
+            <field name="attribute_id" ref="product_attribute_axis"/>
+        </record>
+        <record id="product_attribute_value_axis_102" model="product.attribute.value">
+            <field name="name">102</field>
+            <field name="attribute_id" ref="product_attribute_axis"/>
+        </record>
+        <record id="product_attribute_value_axis_103" model="product.attribute.value">
+            <field name="name">103</field>
+            <field name="attribute_id" ref="product_attribute_axis"/>
+        </record>
+        <record id="product_attribute_value_axis_104" model="product.attribute.value">
+            <field name="name">104</field>
+            <field name="attribute_id" ref="product_attribute_axis"/>
+        </record>
+        <record id="product_attribute_value_axis_105" model="product.attribute.value">
+            <field name="name">105</field>
+            <field name="attribute_id" ref="product_attribute_axis"/>
+        </record>
+        <record id="product_attribute_value_axis_106" model="product.attribute.value">
+            <field name="name">106</field>
+            <field name="attribute_id" ref="product_attribute_axis"/>
+        </record>
+        <record id="product_attribute_value_axis_107" model="product.attribute.value">
+            <field name="name">107</field>
+            <field name="attribute_id" ref="product_attribute_axis"/>
+        </record>
+        <record id="product_attribute_value_axis_108" model="product.attribute.value">
+            <field name="name">108</field>
+            <field name="attribute_id" ref="product_attribute_axis"/>
+        </record>
+        <record id="product_attribute_value_axis_109" model="product.attribute.value">
+            <field name="name">109</field>
+            <field name="attribute_id" ref="product_attribute_axis"/>
+        </record>
+        <record id="product_attribute_value_axis_110" model="product.attribute.value">
+            <field name="name">110</field>
+            <field name="attribute_id" ref="product_attribute_axis"/>
+        </record>
+        <record id="product_attribute_value_axis_111" model="product.attribute.value">
+            <field name="name">111</field>
+            <field name="attribute_id" ref="product_attribute_axis"/>
+        </record>
+        <record id="product_attribute_value_axis_112" model="product.attribute.value">
+            <field name="name">112</field>
+            <field name="attribute_id" ref="product_attribute_axis"/>
+        </record>
+        <record id="product_attribute_value_axis_113" model="product.attribute.value">
+            <field name="name">113</field>
+            <field name="attribute_id" ref="product_attribute_axis"/>
+        </record>
+        <record id="product_attribute_value_axis_114" model="product.attribute.value">
+            <field name="name">114</field>
+            <field name="attribute_id" ref="product_attribute_axis"/>
+        </record>
+        <record id="product_attribute_value_axis_115" model="product.attribute.value">
+            <field name="name">115</field>
+            <field name="attribute_id" ref="product_attribute_axis"/>
+        </record>
+        <record id="product_attribute_value_axis_116" model="product.attribute.value">
+            <field name="name">116</field>
+            <field name="attribute_id" ref="product_attribute_axis"/>
+        </record>
+        <record id="product_attribute_value_axis_117" model="product.attribute.value">
+            <field name="name">117</field>
+            <field name="attribute_id" ref="product_attribute_axis"/>
+        </record>
+        <record id="product_attribute_value_axis_118" model="product.attribute.value">
+            <field name="name">118</field>
+            <field name="attribute_id" ref="product_attribute_axis"/>
+        </record>
+        <record id="product_attribute_value_axis_119" model="product.attribute.value">
+            <field name="name">119</field>
+            <field name="attribute_id" ref="product_attribute_axis"/>
+        </record>
+        <record id="product_attribute_value_axis_120" model="product.attribute.value">
+            <field name="name">120</field>
+            <field name="attribute_id" ref="product_attribute_axis"/>
+        </record>
+        <record id="product_attribute_value_axis_121" model="product.attribute.value">
+            <field name="name">121</field>
+            <field name="attribute_id" ref="product_attribute_axis"/>
+        </record>
+        <record id="product_attribute_value_axis_122" model="product.attribute.value">
+            <field name="name">122</field>
+            <field name="attribute_id" ref="product_attribute_axis"/>
+        </record>
+        <record id="product_attribute_value_axis_123" model="product.attribute.value">
+            <field name="name">123</field>
+            <field name="attribute_id" ref="product_attribute_axis"/>
+        </record>
+        <record id="product_attribute_value_axis_124" model="product.attribute.value">
+            <field name="name">124</field>
+            <field name="attribute_id" ref="product_attribute_axis"/>
+        </record>
+        <record id="product_attribute_value_axis_125" model="product.attribute.value">
+            <field name="name">125</field>
+            <field name="attribute_id" ref="product_attribute_axis"/>
+        </record>
+        <record id="product_attribute_value_axis_126" model="product.attribute.value">
+            <field name="name">126</field>
+            <field name="attribute_id" ref="product_attribute_axis"/>
+        </record>
+        <record id="product_attribute_value_axis_127" model="product.attribute.value">
+            <field name="name">127</field>
+            <field name="attribute_id" ref="product_attribute_axis"/>
+        </record>
+        <record id="product_attribute_value_axis_128" model="product.attribute.value">
+            <field name="name">128</field>
+            <field name="attribute_id" ref="product_attribute_axis"/>
+        </record>
+        <record id="product_attribute_value_axis_129" model="product.attribute.value">
+            <field name="name">129</field>
+            <field name="attribute_id" ref="product_attribute_axis"/>
+        </record>
+        <record id="product_attribute_value_axis_130" model="product.attribute.value">
+            <field name="name">130</field>
+            <field name="attribute_id" ref="product_attribute_axis"/>
+        </record>
+        <record id="product_attribute_value_axis_131" model="product.attribute.value">
+            <field name="name">131</field>
+            <field name="attribute_id" ref="product_attribute_axis"/>
+        </record>
+        <record id="product_attribute_value_axis_132" model="product.attribute.value">
+            <field name="name">132</field>
+            <field name="attribute_id" ref="product_attribute_axis"/>
+        </record>
+        <record id="product_attribute_value_axis_133" model="product.attribute.value">
+            <field name="name">133</field>
+            <field name="attribute_id" ref="product_attribute_axis"/>
+        </record>
+        <record id="product_attribute_value_axis_134" model="product.attribute.value">
+            <field name="name">134</field>
+            <field name="attribute_id" ref="product_attribute_axis"/>
+        </record>
+        <record id="product_attribute_value_axis_135" model="product.attribute.value">
+            <field name="name">135</field>
+            <field name="attribute_id" ref="product_attribute_axis"/>
+        </record>
+        <record id="product_attribute_value_axis_136" model="product.attribute.value">
+            <field name="name">136</field>
+            <field name="attribute_id" ref="product_attribute_axis"/>
+        </record>
+        <record id="product_attribute_value_axis_137" model="product.attribute.value">
+            <field name="name">137</field>
+            <field name="attribute_id" ref="product_attribute_axis"/>
+        </record>
+        <record id="product_attribute_value_axis_138" model="product.attribute.value">
+            <field name="name">138</field>
+            <field name="attribute_id" ref="product_attribute_axis"/>
+        </record>
+        <record id="product_attribute_value_axis_139" model="product.attribute.value">
+            <field name="name">139</field>
+            <field name="attribute_id" ref="product_attribute_axis"/>
+        </record>
+        <record id="product_attribute_value_axis_140" model="product.attribute.value">
+            <field name="name">140</field>
+            <field name="attribute_id" ref="product_attribute_axis"/>
+        </record>
+        <record id="product_attribute_value_axis_141" model="product.attribute.value">
+            <field name="name">141</field>
+            <field name="attribute_id" ref="product_attribute_axis"/>
+        </record>
+        <record id="product_attribute_value_axis_142" model="product.attribute.value">
+            <field name="name">142</field>
+            <field name="attribute_id" ref="product_attribute_axis"/>
+        </record>
+        <record id="product_attribute_value_axis_143" model="product.attribute.value">
+            <field name="name">143</field>
+            <field name="attribute_id" ref="product_attribute_axis"/>
+        </record>
+        <record id="product_attribute_value_axis_144" model="product.attribute.value">
+            <field name="name">144</field>
+            <field name="attribute_id" ref="product_attribute_axis"/>
+        </record>
+        <record id="product_attribute_value_axis_145" model="product.attribute.value">
+            <field name="name">145</field>
+            <field name="attribute_id" ref="product_attribute_axis"/>
+        </record>
+        <record id="product_attribute_value_axis_146" model="product.attribute.value">
+            <field name="name">146</field>
+            <field name="attribute_id" ref="product_attribute_axis"/>
+        </record>
+        <record id="product_attribute_value_axis_147" model="product.attribute.value">
+            <field name="name">147</field>
+            <field name="attribute_id" ref="product_attribute_axis"/>
+        </record>
+        <record id="product_attribute_value_axis_148" model="product.attribute.value">
+            <field name="name">148</field>
+            <field name="attribute_id" ref="product_attribute_axis"/>
+        </record>
+        <record id="product_attribute_value_axis_149" model="product.attribute.value">
+            <field name="name">149</field>
+            <field name="attribute_id" ref="product_attribute_axis"/>
+        </record>
+        <record id="product_attribute_value_axis_150" model="product.attribute.value">
+            <field name="name">150</field>
+            <field name="attribute_id" ref="product_attribute_axis"/>
+        </record>
+        <record id="product_attribute_value_axis_151" model="product.attribute.value">
+            <field name="name">151</field>
+            <field name="attribute_id" ref="product_attribute_axis"/>
+        </record>
+        <record id="product_attribute_value_axis_152" model="product.attribute.value">
+            <field name="name">152</field>
+            <field name="attribute_id" ref="product_attribute_axis"/>
+        </record>
+        <record id="product_attribute_value_axis_153" model="product.attribute.value">
+            <field name="name">153</field>
+            <field name="attribute_id" ref="product_attribute_axis"/>
+        </record>
+        <record id="product_attribute_value_axis_154" model="product.attribute.value">
+            <field name="name">154</field>
+            <field name="attribute_id" ref="product_attribute_axis"/>
+        </record>
+        <record id="product_attribute_value_axis_155" model="product.attribute.value">
+            <field name="name">155</field>
+            <field name="attribute_id" ref="product_attribute_axis"/>
+        </record>
+        <record id="product_attribute_value_axis_156" model="product.attribute.value">
+            <field name="name">156</field>
+            <field name="attribute_id" ref="product_attribute_axis"/>
+        </record>
+        <record id="product_attribute_value_axis_157" model="product.attribute.value">
+            <field name="name">157</field>
+            <field name="attribute_id" ref="product_attribute_axis"/>
+        </record>
+        <record id="product_attribute_value_axis_158" model="product.attribute.value">
+            <field name="name">158</field>
+            <field name="attribute_id" ref="product_attribute_axis"/>
+        </record>
+        <record id="product_attribute_value_axis_159" model="product.attribute.value">
+            <field name="name">159</field>
+            <field name="attribute_id" ref="product_attribute_axis"/>
+        </record>
+        <record id="product_attribute_value_axis_160" model="product.attribute.value">
+            <field name="name">160</field>
+            <field name="attribute_id" ref="product_attribute_axis"/>
+        </record>
+        <record id="product_attribute_value_axis_161" model="product.attribute.value">
+            <field name="name">161</field>
+            <field name="attribute_id" ref="product_attribute_axis"/>
+        </record>
+        <record id="product_attribute_value_axis_162" model="product.attribute.value">
+            <field name="name">162</field>
+            <field name="attribute_id" ref="product_attribute_axis"/>
+        </record>
+        <record id="product_attribute_value_axis_163" model="product.attribute.value">
+            <field name="name">163</field>
+            <field name="attribute_id" ref="product_attribute_axis"/>
+        </record>
+        <record id="product_attribute_value_axis_164" model="product.attribute.value">
+            <field name="name">164</field>
+            <field name="attribute_id" ref="product_attribute_axis"/>
+        </record>
+        <record id="product_attribute_value_axis_165" model="product.attribute.value">
+            <field name="name">165</field>
+            <field name="attribute_id" ref="product_attribute_axis"/>
+        </record>
+        <record id="product_attribute_value_axis_166" model="product.attribute.value">
+            <field name="name">166</field>
+            <field name="attribute_id" ref="product_attribute_axis"/>
+        </record>
+        <record id="product_attribute_value_axis_167" model="product.attribute.value">
+            <field name="name">167</field>
+            <field name="attribute_id" ref="product_attribute_axis"/>
+        </record>
+        <record id="product_attribute_value_axis_168" model="product.attribute.value">
+            <field name="name">168</field>
+            <field name="attribute_id" ref="product_attribute_axis"/>
+        </record>
+        <record id="product_attribute_value_axis_169" model="product.attribute.value">
+            <field name="name">169</field>
+            <field name="attribute_id" ref="product_attribute_axis"/>
+        </record>
+        <record id="product_attribute_value_axis_170" model="product.attribute.value">
+            <field name="name">170</field>
+            <field name="attribute_id" ref="product_attribute_axis"/>
+        </record>
+        <record id="product_attribute_value_axis_171" model="product.attribute.value">
+            <field name="name">171</field>
+            <field name="attribute_id" ref="product_attribute_axis"/>
+        </record>
+        <record id="product_attribute_value_axis_172" model="product.attribute.value">
+            <field name="name">172</field>
+            <field name="attribute_id" ref="product_attribute_axis"/>
+        </record>
+        <record id="product_attribute_value_axis_173" model="product.attribute.value">
+            <field name="name">173</field>
+            <field name="attribute_id" ref="product_attribute_axis"/>
+        </record>
+        <record id="product_attribute_value_axis_174" model="product.attribute.value">
+            <field name="name">174</field>
+            <field name="attribute_id" ref="product_attribute_axis"/>
+        </record>
+        <record id="product_attribute_value_axis_175" model="product.attribute.value">
+            <field name="name">175</field>
+            <field name="attribute_id" ref="product_attribute_axis"/>
+        </record>
+        <record id="product_attribute_value_axis_176" model="product.attribute.value">
+            <field name="name">176</field>
+            <field name="attribute_id" ref="product_attribute_axis"/>
+        </record>
+        <record id="product_attribute_value_axis_177" model="product.attribute.value">
+            <field name="name">177</field>
+            <field name="attribute_id" ref="product_attribute_axis"/>
+        </record>
+        <record id="product_attribute_value_axis_178" model="product.attribute.value">
+            <field name="name">178</field>
+            <field name="attribute_id" ref="product_attribute_axis"/>
+        </record>
+        <record id="product_attribute_value_axis_179" model="product.attribute.value">
+            <field name="name">179</field>
+            <field name="attribute_id" ref="product_attribute_axis"/>
+        </record>
+        <record id="product_attribute_value_axis_180" model="product.attribute.value">
+            <field name="name">180</field>
+            <field name="attribute_id" ref="product_attribute_axis"/>
+        </record>
+
+        	<record id="product_attribute_diameter" model="product.attribute">
+            <field name="name">DIAMETER</field>
+            <field name="display_type">select</field>
+            <field name="create_variant">always</field>
+        </record>
+
+         <record id="product_attribute_value_diameter_65" model="product.attribute.value">
+            <field name="name">65</field>
+            <field name="attribute_id" ref="product_attribute_diameter"/>
+        </record>
+        <record id="product_attribute_value_diameter_70" model="product.attribute.value">
+            <field name="name">70</field>
+            <field name="attribute_id" ref="product_attribute_diameter"/>
+        </record>
+        <record id="product_attribute_value_diameter_75" model="product.attribute.value">
+            <field name="name">75</field>
+            <field name="attribute_id" ref="product_attribute_diameter"/>
+        </record>
+         <record id="product_attribute_value_diameter_1430" model="product.attribute.value">
+            <field name="name">14.30</field>
+            <field name="attribute_id" ref="product_attribute_diameter"/>
+        </record>
+
+	<record id="product_attribute_bc" model="product.attribute">
+            <field name="name">BASE CURVE</field>
+            <field name="display_type">select</field>
+            <field name="create_variant">always</field>
+        </record>
+
+        <record id="product_attribute_value_bc_6" model="product.attribute.value">
+            <field name="name">6</field>
+            <field name="attribute_id" ref="product_attribute_bc"/>
+        </record>
+        <record id="product_attribute_value_bc_850" model="product.attribute.value">
+            <field name="name">8.50</field>
+            <field name="attribute_id" ref="product_attribute_bc"/>
+        </record>
+
+         <record id="product_attribute_size" model="product.attribute">
+            <field name="name">SIZE</field>
+            <field name="display_type">select</field>
+            <field name="create_variant">always</field>
+        </record>
+
+        <record id="product_attribute_value_250ml" model="product.attribute.value">
+            <field name="name">250 ML</field>
+            <field name="attribute_id" ref="product_attribute_size"/>
+        </record>
+
+
+
+
+
+    </data>
+</odoo>

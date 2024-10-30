@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+
+    <menuitem id="insurance_menu_root"
+              name="Insurance"
+              sequence="20">
+
+        <menuitem id="menu_insurance"
+                  name="Insurance"
+                  sequence="10">
+            <menuitem
+                    id="insurance_company"
+                    name="Insurance Companies"
+                    action="action_insurance_company_form"
+                    sequence="10"/>
+
+            <menuitem
+                    id="insurance_policy"
+                    name="Insurance Policies"
+                    action="action_insurance_policy_form"
+                    sequence="20"/>
+             <menuitem
+                    id="insurance_claim"
+                    name="Insurance Claim"
+                    action="action_insurance_claim_form"
+                    sequence="30"/>
+
+
+
+        </menuitem>
+        <menuitem id="menu_reporting"
+                  name="Reporting"
+                  sequence="25">
+            <menuitem
+                    id="audit_claim"
+                    name="Audit Claim"
+                    action="action_audit_claim_form"
+                    sequence="0"/>
+            <menuitem
+                    id="claim_invoice"
+                    name="Claim Invoice"
+                    action="action_claim_invoice_wizard"
+                    sequence="10"/>
+             <menuitem
+                    id="group_summary_statement"
+                    name="GSS - Group Summary Statement"
+                    action="action_group_summary_statement_form"
+                    sequence="20"/>
+             <menuitem
+                    id="claim_export"
+                    name="Claim Export"
+                    action="action_claim_export_report_wizard"
+                    sequence="30"/>
+        </menuitem>
+    </menuitem>
+</odoo>

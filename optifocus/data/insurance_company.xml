@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+    <data noupdate="1">
+
+
+        <record model="insurance.company" id="ic_ark">
+            <field name="name">AL RAJHI TAKAFUL</field>
+            <field name="provider_id">6512120007</field>
+            <field name="partner_id" ref="optifocus.rp_ark"/>
+            <field name="pricelist_id" ref="optifocus.list1"/>
+
+        </record>
+        <record id="insurance_plan_1" model="insurance.plan">
+            <field name="insurance_company_id" ref="optifocus.ic_ark"/>
+            <field name="name">REGULAR</field>
+            <field name="insurance_discount">30</field>
+            <field name="member_discount">0</field>
+        </record>
+
+          <record model="insurance.company" id="ic_bup">
+            <field name="name">BUPA</field>
+            <field name="provider_id">22197</field>
+            <field name="pricelist_id" ref="optifocus.list2"/>
+            <field name="partner_id" ref="optifocus.rp_bup"/>
+        </record>
+        <record id="insurance_plan_2" model="insurance.plan">
+            <field name="insurance_company_id" ref="optifocus.ic_bup"/>
+            <field name="name">REGULAR</field>
+            <field name="insurance_discount">35</field>
+            <field name="member_discount">25</field>
+        </record>
+
+
+
+
+    </data>
+</odoo>

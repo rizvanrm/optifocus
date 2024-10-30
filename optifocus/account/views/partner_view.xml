@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+
+        <record id="account.res_partner_action_customer" model="ir.actions.act_window">
+            <field name="context">{'search_default_customer': 1,'res_partner_search_mode': 'customer',
+                'default_is_company':
+                False, 'default_customer_rank': 1}
+            </field>
+            <field name="view_mode">tree,form,kanban</field>
+        </record>
+
+        <record id="account.res_partner_action_supplier" model="ir.actions.act_window">
+            <field name="context">{'search_default_customer': 1,'res_partner_search_mode': 'customer',
+                'default_is_company':
+                False, 'default_customer_rank': 1}
+            </field>
+            <field name="view_mode">tree,form,kanban</field>
+        </record>
+
+
+
+    </data>
+</odoo>

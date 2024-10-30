@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_group_summary_statement_wizard" model="ir.ui.view">
+        <field name="name">group.summary.statement.wizard.form</field>
+        <field name="model">group.summary.statement.wizard</field>
+        <field name="arch" type="xml">
+            <form string="Group Summary Statement">
+                <group>
+                    <group>
+                        <field name="insurance_id"/>
+                    </group>
+                    <group>
+                        <field name="date_from"/>
+                        <field name="date_to"/>
+                    </group>
+
+                </group>
+                                <footer>
+                                    <button name="generate_report" string="Print" type="object" class="btn-primary" data-hotkey="q"/>
+                                    <button string="Cancel" class="btn-secondary" special="cancel" data-hotkey="z"/>
+                                </footer>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_group_summary_statement_form" model="ir.actions.act_window">
+        <field name="name">GSS -Group Summary Statement</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">group.summary.statement.wizard</field>
+        <field name="view_mode">form</field>
+        <field name="target">new</field>
+    </record>
+</odoo>

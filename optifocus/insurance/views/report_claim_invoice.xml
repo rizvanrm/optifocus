@@ -1,0 +1,232 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <template id="report_claim_invoice">
+        <t t-call="web.html_container">
+
+            <t t-set="total_approved" t-value="0"/>
+            <t t-set="total_discount" t-value="0"/>
+            <t t-set="total_co_insurance" t-value="0"/>
+            <t t-set="total_untaxed_amount" t-value="0"/>
+            <t t-set="total_tax" t-value="0"/>
+            <t t-set="total_claim" t-value="0"/>
+
+            <t t-foreach="claim_ids" t-as="claim_id">
+                <t t-call="web.external_layout">
+                    <div class="page">
+
+
+                        <br/>
+                        <br/>
+                        <br/>
+                        <t t-call="optifocus.report_claim_invoice_header"/>
+                        <br/>
+                        <t t-call="optifocus.report_claim_invoice_lines"/>
+                        <t t-call="optifocus.report_claim_invoice_footer"/>
+                        <t t-set="total_approved" t-value="total_approved+claim_id.approved_total"/>
+                        <t t-set="total_discount" t-value="total_discount+claim_id.discount_total"/>
+                        <t t-set="total_co_insurance" t-value="total_co_insurance+claim_id.co_insurance_untaxed"/>
+                        <t t-set="total_untaxed_amount" t-value="total_untaxed_amount+claim_id.claim_untaxed"/>
+                        <t t-set="total_tax" t-value="total_tax+claim_id.claim_tax"/>
+                        <t t-set="total_claim" t-value="total_claim+ claim_id.claim_total"/>
+
+                        <t t-if="(claim_id_index+1) % 1==0">
+                            <p style="page-break-before:always;"></p>
+                        </t>
+
+
+                    </div>
+                </t>
+            </t>
+        </t>
+    </template>
+
+
+    <template id="report_claim_invoice_header">
+        <table class="table o_main_table"
+               style="border:hidden;">
+            <tbody>
+
+                <tr style="border-style:hidden;">
+                    <td style="border-style:hidden;">
+                        <strong>CLAIM NO :</strong>
+                    </td>
+                    <td style="border-style:hidden;">
+                        <span t-esc="claim_id.name"/>
+                    </td>
+                    <td style="border-style:hidden;">
+                        <strong>CUSTOMER :</strong>
+                    </td>
+                    <td style="border-style:hidden;">
+                        <t t-esc="claim_id.partner_id.name"/>
+                    </td>
+                    <td style="border-style:hidden;">
+                        <strong>GENDER :</strong>
+                    </td>
+                    <td style="border-style:hidden;">
+                        <span t-field="claim_id.gender"/>
+                    </td>
+                </tr>
+                <tr style="border-style:hidden;">
+                    <td style="border-style:hidden;">
+                        <strong>POLICY NO :</strong>
+                    </td>
+                    <td style="border-style:hidden;">
+                        <t t-esc="claim_id.policy_id.policy_no"/>
+                    </td>
+                    <td style="border-style:hidden;">
+                        <strong>POLICY HOLDER :</strong>
+                    </td>
+                    <td style="border-style:hidden;">
+                        <t t-esc="claim_id.policy_holder"/>
+                    </td>
+                    <td style="border-style:hidden;">
+                        <span style="font-weight:bold;">MEMBERSHIP NO :</span>
+                    </td>
+                    <td style="border-style:hidden;">
+                        <span t-esc="claim_id.membership_no"/>
+                    </td>
+                </tr>
+                <tr style="border-style:hidden;">
+                    <td style="border-style:hidden;">
+                        <strong>APPROVAL NO :</strong>
+                    </td>
+                    <td style="border-style:hidden;">
+                        <t t-esc="claim_id.approval_no"/>
+                    </td>
+                    <td style="border-style:hidden;">
+                        <strong>APPROVAL DATE :</strong>
+                    </td>
+                    <td style="border-style:hidden;">
+                        <t t-esc="claim_id.approval_date"/>
+                    </td>
+                    <td style="border-style:hidden;">
+                        <strong>ID NO :</strong>
+                    </td>
+                    <td style="border-style:hidden;">
+                        <t t-esc="claim_id.id_no"/>
+                    </td>
+
+                </tr>
+            </tbody>
+        </table>
+    </template>
+    <template id="report_claim_invoice_lines">
+        <table class="table o_main_table"
+               style="border:hidden;border-top:1px;border-bottom:1px">
+            <thead>
+                <tr>
+                    <th class="text-start" width="20%" style="border:hidden;border-top:1px;border-bottom:1px">SERVICE
+                        CODE
+                    </th>
+                    <th class="text-start" width="60" style="border:hidden;border-top:1px;border-bottom:1px">SERVICE
+                        DESCRIPTION
+                    </th>
+                    <th class="text-end" width="10%" style="border:hidden;border-top:1px;border-bottom:1px">QTY</th>
+                    <th class="text-end" width="10%" style="border:hidden;border-top:1px;border-bottom:1px">UNIT
+                        APPROVED
+                    </th>
+                    <th class="text-end" width="10%" style="border:hidden;border-top:1px;border-bottom:1px">APPROVED
+                    </th>
+                </tr>
+            </thead>
+
+            <tbody>
+                <br/>
+                <tr t-foreach="claim_id.claim_line" t-as='claim_line'>
+
+                    <td style="border:hidden;border-top:1px">
+                        <t t-esc="claim_line.product_id.barcode"/>
+                    </td>
+                    <td style="border:hidden;border-top:1px">
+                        <t t-esc="claim_line.name"/>
+                    </td>
+                    <td class="text-end" style="border:hidden;border-top:1px">
+                        <t t-esc="claim_line.product_uom_qty"/>
+                    </td>
+                    <td class="text-end" style="border:hidden;border-top:1px">
+                        <t t-esc="claim_line.approved_unit"
+                           t-options='{"widget": "float", "precision": 2}'/>
+                    </td>
+                    <td class="text-end" style="border:hidden;border-top:1px">
+                        <t t-esc="claim_line.approved_subtotal"
+                           t-options='{"widget": "float", "precision": 2}'/>
+                    </td>
+                </tr>
+            </tbody>
+
+        </table>
+    </template>
+    <template id="report_claim_invoice_footer">
+        <!--                class="table table-sm "-->
+        <table class="table o_main_table"
+        >
+            <tr>
+                <td width="70%" style="border:hidden;border-top:1px;">
+                </td>
+                <td width="20%" class="text-left" style="border:hidden;border-top:1px">
+                    <strong>APPROVED AMOUNT :</strong>
+                </td>
+                <td class="text-end" style="border:hidden;border-top:1px">
+                    <span t-esc="claim_id.approved_total"
+                          t-options='{"widget": "float", "precision": 2}'/>
+                </td>
+            </tr>
+            <tr>
+                <td width="70%" style="border:hidden;">
+                </td>
+                <td width="20%" style="border:hidden;">
+                    <strong>DISCOUNT :</strong>
+                </td>
+                <td class="text-end" style="border:hidden;">
+                    <span t-esc="claim_id.discount_total"
+                          t-options='{"widget": "float", "precision": 2}'/>
+                </td>
+            </tr>
+            <tr>
+                <td width="70%" style="border:hidden;">
+                </td>
+                <td width="20%" style="border:hidden;">
+                    <strong>CO-INSURANCE :</strong>
+                </td>
+                <td class="text-end" style="border:hidden;">
+                    <span t-esc="claim_id.co_insurance_untaxed"
+                          t-options='{"widget": "float", "precision": 2}'/>
+                </td>
+            </tr>
+            <tr>
+                <td width="70%" style="border:hidden;">
+                </td>
+                <td width="20%" style="border:hidden;">
+                    <strong>UNTAXED AMOUNT :</strong>
+                </td>
+                <td class="text-end" style="border:hidden;">
+                    <span class="text-left" t-esc="claim_id.claim_untaxed"
+                          t-options='{"widget": "float", "precision": 2}'/>
+                </td>
+            </tr>
+            <tr>
+                <td width="70%" style="border:hidden;">
+                </td>
+                <td width="20%" style="border:hidden;">
+                    <strong>TAX :</strong>
+                </td>
+                <td class="text-end" style="border:hidden;">
+                    <span class="text-left" t-esc="claim_id.claim_tax"
+                          t-options='{"widget": "float", "precision": 2}'/>
+                </td>
+            </tr>
+            <tr>
+                <td width="70%" style="border:hidden;border-bottom:1px;">
+                </td>
+                <td width="20%" style="border:hidden;border-bottom:1px;">
+                    <strong>TOTAL :</strong>
+                </td>
+                <td class="text-end" style="border:hidden;border-bottom:1px;">
+                    <span class="text-left" t-esc="claim_id.claim_total"
+                          t-options='{"widget": "float", "precision": 2}'/>
+                </td>
+            </tr>
+        </table>
+    </template>
+
+</odoo>

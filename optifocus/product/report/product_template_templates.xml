@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+<template id="report_producttemplatelabel_ring">
+    <t t-call="web.basic_layout">
+        <div class="page">
+            <t t-call="optifocus.report_productlabel_ring">
+                <t t-set="products" t-value="products"/>
+            </t>
+        </div>
+    </t>
+</template>
+
+</odoo>

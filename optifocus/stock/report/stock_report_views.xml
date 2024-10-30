@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+           <record id="label_product_product" model="ir.actions.report">
+            <field name="name">Product Label Zebra</field>
+            <field name="model">product.product</field>
+            <field name="report_type">qweb-text</field>
+            <field name="report_name">stock.label_product_product_view</field>
+            <field name="report_file">stock.label_product_product_view</field>
+            <field name="binding_model_id" eval="False"/>
+            <field name="binding_type">report</field>
+        </record>
+    </data>
+</odoo>

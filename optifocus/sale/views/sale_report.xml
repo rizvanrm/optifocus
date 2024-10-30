@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+     <record id="customer_payments_report" model="ir.actions.report">
+        <field name="name">Customer Payments</field>
+        <field name="model">customer.payments.wizard</field>
+        <field name="report_type">qweb-pdf</field>
+        <field name="print_report_name">'test - %s' % (object.name))</field>
+        <field name="report_name">optifocus.report_customer_payments</field>
+    </record>
+
+</odoo>

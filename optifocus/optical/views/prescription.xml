@@ -1,0 +1,232 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="optical_prescription_form_view" model="ir.ui.view">
+        <field name="name">optical.prescription.form</field>
+        <field name="model">optical.prescription</field>
+        <field name="arch" type="xml">
+            <form string="Prescription">
+
+                <sheet>
+                    <group col="2">
+                        <group>
+                            <field name="doctor_id"    options="{'no_quick_create': True}"/>
+                            <field name="prescription_date"/>
+                            <field name="prescription_type" />
+
+                        </group>
+                        <group>
+                            <field name="partner_id"/>
+                            <field name="mobile"/>
+                        </group>
+                    </group>
+
+
+                    <table class="table table-sm table-bordered text-center">
+                        <thead>
+                            <tr class="bg-300">
+                                <th rowspan="2" class="align-middle" style="width: 10%;">
+                                    <strong>RX</strong>
+                                </th>
+                                <th colspan="4">
+                                    <strong>Right Eye</strong>
+                                </th>
+                                <th colspan="4">
+                                    <strong>Left Eye</strong>
+                                </th>
+                                 <th title='Interpupillary Distance' rowspan="2" class="align-middle" style="width: 10%;">
+                                    <strong>IPD</strong>
+                                </th>
+
+                            </tr>
+                            <tr class="bg-300">
+                                <th>
+                                    <strong>Sphere</strong>
+                                </th>
+                                <th>
+                                    <strong>Cylinder</strong>
+                                </th>
+                                <th>
+                                    <strong>Axis</strong>
+                                </th>
+                                <th title='Visual Acuity'>
+                                    <strong>VA</strong>
+                                </th>
+
+                                <th>
+                                    <strong>Sphere</strong>
+                                </th>
+                                <th>
+                                    <strong>Cylinder</strong>
+                                </th>
+                                <th>
+                                    <strong>Axis</strong>
+                                </th>
+                                <th title='Visual Acuity'>
+                                    <strong>VA</strong>
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody>
+
+                            <tr>
+                                <td class="bg-300">
+                                    <strong>Distance</strong>
+                                </td>
+                                <td>
+                                    <field name="r_sph" style="width: 100%;"/>
+                                </td>
+                                <td>
+                                    <field name="r_cyl" style="width: 100%;"/>
+                                </td>
+                                <td>
+                                    <field name="r_axis" style="width: 100%;"/>
+                                </td>
+                                <td>
+                                    <field name="r_va" style="width: 100%;"/>
+                                </td>
+
+                                <td>
+                                    <field name="l_sph" style="width: 100%;"/>
+                                </td>
+                                <td>
+                                    <field name="l_cyl" style="width: 100%;"/>
+                                </td>
+                                <td>
+                                    <field name="l_axis" style="width: 100%;"/>
+                                </td>
+                                <td>
+                                    <field name="l_va" style="width: 100%;"/>
+                                </td>
+                                <td>
+                                    <field name="ipd_distance" style="width: 100%;"/>
+                                </td>
+
+
+                                <!--    style="background-color:#8bfddd"    -->
+                                <!--    style="background-color:#8aa8fd"    -->
+                            </tr>
+                            <tr>
+                                <td class="bg-300">
+                                    <strong>Addition</strong>
+                                </td>
+                                <td colspan="4">
+                                    <field name="r_add" style="width: 100%;"/>
+                                </td>
+                                <td colspan="4">
+                                    <field name="l_add" style="width: 100%;"/>
+                                </td>
+                                <td>
+                                    <field name="ipd_addition" style="width: 100%;"/>
+                                </td>
+                            </tr>
+<!--                            <tr>-->
+<!--                                <td class="bg-300">-->
+<!--                                    <strong>IPD</strong>-->
+<!--                                </td>-->
+<!--                                <td colspan="8">-->
+<!--                                    <field name="ipd" style="width: 100%;"/>-->
+<!--                                </td>-->
+<!--                            </tr>-->
+                        </tbody>
+                    </table>
+
+                    <group>
+                        <field name="notes" string="" placeholder="Notes"/>
+                    </group>
+
+
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+
+    <record id="optical_prescription_tree_view" model="ir.ui.view">
+        <field name="name">optical.prescription.tree</field>
+        <field name="model">optical.prescription</field>
+        <field name="arch" type="xml">
+
+            <tree string="Prescription">
+                <field name="doctor_id"/>
+                <field name="prescription_date"/>
+                <field name="partner_id"/>
+                <field name="mobile"/>
+                <field name="prescription_type"/>
+            </tree>
+
+        </field>
+    </record>
+
+    <record id="optical_prescription_kanban_view" model="ir.ui.view">
+            <field name="name">optical.prescription.kanban</field>
+            <field name="model">optical.prescription</field>
+            <field name="arch" type="xml">
+                <kanban class="o_kanban_mobile">
+                    <field name="doctor_id"/>
+                    <field name="prescription_date"/>
+                    <field name="partner_id"/>
+                    <templates>
+                        <t t-name="kanban-box">
+                            <div t-attf-class="oe_kanban_global_click">
+                                <div class="row">
+                                    <div class="col-6">
+                                        <strong><field name="partner_id"/></strong>
+                                    </div>
+                                </div>
+                                <div>
+                                    <strong>Date: </strong><field name="prescription_date"/>
+                                </div>
+                                <div>
+                                       <strong>Doctor: </strong><field name="doctor_id"/>
+                                </div>
+                            </div>
+                        </t>
+                    </templates>
+                </kanban>
+            </field>
+        </record>
+
+
+
+    <record id="optical_prescription_search_view" model="ir.ui.view">
+        <field name="name">optical.prescription.search</field>
+        <field name="model">optical.prescription</field>
+        <field name="arch" type="xml">
+            <search string="Prescription">
+                <!-- Search by Search-->
+                                <field name="doctor_id"/>
+                                <field name="prescription_date"/>
+                                <field name="partner_id"/>
+                                <field name="mobile"/>
+                <!-- Search by Filters-->
+                <filter string="Date" name="filter_date" date="prescription_date"/>
+
+                <!-- Search by  Group by -->
+                    <filter name="partner_id" string="Customer" context="{'group_by':'partner_id'}"/>
+                    <filter string="Date" name="create_month" domain="[]"
+                        context="{'group_by': 'prescription_date'}"/>
+            </search>
+
+        </field>
+    </record>
+
+    <record id="favorite_filter" model="ir.filters">
+        <field name="name">My favorite</field>
+        <field name="model_id">optical.prescription</field>
+        <field name="is_default">False</field>
+        <!--        <field name="domain">[['name', 'like','BUPA']] </field>-->
+    </record>
+
+
+    <record id="action_optical_prescription_form" model="ir.actions.act_window">
+        <field name="name">Prescriptions</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">optical.prescription</field>
+        <field name="view_mode">tree,form,kanban</field>
+    </record>
+
+
+
+
+
+</odoo>

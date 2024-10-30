@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+
+    <record id="sale_purchase_view_tree" model="ir.ui.view">
+        <field name="name">sale.purchase.view.tree</field>
+        <field name="model">sale.purchase</field>
+        <field name="arch" type="xml">
+            <tree string="Sales Purchase Analysis" create="false">
+                <field name="vendor_bill"/>
+                <field name="vendor_id"/>
+                <field name="bill_date"/>
+                <field name="ref"/>
+                <field name="purchase_order"/>
+                <field name="sale_order"/>
+                <field name="customer_id"/>
+                <field name="product_id"/>
+                <field name="quantity"/>
+                <field name="price_unit"/>
+                <field name="discount"/>
+                <field name="price_subtotal"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="view_sale_purchase_search" model="ir.ui.view">
+        <field name="name">sale.purchase.search</field>
+        <field name="model">sale.purchase</field>
+        <field name="arch" type="xml">
+            <search string="Sales Purchase Analysis">
+                <field name="ref"/>
+                <field name="purchase_order"/>
+                <field name="sale_order"/>
+                <field name="product_id"/>
+                <field name="vendor_bill"/>
+                <field name="vendor_id"/>
+                <filter name="vendor_bill" string="Vendor Bill" context="{'group_by':'vendor_bill'}"/>
+                <filter name="vendor" string="Vendor" context="{'group_by':'vendor_id'}"/>
+                <filter name="ref" string="Bill Reference" context="{'group_by':'ref'}"/>
+                <filter name="purchase_order" string="Purchase Order" context="{'group_by':'purchase_order'}"/>
+                <filter name="sale_order" string="Sale Order" context="{'group_by':'sale_order'}"/>
+                <filter name="product_id" string="Product" context="{'group_by':'product_id'}"/>
+
+            </search>
+        </field>
+    </record>
+
+
+    <record id="action_sale_purchase_tree" model="ir.actions.act_window">
+        <field name="name">Sale Purchase Analysis</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">sale.purchase</field>
+        <field name="view_mode">tree</field>
+    </record>
+
+    <menuitem
+            id="mnuitm_sale_purchase"
+            name="Sale Purchase"
+            parent="sale.menu_sale_report"
+            action="action_sale_purchase_tree"
+            sequence="30"/>
+
+
+</odoo>

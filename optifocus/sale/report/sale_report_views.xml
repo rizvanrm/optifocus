@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+
+    <record id="view_order_product_search" model="ir.ui.view">
+        <field name="name">sale.report.search</field>
+        <field name="model">sale.report</field>
+        <field name="inherit_id" ref="sale.view_order_product_search"/>
+
+        <field name="arch" type="xml">
+
+            <xpath expr="/search/filter[@name='Sales']" position="after">
+                <separator/>
+                <filter string='Retail' name='retail' domain="[('sale_type','=',('retail'))]"/>
+                <filter string="Insurance" name="insurance" domain="[('sale_type','=',('insurance'))]"/>
+                <filter string="Wholesale" name="wholesale" domain="[('sale_type','=',('wholesale'))]"/>
+            </xpath>
+
+
+            <xpath expr="/search/field[@name='team_id']" position="after">
+                <field name="sale_type"/>
+                <field name="sale_type"/>
+                <xpath expr="/search/field[@name='partner_id']" position="move"/>
+                <xpath expr="/search/field[@name='country_id']" position="move"/>
+                <xpath expr="/search/field[@name='industry_id']" position="move"/>
+                <field name="insurance_id"/>
+                <field name="policy_id"/>
+                <field name="policy_holder"/>
+               <field name="brand_id"/>
+                <field name="product_tmpl_id"/>
+
+
+            </xpath>
+
+            <xpath expr="/search/field[@name='team_id']" position="after">
+                <xpath expr="/search/group[1]/field[@name='company_id']" position="move"/>
+            </xpath>
+            <xpath expr="/search/field[@name='categ_id']" position="attributes">
+                <attribute name="invisible">1</attribute>
+            </xpath>
+            <xpath expr="/search/field[@name='policy_holder']" position="after">
+                <xpath expr="/search/group[1]/field[@name='categ_id']" position="move"/>
+            </xpath>
+            <xpath expr="/search/field[@name='brand_id']" position="after">
+                <xpath expr="/search/field[@name='product_id']" position="move"/>
+            </xpath>
+
+            <xpath expr="/search/group[2]/filter[@name='User']"
+                   position="before">
+                <filter string="Sale Type" name="sale_type" context="{'group_by':'sale_type'}"/>
+            </xpath>
+            <xpath expr="/search/group[2]/filter[@name='Customer']"
+                   position="after">
+                <filter string="Insurance Company" name="insurance_id" context="{'group_by':'insurance_id'}"/>
+                <filter string="Insurance Plan" name="insurance_company_plan" context="{'group_by':'insurance_company_plan'}"/>
+                <filter string="Policy Holder" name="policy_holder" context="{'group_by':'policy_holder'}"/>
+                <filter string="Brand" name="brand_id" context="{'group_by':'brand_id'}"/>
+                
+            </xpath>
+            <xpath expr="/search/group[2]/filter[@name='policy_holder']" position="after">
+                <xpath expr="/search/group[2]/filter[@name='Category']" position="move"/>
+            </xpath>
+            <xpath expr="/search/group[2]/filter[@name='brand_id']" position="after">
+                <xpath expr="/search/group[2]/filter[@name='Product']" position="move"/>
+            </xpath>
+
+            <xpath expr="/search/group[2]/filter[@name='Customer']" position="after">
+                <xpath expr="/search/group[2]/filter[@name='country_id']" position="move"/>
+                <xpath expr="/search/group[2]/filter[@name='industry_id']" position="move"/>
+            </xpath>
+
+            <xpath expr="/search/group[2]/filter[@name='sale_type']" position="before">
+                <xpath expr="/search/group[2]/filter[@name='company']" position="move"/>
+            </xpath>
+        </field>
+
+
+    </record>
+
+         <menuitem
+            id="menu_item_sale"
+            name="Sale"
+            parent="sale.menu_sale_report"
+            action="sale.action_order_report_all"
+            sequence="10"/>
+
+
+
+</odoo>

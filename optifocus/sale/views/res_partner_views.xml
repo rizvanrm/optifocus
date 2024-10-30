@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+
+<!--    <record id="account.res_partner_action_customer" model="ir.actions.act_window">-->
+<!--        <field name="context">{'search_default_customer': 1,'res_partner_search_mode': 'customer', 'default_is_company':-->
+<!--           False, 'default_customer_rank': 1}-->
+<!--        </field>-->
+<!--        <field name="view_mode">tree,form,kanban</field>-->
+<!--    </record>-->
+
+
+    <record id="view_partner_form" model="ir.ui.view">
+        <field name="name">res.partner.form</field>
+        <field name="model">res.partner</field>
+        <field name="inherit_id" ref="base.view_partner_form"/>
+        <field name="arch" type="xml">
+
+            <xpath expr="//field[@id='company']" position="attributes">
+                <attribute name="placeholder">e.g. AL BASHAWRI OPTICALS</attribute>
+            </xpath>
+
+            <xpath expr="//field[@id='individual']" position="attributes">
+                <attribute name="placeholder">e.g. RIZVAN MIRZA</attribute>
+            </xpath>
+
+            <xpath expr="/form/sheet/div" position="inside">
+                <button class="oe_stat_button" type="object" name="action_open_prescriptions" icon="fa-pencil-square-o">
+                    <field name="prescription_count" widget="statinfo"
+                        attrs="{'invisible': [('company_type','=', 'company')]}"/>
+                </button>
+            </xpath>
+            <xpath expr="/form/sheet/div" position="inside">
+                <button class="oe_stat_button" type="object" name="action_open_insurance_policies" icon="fa-linkedin    ">
+                    <field name="insurance_policy_count" widget="statinfo"/>
+                </button>
+            </xpath>
+
+
+            <xpath expr="//field[@name='vat']" position="before">
+                <field name="id_no" attrs="{'invisible': [('company_type','=', 'company')]}"/>
+            </xpath>
+            <xpath expr="//field[@name='vat']" position="after">
+                <field name="is_commercial_partner" attrs="{'invisible': [('company_type','!=', 'company')]}"
+                 groups="account.group_account_manager"
+                />
+            </xpath>
+            <xpath expr="//field[@name='function']" position="before">
+                <field name="birth_date"  attrs="{'invisible': [('company_type','=', 'company')]}" />
+                <field name="gender"      attrs="{'invisible': [('company_type','=', 'company')]}"/>
+            </xpath>
+        </field>
+    </record>
+
+    <record id="view_partner_tree" model="ir.ui.view">
+        <field name="name">res.partner.tree</field>
+        <field name="model">res.partner</field>
+        <field name="inherit_id" ref="base.view_partner_tree"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='phone']" position="after">
+                <field name="mobile"/>
+            </xpath>
+
+            <xpath expr="//field[@name='display_name']" position="after">
+                <field name="gender"/>
+            </xpath>
+            <xpath expr="//field[@name='display_name']" position="after">
+                <field name="id_no"/>
+            </xpath>
+
+
+            <xpath expr="//field[@name='user_id']" position="attributes">
+                <attribute name="optional">hide</attribute>
+            </xpath>
+            <xpath expr="//field[@name='company_id']" position="attributes">
+                <attribute name="optional">hide</attribute>
+            </xpath>
+            <xpath expr="//field[@name='city']" position="attributes">
+                <attribute name="optional">hide</attribute>
+            </xpath>
+            <xpath expr="//field[@name='country_id']" position="attributes">
+                <attribute name="optional">hide</attribute>
+            </xpath>
+
+        </field>
+    </record>
+
+    <record id="view_res_partner_filter" model="ir.ui.view">
+        <field name="name">view.res.partner.filter.inherit</field>
+        <field name="model">res.partner</field>
+        <field name="inherit_id" ref="base.view_res_partner_filter"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='user_id']" position="attributes">
+                <attribute name="invisible">1</attribute>
+            </xpath>
+            <xpath expr="//field[@name='name']" position="after">
+                <field name="id_no"/>
+            </xpath>
+            <search string="Search Partner">
+                <!-- Search by Search-->
+
+                <!-- Search by Filters-->
+                <!--                <filter string="BUPA" name="bupa" domain="[('name','=', 'BUPA')]"/>-->
+                <!-- Search by  Group by -->
+                <!--                <filter name="product_materail" string="Insurance Company" context="{'group_by':'name'}"/>-->
+            </search>
+
+        </field>
+    </record>
+
+
+</odoo>
