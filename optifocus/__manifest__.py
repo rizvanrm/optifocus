@@ -132,5 +132,5 @@
         'depends': ['stock','sale','hr', 'sale_loyalty','purchase','account'],
 
     'installable': True,
-    'images' : ['static/description.gif'],
+    'images' : ['static/description/banner.gif'],
 }
