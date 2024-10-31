@@ -1,7 +1,7 @@
 {
     'name': 'Optifocus',
     'category': 'Healthcare/Optical',
-    'summary': 'A complete solution to Multi Store Optical Clinic Business with features Insurance, Inventory, Sales, Purchase, Accounting, Patients,Prescriptions, Business Intelligence Report.',
+    'summary': 'A complete solution to Multi Store Optical Eye Clinic Business with features Insurance, Inventory, Sales, Purchase, Accounting, Patients,Prescriptions, Business Intelligence Report.',
     'version': '16.0.0',
     'author': 'Rizvan Mirza',
     'email': 'rizvan_rm@yahoo.co.in',
