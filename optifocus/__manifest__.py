@@ -4,6 +4,7 @@
     'summary': 'Optical Business Management System',
     'version': '16.0.0',
     'author': 'Rizvan Mirza',
+    'email': 'rizvan_rm@yahoo.co.in',
     'license': 'LGPL-3',
     'data': [
 
@@ -132,5 +133,5 @@
         'depends': ['stock','sale','hr', 'sale_loyalty','purchase','account'],
 
     'installable': True,
-    'images' : ['static/description/banner.gif'],
+    'images' : ['static/description/banner.png'],
 }
