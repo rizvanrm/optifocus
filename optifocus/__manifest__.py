@@ -1,10 +1,12 @@
 {
     'name': 'Optifocus',
     'category': 'Healthcare/Optical',
-    'summary': 'Optical Business Management System',
+    'summary': 'A complete solution to Multi Store Optical Clinic Business with features Insurance, Inventory, Sales, Purchase, Accounting, Patients,Prescriptions, Business Intelligence Report.',
     'version': '16.0.0',
     'author': 'Rizvan Mirza',
     'email': 'rizvan_rm@yahoo.co.in',
+    'price': '999.99',
+    'currency': 'USD',
     'license': 'LGPL-3',
     'data': [
 
