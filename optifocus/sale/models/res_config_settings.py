@@ -21,4 +21,4 @@ class ResConfigSettings(models.TransientModel):
         required=True, default='invoice_member',
         config_parameter='optifocus.invoicing_policy_insurance_selection')
 
-
+    commercial_partner = fields.Boolean(string='Commercial Partner', config_parameter='optifocus.commercial_partner')
