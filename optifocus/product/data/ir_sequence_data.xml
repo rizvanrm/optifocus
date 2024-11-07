@@ -5,6 +5,7 @@
         <field name="name">Product Barcode</field>
         <field name="code">product.barcode</field>
         <field name="padding">6</field>
+<!--        <field name="number_next">100000</field>-->
         <field name="company_id" eval="False"/>
     </record>
 
