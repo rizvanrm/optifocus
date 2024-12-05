@@ -128,7 +128,7 @@
         'security/ir.model.access.csv',
 
          ],
-     'depends': ['stock','sale','hr', 'sale_loyalty','purchase','account','l10n_sa_edi'],
+     'depends': ['stock','sale','hr', 'sale_loyalty','purchase','account'],
     #    'depends': ['stock','sale_management','hr', 'sale_loyalty','purchase','account','report_xlsx','l10n_sa_edi'],
 
     'installable': True,
