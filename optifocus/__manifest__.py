@@ -128,8 +128,8 @@
         'security/ir.model.access.csv',
 
          ],
-    # 'depends': ['stock','sale','hr', 'sale_loyalty','purchase','account','report_xlsx'],
-        'depends': ['stock','sale_management','hr', 'sale_loyalty','purchase','account','report_xlsx','l10n_sa_edi'],
+     'depends': ['stock','sale','hr', 'sale_loyalty','purchase','account','report_xlsx','l10n_sa_edi'],
+    #    'depends': ['stock','sale_management','hr', 'sale_loyalty','purchase','account','report_xlsx','l10n_sa_edi'],
 
     'installable': True,
     'images' : ['static/description/banner.png'],
