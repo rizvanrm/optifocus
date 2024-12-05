@@ -1,10 +1,10 @@
-from odoo import models, fields, api
+from odoo import models , fields, api
 from odoo.exceptions import ValidationError, UserError
-
-
+READONLY_FIELD_STATES = {
+    state: [('readonly', True)]
+    for state in {'sale', 'done', 'cancel'}
+}
 from datetime import date
-
-
 class SaleOrder(models.Model):
     _inherit = 'sale.order'
 
@@ -22,43 +22,53 @@ class SaleOrder(models.Model):
         ('wholesale', 'Wholesale')
     ], string="Sale Type", default='retail',required=True)
 
-    insurance_id = fields.Many2one('insurance.company', string='Insurance Company')
-    insurance_pricelist_id = fields.Many2one(related='insurance_id.pricelist_id')
+    member_id = fields.Many2one('insurance.member', string='Member',ondelete='restrict')
+    insurance_id = fields.Many2one(related='member_id.insurance_company_id',store=True)
+    insurance_company_plan = fields.Many2one(related='member_id.insurance_company_plan_id', store=True)
+    insurance_discount = fields.Float(string="Insurance Discount", store=True,readonly=True)
+    member_discount = fields.Float(string="Member Discount", store=True,readonly=True)
+    policy_id = fields.Many2one(related='member_id.policy_id',store=True)
+    policy_class_id = fields.Many2one(related='member_id.policy_class_id',store=True)
+    policy_holder = fields.Char(related='member_id.policy_holder',store=True)
+    inception_date = fields.Date(string="Inception Date", store=True,readonly=True)
+    expiry_date = fields.Date(string="Expiry Date", store=True,readonly=True)
+    co_insurance_type = fields.Selection([('percentage', '%'), ('fixed', 'Fixed')], string="Co-Insurance Type", store=True,readonly=True)
+    co_insurance_percent = fields.Float(string="Co-Insurance %", store=True,readonly=True)
+    up_to = fields.Float(string="Up To",store=True,readonly=True)
+    co_insurance = fields.Char(string="Co-Insurance",readonly=True)
 
-    policy_id = fields.Many2one('insurance.policy', string='Policy No', store=True)
+    partner_id = fields.Many2one(
+        comodel_name='res.partner',
+        string="Customer",
+        required=True,  change_default=True, index=True,
+        readonly=False,
+        tracking=1,
+        states=READONLY_FIELD_STATES,
+        domain="[('type', '!=', 'private'), ('company_id', 'in', (False, company_id))]",
+        compute="_compute_partner_id",store=True)
 
-    policy_class_id = fields.Many2one('insurance.policy.class', string='Class', store=True)
-
-    policy_holder = fields.Char(related='policy_id.policy_holder', store=True)
-    inception_date = fields.Date(related='policy_id.inception_date')
-    expiry_date = fields.Date(related='policy_id.expiry_date')
-    insurance_company_plan = fields.Many2one(related='policy_id.insurance_company_plan', store=True)
-    insurance_discount = fields.Float(related='policy_id.insurance_discount', store=True)
-    member_discount = fields.Float(related='policy_id.member_discount')
-    co_insurance_type = fields.Selection(related='policy_class_id.co_insurance_type')
-    co_insurance_percent = fields.Float(related='policy_class_id.co_insurance_percent')
-    up_to = fields.Float(related='policy_class_id.up_to')
     prescription_id = fields.Many2one('optical.prescription', string='Prescription')
-    partner_id = fields.Many2one('res.partner')
-    mobile = fields.Char(related='partner_id.mobile')
-    id_no = fields.Char(related='partner_id.id_no')
-    birth_date = fields.Date(related='partner_id.birth_date')
-    gender=fields.Selection(related='partner_id.gender')
-    membership_no = fields.Char(string="Membership No")
-    request_attach_id = fields.Binary(string="Request")
-    request_filename = fields.Char("Test")
-    prescription_filename = fields.Char()
-    approval_filename = fields.Char()
-    prescription_attach_id = fields.Binary(string="Prescription")
+
+    mobile = fields.Char(related='partner_id.mobile',store=True)
+    id_no = fields.Char(string='Identification No', store=True,readonly=True)
+    birth_date = fields.Date(related='member_id.birth_date',store=True)
+    gender=fields.Selection(related='member_id.gender',store=True)
+
+    request_attach_id = fields.Binary(string="Request Attachment")
+    request_filename = fields.Char(compute='_compute_request_filename')
+    approval_attach_id = fields.Binary(string="Approval Attachment")
+    approval_filename = fields.Char(compute='_compute_approval_filename')
+    prescription_attach_id = fields.Binary(related='prescription_id.prescription_attach_id')
+    prescription_filename = fields.Char(compute='_compute_prescription_filename')
     approval_no = fields.Char(string="Approval No")
     approval_date = fields.Datetime(string="Approval Date")
-    approval_attach_id = fields.Binary(string="Approval")
+
     tray_no = fields.Char(string="Tray NO")
 
     gross_untaxed = fields.Monetary(string="Untaxed Gross", store=True, compute='_compute_amounts_op',
                                        precompute=True)
     gross_tax = fields.Monetary(string="Taxes Gross", store=True, compute='_compute_amounts_op', precompute=True)
-    gross_total = fields.Float(string="Total Gross Amount", store=True, compute='_compute_amounts_op',
+    gross_total = fields.Monetary(string="Total Gross Amount", store=True, compute='_compute_amounts_op',
                                   precompute=True)
 
     approved_untaxed = fields.Monetary(string="Untaxed Approved", store=True, compute='_compute_amounts_op', precompute=True)
@@ -90,6 +100,42 @@ class SaleOrder(models.Model):
         string="Total Member", store=True, compute='_compute_amounts_op', precompute=True)
 
     order_line_count = fields.Integer(string='Count', compute='_compute_order_line_count')
+
+    @api.onchange('member_id')
+    def _onchange_member_id(self):
+        for record in self:
+            if record.sale_type == 'insurance' and record.member_id:
+                record.partner_id = record.member_id.partner_id
+                record.pricelist_id=record.member_id.insurance_company_id.pricelist_id
+                record.id_no = record.partner_id.id_no
+                record.inception_date = record.member_id.inception_date
+                record.expiry_date = record.member_id.expiry_date
+                record.co_insurance_type = record.member_id.co_insurance_type
+                record.co_insurance_percent = record.member_id.co_insurance_percent
+                record.up_to = record.member_id.up_to
+                record.insurance_discount = record.member_id.insurance_discount
+                record.member_discount = record.member_id.member_discount
+
+                if record.co_insurance_type == 'fixed':
+                    record.co_insurance = f"{record.up_to:.2f}"
+                else:
+                    record.co_insurance = f"{record.co_insurance_percent:.2f} % Upto {record.up_to:.2f}"
+                self._compute_insurance()
+
+    @api.depends('member_id')
+    def _compute_request_filename(self):
+        for rec in self:
+            rec.request_filename='R' + (rec.member_id.name or '')
+
+    @api.depends('member_id')
+    def _compute_prescription_filename(self):
+        for rec in self:
+            rec.prescription_filename = 'P' + (rec.member_id.name or '')
+
+    @api.depends('member_id')
+    def _compute_approval_filename(self):
+        for rec in self:
+            rec.approval_filename =  'A'+ (rec.approval_no or '')
 
     @api.depends('order_line')
     def _compute_order_line_count(self):
@@ -124,18 +170,21 @@ class SaleOrder(models.Model):
             raise ValidationError("Invalid field: Date of Birth")
         if self.sale_type == 'insurance' and not self.gender:
             raise ValidationError("Invalid field: Gender")
+        if self.sale_type == 'insurance' and not self.prescription_id:
+            raise ValidationError("Invalid field: Prescription")
         if self.sale_type == 'insurance' and not self.insurance_id:
             raise ValidationError("Invalid field: Insurance Company")
         if self.sale_type == 'insurance' and not self.policy_id:
             raise ValidationError("Invalid field: Policy")
         if self.sale_type == 'insurance' and not self.policy_class_id:
             raise ValidationError("Invalid field: Class")
-        if self.sale_type == 'insurance' and not self.membership_no:
+        if self.sale_type == 'insurance' and not self.member_id:
             raise ValidationError("Invalid field: Membership No")
         if self.sale_type == 'insurance' and not self.request_attach_id:
             raise ValidationError("Invalid field: Request Attachment")
         if self.sale_type == 'insurance' and not self.prescription_attach_id:
             raise ValidationError("Invalid field: Prescription Attachment")
+
 
         self.state = "waiting_approval"
 
@@ -188,20 +237,21 @@ class SaleOrder(models.Model):
         value={'name': self.name,
               'sale_id': self.id,
               'claim_origin': self.name,
-              'partner_id':self.partner_id.id,
-              'gender':self.partner_id.gender,
-              'mobile': self.mobile,
-              'id_no': self.id_no,
-              'birth_date': self.birth_date,
               'prescription_id':self.prescription_id.id,
-              'insurance_id': self.insurance_id.id,
-              'policy_id': self.policy_id.id,
-              'policy_class_id': self.policy_class_id.id,
-              'membership_no': self.membership_no,
+              'member_id': self.member_id.id,
               'approval_no': self.approval_no,
               'approval_date': self.approval_date,
               'create_date': date.today(),
               'pricelist_id': self.pricelist_id.id,
+              'id_no': self.id_no,
+              'inception_date': self.inception_date,
+              'expiry_date': self.expiry_date,
+              'co_insurance_type' : self.co_insurance_type,
+              'co_insurance_percent' : self.co_insurance_percent,
+              'up_to' : self.up_to,
+              'co_insurance': self.co_insurance,
+              'insurance_discount' : self.insurance_discount,
+              'member_discount' : self.member_discount,
               'company_id': self.company_id.id,
               'doctor' : self.prescription_id.doctor_id,
               'prescription_type': self.prescription_id.prescription_type,
@@ -217,14 +267,6 @@ class SaleOrder(models.Model):
               'l_add': self.prescription_id.l_add,
               'ipd_distance': self.prescription_id.ipd_distance,
               'ipd_addition': self.prescription_id.ipd_addition,
-              'policy_holder': self.policy_holder,
-              'inception_date': self.inception_date,
-              'expiry_date': self.expiry_date,
-              'insurance_company_plan': self.insurance_company_plan.id,
-              'insurance_discount': self.insurance_discount,
-              'member_discount': self.member_discount,
-              'co_insurance_type': self.co_insurance_type,
-              'up_to': self.up_to,
               'claim_line': claim_line}
         return value
 
@@ -262,22 +304,7 @@ class SaleOrder(models.Model):
                            })]
         return value
 
-
-    #Onchange - On change Parent Field, List associated Child Records.
-    @api.onchange('insurance_id')
-    def onchange_insurance_id(self):
-        self.policy_id = None
-        self.pricelist_id = self.insurance_pricelist_id
-
-    # Onchange - On change Parent Field, List associated Child Records.
-    @api.onchange('policy_id')
-    def onchange_policy_id(self):
-        self.policy_class_id = None
-
-    def action_open_prescriptions(self):
-        print ("test")
-
-    @api.depends('insurance_id','policy_id','policy_class_id',
+    @api.depends(
                   'order_line.price_subtotal', 'order_line.price_tax', 'order_line.price_total',
                   'order_line.gross_subtotal', 'order_line.gross_tax', 'order_line.gross_total',
                   'order_line.claim_subtotal', 'order_line.claim_tax', 'order_line.claim_total',
@@ -367,7 +394,7 @@ class SaleOrder(models.Model):
                 order['member_total'] = member_total
 
 
-    @api.onchange("sale_type", "insurance_id", "policy_id", "policy_class_id", 'order_line', )
+    @api.onchange("sale_type", 'order_line', )
     def _compute_insurance(self):
         for order in self:
             for line in order.order_line:
@@ -501,7 +528,7 @@ class SaleOrder(models.Model):
         for record in self:
 
             if record.sale_type == 'insurance' and record.approved_untaxed == 0:
-                    raise ValidationError("Sum of Approved amount must be greater than zero.")
+                    raise ValidationError("The sum of the approved amounts must be greater than zero.")
 
 
         order_ids = self.search([('id','=',self.id),
@@ -518,6 +545,12 @@ class SaleOrder(models.Model):
 
 class SaleOrderLine(models.Model):
     _inherit = 'sale.order.line'
+
+    order_partner_id = fields.Many2one(
+        related='order_id.partner_id',
+        string="Customer",
+        store=True, index=True, precompute=True)
+
     approved_unit = fields.Float(
         string="Unit Approved")
 

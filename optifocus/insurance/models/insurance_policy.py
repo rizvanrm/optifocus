@@ -4,24 +4,23 @@ from odoo.exceptions import UserError, ValidationError
 class InsurancePolicy(models.Model):
     _name = "insurance.policy"
     _description = "Insurance Policy"
-    _rec_name = 'policy_no'
-    policy_no = fields.Char(string="Policy No", required=True)
+
+    name = fields.Char(string="Policy No", required=True)
     policy_holder = fields.Char(string="Policy Holder", required=True,store=True)
     inception_date = fields.Date(string="Inception Date", required=True)
     expiry_date = fields.Date(string="Expiry Date", required=True)
     policy_line = fields.One2many('insurance.policy.class', 'policy_id', string='Policy Lines')
     insurance_company = fields.Many2one('insurance.company',string='Insurance Company', required=True)
-    insurance_company_plan = fields.Many2one('insurance.plan', string='Plan',required=True)
+    insurance_company_plan = fields.Many2one('insurance.plan', string='Plan',required=True,domain="[('insurance_company_id', '=', insurance_company)]")
     insurance_discount = fields.Float(related='insurance_company_plan.insurance_discount')
     member_discount = fields.Float(related='insurance_company_plan.member_discount')
-
 
     # Onchange - On change Parent Field, List associated Child Records.
     @api.onchange('insurance_company')
     def onchange_insurance_company_name(self):
         self.insurance_company_plan=None
-        for rec in self:
-            return {'domain': {'insurance_company_plan': [('insurance_company_id', '=', rec.insurance_company.name)]}}
+        # for rec in self:
+        #     return {'domain': {'insurance_company_plan': [('insurance_company_id', '=', rec.insurance_company.name)]}}
 
     # Constraint - at least one Child Record required
     @api.constrains('policy_line_ids')
@@ -32,8 +31,8 @@ class InsurancePolicy(models.Model):
     def copy_data(self, default=None):
         if default is None:
             default = {}
-        if 'policy_no' not in default:
-            default['policy_no'] = _("%s (copy)", self.policy_no)
+        if 'name' not in default:
+            default['name'] = _("%s (copy)", self.name)
         if 'policy_line' not in default:
             default['policy_line'] = [
                 Command.create(line.copy_data()[0])
@@ -43,7 +42,7 @@ class InsurancePolicy(models.Model):
 
     _sql_constraints = [
         # Constraint Unique Record
-        ('policy_uniq', 'unique (policy_no,insurance_company)', 'Policy No must be unique per Insurance Company.'),
+        ('name_uniq', 'unique (name,insurance_company)', 'Policy No must be unique per Insurance Company.'),
         # Constraint Inception Date is less than Expiry Date
         ('date_check', "CHECK ( (inception_date <= expiry_date))", "The Expiry Date must be greater than or equal to the Inception Date.")
     ]

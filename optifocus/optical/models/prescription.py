@@ -8,7 +8,8 @@ class Prescription(models.Model):
     _rec_name = 'prescription_date'
 
     doctor_id = fields.Many2one('hr.employee', string='Optometrist', required=True, domain="[('job_id', '=', 'Optometrist')]")
-    prescription_date = fields.Datetime(string="Date", required=True,default=fields.datetime.now())
+    prescription_date = fields.Datetime(string="Date", required=True, default = lambda self: fields.Datetime.now())
+
 
     prescription_type = fields.Selection([
         ('distance', 'DISTANCE'),
@@ -21,16 +22,37 @@ class Prescription(models.Model):
     r_sph=fields.Float(string='Right Sphere')
     r_cyl=fields.Float(string='Right Cylinder')
     r_axis=fields.Float(string='Right Axis')
-    r_va=fields.Float(string='Right Visual Acuity')
+    r_va_numerator = fields.Integer(string="Numerator")
+    r_va_denominator = fields.Integer(string="Denominator")
+    r_va = fields.Char(string="Right Visual Acuity", compute="_compute_r_va", store=True)
     r_add=fields.Float(string='Right Addition')
     l_sph = fields.Float(string='Lef Sphere')
     l_cyl = fields.Float(string='Left Cylinder')
     l_axis = fields.Float(string='Left Axis')
-    l_va = fields.Float(string='Left Visual Acuity')
+    l_va_numerator = fields.Integer(string="Numerator")
+    l_va_denominator = fields.Integer(string="Denominator")
+    l_va = fields.Char(string="Left Visual Acuity",compute="_compute_l_va", store=True)
     l_add = fields.Float(string='Left Addition')
     ipd_distance=fields.Float(string='Interpupillary Distance Distance')
     ipd_addition = fields.Float(string=' Interpupillary Distance  Addition')
     notes=fields.Text()
+    prescription_filename = fields.Char(compute='_compute_prescription_filename')
+    prescription_attach_id = fields.Binary(string="Prescription Attachment")
+
+    @api.depends('l_va_numerator', 'l_va_denominator')
+    def _compute_l_va(self):
+        for rec in self:
+            rec.l_va = f"{rec.l_va_numerator } / {rec.l_va_denominator}"
+
+    @api.depends('r_va_numerator', 'r_va_denominator')
+    def _compute_r_va(self):
+        for rec in self:
+            rec.r_va = f"{rec.r_va_numerator} / {rec.r_va_denominator}"
+
+    @api.depends('prescription_date')
+    def _compute_prescription_filename(self):
+        for rec in self:
+            rec.prescription_filename = 'P' + (str(rec.prescription_date) or '')
 
     @api.constrains('r_sph','r_cyl','r_axis','r_add','l_sph','l_cyl','l_axis','l_add','ipd_distance','ipd_addition')
     def _constrains_from_to(self):
@@ -47,9 +69,6 @@ class Prescription(models.Model):
         addition_min = float(self.env['ir.config_parameter'].sudo().get_param('optifocus.addition_min'))
         addition_max = float(self.env['ir.config_parameter'].sudo().get_param('optifocus.addition_max'))
 
-        va_min = float(self.env['ir.config_parameter'].sudo().get_param('optifocus.va_min'))
-        va_max = float(self.env['ir.config_parameter'].sudo().get_param('optifocus.va_max'))
-
         ipd_min = float(self.env['ir.config_parameter'].sudo().get_param('optifocus.ipd_min'))
         ipd_max = float(self.env['ir.config_parameter'].sudo().get_param('optifocus.ipd_max'))
 
@@ -62,9 +81,7 @@ class Prescription(models.Model):
                 raise ValidationError("Right Axis Value not in the Range Specified in Settings.")
             if self.r_add < addition_min or self.r_add > addition_max:
                 raise ValidationError("Right Addition Value not in the Range Specified in Settings.")
-            if self.r_va < va_min or self.r_va > va_max:
-                raise ValidationError("Right VA Value not in the Range Specified in Settings.")
-            if self.ipd_distance < ipd_min or self.ipd_distance > ipd_max:
+            if self.ipd_distance!=0 and (self.ipd_distance < ipd_min or self.ipd_distance > ipd_max)  :
                 raise ValidationError("Distance IPD Value not in the Range Specified in Settings.")
 
             if record.r_sph % 0.25 != 0:
@@ -82,9 +99,8 @@ class Prescription(models.Model):
                 raise ValidationError("Left Axis Value not in the Range Specified in Settings.")
             if self.l_add < addition_min or self.l_add > addition_max:
                 raise ValidationError("Left Addition Value not in the Range Specified in Settings.")
-            if self.l_va < va_min or self.l_va > va_max:
-                raise ValidationError("Left VA Value not in the Range Specified in Settings.")
-            if self.ipd_addition < ipd_min or self.ipd_addition > ipd_max:
+
+            if self.ipd_addition != 0 and (self.ipd_addition < ipd_min or self.ipd_addition > ipd_max):
                 raise ValidationError("Addition IPD Value not in the Range Specified in Settings.")
 
             if record.l_sph % 0.25 != 0:
@@ -93,4 +109,12 @@ class Prescription(models.Model):
                 raise ValidationError("Left Cylinder [" + str(record.l_cyl) + "] must be a multiple of 0.25")
             if record.l_add % 0.25 != 0:
                 raise ValidationError("Left Addition [" + str(record.l_add) + "] must be a multiple of 0.25")
+            if record.r_va_numerator not in [6,20]:
+                raise ValidationError("Right VA Numerator must be 6 (meters) or 20 (feet).")
+            if record.r_va_denominator not in [6, 9, 12, 18, 24, 36, 60, 120,20, 25, 30, 40, 50, 70, 100, 200, 400]:
+                raise ValidationError("Right VA Denominator must be a standard value.")
+            if record.l_va_numerator not in [6,20]:
+                raise ValidationError("Left VA Numerator must be 6 (meters) or 20 (feet).")
+            if record.l_va_denominator not in [6, 9, 12, 18, 24, 36, 60, 120,20, 25, 30, 40, 50, 70, 100, 200, 400]:
+                raise ValidationError("Left VA Denominator must be a standard value in [6, 9, 12, 18, 24, 36, 60, 120] (meters) or [20, 25, 30, 40, 50, 70, 100, 200, 400] (feet).")
 

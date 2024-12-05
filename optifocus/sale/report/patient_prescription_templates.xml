@@ -2,10 +2,10 @@
 <odoo>
 
    <template id="report_prescription_document">
+                    <table class="table table-sm text-center border-top: 20; "   style="page-break-inside: avoid; width:100%" >
 
+                    <tbody>
 
-                    <table class="table table-sm text-center border-top: 0; "  >
-                        <thead  >
                             <tr>
                                 <th rowspan="2" class="align-middle" style="width: 10%;">
                                     <strong>RX</strong>
@@ -47,9 +47,6 @@
                                     <strong>VA</strong>
                                 </th>
                             </tr>
-                        </thead>
-                        <tbody>
-
                             <tr t-if="prescription_id.prescription_type in ('distance','bifocal_progressive')">
                                 <td >
                                     <strong>Distance</strong>
@@ -88,12 +85,32 @@
                                 <td>
                                     <strong>Reading</strong>
                                 </td>
-                                <td colspan="4">
+                                <td >
                                     <span t-esc="prescription_id.r_sph+prescription_id.r_add"/>
                                 </td>
-                                <td colspan="4">
+                                 <td>
+                                    <span t-field="prescription_id.r_cyl"/>
+                                </td>
+                                <td>
+                                    <span t-field="prescription_id.r_axis"/>
+                                </td>
+                                <td>
+                                    <span t-field="prescription_id.r_va"/>
+                                </td>
+
+                                <td >
                                     <span t-esc="prescription_id.l_sph+prescription_id.l_add"/>
                                 </td>
+                                 <td>
+                                    <span t-field="prescription_id.l_cyl"/>
+                                </td>
+                                <td>
+                                    <span t-field="prescription_id.l_axis"/>
+                                </td>
+                                <td>
+                                    <span t-field="prescription_id.l_va"/>
+                                </td>
+
                                 <td>
                                     <span t-field="prescription_id.ipd_addition"/>
                                 </td>
@@ -115,5 +132,7 @@
 
                         </tbody>
                     </table>
+
+
    </template>
 </odoo>

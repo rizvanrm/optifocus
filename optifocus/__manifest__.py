@@ -1,7 +1,7 @@
 {
     'name': 'Optifocus',
     'category': 'Healthcare/Optical',
-    'summary': 'A complete solution to Multi Store Optical Eye Clinic Business with features Insurance, Inventory, Sales, Purchase, Accounting, Patients,Prescriptions, Business Intelligence Report.',
+    'summary': 'A comprehensive solution for multi-store optical eye clinic businesses, featuring modules for sales, purchasing, inventory, accounting, insurance, patient management, prescriptions, and business intelligence reporting.',
     'version': '16.0.0',
     'author': 'Rizvan Mirza',
     'email': 'rizvan_rm@yahoo.co.in',
@@ -11,13 +11,12 @@
     'data': [
 
         'security/security.xml',
-        'data/user.xml',
-
 
         'views/res_config_settings_views.xml',
 
         'insurance/views/insurance_company.xml',
         'insurance/views/insurance_policy.xml',
+        'insurance/views/insurance_member.xml',
         'insurance/views/insurance_report.xml',
         'insurance/views/insurance_claim_views.xml',
         'insurance/wizard/audit_claim.xml',
@@ -112,6 +111,7 @@
         'users/views/res_users_views.xml',
 
 
+        # 'data/stock_location.xml',
         'data/product_attribute.xml',
         'data/product_category.xml',
         'data/product_brand.xml',
@@ -124,15 +124,12 @@
         'data/hr_demo.xml',
         'data/hr_data.xml',
         'data/config_setting.xml',
-
+        'data/user.xml',
         'security/ir.model.access.csv',
-
-
-
 
          ],
     # 'depends': ['stock','sale','hr', 'sale_loyalty','purchase','account','report_xlsx'],
-        'depends': ['stock','sale','hr', 'sale_loyalty','purchase','account'],
+        'depends': ['stock','sale_management','hr', 'sale_loyalty','purchase','account','report_xlsx','l10n_sa_edi'],
 
     'installable': True,
     'images' : ['static/description/banner.png'],

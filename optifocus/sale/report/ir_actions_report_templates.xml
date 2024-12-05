@@ -31,7 +31,7 @@
                 </div>
                 <div class="col-auto col-3 mw-100 mb-2" name="insurance_policy">
                     <strong>Policy:</strong>
-                    <t t-set="policy1" t-value="doc.policy_id.policy_no + ' - '+ doc.policy_id.policy_holder"/>
+                    <t t-set="policy1" t-value="doc.policy_id.name + ' - '+ doc.policy_id.policy_holder"/>
                     <p class="m-0" t-esc="policy1"/>
                 </div>
                 <div class="col-auto col-3 mw-100 mb-2" name="insurance_policy">

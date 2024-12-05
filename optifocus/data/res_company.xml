@@ -11,6 +11,10 @@
             <field name="city">RIYADH </field>
             <field name="state_id" ref="base.state_sa_70"/>
             <field name="zip">12645 </field>
+                        <field name="zip">12645 </field>
+                        <field name="zip">12645 </field>
+                        <field name="zip">12645 </field>
+
             <field name="country_id" ref="base.sa"/>
             <field name="chi_id">1234 </field>
             <field name="nphies_id">4567 </field>

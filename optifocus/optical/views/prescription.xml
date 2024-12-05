@@ -17,6 +17,8 @@
                         <group>
                             <field name="partner_id"/>
                             <field name="mobile"/>
+                            <field name="prescription_filename" invisible="1"/>
+                            <field name="prescription_attach_id" filename="prescription_filename" widget="work_permit_upload"/>
                         </group>
                     </group>
 
@@ -82,7 +84,11 @@
                                     <field name="r_axis" style="width: 100%;"/>
                                 </td>
                                 <td>
-                                    <field name="r_va" style="width: 100%;"/>
+                                    <div class="oe_inline" style="display: flex; gap: 1px;">
+                                        <field name="r_va_numerator"  class="oe_inline"/>
+                                        <div>/</div>
+                                        <field name="r_va_denominator" class="oe_inline"/>
+                                    </div>
                                 </td>
 
                                 <td>
@@ -95,15 +101,16 @@
                                     <field name="l_axis" style="width: 100%;"/>
                                 </td>
                                 <td>
-                                    <field name="l_va" style="width: 100%;"/>
+                                      <div class="oe_inline" style="display: flex; gap: 1px;">
+                                        <field name="l_va_numerator"  class="oe_inline"/>
+                                        <div>/</div>
+                                        <field name="l_va_denominator"   class="oe_inline"/>
+                                    </div>
+
                                 </td>
                                 <td>
                                     <field name="ipd_distance" style="width: 100%;"/>
                                 </td>
-
-
-                                <!--    style="background-color:#8bfddd"    -->
-                                <!--    style="background-color:#8aa8fd"    -->
                             </tr>
                             <tr>
                                 <td class="bg-300">

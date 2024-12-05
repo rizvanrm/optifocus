@@ -13,6 +13,8 @@ access_insurance_plan_manager,optifocus.plan.manager,optifocus.model_insurance_p
 access_insurance_plan_user,optifocus.plan.user,optifocus.model_insurance_plan,group_insurance_user,1,0,0,0
 access_insurance_policy_user,optifocus.policy.user,optifocus.model_insurance_policy,group_insurance_user,1,1,1,1
 access_insurance_policy_class_user,optifocus.policy.class.user,optifocus.model_insurance_policy_class,group_insurance_user,1,1,1,1
+access_insurance_member_manager,optifocus.member.manager,optifocus.model_insurance_member,group_insurance_manager,1,1,1,1
+access_insurance_member_user,optifocus.member.user,optifocus.model_insurance_member,group_insurance_user,1,0,0,0
 access_insurance_claim_claim,optifocus.claim.claim,optifocus.model_insurance_claim,group_insurance_claim,1,1,1,1
 access_insurance_claim_line_claim,optifocus.claim.line.claim,optifocus.model_insurance_claim_line,group_insurance_claim,1,1,1,1
 

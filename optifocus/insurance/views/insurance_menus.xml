@@ -20,11 +20,17 @@
                     name="Insurance Policies"
                     action="action_insurance_policy_form"
                     sequence="20"/>
+            <menuitem
+                    id="insurance_member"
+                    name="Insurance Members"
+                    action="action_insurance_member_form"
+                    sequence="30"/>
+
              <menuitem
                     id="insurance_claim"
                     name="Insurance Claim"
                     action="action_insurance_claim_form"
-                    sequence="30"/>
+                    sequence="40"/>
 
 
 

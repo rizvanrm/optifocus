@@ -54,7 +54,7 @@
                 <div t-if="o.invoice_filter_type_domain=='sale'" class="col-auto col-3 mw-100 mb-2">
                     <strong>Policy :</strong>
                     <t t-set="policy"
-                       t-value="o.invoice_line_ids.sale_line_ids.order_id.policy_id.policy_no+ ' - ' + o.invoice_line_ids.sale_line_ids.order_id.policy_holder"/>
+                       t-value="o.invoice_line_ids.sale_line_ids.order_id.policy_id.name+ ' - ' + o.invoice_line_ids.sale_line_ids.order_id.policy_holder"/>
                     <p class="m-0" t-esc="policy"/>
                 </div>
                 <div t-if="o.invoice_filter_type_domain=='sale'" class="col-auto col-3 mw-100 mb-2">

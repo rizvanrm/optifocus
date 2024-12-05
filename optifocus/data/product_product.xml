@@ -77,7 +77,7 @@
         </record>
 
          <record id="product_product_3_product_template" model="product.template">
-            <field name="name">ESSILOR, BLUE UV CAPTURE 1.59 AIRWEAR, CRIZAL PREVINCIA</field>
+            <field name="name">ESSILOR , BLUE UV CAPTURE 1.59 AIRWEAR , PLASTIC , 1.59 AIRWEAR , SINGLE , CRIZAL PREVINCIA</field>
             <field name="barcode"></field>
             <field name="brand_id" ref="optifocus.product_brand_3"/>
             <field name="model1_id" ref="optifocus.product_model_5"/>
@@ -210,7 +210,7 @@
         </record>
 
         <record id="product_product_40_product_template" model="product.template">
-            <field name="name">ACUVUE , 1-DAY OASYS HYDRALUXE , CLEAR</field>
+            <field name="name">ACUVUE , 1-DAY OASYS HYDRALUXE , CLEAR , 14.30 , 8.50</field>
             <field name="barcode"></field>
             <field name="brand_id" ref="optifocus.product_brand_2"/>
             <field name="model1_id" ref="optifocus.product_model_3"/>
@@ -375,7 +375,7 @@
         </record>
 
         <record id="product_product_6_product_template" model="product.template">
-            <field name="name">LXG-PERSOL , GLS. , ASS. 35% (OR) ORGADUR MELANIN 75 % (OR) BRN. 35% , D(70) , B(6)</field>
+            <field name="name">PERSOL , SFUMATO MARRONE 75% , GLASS , 70 , 6</field>
             <field name="barcode"></field>
             <field name="brand_id" ref="optifocus.product_brand_5"/>
             <field name="model1_id" ref="optifocus.product_model_8"/>

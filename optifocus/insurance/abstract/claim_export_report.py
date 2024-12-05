@@ -104,7 +104,7 @@ class ClaimExportReportAB(models.AbstractModel):
             sheet.write(row, 26, claim_line_id.claim_id.co_insurance_percent)
             sheet.write(row, 27, claim_line_id.claim_id.up_to)
             sheet.write(row, 28, claim_line_id.claim_id.policy_class_id.name)
-            sheet.write(row, 29, claim_line_id.claim_id.membership_no)
+            sheet.write(row, 29, claim_line_id.claim_id.member_id.name)
             sheet.write(row, 30, claim_line_id.claim_id.approval_no)
             sheet.write(row, 31, str(claim_line_id.claim_id.approval_date))
             sheet.write(row, 32, claim_line_id.claim_id.company_id.name)

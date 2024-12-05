@@ -115,7 +115,7 @@
                     </div>
                     <div class="col-2">
                         <t t-set="membership_no"
-                           t-value="o.invoice_line_ids.sale_line_ids.order_id.membership_no"/>
+                           t-value="o.invoice_line_ids.sale_line_ids.order_id.member_id.name"/>
                         <p class="m-0" t-esc="membership_no[:15]"/>
                     </div>
                     <div class="col-1 text-end">

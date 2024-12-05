@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <odoo>
 
-        <data noupdate="1">
+    <data noupdate="1">
 
         <record id="default_sphere_min" model="ir.config_parameter" forcecreate="False">
             <field name="key">optifocus.sphere_min</field>
@@ -41,17 +41,29 @@
         </record>
         <record id="default_ipd_min" model="ir.config_parameter" forcecreate="True">
             <field name="key">optifocus.ipd_min</field>
-            <field name="value">50</field>
+            <field name="value">40</field>
         </record>
         <record id="default_ipd_max" model="ir.config_parameter" forcecreate="True">
             <field name="key">optifocus.ipd_max</field>
             <field name="value">75</field>
         </record>
 
-        <record id="default_global_discount_product" model="ir.config_parameter" forcecreate="True" >
+        <record id="default_global_discount_product" model="ir.config_parameter" forcecreate="True">
             <field name="key">optifocus.default_global_discount_product_id</field>
             <field name="value" ref="optifocus.product_product_global_discount_product"/>
         </record>
+
+        <record model="res.config.settings" id="res_config_settings">
+
+            <field name="group_discount_per_so_line" eval="1"/>
+            <field name="group_product_variant" eval="1"/>
+            <field name="group_stock_multi_locations" eval="1"/>
+            <field name="group_stock_adv_location" eval="1"/>
+        </record>
+
+        <function model="res.config.settings" name="execute"
+            eval="[ref('res_config_settings')]" />
+
 
 
     </data>

@@ -12,9 +12,6 @@
 
  </record>
 
-
-
-
     <record id="sale_order_form_view" model="ir.ui.view">
         <field name="name">sale.order.form</field>
         <field name="model">sale.order</field>
@@ -31,17 +28,21 @@
                     </button>
             </xpath>
 
+
+
+
             <xpath expr="//field[@name='partner_id']" position="before">
                 <field name="order_line_count" invisible="1"/>
                 <field name="sale_type"
 
                 attrs="{'readonly': ['|',('state', 'not in', ('draft')),('order_line_count', '>', (0))]
                     }"  force_save = "1"/>
-<!--                widget="radio" options="{'horizontal': true}"-->
             </xpath>
 
             <xpath expr="//field[@name='partner_id']" position="attributes">
                 <attribute name="options">{'no_quick_create': True}</attribute>
+                <attribute name="attrs">{'readonly': ['|',('sale_type', 'in', ['insurance']),('state', 'in', ['waiting_approval','approve','sale'])]}</attribute>
+                <attribute name="force_save">1</attribute>
             </xpath>
 
             <xpath expr="//tree/field[@name='price_unit']" position="attributes">
@@ -77,9 +78,6 @@
                                               '&amp;', ('sale_type', '=','insurance'),('state', 'in', ['draft','waiting_approval','sale','cancel'])
                                               ]}" groups="!optifocus.group_insurance_supervisor"/>
             </xpath>
-
-
-
 
 
             <xpath expr="/form/header/button[@name='action_confirm']" position="after">
@@ -142,9 +140,7 @@
             </field>
 
 
-            <field name="partner_shipping_id" position="attributes">
-                <attribute name="invisible">1</attribute>
-            </field>
+
             <xpath expr="//group[@name='sale_header']" position="attributes">
                 <attribute name="col">3</attribute>
             </xpath>
@@ -158,53 +154,34 @@
                 <attribute name="attrs">{'readonly': [('sale_type', 'in',
                     ['retail', 'insurance'])]}
                 </attribute>
+                 <attribute name="force_save">1</attribute>
             </xpath>
-            <label for="pricelist_id" position="attributes">
-                <attribute name="attrs">{'readonly': [('sale_type', 'in', ['retail', 'insurance'])]}</attribute>
-            </label>
+<!--            <label for="pricelist_id" position="attributes">-->
+<!--                <attribute name="attrs">{'readonly': [('sale_type', 'in', ['retail', 'insurance'])]}</attribute>-->
+<!--            </label>-->
 
 
-            <xpath expr="//field[@name='partner_id']" position="after">
+            <xpath expr="//field[@name='partner_id']" position="before">
+                <field name="member_id"
+                           attrs="{'invisible': [('sale_type', 'in', ['retail', 'wholesale'])],
+                                   'readonly': [('state', 'in', ['waiting_approval','approve','sale','done','cancel','reject','revert'])]}"
+                            options="{'no_quick_create': True}"/>
+
+                </xpath>
+
+                  <xpath expr="//field[@name='partner_id']" position="after">
+                      <field name="partner_shipping_id" invisible="1"/>
                 <field name="mobile" placeholder="Mobile"/>
-                <field name="id_no" attrs="{'invisible': [('sale_type', 'in', ['retail', 'wholesale'])]}"/>
-                <field name="birth_date" attrs="{'invisible': [('sale_type', 'in', ['retail', 'wholesale'])]}"/>
                 <field name="prescription_id" attrs="{'invisible': [('sale_type', 'in', ['wholesale'])],'readonly': [('state', 'in', ['waiting_approval','approve'])]}"
                                                domain="[('partner_id', '=', partner_id)]"
                                                context = "{'default_partner_id': partner_id}"
                                                options="{'no_quick_create': True}"
                 />
 
-
             </xpath>
             <xpath expr="//group[@name='order_details']" position="after">
                 <group name="insurance_details">
 
-
-                    <field name="insurance_id" attrs="{
-                    'invisible': [('sale_type', 'in', ['retail', 'wholesale'])],
-                    'readonly': ['|',('state', 'not in', ('draft')),('order_line_count', '>', (0))]
-                    }" options="{'no_create': True}"  force_save = "1"/>
-
-
-                    <label for="policy_id" string="Policy"
-                           attrs="{'invisible': [('sale_type', 'in', ['retail', 'wholesale'])]}"/>
-
-                    <div>
-                        <field name="policy_id" placeholder="e.g. 856948" style="width: 50%"
-                               domain="[('insurance_company', '=', insurance_id)]"
-                               attrs="{'invisible': [('sale_type', 'in', ['retail', 'wholesale'])],
-                                       'readonly': [('state', 'not in', ('draft'))]}"
-                               options="{'no_quick_create': True}"/>
-                        <field name="policy_class_id" placeholder="e.g. A" style="width: 50%"
-                               domain="[('policy_id', '=', policy_id)]"
-                               attrs="{'invisible': [('sale_type', 'in', ['retail', 'wholesale'])],
-                                       'readonly': [('state', 'not in', ('draft'))]}"
-                               options="{'no_create': True}"/>
-                    </div>
-
-                    <field name="membership_no"
-                           attrs="{'invisible': [('sale_type', 'in', ['retail', 'wholesale'])],
-                                   'readonly': [('state', 'in', ['waiting_approval','approve'])]}"/>
                     <field name="approval_no" class="oe_inline"
                            attrs="{'invisible': [('sale_type', 'in', ['retail', 'wholesale'])],
                            'readonly': [('state', 'in', ['approve'])]}"/>
@@ -221,9 +198,8 @@
                            widget="work_permit_upload"
                            attrs="{'invisible': [('sale_type', 'in', ['retail', 'wholesale'])],
                                     'readonly': [('state', 'in', ['waiting_approval','approve'])]}"/>
-                    <field name="prescription_attach_id" filename="prescription_filename" widget="work_permit_upload"
-                           attrs="{'invisible': [('sale_type', 'in', ['retail', 'wholesale'])],
-                                    'readonly': [('state', 'in', ['waiting_approval','approve'])]}"/>
+                    <field name="prescription_attach_id"  filename="prescription_filename" widget="work_permit_upload"
+                           attrs="{'invisible': [('sale_type', 'in', ['retail', 'wholesale'])]}"/>
                     <field name="approval_attach_id" filename="approval_filename" widget="work_permit_upload"
                            attrs="{'invisible': [('sale_type', 'in', ['retail', 'wholesale'])],
                                     'readonly': [('state', 'in', ['approve'])]}"/>
@@ -281,11 +257,6 @@
                  <attribute name="attrs">{'readonly': [('state', 'in', ['waiting_approval','approve'])]}</attribute>
             </xpath>
 
-            <xpath expr="//field[@name='partner_id']" position="attributes">
-                 <attribute name="attrs">{'readonly': [('state', 'in', ['waiting_approval','approve','sale'])]}</attribute>
-            </xpath>
-
-
             <xpath expr="//field[@name='order_line']" position="attributes">
                  <attribute name="attrs">{'readonly': [('state', 'in', ['waiting_approval','sale'])]}</attribute>
             </xpath>
@@ -308,20 +279,45 @@
             <xpath expr="//page[@name='customer_signature']" position="after">
                 <page name="policy" string="Policy"
                       attrs="{'invisible': [('sale_type', 'in', ['retail', 'wholesale'])]}">
+
+                   <group>
+                        <group name="member" string="member">
+                            <field name="birth_date"/>
+                            <field name="gender"/>
+                            <field name="id_no" force_save="1" />
+
+
+
+                        </group>
+                   </group>
+
                     <group>
                         <group name="policy" string="policy">
-                            <field name="policy_holder"/>
-                            <field name="inception_date"/>
-                            <field name="expiry_date"/>
-                            <field name="co_insurance_type"/>
-                            <field name="co_insurance_percent"
-                                   attrs="{'invisible': [('co_insurance_type', '=', 'fixed')]}"/>
-                            <field name="up_to"/>
+
+                            <label for="policy_id" string="Policy"/>
+                            <div class="oe_inline" style="display: flex; gap: 5px;">
+                                <field name="policy_id" class="oe_inline"/>
+                                <div>-</div>
+                                <field name="policy_holder" class="oe_inline"/>
+                            </div>
+
+                            <label for="inception_date" string="Validity Date"/>
+                            <div class="oe_inline" style="display: flex; gap: 20px;">
+                                <field name="inception_date" class="oe_inline" readonly="1" force_save="1"/>
+                                <div>To</div >
+                                <field name="expiry_date" class="oe_inline" readonly="1" force_save="1"/>
+                            </div>
+                            <field name="policy_class_id"/>
+                            <field name="co_insurance_percent" invisible="1" force_save="1"/>
+                            <field name="up_to"  invisible="1" force_save="1"/>
+                            <field name="co_insurance_type"  invisible="1" force_save="1"/>
+                            <field name="co_insurance" force_save="1"/>
                         </group>
                         <group name="insurance" string="insurance">
+                            <field name="insurance_id"/>
                             <field name="insurance_company_plan"/>
-                            <field name="insurance_discount"/>
-                            <field name="member_discount"/>
+                            <field name="insurance_discount" force_save="1"/>
+                            <field name="member_discount" force_save="1"/>
                         </group>
                     </group>
                 </page>
@@ -346,6 +342,11 @@
             <xpath expr="/form/sheet/notebook/page/field[@name='order_line']/tree/field[@name='price_subtotal']" position="attributes">
                     <attribute name="sum">Sum of Subtotal</attribute>
             </xpath>
+
+            <xpath expr="/form/sheet/notebook/page/field[@name='order_line']/tree/field[@name='discount']" position="attributes">
+                <attribute name="attrs">{'column_invisible': [('parent.sale_type', 'in', ['insurance'])]}</attribute>
+            </xpath>
+
 
             <xpath expr="/form/sheet/notebook/page/field[@name='order_line']/tree/field[@name='price_unit']"
                    position="after">
@@ -378,23 +379,48 @@
 
                 </xpath>
 
-            <xpath expr="//field[@name='tax_totals']" position="before">
 
-                <div attrs="{'invisible': [('sale_type', 'not in', ['insurance'])]}">
-                    <table style="width:100%;" class="table table-sm table-bordered text-right text-nowrap">
+
+            <xpath expr="//group[@name='note_group']/group[1]" position="attributes">
+                <attribute name="colspan">3</attribute>
+            </xpath>
+                  <xpath expr="//group[@name='note_group']/group[@name='sale_total']" position="attributes">
+                    <attribute name="colspan">1</attribute>
+                </xpath>
+
+
+<!--            <group name="note_group" col="6" class="mt-2 mt-md-0">-->
+<!--                            <group colspan="4">-->
+<!--                                <field  colspan="2" name="note" nolabel="1" placeholder="Terms and conditions..."/>-->
+<!--                            </group>-->
+<!--                            <group class="oe_subtotal_footer oe_right" colspan="2" name="sale_total">-->
+<!--                                <field name="tax_totals" widget="account-tax-totals-field" nolabel="1" colspan="2" readonly="1"/>-->
+<!--                            </group>-->
+<!--                            <div class="clearfix"/>-->
+<!--                        </group>-->
+
+
+
+            <xpath  expr="//group[@name='sale_total']" position="before">
+
+
+
+                <group colspan="1" attrs="{'invisible': [('sale_type', 'not in', ['insurance'])]}"  >
+                    <table   class="table table-striped table-sm table-bordered text-nowrap"
+                    style="width: 100%;">
 
                         <thead>
                             <tr class="bg-300">
                                 <th>
 
                                 </th>
-                                <th>
+                                <th style="text-align: right;">
                                     Untaxed
                                 </th>
-                                <th>
+                                <th style="text-align: right;">
                                     Taxes
                                 </th>
-                                <th>
+                                <th style="text-align: right;">
                                     Total
                                 </th>
 
@@ -406,31 +432,46 @@
                                 <td class="bg-300">
                                     <strong>Gross</strong>
                                 </td>
-                                <td>
-                                    <field name="gross_untaxed"/>
+                                <td style="text-align: right;">
+                                        <field name="gross_untaxed"  widget="float"/>
                                 </td>
-                                <td>
-                                    <field name="gross_tax"/>
+                                <td style="text-align: right;">
+                                    <field name="gross_tax"  widget="float"/>
                                 </td>
-                                <td>
-                                    <field name="gross_total"/>
+                                <td style="text-align: right;">
+                                    <field name="gross_total"  widget="float"/>
+                                </td>
+                            </tr>
+
+                             <tr>
+                                <td class="bg-300">
+                                    <strong>Approved</strong>
+                                </td>
+                                <td style="text-align: right;">
+                                        <field name="approved_untaxed"  widget="float"/>
+                                </td>
+                                <td style="text-align: right;">
+                                    <field name="approved_tax"  widget="float"/>
+                                </td>
+                                <td style="text-align: right;">
+                                    <field name="approved_total"  widget="float"/>
                                 </td>
                             </tr>
 
 
 
                             <tr>
-                                <td class="bg-300">
+                                <td class="bg-300" >
                                     <strong>Claim</strong>
                                 </td>
-                                <td>
-                                    <field name="claim_untaxed"/>
+                                <td style="text-align: right;">
+                                    <field name="claim_untaxed"  widget="float"/>
                                 </td>
-                                <td>
-                                    <field name="claim_tax"/>
+                                <td style="text-align: right;">
+                                       <field name="claim_tax"  widget="float"/>
                                 </td>
-                                <td>
-                                    <field name="claim_total"/>
+                                <td style="text-align: right;">
+                                    <field name="claim_total" widget="float"/>
                                 </td>
                             </tr>
 
@@ -438,14 +479,14 @@
                                 <td class="bg-300">
                                     <strong>Co-Insurance</strong>
                                 </td>
-                                <td>
-                                    <field name="co_insurance_untaxed"/>
+                                 <td style="text-align: right;">
+                                    <field name="co_insurance_untaxed"  widget="float"/>
                                 </td>
-                                <td>
-                                    <field name="co_insurance_tax"/>
+                                 <td style="text-align: right;">
+                                    <field name="co_insurance_tax"  widget="float"/>
                                 </td>
-                                <td>
-                                    <field name="co_insurance_total"/>
+                                 <td style="text-align: right;">
+                                    <field name="co_insurance_total"  widget="float"/>
                                 </td>
                             </tr>
 
@@ -455,14 +496,14 @@
                                     <strong>Additional</strong>
 
                                 </td>
-                                <td>
-                                    <field name="additional_untaxed"/>
+                                <td style="text-align: right;">
+                                    <field name="additional_untaxed"  widget="float"/>
                                 </td>
-                                <td>
-                                    <field name="additional_tax"/>
+                                 <td style="text-align: right;">
+                                    <field name="additional_tax"  widget="float"/>
                                 </td>
-                                <td>
-                                    <field name="additional_total"/>
+                                 <td style="text-align: right;">
+                                    <field name="additional_total"  widget="float"/>
                                 </td>
                             </tr>
                             <tr style="color: green;">
@@ -470,20 +511,22 @@
 
                                     <strong>Member</strong>
                                 </td>
-                                <td>
-                                    <field name="member_untaxed"/>
+                                 <td style="text-align: right;">
+                                    <field name="member_untaxed"  widget="float"/>
                                 </td>
-                                <td>
-                                    <field name="member_tax"/>
+                                 <td style="text-align: right;">
+                                    <field name="member_tax"  widget="float"/>
                                 </td>
-                                <td>
-                                    <field name="member_total"/>
+                                 <td style="text-align: right;">
+                                    <field name="member_total"  widget="float"/>
                                 </td>
                             </tr>
 
                         </tbody>
                     </table>
-                </div>
+                </group>
+
+
 
 
             </xpath>
@@ -506,7 +549,7 @@
                 <field name="insurance_id"/>
                 <field name="policy_id" />
                 <field name="policy_holder"/>
-                <field name="membership_no"/>
+                <field name="member_id"/>
                 <field name="approval_no"/>
 
             </xpath>
@@ -558,7 +601,7 @@
                 <field name="id_no" optional="hide"/>
                 <field name="insurance_id" optional="hide"/>
                 <field name="policy_id" optional="hide"/>
-                <field name="membership_no" optional="hide"/>
+                <field name="member_id" optional="hide"/>
                 <field name="approval_no" optional="hide"/>
                 <field name="approval_date" optional="hide"/>
             </xpath>
@@ -575,7 +618,7 @@
                     <field name="id_no" optional="hide"/>
                     <field name="insurance_id" optional="hide"/>
                     <field name="policy_id" optional="hide"/>
-                    <field name="membership_no" optional="hide"/>
+                    <field name="member_id" optional="hide"/>
                     <field name="approval_no" optional="hide"/>
                     <field name="approval_date" optional="hide"/>
                 </xpath>

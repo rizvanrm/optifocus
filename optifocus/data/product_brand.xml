@@ -16,7 +16,7 @@
         </record>
 
          <record id="product_brand_2" model="product.brand">
-            <field name="name">ACUVUE1</field>
+            <field name="name">ACUVUE</field>
             <field name="barcode_prefix"></field>
         </record>
 
@@ -30,7 +30,7 @@
         </record>
 
          <record id="product_brand_3" model="product.brand">
-            <field name="name">ESSILOR1</field>
+            <field name="name">ESSILOR</field>
             <field name="barcode_prefix"></field>
         </record>
 
@@ -44,7 +44,7 @@
         </record>
 
         <record id="product_brand_4" model="product.brand">
-            <field name="name">COOPER VISION1</field>
+            <field name="name">COOPER VISION</field>
             <field name="barcode_prefix"></field>
         </record>
 
@@ -70,7 +70,7 @@
 
 
          <record id="product_brand_6" model="product.brand">
-            <field name="name">MAUI JIM1</field>
+            <field name="name">MAUI JIM</field>
             <field name="barcode_prefix"></field>
         </record>
 
