@@ -24,44 +24,53 @@ class InsuranceClaim(models.Model):
         tracking=True,
         help="The document(s) that generated the claim.",
     )
+    member_id = fields.Many2one('insurance.member')
+    insurance_id = fields.Many2one(related='member_id.insurance_company_id', store=True)
+    insurance_company_plan = fields.Many2one(related='member_id.insurance_company_plan_id', store=True)
+    insurance_discount = fields.Float(string="Insurance Discount", store=True, readonly=True)
+    member_discount = fields.Float(string="Member Discount", store=True, readonly=True)
 
-    insurance_id = fields.Many2one('insurance.company', string='Insurance Company')
-    insurance_pricelist_id = fields.Many2one(related='insurance_id.pricelist_id')
-    policy_id = fields.Many2one('insurance.policy',
-                                compute='_compute_policy_id',
-                                string='Policy No', store=True,readonly=False)
-    policy_class_id = fields.Many2one('insurance.policy.class', string='Class', store=True)
-    policy_holder = fields.Char(related='policy_id.policy_holder', store=True)
-    inception_date = fields.Date(related='policy_id.inception_date')
-    expiry_date = fields.Date(related='policy_id.expiry_date')
-    insurance_company_plan = fields.Many2one(related='policy_id.insurance_company_plan', store=True)
-    insurance_discount = fields.Float(related='policy_id.insurance_discount', store=True)
-    member_discount = fields.Float(related='policy_id.member_discount')
-    co_insurance_type = fields.Selection(related='policy_class_id.co_insurance_type')
-    co_insurance_percent = fields.Float(related='policy_class_id.co_insurance_percent')
-    up_to = fields.Float(related='policy_class_id.up_to')
+    policy_id = fields.Many2one(related='member_id.policy_id', store=True)
+    policy_class_id = fields.Many2one(related='member_id.policy_class_id', store=True)
+    policy_holder = fields.Char(related='member_id.policy_holder', store=True)
+    inception_date = fields.Date(string="Inception Date", store=True, readonly=True)
+    expiry_date = fields.Date(string="Expiry Date", store=True, readonly=True)
+    co_insurance_type = fields.Selection([('percentage', '%'), ('fixed', 'Fixed')], string="Co-Insurance Type",
+                                         store=True, readonly=True)
+    co_insurance_percent = fields.Float(string="Co-Insurance %", store=True, readonly=True)
+    up_to = fields.Float(string="Up To", store=True, readonly=True)
+    co_insurance = fields.Char(string="Co-Insurance", readonly=True)
+    partner_id = fields.Many2one(related='member_id.partner_id', string="Customer")
+    mobile = fields.Char(related='member_id.mobile', store=True)
+    id_no = fields.Char(string='Identification No', store=True,readonly=True)
+    birth_date = fields.Date(related='member_id.birth_date', store=True)
+    gender = fields.Selection(related='member_id.gender', store=True)
     prescription_id = fields.Many2one('optical.prescription', string='Prescription')
+
+    prescription_filename = fields.Char(related='sale_id.prescription_filename')
+    prescription_attach_id = fields.Binary(related='sale_id.prescription_attach_id')
+    request_filename = fields.Char(related='sale_id.request_filename')
+    request_attach_id = fields.Binary(related='sale_id.request_attach_id')
+    approval_filename = fields.Char(related='sale_id.approval_filename')
+    approval_attach_id = fields.Binary(related='sale_id.approval_attach_id')
+
     doctor = fields.Many2one(related='prescription_id.doctor_id')
     prescription_type = fields.Selection(related='prescription_id.prescription_type')
     r_sph = fields.Float(related='prescription_id.r_sph')
     r_cyl = fields.Float(related='prescription_id.r_cyl')
     r_axis = fields.Float(related='prescription_id.r_axis')
-    r_va = fields.Float(related='prescription_id.r_va')
+    r_va = fields.Char(related='prescription_id.r_va')
     r_add = fields.Float(related='prescription_id.r_add')
     l_sph = fields.Float(related='prescription_id.l_sph')
     l_cyl = fields.Float(related='prescription_id.l_cyl')
     l_axis = fields.Float(related='prescription_id.l_axis')
-    l_va = fields.Float(related='prescription_id.l_va')
+    l_va = fields.Char(related='prescription_id.l_va')
     l_add = fields.Float(related='prescription_id.l_add')
     ipd_distance = fields.Float(related='prescription_id.ipd_distance')
     ipd_addition = fields.Float(related='prescription_id.ipd_addition')
     notes = fields.Text(related='prescription_id.notes')
-    partner_id = fields.Many2one('res.partner',string="Customer")
-    birth_date = fields.Date(related='partner_id.birth_date')
-    gender = fields.Selection(related='partner_id.gender')
-    mobile = fields.Char(related='partner_id.mobile')
-    id_no = fields.Char(related='partner_id.id_no')
-    membership_no = fields.Char(string="Membership No")
+
+
     approval_no = fields.Char(string="Approval No",)
     create_date = fields.Datetime(
         string="Create Date",
@@ -89,20 +98,24 @@ class InsuranceClaim(models.Model):
     approved_total = fields.Float(string="Total Approved Amount",store=True,
                                   compute='_compute_amounts')
     discount_total = fields.Float(string='Total Discount',store=True,compute='_compute_amounts')
-    claim_untaxed = fields.Float(string="Untaxed Claim", store=True,compute='_compute_amounts')
-    claim_tax = fields.Float(string="Taxes Claim", store=True, compute='_compute_amounts')
-    claim_total = fields.Float(string="Total Claim", store=True, compute='_compute_amounts')
-    co_insurance_untaxed = fields.Float(string="Untaxed Co-Insurance", store=True, compute='_compute_amounts')
-    co_insurance_tax = fields.Float(string="Taxes Co-Insurance", store=True, compute='_compute_amounts')
-    co_insurance_total = fields.Float(string="Total Co-Insurance", store=True, compute='_compute_amounts')
-    additional_untaxed = fields.Float(string="Untaxed Additional", store=True, compute='_compute_amounts')
-    additional_tax = fields.Float(string="Taxes Additional", store=True, compute='_compute_amounts')
-    additional_total = fields.Float(string="Total Additional", store=True, compute='_compute_amounts')
-    member_untaxed = fields.Float(string="Untaxed Member", store=True, compute='_compute_amounts')
-    member_tax = fields.Float(string="Taxes Member", store=True, compute='_compute_amounts')
-    member_total = fields.Float(string="Total Member", store=True, compute='_compute_amounts')
+    approved_untaxed = fields.Monetary(string="Untaxed Approved", store=True, compute='_compute_amounts')
+    approved_tax = fields.Monetary(string="Taxes Approved", store=True, compute='_compute_amounts')
+    approved_total = fields.Float(string="Total Approved Amount", store=True, compute='_compute_amounts')
+    claim_untaxed = fields.Monetary(string="Untaxed Claim", store=True,compute='_compute_amounts')
+    claim_tax = fields.Monetary(string="Taxes Claim", store=True, compute='_compute_amounts')
+    claim_total = fields.Monetary(string="Total Claim", store=True, compute='_compute_amounts')
+    co_insurance_untaxed = fields.Monetary(string="Untaxed Co-Insurance", store=True, compute='_compute_amounts')
+    co_insurance_tax = fields.Monetary(string="Taxes Co-Insurance", store=True, compute='_compute_amounts')
+    co_insurance_total = fields.Monetary(string="Total Co-Insurance", store=True, compute='_compute_amounts')
+    additional_untaxed = fields.Monetary(string="Untaxed Additional", store=True, compute='_compute_amounts')
+    additional_tax = fields.Monetary(string="Taxes Additional", store=True, compute='_compute_amounts')
+    additional_total = fields.Monetary(string="Total Additional", store=True, compute='_compute_amounts')
+    member_untaxed = fields.Monetary(string="Untaxed Member", store=True, compute='_compute_amounts')
+    member_tax = fields.Monetary(string="Taxes Member", store=True, compute='_compute_amounts')
+    member_total = fields.Monetary(string="Total Member", store=True, compute='_compute_amounts')
 
     amount_untaxed = fields.Monetary(string="Untaxed Amount", store=True, compute='_compute_amounts')
+
     amount_tax = fields.Monetary(string="Taxes", store=True, compute='_compute_amounts')
     amount_total = fields.Monetary(string="Total", store=True, compute='_compute_amounts')
 
@@ -129,6 +142,27 @@ class InsuranceClaim(models.Model):
         domain="['|', ('company_id', '=', False), ('company_id', '=', company_id)]", )
 
     claim_line = fields.One2many('insurance.claim.line', 'claim_id', string='Insurance Claim Lines')
+
+    @api.onchange('member_id')
+    def _onchange_member_id(self):
+        for record in self:
+            if record.member_id:
+                record.partner_id = record.member_id.partner_id
+                record.pricelist_id = record.member_id.insurance_company_id.pricelist_id
+                record.id_no = record.partner_id.id_no
+                record.inception_date = record.member_id.inception_date
+                record.expiry_date = record.member_id.expiry_date
+                record.co_insurance_type = record.member_id.co_insurance_type
+                record.co_insurance_percent = record.member_id.co_insurance_percent
+                record.up_to = record.member_id.up_to
+                record.insurance_discount = record.member_id.insurance_discount
+                record.member_discount = record.member_id.member_discount
+
+                if record.co_insurance_type == 'fixed':
+                    record.co_insurance = f"{record.up_to:.2f}"
+                else:
+                    record.co_insurance = f"{record.co_insurance_percent:.2f} % Upto {record.up_to:.2f}"
+                self._compute_insurance()
 
     def _get_sale(self):
         sale_count = self.env['sale.order'].search_count([('name', '=', self.claim_origin)])
@@ -162,14 +196,6 @@ class InsuranceClaim(models.Model):
         ('claim_uniq', 'unique (name)', 'Claim must be unique.'),
     ]
 
-    @api.onchange('insurance_id')
-    def onchange_insurance_id(self):
-        self.policy_id = None
-
-    @api.onchange('policy_id')
-    def onchange_policy_id(self):
-        self.policy_class_id = None
-
     @api.depends('currency_id', 'create_date', 'company_id')
     def _compute_currency_rate(self):
         cache = {}
@@ -197,7 +223,7 @@ class InsuranceClaim(models.Model):
             if not claim.insurance_id:
                 claim.pricelist_id = False
                 continue
-            claim.pricelist_id = claim.insurance_pricelist_id
+            claim.pricelist_id = claim.member_id.insurance_company_id.pricelist_id
     @api.depends('company_id', 'fiscal_position_id')
     def _compute_tax_country_id(self):
         for record in self:
@@ -237,7 +263,7 @@ class InsuranceClaim(models.Model):
                 [x._convert_to_tax_base_line_dict() for x in claim_lines],
                 claim.currency_id or claim.company_id.currency_id,
             )
-    @api.depends('insurance_id', 'policy_id', 'policy_class_id',
+    @api.depends(
                  'claim_line.price_subtotal', 'claim_line.price_tax', 'claim_line.price_total',
                  'claim_line.claim_subtotal', 'claim_line.claim_tax', 'claim_line.claim_total',
                  'claim_line.co_insurance_subtotal', 'claim_line.co_insurance_tax', 'claim_line.co_insurance_total',
@@ -252,6 +278,10 @@ class InsuranceClaim(models.Model):
             approved_total = sum(claim_lines.mapped('approved_subtotal'))
             discount_total=sum(claim_lines.mapped('claim_discount_subtotal') +
                                claim_lines.mapped('member_discount_subtotal'))
+
+            approved_untaxed = sum(claim_lines.mapped('approved_subtotal'))
+            approved_tax = sum(claim_lines.mapped('approved_subtotal'))
+            approved_total = sum(claim_lines.mapped('approved_subtotal'))
 
             claim_untaxed = sum(claim_lines.mapped('claim_subtotal'))
             claim_tax = sum(claim_lines.mapped('claim_tax'))
@@ -276,6 +306,9 @@ class InsuranceClaim(models.Model):
             claim.approved_total = approved_total
             claim.discount_total = discount_total
 
+
+
+
             claim.claim_untaxed = claim_untaxed
             claim.claim_tax = claim_tax
             claim.claim_total = claim_total
@@ -296,7 +329,8 @@ class InsuranceClaim(models.Model):
             claim.amount_tax = amount_tax
             claim.amount_total = claim.amount_untaxed + claim.amount_tax
 
-    @api.onchange( "insurance_id", "policy_id", "policy_class_id", "claim_line")
+
+    @api.onchange( "claim_line")
     def _compute_insurance(self):
         for claim in self:
             for line in claim.claim_line:
@@ -397,6 +431,16 @@ class InsuranceClaimLine(models.Model):
     approved_subtotal = fields.Float(
         string="Approved",
         store=True)
+
+    approved_tax = fields.Float(
+        string="Approved Tax",
+        compute='_compute_amount',
+        store=True, precompute=True)
+
+    approved_total = fields.Float(
+        string="Approved Total",
+        compute='_compute_amount',
+        store=True, precompute=True)
 
     claim_discount_subtotal = fields.Float(
         string="Claim Discount",
@@ -566,9 +610,20 @@ class InsuranceClaimLine(models.Model):
         """
         for line in self:
 
+
+            tax_results = self.env['account.tax']._compute_taxes([line._convert_to_tax_base_line_dict(
+               line.approved_subtotal / line.product_uom_qty, line.approved_subtotal)])
+            totals = list(tax_results['totals'].values())[0]
+            amount_untaxed = totals['amount_untaxed']
+            amount_tax = totals['amount_tax']
+            line.update({
+                'approved_subtotal': amount_untaxed,
+                'approved_tax': amount_tax,
+                'approved_total': amount_untaxed + amount_tax,
+            })
+            
             tax_results = self.env['account.tax']._compute_taxes([line._convert_to_tax_base_line_dict(
                line.claim_subtotal / line.product_uom_qty, line.claim_subtotal)])
-
             totals = list(tax_results['totals'].values())[0]
             amount_untaxed = totals['amount_untaxed']
             amount_tax = totals['amount_tax']

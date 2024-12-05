@@ -78,18 +78,6 @@
                                     </tr>
                                     <tr class="bg-100">
                                         <td>
-                                            <label for="va_min" string="VA"/>
-                                        </td>
-                                        <td class="text-center">
-                                            <field name="va_min"/>
-                                        </td>
-                                        <td class="text-center">
-                                            <field name="va_max"/>
-                                        </td>
-
-                                    </tr>
-                                    <tr class="bg-100">
-                                        <td>
                                             <label for="ipd_min" string="IPD"/>
                                         </td>
                                         <td class="text-center">

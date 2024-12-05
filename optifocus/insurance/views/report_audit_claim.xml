@@ -40,7 +40,7 @@
         <div class="header">
             <div class="text-center">
                 <h5>CLAIM DETAILS</h5>
-                <t t-esc="insurance_id[1]"/>
+                <span t-esc="insurance_id[1]"/>
 
                 <br/>
                 <span t-esc="date_from" t-options='{"widget": "date","format": "dd-MM-yyyy"}'/>
@@ -76,19 +76,19 @@
 
                 <tr style="border-style:hidden;">
                     <td style="border-style:hidden;">
-                        <strong>CLAIM NO :</strong>
+                        <span style="font-weight:bold;">CLAIM NO :</span>
                     </td>
                     <td style="border-style:hidden;">
                         <span t-esc="claim_id.name"/>
                     </td>
                     <td style="border-style:hidden;">
-                        <strong>CUSTOMER :</strong>
+                        <span style="font-weight:bold;">CUSTOMER :</span>
                     </td>
                     <td style="border-style:hidden;">
-                        <t t-esc="claim_id.partner_id.name"/>
+                        <span t-esc="claim_id.partner_id.name[:20]"/>
                     </td>
                     <td style="border-style:hidden;">
-                        <strong>GENDER :</strong>
+                        <span style="font-weight:bold;">GENDER:</span>
                     </td>
                     <td style="border-style:hidden;">
                         <span t-field="claim_id.gender"/>
@@ -96,42 +96,42 @@
                 </tr>
                 <tr style="border-style:hidden;">
                     <td style="border-style:hidden;">
-                        <strong>POLICY NO :</strong>
+                        <span style="font-weight:bold;">POLICY NO:</span>
                     </td>
                     <td style="border-style:hidden;">
-                        <t t-esc="claim_id.policy_id.policy_no"/>
+                        <span t-esc="claim_id.policy_id.name"/>
                     </td>
                     <td style="border-style:hidden;">
-                        <strong>POLICY HOLDER :</strong>
+                        <span style="font-weight:bold;">POLICY HOLDER:</span>
                     </td>
                     <td style="border-style:hidden;">
-                        <t t-esc="claim_id.policy_holder"/>
+                        <span t-esc="claim_id.policy_holder[:20]"/>
                     </td>
                     <td style="border-style:hidden;">
-                        <span style="font-weight:bold;">MEMBERSHIP NO :</span>
+                        <span style="font-weight:bold;">MEMBERSHIP NO:</span>
                     </td>
                     <td style="border-style:hidden;">
-                        <span t-esc="claim_id.membership_no"/>
+                        <span t-esc="claim_id.member_id.name"/>
                     </td>
                 </tr>
                 <tr style="border-style:hidden;">
                     <td style="border-style:hidden;">
-                        <strong>APPROVAL NO :</strong>
+                        <span style="font-weight:bold;">APPROVAL NO:</span>
                     </td>
                     <td style="border-style:hidden;">
-                        <t t-esc="claim_id.approval_no"/>
+                        <span t-esc="claim_id.approval_no"/>
                     </td>
                     <td style="border-style:hidden;">
-                        <strong>APPROVAL DATE :</strong>
+                        <span style="font-weight:bold;">APPROVAL DATE:</span>
                     </td>
                     <td style="border-style:hidden;">
-                        <t t-esc="claim_id.approval_date"/>
+                        <span t-esc="claim_id.approval_date"/>
                     </td>
                     <td style="border-style:hidden;">
-                        <strong>ID NO :</strong>
+                        <span style="font-weight:bold;">ID NO:</span>
                     </td>
                     <td style="border-style:hidden;">
-                        <t t-esc="claim_id.id_no"/>
+                        <span t-esc="claim_id.id_no"/>
                     </td>
 
                 </tr>
@@ -161,20 +161,20 @@
                 <tr t-foreach="claim_id.claim_line" t-as='claim_line'>
 
                     <td style="border:hidden;border-top:1px">
-                        <t t-esc="claim_line.product_id.barcode"/>
+                        <span t-esc="claim_line.product_id.barcode"/>
                     </td>
                     <td style="border:hidden;border-top:1px">
-                        <t t-esc="claim_line.name"/>
+                        <span t-esc="claim_line.name"/>
                     </td>
                     <td class="text-end" style="border:hidden;border-top:1px">
-                        <t t-esc="claim_line.product_uom_qty"/>
+                        <span t-esc="claim_line.product_uom_qty"/>
                     </td>
                     <td class="text-end" style="border:hidden;border-top:1px">
-                        <t t-esc="claim_line.approved_unit"
+                        <span t-esc="claim_line.approved_unit"
                            t-options='{"widget": "float", "precision": 2}'/>
                     </td>
                     <td class="text-end" style="border:hidden;border-top:1px">
-                        <t t-esc="claim_line.approved_subtotal"
+                        <span t-esc="claim_line.approved_subtotal"
                            t-options='{"widget": "float", "precision": 2}'/>
                     </td>
                 </tr>
@@ -190,7 +190,7 @@
                 <td width="70%" style="border:hidden;border-top:1px;">
                 </td>
                 <td width="20%" class="text-left" style="border:hidden;border-top:1px">
-                    <strong>APPROVED AMOUNT :</strong>
+                    <span style="font-weight:bold;">APPROVED AMOUNT:</span>
                 </td>
                 <td class="text-end" style="border:hidden;border-top:1px">
                     <span t-esc="claim_id.approved_total"
@@ -201,7 +201,7 @@
                 <td width="70%" style="border:hidden;">
                 </td>
                 <td width="20%" style="border:hidden;">
-                    <strong>DISCOUNT :</strong>
+                     <span style="font-weight:bold;">DISCOUNT:</span>
                 </td>
                 <td class="text-end" style="border:hidden;">
                     <span t-esc="claim_id.discount_total"
@@ -212,7 +212,7 @@
                 <td width="70%" style="border:hidden;">
                 </td>
                 <td width="20%" style="border:hidden;">
-                    <strong>CO-INSURANCE :</strong>
+                     <span style="font-weight:bold;">CO-INSURANCE:</span>
                 </td>
                 <td class="text-end" style="border:hidden;">
                     <span t-esc="claim_id.co_insurance_untaxed"
@@ -223,7 +223,7 @@
                 <td width="70%" style="border:hidden;">
                 </td>
                 <td width="20%" style="border:hidden;">
-                    <strong>UNTAXED AMOUNT :</strong>
+                    <span style="font-weight:bold;">UNTAXED AMOUNT:</span>
                 </td>
                 <td class="text-end" style="border:hidden;">
                     <span class="text-left" t-esc="claim_id.claim_untaxed"
@@ -234,7 +234,7 @@
                 <td width="70%" style="border:hidden;">
                 </td>
                 <td width="20%" style="border:hidden;">
-                    <strong>TAX :</strong>
+                    <span style="font-weight:bold;">TAX:</span>
                 </td>
                 <td class="text-end" style="border:hidden;">
                     <span class="text-left" t-esc="claim_id.claim_tax"
@@ -245,7 +245,7 @@
                 <td width="70%" style="border:hidden;border-bottom:1px;">
                 </td>
                 <td width="20%" style="border:hidden;border-bottom:1px;">
-                    <strong>TOTAL :</strong>
+                    <span style="font-weight:bold;">TOTAL:</span>
                 </td>
                 <td class="text-end" style="border:hidden;border-bottom:1px;">
                     <span class="text-left" t-esc="claim_id.claim_total"
@@ -264,10 +264,10 @@
                     <thead>
                         <tr>
                             <th class="text-start" style="border:hidden;border-top:1px;border-bottom:1px">
-                                <strong>DESCRIPTION</strong>
+                                <span style="font-weight:bold;">DESCRIPTION</span>
                             </th>
                             <th class="text-end">
-                                <strong>TOTAL</strong>
+                                <span style="font-weight:bold;">TOTAL</span>
                             </th>
                         </tr>
                     </thead>
@@ -275,7 +275,7 @@
                     <tbody>
                     <tr>
                         <td style="border:hidden;border-top:1px;">
-                            <strong>APPROVED</strong>
+                             <span style="font-weight:bold;">APPROVED</span>
                         </td>
                         <td class="text-end" style="border:hidden;border-top:1px;">
                             <span class="text-left" t-esc="total_approved"
@@ -284,7 +284,7 @@
                     </tr>
                     <tr style="border:hidden">
                         <td style="border:hidden">
-                            <strong>DISCOUNT</strong>
+                             <span style="font-weight:bold;">DISCOUNT</span>
                         </td>
                         <td class="text-end" style="border:hidden">
                             <span class="text-left" t-esc="total_discount"
@@ -293,7 +293,7 @@
                     </tr>
                     <tr>
                         <td style="border:hidden">
-                            <strong>CO-INSURANCE</strong>
+                            <span style="font-weight:bold;">CO-INSURANCE</span>
                         </td>
                         <td class="text-end" style="border:hidden">
                             <span class="text-left" t-esc="total_co_insurance"
@@ -302,7 +302,7 @@
                     </tr>
                     <tr>
                         <td style="border:hidden">
-                            <strong>UNTAXED CLAIM</strong>
+                            <span style="font-weight:bold;">UNTAXED CLAIM</span>
                         </td>
                         <td class="text-end" style="border:hidden">
                             <span class="text-left" t-esc="total_untaxed_amount"
@@ -311,7 +311,7 @@
                     </tr>
                     <tr>
                         <td style="border:hidden">
-                            <strong>TAX</strong>
+                             <span style="font-weight:bold;">TAX</span>
                         </td>
                         <td class="text-end" style="border:hidden">
                             <span class="text-left" t-esc="total_tax"
@@ -320,7 +320,7 @@
                     </tr>
                     <tr>
                         <td style="border:hidden;border-bottom:1px;">
-                            <strong>CLAIM</strong>
+                            <span style="font-weight:bold;">CLAIM</span>
                         </td>
                         <td class="text-end" style="border:hidden;border-bottom:1px;">
                             <span class="text-left" t-esc="total_claim"

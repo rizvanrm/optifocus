@@ -11,8 +11,6 @@ class OpticalConfigSettings(models.TransientModel):
     axis_max = fields.Float()
     addition_min = fields.Float()
     addition_max = fields.Float()
-    va_min = fields.Float()
-    va_max = fields.Float()
     ipd_min = fields.Float()
     ipd_max = fields.Float()
 
@@ -52,9 +50,6 @@ class OpticalConfigSettings(models.TransientModel):
         self.env['ir.config_parameter'].sudo().set_param('optifocus.addition_min', self.addition_min)
         self.env['ir.config_parameter'].sudo().set_param('optifocus.addition_max', self.addition_max)
 
-        self.env['ir.config_parameter'].sudo().set_param('optifocus.va_min', self.va_min)
-        self.env['ir.config_parameter'].sudo().set_param('optifocus.va_max', self.va_max)
-
         self.env['ir.config_parameter'].sudo().set_param('optifocus.ipd_min', self.ipd_min)
         self.env['ir.config_parameter'].sudo().set_param('optifocus.ipd_max', self.ipd_max)
 
@@ -76,9 +71,6 @@ class OpticalConfigSettings(models.TransientModel):
 
         res.update(addition_min=ICPSudo.get_param('optifocus.addition_min'), )
         res.update(addition_max=ICPSudo.get_param('optifocus.addition_max'), )
-
-        res.update(va_min=ICPSudo.get_param('optifocus.va_min'), )
-        res.update(va_max=ICPSudo.get_param('optifocus.va_max'), )
 
         res.update(ipd_min=ICPSudo.get_param('optifocus.ipd_min'), )
         res.update(ipd_max=ICPSudo.get_param('optifocus.ipd_max'), )

@@ -64,6 +64,7 @@
         <t t-set="total_orders_due" t-value="0"/>
 
 
+
         <table class="table table-sm"
                style="font-size: 14px;margin-bottom:30px; border:hidden;border-top:2px;border-bottom:2px;">
             <thead>
@@ -87,15 +88,21 @@
 
                 </tr>
                 <t t-foreach="order_ids" t-as="order_id">
+                    <t t-set="amount_total_signed" t-value="0"/>
                     <t t-set="amount_residual_signed" t-value="0"/>
                     <t t-set="partially_or_not_paid_flag" t-value="True"/>
                     <t t-foreach="order_id.invoice_ids" t-as="o_invoice_id">
 
-                        <t t-foreach="o_invoice_id" t-as="invoice_id">
-                            <t t-set="amount_residual_signed"
-                               t-value="amount_residual_signed+invoice_id.amount_residual_signed"/>
+                        <t t-if="o_invoice_id.cust_move_type!='claim'">
+                            <t t-set="amount_total_signed"
+                               t-value="amount_total_signed+o_invoice_id.amount_total_signed"/>
 
+                            <t t-foreach="o_invoice_id" t-as="invoice_id">
+                                <t t-set="amount_residual_signed"
+                                   t-value="amount_residual_signed+invoice_id.amount_residual_signed"/>
+                            </t>
                         </t>
+
                     </t>
 
                     <t t-if="partially_or_not_paid==True  and amount_residual_signed==0">
@@ -121,33 +128,34 @@
                                 <t t-esc="order_id.partner_id.mobile"/>
                             </td>
                             <td class="text-end" style="border:hidden;">
-                                <t t-esc="order_id.amount_total" t-options='{"widget": "float", "precision": 2}'/>
+                                <t t-esc="amount_total_signed"/>
+                            </td>
+                            <td class="text-end" style="border:hidden;">
+                                <t t-esc="amount_total_signed-amount_residual_signed"
+                                   t-options='{"widget": "float", "precision": 2}'/>
                             </td>
                             <td class="text-end" style="border:hidden;">
                                 <t t-esc="amount_residual_signed"
                                    t-options='{"widget": "float", "precision": 2}'/>
-
-                            </td>
-                            <td class="text-end" style="border:hidden;">
-                                <t t-esc="order_id.amount_total-amount_residual_signed" t-options='{"widget": "float", "precision": 2}'/>
                             </td>
 
                         </tr>
 
                         <t t-if="order_id.sale_type=='retail'">
                             <t t-set="total_retail_order_count" t-value="total_retail_order_count+1"/>
-                            <t t-set="total_retail_order_amount" t-value="total_retail_order_amount+order_id.amount_total"/>
+                            <t t-set="total_retail_order_amount"
+                               t-value="total_retail_order_amount+amount_total_signed"/>
                             <t t-set="total_retail_order_paid"
-                               t-value="total_retail_order_paid+order_id.amount_total-amount_residual_signed"/>
+                               t-value="total_retail_order_paid+amount_total_signed-amount_residual_signed"/>
                             <t t-set="total_retail_order_due" t-value="total_retail_order_due+amount_residual_signed"/>
 
                         </t>
                         <t t-elif="order_id.sale_type=='insurance'">
                             <t t-set="total_insurance_order_count" t-value="total_insurance_order_count+1"/>
                             <t t-set="total_insurance_order_amount"
-                               t-value="total_insurance_order_amount+order_id.amount_total"/>
+                               t-value="total_insurance_order_amount+amount_total_signed"/>
                             <t t-set="total_insurance_order_paid"
-                               t-value="total_insurance_order_paid+order_id.amount_total-amount_residual_signed"/>
+                               t-value="total_insurance_order_paid+amount_total_signed-amount_residual_signed"/>
                             <t t-set="total_insurance_order_due"
                                t-value="total_insurance_order_due+amount_residual_signed"/>
 
@@ -155,17 +163,17 @@
                         <t t-elif="order_id.sale_type=='wholesale'">
                             <t t-set="total_wholesale_order_count" t-value="total_wholesale_order_count+1"/>
                             <t t-set="total_wholesale_order_amount"
-                               t-value="total_wholesale_order_amount+order_id.amount_total"/>
+                               t-value="total_wholesale_order_amount+amount_total_signed"/>
                             <t t-set="total_wholesale_order_paid"
-                               t-value="total_wholesale_order_paid+order_id.amount_total-amount_residual_signed"/>
+                               t-value="total_wholesale_order_paid+amount_total_signed-amount_residual_signed"/>
                             <t t-set="total_wholesale_order_due"
                                t-value="total_wholesale_order_due+amount_residual_signed"/>
                         </t>
 
                         <t t-set="total_orders_count" t-value="total_orders_count+1"/>
-                        <t t-set="total_orders_amount" t-value="total_orders_amount+order_id.amount_total"/>
+                        <t t-set="total_orders_amount" t-value="total_orders_amount+amount_total_signed"/>
                         <t t-set="total_orders_paid"
-                           t-value="total_orders_paid+order_id.amount_total-amount_residual_signed"/>
+                           t-value="total_orders_paid+amount_total_signed-amount_residual_signed"/>
                         <t t-set="total_orders_due" t-value="total_orders_due+amount_residual_signed"/>
 
                     </t>

@@ -1,5 +1,5 @@
 from odoo import models, fields, api, _
-from odoo.tools import format_date,ValidationError
+from odoo.tools import format_date,ValidationError,UserError
 from datetime import datetime
 
 class StockPicking(models.Model):
@@ -46,6 +46,12 @@ class StockPicking(models.Model):
         if self.state=='done' and self.picking_type_id.code == 'internal' and self.location_id.usage == 'internal' and self.location_dest_id.usage == 'transit' and self.company_dest_id:
             transfer=self.get_transfer()
             self.env['stock.picking'].sudo().create(transfer)
+        elif self.picking_type_id.code == 'outgoing' and self.sale_id.sale_type in ['retail', 'insurance']:
+            if self.sale_id.invoice_status!='invoiced':
+                raise UserError("You cannot validate this delivery order because the related sale order has not been invoiced.")
+            else:
+                if self.sale_id.invoice_ids.filtered(lambda inv: inv.payment_state not in ['in_payment', 'paid']):
+                    raise UserError("You cannot validate this delivery order because the related invoice(s) are not fully paid.")
         return res
 
     def get_transfer(self):

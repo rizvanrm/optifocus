@@ -12,9 +12,9 @@ class SaleReport(models.Model):
 
     brand_id = fields.Many2one('product.brand', string='Brand', readonly=True)
     insurance_id = fields.Many2one('insurance.company', string='Insurance Company')
-    policy_id = fields.Many2one('insurance.policy', string='Policy', store=True)
-    policy_holder = fields.Char(related='policy_id.policy_holder', store=True)
-    insurance_company_plan = fields.Many2one(related='policy_id.insurance_company_plan', store=True)
+    policy_id = fields.Many2one('insurance.policy', string='Policy')
+    policy_holder = fields.Char(related='policy_id.policy_holder')
+    insurance_company_plan = fields.Many2one(related='policy_id.insurance_company_plan')
     approved_subtotal = fields.Float("Untaxed Approved Amount",readonly=True)
     claim_discount_subtotal = fields.Float("Claim Discount",readonly=True)
     member_discount_subtotal = fields.Float("Member Discount", readonly=True)

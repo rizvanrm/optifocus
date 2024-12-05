@@ -20,7 +20,7 @@
             </div>
             <div class="row mt-2 mb-2">
                 <div class="col-6 text-start">
-                    DATE :
+                    DATE:
                     <span t-esc="context_timestamp(datetime.datetime.now()).strftime('%d-%m-%Y %H:%M')"/>
                 </div>
 
@@ -60,15 +60,32 @@
         <table class="table table-sm" style="border:1px">
             <thead>
                 <tr>
-                    <th class="text-start">SL NO.</th>
-                    <th class="text-start">POLICY HOLDER</th>
-                    <th class="text-end">COUNT</th>
-                    <th class="text-end">GROSS</th>
-                    <th class="text-end">DISCOUNT</th>
-                    <th class="text-end">DEDUCTIBLE</th>
-                    <th class="text-end">NET AMOUNT</th>
-                    <th class="text-end">VAT</th>
-                    <th class="text-end">NET PAYABLE</th>
+                    <th class="text-start">
+                        <span style="font-weight:bold;">SL NO.</span>
+                    </th>
+                    <th class="text-start">
+                        <span style="font-weight:bold;">POLICY HOLDER</span>
+                    </th>
+                    <th class="text-end">
+                        <span style="font-weight:bold;">COUNT</span>
+                    </th>
+                    <th class="text-end">
+                        <span style="font-weight:bold;">GROSS</span>
+                    </th>
+                    <th class="text-end">
+
+                        <span style="font-weight:bold;">DISCOUNT</span></th>
+                    <th class="text-end">
+                        <span style="font-weight:bold;">DEDUCTIBLE</span></th>
+                    <th class="text-end">
+                        <span style="font-weight:bold;">NET AMOUNT</span>
+                    </th>
+                    <th class="text-end">
+                        <span style="font-weight:bold;">VAT</span>
+                    </th>
+                    <th class="text-end">
+                         <span style="font-weight:bold;">NET PAYABLE</span>
+                    </th>
 
                 </tr>
             </thead>
@@ -83,7 +100,7 @@
                         </td>
                         <td class="text-end">
                             <span t-esc="rec['claim_count']"
-                                  t-options='{"widget": "float", "precision": 2}'/>
+                                 />
                         </td>
                         <td class="text-end">
                             <span t-esc="rec['approved_total']"
@@ -122,7 +139,7 @@
                     <td class="text-end">
 
                         <span t-esc="sum(rec['claim_count'] for rec in records)"
-                              t-options='{"widget": "float", "precision": 2}'/>
+                              />
                     </td>
                     <td class="text-end">
                         <span t-esc="sum(rec['approved_total'] for rec in records)"
@@ -157,45 +174,64 @@
     <template id="report_group_summary_statement_page_header">
         <table class="table table-sm" >
             <tr>
-                <td class="text-start">TO</td>
                 <td class="text-start">
-                    <t t-esc="insurance_company"/>
+                    <span style="font-weight:bold;">TO</span>
                 </td>
-                <td class="text-start">CONFIRMED BY</td>
+                <td class="text-start">
+                    <span t-esc="insurance_company"/>
+                </td>
+                <td class="text-start">
+                     <span style="font-weight:bold;">CONFIRMED BY</span>
+                </td>
                 <td class="text-start"></td>
             </tr>
             <tr>
-                <td class="text-start">CCHI</td>
+                <td class="text-start">
+                    <span style="font-weight:bold;">CCHI</span>
+                </td>
                 <td class="text-start">
                     <span t-esc="provider_data[0]['chi_id']"/>
                 </td>
-                <td class="text-start">MOBILE NO</td>
+                <td class="text-start">
+                    <span style="font-weight:bold;">MOBILE NO</span>
+                </td>
                 <td class="text-start">
                     <span t-esc="provider_data[0]['mobile']"/>
                 </td>
             </tr>
             <tr>
-                <td class="text-start">PROVIDER CODE</td>
+                <td class="text-start">
+                    <span style="font-weight:bold;">PROVIDER CODE</span>
+                </td>
                 <td class="text-start">
                     <span t-esc="provider_id[0]['provider_id']"/>
                 </td>
-                <td class="text-start">EMAIL</td>
+                <td class="text-start">
+                   <span style="font-weight:bold;">EMAIL</span>
+                </td>
                 <td class="text-start">
                     <span t-esc="provider_data[0]['email']"/>
                 </td>
             </tr>
             <tr>
-                <td class="text-start">PROVIDER NAME</td>
+                <td class="text-start">
+                <span style="font-weight:bold;">PROVIDER NAME</span>
+                </td>
                 <td class="text-start">
                     <span t-esc="provider_data[0]['name']"/>
                 </td>
-                <td class="text-start">DATE TIME</td>
+                <td class="text-start">
+                <span style="font-weight:bold;">DATE TIME</span>
+                </td>
                 <td class="text-start">
                     <span t-esc="time.strftime('%d-%m-%Y %H:%M:%S')"/>
                 </td>
             </tr>
             <tr>
-                <td class="text-start">CR #</td>
+                <td class="text-start">
+                        <span style="font-weight:bold;">CR NO</span>
+                </td>
+
                 <td class="text-start">
                     <span t-esc="provider_data[0]['company_registry']"/>
                 </td>
@@ -204,11 +240,13 @@
             </tr>
 
             <tr>
-                <td class="text-start">BATCH MONTH</td>
                 <td class="text-start">
-                    <t t-esc="date_from" t-options="{'widget': 'date','format': 'dd-MM-yyyy'}"/>
+                    <span style="font-weight:bold;">BATCH MONTH</span>
+                </td>
+                <td class="text-start">
+                    <span t-esc="date_from" t-options="{'widget': 'date','format': 'dd-MM-yyyy'}"/>
                     -
-                    <t t-esc="date_to" t-options="{'widget': 'date','format': 'dd-MM-yyyy'}"/>
+                    <span t-esc="date_to" t-options="{'widget': 'date','format': 'dd-MM-yyyy'}"/>
                 </td>
                 <td class="text-start"></td>
                 <td class="text-start"></td>
@@ -222,27 +260,27 @@
                style="border-collapse:collapse;border:hidden;margin-bottom:30px;">
             <tr>
                 <td class="text-left" style="border:hidden;border-top:1px">
-                    <strong>AUTHORIZED NAME :</strong>
+                    <span style="font-weight:bold;">AUTHORIZED NAME:</span>
                 </td>
 
             </tr>
             <tr>
                 <td style="border:hidden;">
-                    <strong>DATE :</strong>
-                </td>
-
-            </tr>
-            <tr>
-
-                <td style="border:hidden;">
-                    <strong>SIGNATURE :</strong>
+                    <span style="font-weight:bold;">DATE:</span>
                 </td>
 
             </tr>
             <tr>
 
                 <td style="border:hidden;">
-                    <strong>STAMP :</strong>
+                    <span style="font-weight:bold;">SIGNATURE:</span>
+                </td>
+
+            </tr>
+            <tr>
+
+                <td style="border:hidden;">
+                     <span style="font-weight:bold;">STAMP:</span>
                 </td>
 
             </tr>

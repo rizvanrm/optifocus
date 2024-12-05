@@ -5,6 +5,13 @@
             <field name="groups_id" eval="[(4, ref('sales_team.group_sale_salesman'))]"/>
         </record>
 
+
+       <record id="base.user_admin" model="res.users">
+            <field name="company_ids" eval="[(4, ref('base.main_company'))
+                                            ,(4, ref('rc_yar'))
+                                            ,(4, ref('rc_rab'))]"/>
+        </record>
+
         <record model="res.partner" id="partner_sp">
             <field name="name">Sales Person</field>
             <field name="company_id" ref="base.main_company"/>

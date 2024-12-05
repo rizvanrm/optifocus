@@ -25,8 +25,7 @@ class UndeliveredOrdersAB(models.AbstractModel):
             domain += [('sale_type', '=', sale_type)]
 
         order_ids=self.env['sale.order'].search(domain)
-        invoice_id = self.env['account.move'].search_read([('id','=',14)])
-        print(invoice_id)
+
 
         return {
             'request': self,

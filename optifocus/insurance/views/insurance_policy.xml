@@ -6,9 +6,9 @@
         <field name="arch" type="xml">
             <form string="Insurance Policy">
                 <sheet>
-                    <label for="policy_no"/>
+                    <label for="name"/>
                     <h1>
-                        <field name="policy_no"/>
+                        <field name="name"/>
                     </h1>
                     <group col="2">
 
@@ -63,7 +63,7 @@
         <field name="model">insurance.policy</field>
         <field name="arch" type="xml">
             <tree string="Insurance Policy">
-                <field name="policy_no"/>
+                <field name="name"/>
                 <field name="policy_holder"/>
                 <field name="inception_date"/>
                 <field name="expiry_date"/>
@@ -80,7 +80,7 @@
         <field name="arch" type="xml">
             <kanban class="o_kanban_mobile">
                 <field name="policy_holder"/>
-                <field name="policy_no"/>
+                <field name="name"/>
                 <field name="inception_date"/>
                 <field name="expiry_date"/>
                 <field name="insurance_company"/>
@@ -96,7 +96,7 @@
                             </div>
                             <div>
                                 Policy No:
-                                <field name="policy_no"/>
+                                <field name="name"/>
                             </div>
                             <div>
                                 Date:
@@ -121,7 +121,7 @@
         <field name="arch" type="xml">
             <search string="Insurance Policy">
                 <!-- Search by Search-->
-                <field name="policy_no"/>
+                <field name="name"/>
                 <field name="policy_holder"/>
                 <field name="insurance_company"/>
                 <field name="insurance_company_plan"/>

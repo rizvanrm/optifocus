@@ -1,0 +1,181 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="insurance_member_form_view" model="ir.ui.view">
+        <field name="name">insurance.member.form</field>
+        <field name="model">insurance.member</field>
+        <field name="arch" type="xml">
+            <form string="Insurance Member">
+                <sheet>
+
+                        <div class="oe_button_box" name="button_box">
+
+
+                        <button name="action_view_sale"
+                        type="object"
+                        class="oe_stat_button"
+                        icon="fa-dollar"
+                        attrs="{'invisible': [('sale_count', '=', 0)]}">
+                        <field name="sale_count" widget="statinfo" string="Sale"/>
+                    </button>
+                         <button name="action_view_claim"
+                        type="object"
+                        class="oe_stat_button"
+                        icon="fa-list-alt"
+                        attrs="{'invisible': [('claim_count', '=', 0)]}">
+                        <field name="claim_count" widget="statinfo" string="Claim"/>
+                    </button>
+
+
+                </div>
+
+
+                    <label for="name"/>
+                    <h1>
+                        <field name="name" placeholder="e.g. 34907179"/>
+                    </h1>
+
+                    <group col="2">
+                        <group string="Customer">
+                            <field name="partner_id"   options="{'no_quick_create': True}"/>
+                            <field name="birth_date"/>
+                            <field name="gender"/>
+                            <field name="id_no"/>
+                        </group>
+                    </group>
+
+                    <group>
+                        <group string="Policy">
+                            <field name="policy_id"  options="{'no_quick_create': True}"  />
+                            <field name="policy_holder"/>
+                            <label for="inception_date" string="Validity Date"/>
+                            <div class="oe_inline" style="display: flex; gap: 20px;">
+                                <field name="inception_date" class="oe_inline"/>
+                                <div>To</div>
+                                <field name="expiry_date" class="oe_inline"/>
+                            </div>
+                            <field name="policy_class_id" options="{'no_create': True, 'no_create_edit': True,'no_open': True}" />
+                            <field name="co_insurance_type"/>
+                            <field name="co_insurance_percent"
+                                   attrs="{'invisible': [('co_insurance_type', '=', 'fixed')]}"/>
+                            <field name="up_to"/>
+                        </group>
+                        <group string="Insurance Company">
+                            <field name="insurance_company_id"/>
+                            <field name="insurance_company_plan_id" force_save="1"/>
+                            <field name="insurance_discount"/>
+                            <field name="member_discount"/>
+                        </group>
+
+                    </group>
+
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+
+    <record id="insurance_member_tree_view" model="ir.ui.view">
+        <field name="name">insurance.member.tree</field>
+        <field name="model">insurance.member</field>
+        <field name="arch" type="xml">
+            <tree string="Insurance Member">
+                <field name="name"/>
+                <field name="partner_id"/>
+                <field name="gender"/>
+                <field name="id_no"/>
+                <field name="policy_id"/>
+                <field name="policy_holder"/>
+                <field name="policy_class_id"/>
+                <field name="co_insurance"/>
+                <field name="insurance_company_id"/>
+            </tree>
+        </field>
+    </record>
+    <record id="insurance_member_kanban_view" model="ir.ui.view">
+        <field name="name">insurance.member.kanban</field>
+        <field name="model">insurance.member</field>
+        <field name="arch" type="xml">
+            <kanban class="o_kanban_mobile">
+                <field name="name"/>
+                <field name="partner_id"/>
+                <field name="gender"/>
+                <field name="id_no"/>
+                <field name="policy_id"/>
+                <field name="policy_holder"/>
+                <field name="policy_class_id"/>
+                <field name="co_insurance"/>
+                <field name="insurance_company_id"/>
+                <templates>
+                    <t t-name="kanban-box">
+                        <div t-attf-class="oe_kanban_global_click">
+                            <div class="row">
+                                <div class="col-12">
+                                    <strong>
+                                        <field name="name"/>
+                                    </strong>
+                                </div>
+                            </div>
+                            <div>
+                                <span class="o_field_label">Customer: </span>
+                                <field name="partner_id"/>
+                            </div>
+                            <div style="display: flex; gap: 5px;">
+                                <span class="o_field_label">Policy: </span>
+                                <field name="policy_id" class="oe_inline"/>
+                                <div>-</div>
+                                <field name="policy_holder" class="oe_inline"/>
+                            </div>
+                            <div style="display: flex; gap: 5px;">
+                                <span class="o_field_label">Class: </span>
+                                <field name="policy_class_id" class="oe_inline"/>
+                                <div>-</div>
+                                <field name="co_insurance" class="oe_inline"/>
+                            </div>
+                            <div>
+                                <span class="o_field_label">Insurance Company: </span>
+                                <field name="insurance_company_id"/>
+                            </div>
+
+                        </div>
+                    </t>
+                </templates>
+            </kanban>
+        </field>
+    </record>
+
+    <record id="insurance_member_search_view" model="ir.ui.view">
+        <field name="name">insurance.member.search</field>
+        <field name="model">insurance.member</field>
+        <field name="arch" type="xml">
+            <search string="Insurance Member">
+                <!-- Search by Search-->
+                <field name="name" string="Member" filter_domain="['|','|', ('name', 'ilike', self), ('partner_id', 'ilike', self),('id_no', 'ilike', self)]"/>
+                <field name="policy_id" string="Policy" filter_domain="['|', ('policy_id', 'ilike', self), ('policy_holder', 'ilike', self)]"/>
+
+                <!-- Search by Filters-->
+
+                <!-- Search by  Group by -->
+                <filter name="insurance_company_id" string="Insurance Company" context="{'group_by':'insurance_company_id'}"/>
+                <filter name="policy_id" string="Policy" context="{'group_by':'policy_id'}"/>
+            </search>
+
+        </field>
+    </record>
+
+    <record id="favorite_filter" model="ir.filters">
+        <field name="name">My favorite</field>
+        <field name="model_id">insurance.member</field>
+        <field name="is_default">False</field>
+        <!--        <field name="domain">[['name', 'like','BUPA ']] </field>-->
+    </record>
+
+
+    <record id="action_insurance_member_form" model="ir.actions.act_window">
+        <field name="name">Insurance Members</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">insurance.member</field>
+        <field name="view_mode">tree,form,kanban</field>
+    </record>
+
+
+</odoo>
