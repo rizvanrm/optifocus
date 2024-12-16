@@ -15,6 +15,15 @@
                         <field name="policy_count" widget="statinfo" string="Policy"/>
                     </button>
 
+                        <button name="action_view_member"
+                        type="object"
+                        class="oe_stat_button"
+                        icon="fa-th-list"
+                        attrs="{'invisible': [('member_count', '=', 0)]}">
+                        <field name="member_count" widget="statinfo" string="Member"/>
+                    </button>
+
+
                         <button name="action_view_sale"
                         type="object"
                         class="oe_stat_button"

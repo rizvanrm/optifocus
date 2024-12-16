@@ -9,6 +9,7 @@ class InsuranceCompany(models.Model):
 
     name = fields.Char(string="Insurance Company", required=True)
     policy_count = fields.Integer(string="Policy Count", compute='_get_policy')
+    member_count = fields.Integer(string="Member Count", compute='_get_member')
     sale_count = fields.Integer(string="Sale Count", compute='_get_sale')
     claim_count = fields.Integer(string="Claim Count", compute='_get_claim')
     short_name = fields.Char(string="Short Name")
@@ -20,6 +21,9 @@ class InsuranceCompany(models.Model):
     def _get_policy(self):
         policy_count = self.env['insurance.policy'].search_count([('insurance_company', '=', self.id)])
         self.policy_count = policy_count
+    def _get_member(self):
+        member_count = self.env['insurance.member'].search_count([('insurance_company_id', '=', self.id)])
+        self.member_count = member_count
     def _get_claim(self):
         claim_count = self.env['insurance.claim'].search_count([('insurance_id', '=', self.id)])
         self.claim_count = claim_count
@@ -36,6 +40,17 @@ class InsuranceCompany(models.Model):
             'view_mode': 'tree,form',
             'target': 'current',
         }
+
+    def action_view_member(self):
+        return {
+            'type': 'ir.actions.act_window',
+            'name': 'Members',
+            'res_model': 'insurance.member',
+            'domain': [('insurance_company_id', '=', self.id)],
+            'view_mode': 'tree,form',
+            'target': 'current',
+        }
+
 
     def action_view_sale(self):
         return {

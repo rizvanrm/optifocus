@@ -171,7 +171,7 @@
                      <span style="font-weight:bold;">APPROVED AMOUNT:</span>
                 </td>
                 <td class="text-end" style="border:hidden;border-top:1px">
-                    <span t-esc="claim_id.approved_total"
+                    <span t-esc="claim_id.approved_untaxed"
                           t-options='{"widget": "float", "precision": 2}'/>
                 </td>
             </tr>

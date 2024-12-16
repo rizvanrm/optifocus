@@ -95,9 +95,12 @@ class InsuranceClaim(models.Model):
         depends=["pricelist_id"],
         store=True,  ondelete="restrict")
 
-    approved_total = fields.Float(string="Total Approved Amount",store=True,
-                                  compute='_compute_amounts')
     discount_total = fields.Float(string='Total Discount',store=True,compute='_compute_amounts')
+
+    gross_untaxed = fields.Monetary(string="Untaxed Gross", store=True, compute='_compute_amounts')
+    gross_tax = fields.Monetary(string="Taxes Gross", store=True, compute='_compute_amounts')
+    gross_total = fields.Monetary(string="Total Gross Amount", store=True, compute='_compute_amounts')
+
     approved_untaxed = fields.Monetary(string="Untaxed Approved", store=True, compute='_compute_amounts')
     approved_tax = fields.Monetary(string="Taxes Approved", store=True, compute='_compute_amounts')
     approved_total = fields.Float(string="Total Approved Amount", store=True, compute='_compute_amounts')
@@ -264,6 +267,7 @@ class InsuranceClaim(models.Model):
                 claim.currency_id or claim.company_id.currency_id,
             )
     @api.depends(
+           'claim_line.gross_subtotal', 'claim_line.gross_tax', 'claim_line.gross_total',
                  'claim_line.price_subtotal', 'claim_line.price_tax', 'claim_line.price_total',
                  'claim_line.claim_subtotal', 'claim_line.claim_tax', 'claim_line.claim_total',
                  'claim_line.co_insurance_subtotal', 'claim_line.co_insurance_tax', 'claim_line.co_insurance_total',
@@ -275,13 +279,17 @@ class InsuranceClaim(models.Model):
         for claim in self:
             claim_lines = claim.claim_line
 
-            approved_total = sum(claim_lines.mapped('approved_subtotal'))
+
             discount_total=sum(claim_lines.mapped('claim_discount_subtotal') +
-                               claim_lines.mapped('member_discount_subtotal'))
+                                claim_lines.mapped('member_discount_subtotal'))
+
+            gross_untaxed = sum(claim_lines.mapped('gross_subtotal'))
+            gross_tax = sum(claim_lines.mapped('gross_tax'))
+            gross_total = sum(claim_lines.mapped('gross_total'))
 
             approved_untaxed = sum(claim_lines.mapped('approved_subtotal'))
-            approved_tax = sum(claim_lines.mapped('approved_subtotal'))
-            approved_total = sum(claim_lines.mapped('approved_subtotal'))
+            approved_tax = sum(claim_lines.mapped('approved_tax'))
+            approved_total = sum(claim_lines.mapped('approved_total'))
 
             claim_untaxed = sum(claim_lines.mapped('claim_subtotal'))
             claim_tax = sum(claim_lines.mapped('claim_tax'))
@@ -303,9 +311,16 @@ class InsuranceClaim(models.Model):
             amount_tax = sum(claim_lines.mapped('price_tax'))
             amount_total = sum(claim_lines.mapped('price_total'))
 
-            claim.approved_total = approved_total
-            claim.discount_total = discount_total
+            claim.gross_untaxed = gross_untaxed
+            claim.gross_tax = gross_tax
+            claim.gross_total = gross_total
 
+            claim.approved_untaxed = approved_untaxed
+            claim.approved_tax = approved_tax
+            claim.approved_total = approved_total
+
+
+            claim.discount_total = discount_total
 
 
 
@@ -427,6 +442,21 @@ class InsuranceClaimLine(models.Model):
 
     approved_unit = fields.Float(
         string="Unit Approved")
+
+    gross_subtotal = fields.Monetary(
+        string="Gross",
+        store=True)
+
+    gross_tax = fields.Float(
+        string="Gross Tax",
+        compute='_compute_amount',
+        store=True, precompute=True)
+
+    gross_total = fields.Monetary(
+        string="Gross Total",
+        compute='_compute_amount',
+        store=True, precompute=True)
+
 
     approved_subtotal = fields.Float(
         string="Approved",
@@ -551,7 +581,7 @@ class InsuranceClaimLine(models.Model):
 
     claim_id = fields.Many2one('insurance.claim', string='Insurance Claim')
 
-    @api.depends('product_id','product_uom_qty')
+    @api.depends('product_id')
     def _compute_price_unit(self):
         pricelist_item_fixed_price = self.env['product.pricelist.item'].search([('pricelist_id', '=', self.claim_id.pricelist_id.id),
                                                    ('product_tmpl_id', 'in', [self.product_template_id.id])
@@ -601,7 +631,7 @@ class InsuranceClaimLine(models.Model):
             if record.approved_unit > record.price_unit and record.sale_type=='insurance':
                 raise ValidationError("Unit Approved must be less than Unit Price.")
 
-    @api.depends('product_uom_qty',  'price_unit','claim_subtotal', 'member_subtotal')
+    @api.depends('product_uom_qty',  'price_unit','tax_id','gross_subtotal','claim_subtotal', 'member_subtotal')
     def _compute_amount(self):
 
         """
@@ -609,6 +639,17 @@ class InsuranceClaimLine(models.Model):
 
         """
         for line in self:
+
+            tax_results = self.env['account.tax']._compute_taxes([line._convert_to_tax_base_line_dict(
+                line.price_unit, line.price_unit * line.product_uom_qty)])
+            totals = list(tax_results['totals'].values())[0]
+            amount_untaxed = totals['amount_untaxed']
+            amount_tax = totals['amount_tax']
+            line.update({
+                'gross_subtotal': amount_untaxed,
+                'gross_tax': amount_tax,
+                'gross_total': amount_untaxed + amount_tax,
+            })
 
 
             tax_results = self.env['account.tax']._compute_taxes([line._convert_to_tax_base_line_dict(

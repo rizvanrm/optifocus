@@ -14,6 +14,53 @@ class InsurancePolicy(models.Model):
     insurance_company_plan = fields.Many2one('insurance.plan', string='Plan',required=True,domain="[('insurance_company_id', '=', insurance_company)]")
     insurance_discount = fields.Float(related='insurance_company_plan.insurance_discount')
     member_discount = fields.Float(related='insurance_company_plan.member_discount')
+    member_count = fields.Integer(string="Member Count", compute='_get_member')
+    sale_count = fields.Integer(string="Sale Count", compute='_get_sale')
+    claim_count = fields.Integer(string="Claim Count", compute='_get_claim')
+
+
+    def _get_member(self):
+        member_count = self.env['insurance.member'].search_count([('insurance_company_id', '=', self.id)])
+        self.member_count = member_count
+
+    def _get_claim(self):
+        claim_count = self.env['insurance.claim'].search_count([('insurance_id', '=', self.id)])
+        self.claim_count = claim_count
+
+    def _get_sale(self):
+        sale_count = self.env['sale.order'].search_count([('insurance_id', '=', self.id)])
+        self.sale_count = sale_count
+
+    def action_view_member(self):
+        return {
+            'type': 'ir.actions.act_window',
+            'name': 'Members',
+            'res_model': 'insurance.member',
+            'domain': [('insurance_company_id', '=', self.id)],
+            'view_mode': 'tree,form',
+            'target': 'current',
+        }
+
+    def action_view_sale(self):
+        return {
+            'type': 'ir.actions.act_window',
+            'name': 'Sale',
+            'res_model': 'sale.order',
+            'domain': [('insurance_id', '=', self.id)],
+            'view_mode': 'tree,form',
+            'target': 'current',
+        }
+
+    def action_view_claim(self):
+        return {
+            'type': 'ir.actions.act_window',
+            'name': 'claim',
+            'res_model': 'insurance.claim',
+            'domain': [('insurance_id', '=', self.id)],
+            'view_mode': 'tree,form',
+            'target': 'current',
+        }
+
 
     # Onchange - On change Parent Field, List associated Child Records.
     @api.onchange('insurance_company')

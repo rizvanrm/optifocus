@@ -1,4 +1,5 @@
 from . import account
+from . import hr_expense
 from . import insurance
 from . import models
 from . import optical
