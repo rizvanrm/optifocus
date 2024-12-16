@@ -132,7 +132,16 @@
         'security/ir.model.access.csv',
 
          ],
+<<<<<<< HEAD
    'depends': ['stock','sale_management','hr', 'sale_loyalty','purchase','account','l10n_sa_edi','hr_expense'],
+=======
+
+    # 'depends': ['stock','sale','hr', 'sale_loyalty','purchase','account','report_xlsx','l10n_sa_edi'],
+   'depends': ['stock','sale_management','hr', 'sale_loyalty','purchase','account','l10n_sa_edi'],
+>>>>>>> a66d366daaf534a3de6b5b59649b72986610068d
+
+  
+
 
     'installable': True,
     'images' : ['static/description/banner.png'],
