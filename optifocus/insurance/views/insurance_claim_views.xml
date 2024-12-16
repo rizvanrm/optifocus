@@ -72,9 +72,12 @@
                                     <field name="name"/>
                                     <field name="product_uom_qty" force_save="1" sum="Sum of Quantity"/>
                                     <field name="price_unit"/>
+                                    <field name="gross_subtotal" invisible="1" force_save="1"/>
                                     <field name="approved_unit"/>
                                     <field name="approved_subtotal" readonly="True" force_save="1"
                                            sum="Sum of Approved"/>
+                                    <field name="additional_subtotal" readonly="True" force_save="1"
+                                           sum="Sum of Co-Insurance"/>
                                     <field name="claim_discount_subtotal" optional="hide" readonly="True" force_save="1"
                                            sum="Sum of Insurance Discount"/>
                                     <field name="member_discount_subtotal" optional="hide" readonly="True"
@@ -85,8 +88,7 @@
                                     <field name="claim_subtotal" readonly="True" force_save="1" sum="Sum of Claim"/>
                                     <field name="co_insurance_subtotal" readonly="True" force_save="1"
                                            sum="Sum of Co-Insurance"/>
-                                    <field name="additional_subtotal" readonly="True" force_save="1"
-                                           sum="Sum of Co-Insurance"/>
+
                                     <field name="member_subtotal" readonly="True" force_save="1" sum="Sum of Member"/>
                                     <field name="company_id" invisible="1"/>
 
@@ -145,20 +147,51 @@
                             </thead>
 
                             <tbody>
-<!--                                 <tr>-->
-<!--                                <td class="bg-300">-->
-<!--                                    <strong>Approved</strong>-->
-<!--                                </td>-->
-<!--                                <td style="text-align: right;">-->
-<!--                                        <field name="approved_untaxed"  widget="float"/>-->
-<!--                                </td>-->
-<!--                                <td style="text-align: right;">-->
-<!--                                    <field name="approved_tax"  widget="float"/>-->
-<!--                                </td>-->
-<!--                                <td style="text-align: right;">-->
-<!--                                    <field name="approved_total"  widget="float"/>-->
-<!--                                </td>-->
-<!--                            </tr>-->
+                                 <tr>
+                                <td class="bg-300">
+                                    <strong>Gross</strong>
+                                </td>
+                                <td style="text-align: right;">
+                                        <field name="gross_untaxed"  widget="float"/>
+                                </td>
+                                <td style="text-align: right;">
+                                    <field name="gross_tax"  widget="float"/>
+                                </td>
+                                <td style="text-align: right;">
+                                    <field name="gross_total"  widget="float"/>
+                                </td>
+                            </tr>
+
+                             <tr>
+                                <td class="bg-300">
+                                    <strong>Approved</strong>
+                                </td>
+                                <td style="text-align: right;">
+                                        <field name="approved_untaxed"  widget="float"/>
+                                </td>
+                                <td style="text-align: right;">
+                                    <field name="approved_tax"  widget="float"/>
+                                </td>
+                                <td style="text-align: right;">
+                                    <field name="approved_total"  widget="float"/>
+                                </td>
+                            </tr>
+                                 <tr>
+
+                                    <td class="bg-300">
+                                        <strong>Additional</strong>
+
+                                    </td>
+                                    <td style="text-align: right;">
+                                        <field name="additional_untaxed" widget="float"/>
+                                    </td>
+                                    <td style="text-align: right;">
+                                        <field name="additional_tax" widget="float"/>
+                                    </td>
+                                    <td style="text-align: right;">
+                                        <field name="additional_total" widget="float"/>
+                                    </td>
+                                </tr>
 
                                 <tr style="color: green;">
                                     <td class="bg-300" style="color: green;">
@@ -190,22 +223,7 @@
                                     </td>
                                 </tr>
 
-                                <tr>
 
-                                    <td class="bg-300">
-                                        <strong>Additional</strong>
-
-                                    </td>
-                                    <td style="text-align: right;">
-                                        <field name="additional_untaxed" widget="float"/>
-                                    </td>
-                                    <td style="text-align: right;">
-                                        <field name="additional_tax" widget="float"/>
-                                    </td>
-                                    <td style="text-align: right;">
-                                        <field name="additional_total" widget="float"/>
-                                    </td>
-                                </tr>
                                 <tr>
                                     <td class="bg-300">
 

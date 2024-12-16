@@ -279,6 +279,7 @@ class SaleOrder(models.Model):
                             'product_id': line.product_id.id,
                             'product_uom_qty': line.product_uom_qty,
                             'price_unit': line.price_unit,
+                            'gross_subtotal': line.gross_subtotal,
                             'approved_unit': line.approved_unit,
                             'approved_subtotal': line.approved_subtotal,
                             'claim_discount_subtotal': line.claim_discount_subtotal,

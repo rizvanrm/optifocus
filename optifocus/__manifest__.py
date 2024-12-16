@@ -87,6 +87,10 @@
 
         'sale/views/report_customer_payments.xml',
 
+        'hr_expense/views/hr_expenses_report.xml',
+        'hr_expense/wizard/expenses_payments.xml',
+        'hr_expense/views/report_expenses_payments.xml',
+
         'account/views/account_move_views.xml',
         'account/views/account_payment_view.xml',
         'account/views/partner_view.xml',
@@ -128,8 +132,7 @@
         'security/ir.model.access.csv',
 
          ],
-    # 'depends': ['stock','sale','hr', 'sale_loyalty','purchase','account','report_xlsx','l10n_sa_edi'],
-   'depends': ['stock','sale_management','hr', 'sale_loyalty','purchase','account','l10n_sa_edi'],
+   'depends': ['stock','sale_management','hr', 'sale_loyalty','purchase','account','l10n_sa_edi','hr_expense'],
 
     'installable': True,
     'images' : ['static/description/banner.png'],

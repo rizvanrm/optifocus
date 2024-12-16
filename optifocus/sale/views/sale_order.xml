@@ -358,6 +358,8 @@
                        attrs="{'column_invisible': [('parent.sale_type', 'in', ['retail', 'wholesale'])]}"/>
                 <field name="approved_subtotal" readonly="True" force_save="1" sum="Sum of Approved"
                        attrs="{'column_invisible': [('parent.sale_type', 'in', ['retail', 'wholesale'])]}"/>
+                <field name="additional_subtotal" readonly="True" force_save="1" sum="Sum of Additional"
+                       attrs="{'column_invisible': [('parent.sale_type', 'in', ['retail', 'wholesale'])]}"/>
                 <field name="claim_discount_subtotal" optional="hide" readonly="True" force_save="1"
                        sum="Sum of Insurance Discount"
                        attrs="{'column_invisible': [('parent.sale_type', 'in', ['retail', 'wholesale'])]}"/>
@@ -372,8 +374,7 @@
                 <field name="co_insurance_subtotal" readonly="True" force_save="1" sum="Sum of Co-Insurance"
                        attrs="{'column_invisible': [('parent.sale_type', 'in', ['retail', 'wholesale'])]}"/>
 
-                <field name="additional_subtotal" readonly="True" force_save="1" sum="Sum of Additional"
-                       attrs="{'column_invisible': [('parent.sale_type', 'in', ['retail', 'wholesale'])]}"/>
+
                 <field name="member_subtotal" readonly="True" force_save="1" sum="Sum of Member"
                        attrs="{'column_invisible': [('parent.sale_type', 'in', ['retail', 'wholesale'])]}"/>
 
@@ -457,7 +458,22 @@
                                     <field name="approved_total"  widget="float"/>
                                 </td>
                             </tr>
+                            <tr>
 
+                                <td class="bg-300">
+                                    <strong>Additional</strong>
+
+                                </td>
+                                <td style="text-align: right;">
+                                    <field name="additional_untaxed"  widget="float"/>
+                                </td>
+                                 <td style="text-align: right;">
+                                    <field name="additional_tax"  widget="float"/>
+                                </td>
+                                 <td style="text-align: right;">
+                                    <field name="additional_total"  widget="float"/>
+                                </td>
+                            </tr>
 
 
                             <tr>
@@ -490,22 +506,7 @@
                                 </td>
                             </tr>
 
-                            <tr>
 
-                                <td class="bg-300">
-                                    <strong>Additional</strong>
-
-                                </td>
-                                <td style="text-align: right;">
-                                    <field name="additional_untaxed"  widget="float"/>
-                                </td>
-                                 <td style="text-align: right;">
-                                    <field name="additional_tax"  widget="float"/>
-                                </td>
-                                 <td style="text-align: right;">
-                                    <field name="additional_total"  widget="float"/>
-                                </td>
-                            </tr>
                             <tr style="color: green;">
                                 <td class="bg-300" style="color: green;">
 

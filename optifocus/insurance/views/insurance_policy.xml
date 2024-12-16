@@ -6,6 +6,35 @@
         <field name="arch" type="xml">
             <form string="Insurance Policy">
                 <sheet>
+                        <div class="oe_button_box" name="button_box">
+                        <button name="action_view_member"
+                        type="object"
+                        class="oe_stat_button"
+                        icon="fa-th-list"
+                        attrs="{'invisible': [('member_count', '=', 0)]}">
+                        <field name="member_count" widget="statinfo" string="Member"/>
+                    </button>
+
+                              <button name="action_view_sale"
+                        type="object"
+                        class="oe_stat_button"
+                        icon="fa-dollar"
+                        attrs="{'invisible': [('sale_count', '=', 0)]}">
+                        <field name="sale_count" widget="statinfo" string="Sale"/>
+                    </button>
+                         <button name="action_view_claim"
+                        type="object"
+                        class="oe_stat_button"
+                        icon="fa-list-alt"
+                        attrs="{'invisible': [('claim_count', '=', 0)]}">
+                        <field name="claim_count" widget="statinfo" string="Claim"/>
+                    </button>
+
+
+                </div>
+
+
+
                     <label for="name"/>
                     <h1>
                         <field name="name"/>

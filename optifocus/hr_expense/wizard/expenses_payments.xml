@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_expenses_payments_wizard" model="ir.ui.view">
+        <field name="name">expenses.payments.wizard.form</field>
+        <field name="model">expenses.payments.wizard</field>
+        <field name="arch" type="xml">
+            <form string="Expenses Payments">
+                <group>
+                    <group>
+                        <field name="employee_id"/>
+                        <field name="payment_mode" />
+                    </group>
+                    <group>
+                        <field name="date_from"/>
+                        <field name="date_to"/>
+                    </group>
+
+                </group>
+                                <footer>
+                                    <button name="generate_report" string="Print" type="object" class="btn-primary" data-hotkey="q"/>
+                                    <button string="Cancel" class="btn-secondary" special="cancel" data-hotkey="z"/>
+                                </footer>
+            </form>
+        </field>
+    </record>
+
+
+    <record id="action_expenses_payments_form" model="ir.actions.act_window">
+        <field name="name">Expenses Payments</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">expenses.payments.wizard</field>
+        <field name="view_mode">form</field>
+        <field name="target">new</field>
+    </record>
+
+         <menuitem
+            id="mnuitm_expenses_payments"
+            name="Expenses Payments"
+            parent="hr_expense.menu_hr_expense_reports"
+            action="action_expenses_payments_form"
+            sequence="30"/>
+
+
+
+</odoo>

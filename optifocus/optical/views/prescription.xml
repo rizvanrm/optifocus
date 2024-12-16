@@ -84,11 +84,12 @@
                                     <field name="r_axis" style="width: 100%;"/>
                                 </td>
                                 <td>
-                                    <div class="oe_inline" style="display: flex; gap: 1px;">
-                                        <field name="r_va_numerator"  class="oe_inline"/>
-                                        <div>/</div>
-                                        <field name="r_va_denominator" class="oe_inline"/>
-                                    </div>
+                                    <field name="r_va" />
+<!--                                    <div class="oe_inline" style="display: flex; gap: 1px;">-->
+<!--                                        <field name="r_va_numerator"  class="oe_inline"/>-->
+<!--                                        <div>/</div>-->
+<!--                                        <field name="r_va_denominator" class="oe_inline"/>-->
+<!--                                    </div>-->
                                 </td>
 
                                 <td>
@@ -101,11 +102,12 @@
                                     <field name="l_axis" style="width: 100%;"/>
                                 </td>
                                 <td>
-                                      <div class="oe_inline" style="display: flex; gap: 1px;">
-                                        <field name="l_va_numerator"  class="oe_inline"/>
-                                        <div>/</div>
-                                        <field name="l_va_denominator"   class="oe_inline"/>
-                                    </div>
+                                     <field name="l_va" />
+<!--                                      <div class="oe_inline" style="display: flex; gap: 1px;">-->
+<!--                                        <field name="l_va_numerator"  class="oe_inline"/>-->
+<!--                                        <div>/</div>-->
+<!--                                        <field name="l_va_denominator"   class="oe_inline"/>-->
+<!--                                    </div>-->
 
                                 </td>
                                 <td>
