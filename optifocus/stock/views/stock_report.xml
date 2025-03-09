@@ -28,15 +28,15 @@
         <field name="print_report_name">'Stock PDF - %s' %  (time.strftime('%Y-%m-%d'))'</field>
       <field name="report_name">optifocus.report_stock_pdf</field>
     </record>
-      <record id="stock_xlsx_report" model="ir.actions.report">
-        <field name="name">Stock XLSX</field>
-        <field name="model">stock.export.report.wizard</field>
-        <field name="report_type">xlsx</field>
-        <field name="report_name">optifocus.report_stock_xlsx</field>
-        <field name="report_file">optifocus.report_stock_xlsx</field>
-        <field name="binding_type">report</field>
-        <field name="print_report_name">'Stock XLSX - %s' %  (time.strftime('%Y-%m-%d'))'</field>
-    </record>
+<!--      <record id="stock_xlsx_report" model="ir.actions.report">-->
+<!--        <field name="name">Stock XLSX</field>-->
+<!--        <field name="model">stock.export.report.wizard</field>-->
+<!--        <field name="report_type">xlsx</field>-->
+<!--        <field name="report_name">optifocus.report_stock_xlsx</field>-->
+<!--        <field name="report_file">optifocus.report_stock_xlsx</field>-->
+<!--        <field name="binding_type">report</field>-->
+<!--        <field name="print_report_name">'Stock XLSX - %s' %  (time.strftime('%Y-%m-%d'))'</field>-->
+<!--    </record>-->
 
      <record id="undelivered_orders_report" model="ir.actions.report">
         <field name="name">Undelivered Orders</field>

@@ -23,7 +23,8 @@
                         type="object"
                         class="oe_stat_button"
                         icon="fa-list-alt"
-                        attrs="{'invisible': [('claim_count', '=', 0)]}">
+                        invisible="claim_count==0">
+
                         <field name="claim_count" widget="statinfo" string="Claim"/>
                     </button>
             </xpath>
@@ -34,39 +35,39 @@
             <xpath expr="//field[@name='partner_id']" position="before">
                 <field name="order_line_count" invisible="1"/>
                 <field name="sale_type"
-
-                attrs="{'readonly': ['|',('state', 'not in', ('draft')),('order_line_count', '>', (0))]
-                    }"  force_save = "1"/>
+                        readonly="state !='draft' or order_line_count >0"
+                  force_save = "1"/>
             </xpath>
 
             <xpath expr="//field[@name='partner_id']" position="attributes">
                 <attribute name="options">{'no_quick_create': True}</attribute>
-                <attribute name="attrs">{'readonly': ['|',('sale_type', 'in', ['insurance']),('state', 'in', ['waiting_approval','approve','sale'])]}</attribute>
+                <attribute name="readonly">(sale_type == 'insurance' or state in  ['waiting_approval','approve','sale'] ) </attribute>
                 <attribute name="force_save">1</attribute>
             </xpath>
 
-            <xpath expr="//tree/field[@name='price_unit']" position="attributes">
+            <xpath expr="//list/field[@name='price_unit']" position="attributes">
                 <attribute name="readonly">1</attribute>
+                 <attribute name="force_save">1</attribute>
             </xpath>
-            <xpath expr="//tree/field[@name='product_template_id']" position="attributes">
-                <attribute name="attrs">{'readonly': [('state', 'in', ['waiting_approval','approve'])]}</attribute>
+            <xpath expr="//list/field[@name='product_template_id']" position="attributes">
+                <attribute name="readonly">state in ['waiting_approval','approve']</attribute>
             </xpath>
-            <xpath expr="//tree/field[@name='name']" position="attributes">
-                <attribute name="attrs">{'readonly': [('state', 'in', ['waiting_approval','approve'])]}</attribute>
+            <xpath expr="//list/field[@name='name']" position="attributes">
+                <attribute name="readonly">state in ['waiting_approval','approve']</attribute>
+
             </xpath>
-            <xpath expr="//tree/field[@name='product_uom_qty']" position="attributes">
-                <attribute name="attrs">{'readonly': [('state', 'in', ['waiting_approval','approve'])]}</attribute>
+            <xpath expr="//list/field[@name='product_uom_qty']" position="attributes">
+                 <attribute name="readonly">state in ['waiting_approval','approve'] </attribute>
+<!--                and insurance_sales_order_workflow_selection=='centralized'-->
             </xpath>
 
             <xpath expr="/form/header/button[@name='action_quotation_send']" position="after">
                 <button name="action_request_send" string="Send Insurance Request" type="object" class="btn-primary"
-                        attrs="{'invisible': ['|',('sale_type', '!=', 'insurance'),
-                                              '&amp;',('sale_type', '=','insurance'),('state', 'not in', ['draft','sent','revert'])]}"
+                        invisible="sale_type!='insurance' or (sale_type=='insurance' and state not in ['draft','sent','revert']) or  insurance_sales_order_workflow_selection=='decentralized'"
                         groups="!optifocus.group_insurance_supervisor"/>
-                <button name="action_approve" string="Approve" type="object" states="waiting_approval"
-                        class="btn-primary"
-                        groups="optifocus.group_insurance_supervisor,base.group_system"/>
-                <button name="action_reject" string="Reject" type="object" states="waiting_approval" class="btn-primary"
+                <button name="action_approve" string="Approve" type="object" invisible="state!='waiting_approval'  or  insurance_sales_order_workflow_selection=='decentralized'" class="btn-primary"
+                            groups="optifocus.group_insurance_supervisor,base.group_system"/>
+                <button name="action_reject" string="Reject" type="object" invisible="state!='waiting_approval'  or  insurance_sales_order_workflow_selection=='decentralized'" class="btn-primary"
                         groups="optifocus.group_insurance_supervisor,base.group_system"/>
             </xpath>
 
@@ -74,17 +75,15 @@
 
             <xpath expr="/form/header/button[@name='action_confirm']" position="after">
                 <button name="action_revert" string="Revert" type="object" class="btn-primary"
-                        attrs="{'invisible': ['|',('sale_type', '!=', 'insurance'),
-                                              '&amp;', ('sale_type', '=','insurance'),('state', 'in', ['draft','waiting_approval','sale','cancel'])
-                                              ]}" groups="!optifocus.group_insurance_supervisor"/>
+                        invisible="sale_type!='insurance' or  (sale_type=='insurance' and state  in ['draft','waiting_approval','sale','cancel']) or  insurance_sales_order_workflow_selection=='decentralized'"
+                        groups="!optifocus.group_insurance_supervisor"/>
             </xpath>
 
 
             <xpath expr="/form/header/button[@name='action_confirm']" position="after">
                 <button name="action_revert" string="Revert" type="object" class="btn-primary"
-                        attrs="{'invisible': ['|',('sale_type', '!=', 'insurance'),
-                                              '&amp;', ('sale_type', '=','insurance'),('state', 'not in', ['waiting_approval'])
-                                              ]}" groups="optifocus.group_insurance_supervisor,base.group_system"/>
+                        invisible="sale_type!='insurance' or  (sale_type=='insurance' and state not in ['waiting_approval']) or  insurance_sales_order_workflow_selection=='decentralized'"
+                        groups="optifocus.group_insurance_supervisor,base.group_system"/>
             </xpath>
 
 
@@ -99,27 +98,19 @@
             </xpath>
 
 
-
-            <button id="create_invoice" name="%(sale.action_view_sale_advance_payment_inv)d" string="Create Invoice"
-                    type="action" class="btn-primary" data-hotkey="q"
-                    attrs="{'invisible': [('invoice_status', '!=', 'to invoice')]}"/>
-
-
             <xpath expr="//button[@name='action_confirm'][1]" position="attributes">
-                <attribute name="attrs">{'invisible': [('state', 'not in', ['sent','approve'])]}</attribute>
+                <attribute name="invisible">state not in  ['sent','approve']  </attribute>
                 <attribute name="groups">!optifocus.group_insurance_supervisor</attribute>
+
             </xpath>
             <xpath expr="//button[@name='action_confirm'][2]" position="attributes">
-                <attribute name="attrs">{'invisible': [ '|', ('sale_type', '=', 'insurance'),
-                    '&amp;',('sale_type', '!=','insurance') ,('state', '!=', 'draft') ]}
-                </attribute>
+                <attribute name="invisible">(sale_type ==  'insurance' and insurance_sales_order_workflow_selection=='centralized') or ( state != 'draft') </attribute>
+
                 <attribute name="groups">!optifocus.group_insurance_supervisor</attribute>
             </xpath>
 
             <xpath expr="/form/header/button[@name='action_cancel']" position="attributes">
-                <attribute name="attrs">{'invisible': ['|', ('state', 'not in', ['draft', 'sent','reject','sale']),
-                    ('id', '=', False)]}
-                </attribute>
+                <attribute name="invisible">state not in ['draft', 'sent','reject','sale'] or  not id </attribute>
                 <attribute name="groups">!optifocus.group_insurance_supervisor</attribute>
             </xpath>
 
@@ -129,9 +120,10 @@
             <xpath expr="/form/header/field[@name='state']" position="replace">
                 <field name="state" widget="statusbar"
                        statusbar_visible="draft,sent,waiting_approval,approve,reject,sale"
-                       attrs="{'invisible': [('sale_type', 'not in', ['insurance'])]}"/>
+                       invisible="sale_type!='insurance' or (sale_type=='insurance' and insurance_sales_order_workflow_selection=='decentralized')  "/>
                 <field name="state" widget="statusbar" statusbar_visible="draft,sent,sale"
-                       attrs="{'invisible': [('sale_type', 'in', ['insurance'])]}"/>
+                       invisible="(sale_type=='insurance' and insurance_sales_order_workflow_selection=='centralized') "/>
+
             </xpath>
 
 
@@ -151,28 +143,27 @@
             </xpath>
 
             <xpath expr="//field[@name='pricelist_id']" position="attributes">
-                <attribute name="attrs">{'readonly': [('sale_type', 'in',
-                    ['retail', 'insurance'])]}
-                </attribute>
+                <attribute name="readonly">sale_type in   ['retail','insurance']</attribute>
                  <attribute name="force_save">1</attribute>
             </xpath>
-<!--            <label for="pricelist_id" position="attributes">-->
-<!--                <attribute name="attrs">{'readonly': [('sale_type', 'in', ['retail', 'insurance'])]}</attribute>-->
-<!--            </label>-->
 
 
             <xpath expr="//field[@name='partner_id']" position="before">
-                <field name="member_id"
-                           attrs="{'invisible': [('sale_type', 'in', ['retail', 'wholesale'])],
-                                   'readonly': [('state', 'in', ['waiting_approval','approve','sale','done','cancel','reject','revert'])]}"
+                <field name="member_id" force_save="1"
+                            invisible="sale_type in ['retail', 'wholesale']"
+                            readonly="state in ['waiting_approval','approve','sale','done','cancel','reject','revert']  or order_line_count > 0 "
                             options="{'no_quick_create': True}"/>
+<!--                or order_line_count > 0-->
 
                 </xpath>
 
                   <xpath expr="//field[@name='partner_id']" position="after">
                       <field name="partner_shipping_id" invisible="1"/>
                 <field name="mobile" placeholder="Mobile"/>
-                <field name="prescription_id" attrs="{'invisible': [('sale_type', 'in', ['wholesale'])],'readonly': [('state', 'in', ['waiting_approval','approve'])]}"
+<!--                      <field name="insurance_sales_order_workflow_selection" force_save="1" />-->
+                <field name="prescription_id"
+                       invisible="sale_type in ['wholesale']"
+                       readonly="state in ['waiting_approval','approve']"
                                                domain="[('partner_id', '=', partner_id)]"
                                                context = "{'default_partner_id': partner_id}"
                                                options="{'no_quick_create': True}"
@@ -183,11 +174,13 @@
                 <group name="insurance_details">
 
                     <field name="approval_no" class="oe_inline"
-                           attrs="{'invisible': [('sale_type', 'in', ['retail', 'wholesale'])],
-                           'readonly': [('state', 'in', ['approve'])]}"/>
+                           invisible="sale_type in ['retail', 'wholesale']"
+                           readonly="state in ['approve']"/>
+
                     <field name="approval_date"
-                           attrs="{'invisible': [('sale_type', 'in', ['retail', 'wholesale'])],
-                           'readonly': [('state', 'in', ['approve'])]}"/>
+                           invisible="sale_type in ['retail', 'wholesale']"
+                           readonly="state in ['approve']"/>
+
 
 
                     <field name="request_filename" invisible="1"/>
@@ -196,46 +189,43 @@
 
                     <field name="request_attach_id" placeholder="Reqeust" filename="request_filename"
                            widget="work_permit_upload"
-                           attrs="{'invisible': [('sale_type', 'in', ['retail', 'wholesale'])],
-                                    'readonly': [('state', 'in', ['waiting_approval','approve'])]}"/>
+                           invisible="sale_type in ['retail', 'wholesale']"
+                           readonly="state in ['waiting_approval','approve']"/>
+
                     <field name="prescription_attach_id"  filename="prescription_filename" widget="work_permit_upload"
-                           attrs="{'invisible': [('sale_type', 'in', ['retail', 'wholesale'])]}"/>
+                           invisible="sale_type in ['retail', 'wholesale']"/>
                     <field name="approval_attach_id" filename="approval_filename" widget="work_permit_upload"
-                           attrs="{'invisible': [('sale_type', 'in', ['retail', 'wholesale'])],
-                                    'readonly': [('state', 'in', ['approve'])]}"/>
+                           invisible="sale_type in ['retail', 'wholesale']"
+                           readonly="state in ['approve']"/>
 
                 </group>
             </xpath>
 
 
+
             <xpath expr="//field[@name='date_order'][2]" position="attributes">
-                         <attribute name="attrs">{'readonly': [('state', 'in', ['waiting_approval','approve'])]}</attribute>
+                        <attribute name="readonly">state in  ['waiting_approval','approve']</attribute>
             </xpath>
             <xpath expr="//field[@name='validity_date']" position="attributes">
-                         <attribute name="attrs">{'invisible':  ['|',('sale_type', 'in', ['retail','insurance']),('state', 'in', ['sale', 'done'])]}</attribute>
-                [('state', 'in', ['sale', 'done'])]
+                        <attribute name="invisible">sale_type in  ['retail','insurance'] or state in ['sale', 'done'] </attribute>
             </xpath>
 
             <xpath expr="//div[hasclass('o_td_label')][2]" position="attributes">
-                <attribute name="attrs">{'invisible': [('state', 'in', ['draft', 'sent','waiting_approval','approve' ])]}
-                </attribute>
+                    <attribute name="invisible">state in  ['draft', 'sent','waiting_approval','approve' ]</attribute>
             </xpath>
              <xpath expr="//field[@name='date_order'][2]" position="attributes">
-                <attribute name="attrs">{'invisible': [('state', 'in', ['draft', 'sent','waiting_approval','approve' ])]}
-                </attribute>
+                <attribute name="invisible">state in  ['draft', 'sent','waiting_approval','approve' ]</attribute>
             </xpath>
 
             <xpath expr="//div[hasclass('o_row')]" position="after">
-                <field name="delivery_status"    attrs="{'invisible': [('state', 'in', ['draft', 'sent','waiting_approval','approve'])]}"/>
-                <field name="invoice_status"    attrs="{'invisible': [('state', 'in', ['draft', 'sent','waiting_approval','approve'])]}"/>
+                <field name="delivery_status"   invisible="state in ['draft', 'sent','waiting_approval','approve']" />
+                <field name="invoice_status"     invisible="state in ['draft', 'sent','waiting_approval','approve']" />
             </xpath>
 
 
 
             <xpath expr="//field[@name='payment_term_id']" position="attributes">
-                <attribute name="attrs">{'invisible': ['|',('state', 'in', ['sale', 'done']),('sale_type', 'in',
-                    ['retail', 'insurance'])]}
-                </attribute>
+                <attribute name="invisible">state in ['sale', 'done'] or sale_type in ['retail', 'insurance']</attribute>
                 <attribute name="required">false</attribute>
             </xpath>
 
@@ -243,23 +233,19 @@
                 <xpath expr="//field[@name='user_id']" position="move"/>
             </xpath>
 
-             <xpath expr="//group[@name='note_group']" position="before">
-                 <div class="oe_right">
-                    <button name="%(optifocus.sale_discount_wizard_action)d" class="btn btn-secondary" string="Discount"
-                            type="action"
 
-                            attrs="{'invisible': ['|', ('state', 'not in', ['draft','sent','sale']),('sale_type', '=', 'insurance')]}"/>
-
-                </div>
-            </xpath>
 
             <xpath expr="//field[@name='user_id']" position="attributes">
-                 <attribute name="attrs">{'readonly': [('state', 'in', ['waiting_approval','approve'])]}</attribute>
+                <attribute name="readonly">state in ['waiting_approval','approve']</attribute>
             </xpath>
 
             <xpath expr="//field[@name='order_line']" position="attributes">
-                 <attribute name="attrs">{'readonly': [('state', 'in', ['waiting_approval','sale'])]}</attribute>
+                <attribute name="readonly">state in ['waiting_approval','sale']</attribute>
             </xpath>
+
+<!--              <xpath expr="//button[@name='action_open_delivery_wizard']" position="attributes">-->
+<!--                  <attribute name="invisible">1</attribute>-->
+<!--            </xpath>-->
 
 
 
@@ -278,7 +264,8 @@
 
             <xpath expr="//page[@name='customer_signature']" position="after">
                 <page name="policy" string="Policy"
-                      attrs="{'invisible': [('sale_type', 'in', ['retail', 'wholesale'])]}">
+                      invisible="sale_type in ['retail', 'wholesale']">
+
 
                    <group>
                         <group name="member" string="member">
@@ -335,49 +322,49 @@
 
         <field name="arch" type="xml">
 
-            <xpath expr="/form/sheet/notebook/page/field[@name='order_line']/tree/field[@name='product_template_id']" position="attributes">
+            <xpath expr="/form/sheet/notebook/page/field[@name='order_line']/list/field[@name='product_template_id']" position="attributes">
                     <attribute name="options">{'no_quick_create': True,'no_create': True}</attribute>
             </xpath>
 
-            <xpath expr="/form/sheet/notebook/page/field[@name='order_line']/tree/field[@name='price_subtotal']" position="attributes">
+            <xpath expr="/form/sheet/notebook/page/field[@name='order_line']/list/field[@name='price_subtotal']" position="attributes">
                     <attribute name="sum">Sum of Subtotal</attribute>
+
             </xpath>
 
-            <xpath expr="/form/sheet/notebook/page/field[@name='order_line']/tree/field[@name='discount']" position="attributes">
-                <attribute name="attrs">{'column_invisible': [('parent.sale_type', 'in', ['insurance'])]}</attribute>
+            <xpath expr="/form/sheet/notebook/page/field[@name='order_line']/list/field[@name='discount']" position="attributes">
+                <attribute name="column_invisible">parent.sale_type in ['insurance']</attribute>
+
             </xpath>
 
 
-            <xpath expr="/form/sheet/notebook/page/field[@name='order_line']/tree/field[@name='price_unit']"
+            <xpath expr="/form/sheet/notebook/page/field[@name='order_line']/list/field[@name='price_unit']"
                    position="after">
 
-                <field name="gross_subtotal"
-                        invisible="1"/>
-
                 <field name="approved_unit"
-                       attrs="{'column_invisible': [('parent.sale_type', 'in', ['retail', 'wholesale'])]}"/>
+                       column_invisible="parent.sale_type in ['retail', 'wholesale']"/>
+                <field name="gross_subtotal" readonly="True" force_save="1" sum="Sum of Gross"
+                       column_invisible="parent.sale_type in ['retail', 'wholesale']"/>
+
+
                 <field name="approved_subtotal" readonly="True" force_save="1" sum="Sum of Approved"
-                       attrs="{'column_invisible': [('parent.sale_type', 'in', ['retail', 'wholesale'])]}"/>
+                       column_invisible="parent.sale_type in ['retail', 'wholesale']"/>
                 <field name="additional_subtotal" readonly="True" force_save="1" sum="Sum of Additional"
-                       attrs="{'column_invisible': [('parent.sale_type', 'in', ['retail', 'wholesale'])]}"/>
+                       column_invisible="parent.sale_type in ['retail', 'wholesale']"/>
                 <field name="claim_discount_subtotal" optional="hide" readonly="True" force_save="1"
                        sum="Sum of Insurance Discount"
-                       attrs="{'column_invisible': [('parent.sale_type', 'in', ['retail', 'wholesale'])]}"/>
+                       column_invisible="parent.sale_type in ['retail', 'wholesale']"/>
                 <field name="member_discount_subtotal" optional="hide" readonly="True" force_save="1"
                        sum="Sum of Member Discount"
-                       attrs="{'column_invisible': [('parent.sale_type', 'in', ['retail', 'wholesale'])]}"/>
+                              column_invisible="parent.sale_type in ['retail', 'wholesale']"/>
                 <field name="discount_subtotal" optional="hide" readonly="True" force_save="1"
                        sum="Sum of Total Discount"
-                       attrs="{'column_invisible': [('parent.sale_type', 'in', ['retail', 'wholesale'])]}"/>
+                       column_invisible="parent.sale_type in ['retail', 'wholesale']"/>
                 <field name="claim_subtotal" optional="hide" readonly="True" force_save="1" sum="Sum of Claim"
-                       attrs="{'column_invisible': [('parent.sale_type', 'in', ['retail', 'wholesale'])]}"/>
+                       column_invisible="parent.sale_type in ['retail', 'wholesale']"/>
                 <field name="co_insurance_subtotal" readonly="True" force_save="1" sum="Sum of Co-Insurance"
-                       attrs="{'column_invisible': [('parent.sale_type', 'in', ['retail', 'wholesale'])]}"/>
-
-
+                       column_invisible="parent.sale_type in ['retail', 'wholesale']"/>
                 <field name="member_subtotal" readonly="True" force_save="1" sum="Sum of Member"
-                       attrs="{'column_invisible': [('parent.sale_type', 'in', ['retail', 'wholesale'])]}"/>
-
+                       column_invisible="parent.sale_type in ['retail', 'wholesale']"/>
                 </xpath>
 
 
@@ -390,142 +377,106 @@
                 </xpath>
 
 
-<!--            <group name="note_group" col="6" class="mt-2 mt-md-0">-->
-<!--                            <group colspan="4">-->
-<!--                                <field  colspan="2" name="note" nolabel="1" placeholder="Terms and conditions..."/>-->
-<!--                            </group>-->
-<!--                            <group class="oe_subtotal_footer oe_right" colspan="2" name="sale_total">-->
-<!--                                <field name="tax_totals" widget="account-tax-totals-field" nolabel="1" colspan="2" readonly="1"/>-->
-<!--                            </group>-->
-<!--                            <div class="clearfix"/>-->
-<!--                        </group>-->
-
-
 
             <xpath  expr="//group[@name='sale_total']" position="before">
-
-
-
-                <group colspan="1" attrs="{'invisible': [('sale_type', 'not in', ['insurance'])]}"  >
-                    <table   class="table table-striped table-sm table-bordered text-nowrap"
-                    style="width: 100%;">
-
-                        <thead>
-                            <tr class="bg-300">
-                                <th>
-
-                                </th>
-                                <th style="text-align: right;">
-                                    Untaxed
-                                </th>
-                                <th style="text-align: right;">
-                                    Taxes
-                                </th>
-                                <th style="text-align: right;">
-                                    Total
-                                </th>
-
-                            </tr>
-                        </thead>
-
-                        <tbody>
-                            <tr>
-                                <td class="bg-300">
-                                    <strong>Gross</strong>
-                                </td>
-                                <td style="text-align: right;">
-                                        <field name="gross_untaxed"  widget="float"/>
-                                </td>
-                                <td style="text-align: right;">
-                                    <field name="gross_tax"  widget="float"/>
-                                </td>
-                                <td style="text-align: right;">
-                                    <field name="gross_total"  widget="float"/>
-                                </td>
-                            </tr>
-
-                             <tr>
-                                <td class="bg-300">
-                                    <strong>Approved</strong>
-                                </td>
-                                <td style="text-align: right;">
-                                        <field name="approved_untaxed"  widget="float"/>
-                                </td>
-                                <td style="text-align: right;">
-                                    <field name="approved_tax"  widget="float"/>
-                                </td>
-                                <td style="text-align: right;">
-                                    <field name="approved_total"  widget="float"/>
-                                </td>
-                            </tr>
-                            <tr>
-
-                                <td class="bg-300">
-                                    <strong>Additional</strong>
-
-                                </td>
-                                <td style="text-align: right;">
-                                    <field name="additional_untaxed"  widget="float"/>
-                                </td>
-                                 <td style="text-align: right;">
-                                    <field name="additional_tax"  widget="float"/>
-                                </td>
-                                 <td style="text-align: right;">
-                                    <field name="additional_total"  widget="float"/>
-                                </td>
-                            </tr>
-
-
-                            <tr>
-                                <td class="bg-300" >
-                                    <strong>Claim</strong>
-                                </td>
-                                <td style="text-align: right;">
-                                    <field name="claim_untaxed"  widget="float"/>
-                                </td>
-                                <td style="text-align: right;">
-                                       <field name="claim_tax"  widget="float"/>
-                                </td>
-                                <td style="text-align: right;">
-                                    <field name="claim_total" widget="float"/>
-                                </td>
-                            </tr>
-
-                            <tr>
-                                <td class="bg-300">
-                                    <strong>Co-Insurance</strong>
-                                </td>
-                                 <td style="text-align: right;">
-                                    <field name="co_insurance_untaxed"  widget="float"/>
-                                </td>
-                                 <td style="text-align: right;">
-                                    <field name="co_insurance_tax"  widget="float"/>
-                                </td>
-                                 <td style="text-align: right;">
-                                    <field name="co_insurance_total"  widget="float"/>
-                                </td>
-                            </tr>
-
-
-                            <tr style="color: green;">
-                                <td class="bg-300" style="color: green;">
-
-                                    <strong>Member</strong>
-                                </td>
-                                 <td style="text-align: right;">
-                                    <field name="member_untaxed"  widget="float"/>
-                                </td>
-                                 <td style="text-align: right;">
-                                    <field name="member_tax"  widget="float"/>
-                                </td>
-                                 <td style="text-align: right;">
-                                    <field name="member_total"  widget="float"/>
-                                </td>
-                            </tr>
-
-                        </tbody>
-                    </table>
-                </group>
+                    <group colspan="1" invisible="sale_type != 'insurance'">
+                         <table class="table table-sm table-striped text-nowrap">
+                            <thead>
+                                <tr class="bg-300">
+                                    <th></th>
+                                    <th style="text-align: right;">Untaxed</th>
+                                    <th style="text-align: right;">Taxes</th>
+                                    <th style="text-align: right;">Total</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                    <tr>
+                                    <td class="bg-300"  >
+                                        <strong>Gross</strong>
+                                    </td>
+                                    <td style="text-align: right;">
+                                        <field name="gross_untaxed" widget="float"/>
+                                    </td>
+                                    <td style="text-align: right;">
+                                        <field name="gross_tax" widget="float"/>
+                                    </td>
+                                    <td style="text-align: right;">
+                                        <field name="gross_total" widget="float"/>
+                                    </td>
+                                </tr>
+                                <tr >
+                                    <td class="bg-300">
+                                        <strong>Approved</strong>
+                                    </td>
+                                    <td style="text-align: right;">
+                                        <field name="approved_untaxed" widget="float"/>
+                                    </td>
+                                    <td style="text-align: right;">
+                                        <field name="approved_tax" widget="float"/>
+                                    </td>
+                                    <td style="text-align: right;">
+                                        <field name="approved_total" widget="float"/>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="bg-300">
+                                        <strong>Additional</strong>
+                                    </td>
+                                    <td style="text-align: right;">
+                                        <field name="additional_untaxed" widget="float"/>
+                                    </td>
+                                    <td style="text-align: right;">
+                                        <field name="additional_tax" widget="float"/>
+                                    </td>
+                                    <td style="text-align: right;">
+                                        <field name="additional_total" widget="float"/>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="bg-300">
+                                        <strong>Claim</strong>
+                                    </td>
+                                    <td style="text-align: right;">
+                                        <field name="claim_untaxed" widget="float"/>
+                                    </td>
+                                    <td style="text-align: right;">
+                                        <field name="claim_tax" widget="float"/>
+                                    </td>
+                                    <td style="text-align: right;">
+                                        <field name="claim_total" widget="float"/>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="bg-300">
+                                        <strong>Co-Insurance</strong>
+                                    </td>
+                                    <td style="text-align: right;">
+                                        <field name="co_insurance_untaxed" widget="float"/>
+                                    </td>
+                                    <td style="text-align: right;">
+                                        <field name="co_insurance_tax" widget="float"/>
+                                    </td>
+                                    <td style="text-align: right;">
+                                        <field name="co_insurance_total" widget="float"/>
+                                    </td>
+                                </tr>
+                                <tr style="color: green;">
+                                    <td class="bg-300" style="color: green;">
+                                        <strong>Member</strong>
+                                    </td>
+                                    <td style="text-align: right;">
+                                        <field name="member_untaxed" widget="float"/>
+                                    </td>
+                                    <td style="text-align: right;">
+                                        <field name="member_tax" widget="float"/>
+                                    </td>
+                                    <td style="text-align: right;">
+                                        <field name="member_total" widget="float"/>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </group>
 
 
 
@@ -593,7 +544,7 @@
     </record>
 
     <record id="view_quotation_tree" model="ir.ui.view">
-        <field name="name">sale.order.tree</field>
+        <field name="name">sale.order.list</field>
         <field name="model">sale.order</field>
         <field name="inherit_id" ref="sale.view_quotation_tree"/>
         <field name="arch" type="xml">
@@ -610,7 +561,7 @@
     </record>
 
     <record id="view_order_tree" model="ir.ui.view">
-        <field name="name">sale.order.tree</field>
+        <field name="name">sale.order.list</field>
         <field name="model">sale.order</field>
         <field name="inherit_id" ref="sale.view_order_tree"/>
         <field name="arch" type="xml">
@@ -641,8 +592,16 @@
         <field name="inherit_id" ref="sale_loyalty.sale_order_view_form_inherit_sale_loyalty"/>
         <field name="arch" type="xml">
 
-            <xpath expr="//div[hasclass('oe_right')]" position="attributes">
-                <attribute name="attrs">{'invisible': [('state', 'not in', ['sent','approve']), ('sale_type', '=', 'insurance')]}</attribute>
+
+
+            <xpath expr="//button[@name='action_open_discount_wizard']" position="attributes">
+                  <attribute name="invisible">sale_type=='insurance'</attribute>
+            </xpath>
+            <xpath expr="//button[@name='%(sale_loyalty.sale_loyalty_coupon_wizard_action)d']" position="attributes">
+                  <attribute name="invisible">sale_type=='insurance'</attribute>
+            </xpath>
+            <xpath expr="//button[@name='action_open_reward_wizard']" position="attributes">
+                  <attribute name="invisible">sale_type=='insurance'</attribute>
             </xpath>
 
         </field>

@@ -31,7 +31,8 @@
 
                             <div class="col-auto col-3 mw-100 mb-2">
                                 <strong>Optometrist:</strong>
-                                <p class="m-0" t-field="prescription_id.doctor_id.name"/>
+<!--                                <p class="m-0" t-field="prescription_id.doctor_id.name"/>-->
+                                <p class="m-0" t-field="prescription_id.get_sudo_doctor_id().name"/>
                             </div>
                         </div>
                         <t t-call="optifocus.report_prescription_document"/>

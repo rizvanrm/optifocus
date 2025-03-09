@@ -5,6 +5,7 @@ from odoo.exceptions import UserError, ValidationError
 class ResPartner(models.Model):
     _inherit = 'res.partner'
 
+
     id_no = fields.Char(string='Identification No')
     gender = fields.Selection([
         ('male', 'Male'),
@@ -16,12 +17,6 @@ class ResPartner(models.Model):
     insurance_policy_count=fields.Integer(compute='_compute_insurance_policy_count', string='Insurance Policies')
     birth_date = fields.Date(string="Date of Birth")
     is_commercial_partner = fields.Boolean('Is Commercial Partner', default=False)
-
-
-    @api.constrains('gender')
-    def _constrains_gender(self):
-        if self.company_type == 'person' and not self.gender:
-            raise ValidationError("Invalid field: Gender.")
 
     def _compute_prescription_count(self):
         prescription_count = self.env['optical.prescription'].search_count([('partner_id', '=', self.id)])

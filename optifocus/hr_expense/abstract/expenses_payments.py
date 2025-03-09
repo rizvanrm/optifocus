@@ -18,10 +18,12 @@ class ExpensesPaymentsAB(models.AbstractModel):
         domain = []
         domain += [('date', '>=', date_from)]
         domain += [('date', '<=', date_to)]
-        domain += [('state', '=', 'posted')]
+        domain += [('state', '=', 'paid')]
         domain += [('partner_type', '=', 'supplier')]
 
         payment_ids = self.env['account.payment'].search(domain, order='id desc')
+
+        print(payment_ids)
 
         return {
             'request': self,

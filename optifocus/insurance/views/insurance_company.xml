@@ -11,15 +11,16 @@
                         type="object"
                         class="oe_stat_button"
                         icon="fa-th-list"
-                        attrs="{'invisible': [('policy_count', '=', 0)]}">
+                        invisible="policy_count==0">
                         <field name="policy_count" widget="statinfo" string="Policy"/>
                     </button>
+
 
                         <button name="action_view_member"
                         type="object"
                         class="oe_stat_button"
                         icon="fa-th-list"
-                        attrs="{'invisible': [('member_count', '=', 0)]}">
+                        invisible="member_count==0">
                         <field name="member_count" widget="statinfo" string="Member"/>
                     </button>
 
@@ -28,18 +29,19 @@
                         type="object"
                         class="oe_stat_button"
                         icon="fa-dollar"
-                        attrs="{'invisible': [('sale_count', '=', 0)]}">
+                        invisible="sale_count==0">
                         <field name="sale_count" widget="statinfo" string="Sale"/>
                     </button>
                          <button name="action_view_claim"
                         type="object"
                         class="oe_stat_button"
                         icon="fa-list-alt"
-                        attrs="{'invisible': [('claim_count', '=', 0)]}">
+                        invisible="claim_count==0">
+
+
+
                         <field name="claim_count" widget="statinfo" string="Claim"/>
                     </button>
-
-
                 </div>
 
 
@@ -60,11 +62,11 @@
                         <page string="Plans">
 
                             <field name="insurance_company_line">
-                                <tree editable="bottom">
+                                <list editable="bottom">
                                     <field name="name"/>
                                     <field name="insurance_discount"/>
                                     <field name="member_discount"/>
-                                </tree>
+                                </list>
 
                             </field>
 
@@ -79,17 +81,16 @@
         </field>
     </record>
 
-    <record id="insurance_company_tree_view" model="ir.ui.view">
-        <field name="name">insurance.company.tree</field>
+    <record id="insurance_company_list_view" model="ir.ui.view">
+        <field name="name">insurance.company.list</field>
         <field name="model">insurance.company</field>
         <field name="arch" type="xml">
-            <tree string="Insurance Company">
+            <list string="Insurance Company">
                 <field name="name"/>
                 <field name="short_name"/>
                 <field name="provider_id"/>
                 <field name="pricelist_id"/>
-<!--                <field name="journal_id"/>-->
-            </tree>
+            </list>
         </field>
     </record>
 
@@ -153,7 +154,7 @@
         <field name="name">Insurance Companies</field>
         <field name="type">ir.actions.act_window</field>
         <field name="res_model">insurance.company</field>
-        <field name="view_mode">tree,form,kanban</field>
+        <field name="view_mode">list,form,kanban</field>
     </record>
 
 </odoo>

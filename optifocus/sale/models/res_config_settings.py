@@ -7,12 +7,12 @@ from odoo import api, fields, models, _
 class ResConfigSettings(models.TransientModel):
     _inherit = 'res.config.settings'
 
-    global_discount_default_product_id = fields.Many2one(
-        'product.product',
-        'Global Discount',
-        domain="[('type', '=', 'service')]",
-        config_parameter='optifocus.default_global_discount_product_id',
-        help='Default product used for Global discount')
+    insurance_sales_order_workflow_selection = fields.Selection([
+        ('centralized', 'Centralized'),
+        ('decentralized', 'Individual')],
+        string="Insurance Sales Order Workflow",
+        required=True, default='decentralized',
+        config_parameter='optifocus.insurance_sales_order_workflow_selection')
 
     invoicing_policy_insurance_selection = fields.Selection([
         ('invoice_member', 'Member Invoice'),

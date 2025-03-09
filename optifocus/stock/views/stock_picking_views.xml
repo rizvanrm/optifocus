@@ -6,78 +6,98 @@
         <field name="inherit_id" ref="stock.view_picking_form"/>
         <field name="arch" type="xml">
 
+
+
+
             <xpath expr="//field[@name='origin']" position="after">
                 <field name="picking_type_code" invisible="1"/>
                 <field name="location_type"  invisible="1" />
                 <field name="location_dest_type"  invisible="1" />
                 <field name="sale_type" invisible="1"/>
-                <field name="power_lens_flag" invisible="1"/>
+
 
 
                 <field name="company_dest_id"
-                       attrs="{'invisible': ['|','|',('picking_type_code', '!=', 'internal'),
-                                      ('location_type', '!=', 'internal'),
-                                      ('location_dest_type', '!=', 'transit')]}"/>
+                       invisible="picking_type_code != 'internal' or
+                                  location_type != 'internal' or
+                                  location_dest_type != 'transit'"/>
+            </xpath>
+
+            <xpath expr="/form/header/field[@name='state'][2]" position="replace">
+                <field name="state" widget="statusbar" statusbar_visible="draft,confirmed,assigned,done" invisible="picking_type_code == 'incoming' or (picking_type_code == 'outgoing' and is_workshop_workflow == True)" />
+                <field name="state" widget="statusbar" statusbar_visible="draft,confirmed,assigned,workshop,shop,done" invisible="picking_type_code in ('incoming','internal') or (picking_type_code=='outgoing' and  is_workshop_workflow == False)" />
+
             </xpath>
 
 
-            <xpath expr="/form/sheet/notebook/page/field[@name='move_ids_without_package']/tree/field[@name='product_uom_qty']"
+
+            <xpath expr="/form/sheet/notebook/page/field[@name='move_ids_without_package']/list/field[@name='product_uom_qty']"
                    position="attributes">
                 <attribute name="sum">Sum of Demand Quantity</attribute>
             </xpath>
-            <xpath expr="/form/sheet/notebook/page/field[@name='move_ids_without_package']/tree/field[@name='quantity_done']"
+            <xpath expr="/form/sheet/notebook/page/field[@name='move_ids_without_package']/list/field[@name='quantity']"
                    position="attributes">
                 <attribute name="sum">Sum of Done Quantity</attribute>
             </xpath>
 
-            <xpath expr="/form/header/button[@name='action_confirm']" position="after">
+                        <xpath expr="/form/header/button[@name='action_confirm']" position="after">
+
+
+
+
+
+
+<!--                                 show_to_workshop"-->
 
                 <button name="action_to_workshop" string="To Workshop" type="object" class="btn-primary"
-                        attrs="{'invisible': ['|',('picking_type_code', '!=', 'outgoing'),
-                                            '|',('state', 'not in', ['waiting2']),
-                                            '|',('sale_type', 'not in', ['retail','insurance']),
-                                            ('power_lens_flag', 'not in', [True])
-                                             ]}"
+                      invisible="not show_to_workshop"
                     groups="sales_team.group_sale_salesman,base.group_system"/>
 
                 <button name="action_to_shop" string="Finished Product to Shop" type="object" class="btn-primary"
-                        attrs="{'invisible': ['|',('picking_type_code', '!=', 'outgoing'),
-                                            '|',('state', 'not in', ['workshop']),
-                                             '|',('sale_type', 'not in', ['retail','insurance']),
-                                             ('power_lens_flag', 'not in', [True])
-                                             ]}"
+                        invisible="not show_to_shop"
                                     groups="optifocus.group_technician,base.group_system"/>
+                            <!--                        invisible="picking_type_code!='outgoing' or-->
+<!--                                   state !='workshop' or-->
+<!--                                   sale_type not in ['retail','insurance']"-->
 
+<!--show_to_shop"-->
 
             </xpath>
 
+<!--            <button name="button_validate" invisible="state in ('draft', 'confirmed', 'done', 'cancel')" string="Validate" type="object" class="oe_highlight" groups="stock.group_stock_user" data-hotkey="v"/>-->
+<!--            <button name="button_validate" invisible="state in ('waiting', 'assigned', 'done', 'cancel')" string="Validate" type="object" groups="stock.group_stock_user" class="o_btn_validate" data-hotkey="v"/>-->
 
              <xpath expr="//button[@name='button_validate'][1]" position="attributes">
                 <attribute name="groups">!optifocus.group_technician</attribute>
+                 <attribute name="invisible">state in ('draft', 'confirmed','workshop', 'done', 'cancel')  </attribute>
             </xpath>
 
             <xpath expr="//button[@name='button_validate'][2]" position="attributes">
                 <attribute name="groups">!optifocus.group_technician</attribute>
+                <attribute name="invisible">state in ('waiting', 'assigned', 'workshop','shop', 'done', 'cancel')  </attribute>
             </xpath>
-            <xpath expr="//button[@name='action_set_quantities_to_reservation']" position="attributes">
-                <attribute name="groups">!optifocus.group_technician</attribute>
-            </xpath>
+<!--            <xpath expr="//button[@name='action_set_quantities_to_reservation']" position="attributes">-->
+<!--                <attribute name="groups">!optifocus.group_technician</attribute>-->
+<!--            </xpath>-->
             <xpath expr="//button[@name='do_print_picking']" position="attributes">
                 <attribute name="groups">!optifocus.group_technician</attribute>
+                <attribute name="invisible">state not in ('assigned','workshop','shop')</attribute>
             </xpath>
-            <xpath expr="//button[@name='action_open_label_type']" position="attributes">
-                <attribute name="groups">!optifocus.group_technician</attribute>
-            </xpath>
+<!--            <xpath expr="//button[@name='action_open_label_type']" position="attributes">-->
+<!--                <attribute name="groups">!optifocus.group_technician</attribute>-->
+<!--            </xpath>-->
              <xpath expr="//button[@name='action_cancel']" position="attributes">
                 <attribute name="groups">!optifocus.group_technician</attribute>
+                 <attribute name="invisible">state not in ('assigned','workshop','shop', 'confirmed', 'draft', 'waiting')</attribute>
             </xpath>
 
-            <xpath expr="//button[@name='do_unreserve']" position="attributes">
-                <attribute name="groups">!optifocus.group_technician</attribute>
-            </xpath>
-            <xpath expr="//button[@name='button_scrap']" position="attributes">
-                <attribute name="groups">!optifocus.group_technician</attribute>
-            </xpath>
+<!--             <xpath expr="//button[@name='do_unreserve']" position="attributes">-->
+<!--                <attribute name="groups">!optifocus.group_technician</attribute>-->
+<!--            </xpath>-->
+<!--            <xpath expr="//button[@name='button_scrap']" position="attributes">-->
+<!--                <attribute name="groups">!optifocus.group_technician</attribute>-->
+<!--            </xpath>-->
+
 
             <xpath expr="//button[@name='action_cancel']" position="attributes">
                 <attribute name="groups">!optifocus.group_technician</attribute>
@@ -87,5 +107,9 @@
 
         </field>
     </record>
+
+
+
+
 </odoo>
 

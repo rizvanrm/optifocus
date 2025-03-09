@@ -633,124 +633,98 @@ class InsuranceClaimLine(models.Model):
 
     @api.depends('product_uom_qty',  'price_unit','tax_id','gross_subtotal','claim_subtotal', 'member_subtotal')
     def _compute_amount(self):
-
         """
         Compute the amounts of the SO line.
-
         """
+        amount_untaxed = 0
+        amount_tax = 0
         for line in self:
 
-            tax_results = self.env['account.tax']._compute_taxes([line._convert_to_tax_base_line_dict(
-                line.price_unit, line.price_unit * line.product_uom_qty)])
-            totals = list(tax_results['totals'].values())[0]
-            amount_untaxed = totals['amount_untaxed']
-            amount_tax = totals['amount_tax']
+            tax_results = line.tax_id.compute_all(
+                line.price_unit,
+                currency=line.currency_id,
+                quantity=line.product_uom_qty,
+                product=line.product_id)
+
+            amount_untaxed = tax_results['total_excluded']
+            amount_total = tax_results['total_included']
             line.update({
                 'gross_subtotal': amount_untaxed,
-                'gross_tax': amount_tax,
-                'gross_total': amount_untaxed + amount_tax,
+                'gross_tax': amount_total - amount_untaxed,
+                'gross_total': amount_total,
             })
 
-
-            tax_results = self.env['account.tax']._compute_taxes([line._convert_to_tax_base_line_dict(
-               line.approved_subtotal / line.product_uom_qty, line.approved_subtotal)])
-            totals = list(tax_results['totals'].values())[0]
-            amount_untaxed = totals['amount_untaxed']
-            amount_tax = totals['amount_tax']
+            tax_results = line.tax_id.compute_all(
+                line.approved_unit,
+                currency=line.currency_id,
+                quantity=line.product_uom_qty,
+                product=line.product_id)
+            amount_untaxed = tax_results['total_excluded']
+            amount_total = tax_results['total_included']
             line.update({
                 'approved_subtotal': amount_untaxed,
-                'approved_tax': amount_tax,
-                'approved_total': amount_untaxed + amount_tax,
+                'approved_tax': amount_total - amount_untaxed,
+                'approved_total': amount_total,
             })
-            
-            tax_results = self.env['account.tax']._compute_taxes([line._convert_to_tax_base_line_dict(
-               line.claim_subtotal / line.product_uom_qty, line.claim_subtotal)])
-            totals = list(tax_results['totals'].values())[0]
-            amount_untaxed = totals['amount_untaxed']
-            amount_tax = totals['amount_tax']
+            tax_results = line.tax_id.compute_all(
+                line.claim_subtotal / line.product_uom_qty,
+                currency=line.currency_id,
+                quantity=line.product_uom_qty,
+                product=line.product_id)
+            amount_untaxed = tax_results['total_excluded']
+            amount_total = tax_results['total_included']
             line.update({
                 'claim_subtotal': amount_untaxed,
-                'claim_tax': amount_tax,
-                'claim_total': amount_untaxed + amount_tax,
+                'claim_tax': amount_total - amount_untaxed,
+                'claim_total': amount_total,
             })
-
-            tax_results = self.env['account.tax']._compute_taxes([line._convert_to_tax_base_line_dict(
-                line.co_insurance_subtotal / line.product_uom_qty, line.co_insurance_subtotal)])
-            totals = list(tax_results['totals'].values())[0]
-            amount_untaxed = totals['amount_untaxed']
-            amount_tax = totals['amount_tax']
+            tax_results = line.tax_id.compute_all(
+                line.co_insurance_subtotal / line.product_uom_qty,
+                currency=line.currency_id,
+                quantity=line.product_uom_qty,
+                product=line.product_id)
+            amount_untaxed = tax_results['total_excluded']
+            amount_total = tax_results['total_included']
             line.update({
                 'co_insurance_subtotal': amount_untaxed,
-                'co_insurance_tax': amount_tax,
-                'co_insurance_total': amount_untaxed + amount_tax,
+                'co_insurance_tax': amount_total - amount_untaxed,
+                'co_insurance_total': amount_total,
             })
-
-            tax_results = self.env['account.tax']._compute_taxes([line._convert_to_tax_base_line_dict(
-                line.additional_subtotal / line.product_uom_qty, line.additional_subtotal)])
-            totals = list(tax_results['totals'].values())[0]
-            amount_untaxed = totals['amount_untaxed']
-            amount_tax = totals['amount_tax']
+            tax_results = line.tax_id.compute_all(
+                line.additional_subtotal / line.product_uom_qty,
+                currency=line.currency_id,
+                quantity=line.product_uom_qty,
+                product=line.product_id)
+            amount_untaxed = tax_results['total_excluded']
+            amount_total = tax_results['total_included']
             line.update({
                 'additional_subtotal': amount_untaxed,
-                'additional_tax': amount_tax,
-                'additional_total': amount_untaxed + amount_tax,
+                'additional_tax': amount_total - amount_untaxed,
+                'additional_total': amount_total,
             })
-
-            tax_results = self.env['account.tax']._compute_taxes([line._convert_to_tax_base_line_dict(
-                line.member_subtotal / line.product_uom_qty, line.member_subtotal)])
-            totals = list(tax_results['totals'].values())[0]
-            amount_untaxed = totals['amount_untaxed']
-            amount_tax = totals['amount_tax']
+            tax_results = line.tax_id.compute_all(
+                line.member_subtotal / line.product_uom_qty,
+                currency=line.currency_id,
+                quantity=line.product_uom_qty,
+                product=line.product_id)
+            amount_untaxed = tax_results['total_excluded']
+            amount_total = tax_results['total_included']
             line.update({
                 'member_subtotal': amount_untaxed,
-                'member_tax': amount_tax,
-                'member_total': amount_untaxed + amount_tax,
+                'member_tax': amount_total - amount_untaxed,
+                'member_total': amount_total,
             })
-
-            tax_results = self.env['account.tax']._compute_taxes([line._convert_to_tax_base_line_dict(
+            tax_results = line.tax_id.compute_all(
                 (line.claim_subtotal + line.member_subtotal) / line.product_uom_qty,
-                (line.claim_subtotal + line.member_subtotal))])
-            totals = list(tax_results['totals'].values())[0]
-
-            amount_untaxed = totals['amount_untaxed']
-            amount_tax = totals['amount_tax']
+                currency=line.currency_id,
+                quantity=line.product_uom_qty,
+                product=line.product_id)
+            amount_untaxed = tax_results['total_excluded']
+            amount_total = tax_results['total_included']
             line.update({
                 'price_subtotal': amount_untaxed,
-                'price_tax': amount_tax,
-                'price_total': amount_untaxed + amount_tax,
+                'price_tax': amount_total - amount_untaxed,
+                'price_total': amount_total,
             })
 
-    #
-    def _convert_to_tax_base_line_dict(self, price_unit=None, price_subtotal=None):
 
-        """ Convert the current record to a dictionary in order to use the generic taxes computation method
-        defined on account.tax.
-
-        :return: A python dictionary.
-       """
-        if price_unit == None:
-            self.ensure_one()
-            return self.env['account.tax']._convert_to_tax_base_line_dict(
-                self,
-                partner=self.claim_id.partner_id,
-                currency=self.claim_id.currency_id,
-                product=self.product_id,
-                taxes=self.tax_id,
-                price_unit=self.claim_subtotal + self.member_subtotal,
-                quantity=1,
-                discount=0,
-                price_subtotal=self.claim_subtotal + self.member_subtotal,
-            )
-        else:
-            self.ensure_one()
-            return self.env['account.tax']._convert_to_tax_base_line_dict(
-                self,
-                partner=self.claim_id.partner_id,
-                currency=self.claim_id.currency_id,
-                product=self.product_id,
-                taxes=self.tax_id,
-                price_unit=price_unit,
-                quantity=self.product_uom_qty,
-                discount=0,
-                price_subtotal=price_subtotal,
-            )

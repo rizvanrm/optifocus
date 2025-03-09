@@ -13,7 +13,7 @@
                                 type="object"
                                 class="oe_stat_button"
                                 icon="fa-dollar"
-                                attrs="{'invisible': [('sale_count', '=', 0)]}">
+                                invisible="sale_count==0">
                             <field name="sale_count" widget="statinfo" string="Sale"/>
                         </button>
 
@@ -62,8 +62,8 @@
                             <field
                                     name="claim_line"
                                     widget="section_and_note_one2many"
-                                    mode="tree,kanban">
-                                <tree
+                                    mode="list,kanban">
+                                <list
                                         string="Claim Order Lines"
                                         editable="bottom"
                                 >
@@ -99,7 +99,7 @@
                                     />
                                     <field name="price_subtotal" readonly="True" force_save="1" sum="Sum of Subtotal"/>
 
-                                </tree>
+                                </list>
                             </field>
 
 
@@ -313,12 +313,12 @@
         </field>
     </record>
 
-    <record id="insurance_claim_tree_view" model="ir.ui.view">
-        <field name="name">insurance.claim.tree</field>
+    <record id="insurance_claim_list_view" model="ir.ui.view">
+        <field name="name">insurance.claim.list</field>
         <field name="model">insurance.claim</field>
         <field name="arch" type="xml">
 
-            <tree string="Insurance Claim" create="false">
+            <list string="Insurance Claim" create="false">
                 <field name="name"/>
                 <!--                <field name="user_id" optional="hide"/>-->
                 <field name="partner_id"/>
@@ -334,7 +334,7 @@
 
                 <field name="create_date"/>
                 <field name="company_id"/>
-            </tree>
+            </list>
         </field>
     </record>
 
@@ -402,7 +402,6 @@
                 <filter string="Create Date" name="filter_create_date" date="create_date"/>
                 <filter string="Approval Date" name="filter_approval_date" date="approval_date"/>
                 <!-- Search by  Group by -->
-                <!--                <filter name="insurance_company" string="Insurance Company" context="{'group_by':'name'}"/>-->
                 <filter string="Insurance Company" name="insurance_company" domain="[]"
                         context="{'group_by': 'insurance_id'}"/>
                 <filter string="Policy" name="policy" domain="[]" context="{'group_by': 'policy_id'}"/>
@@ -420,7 +419,7 @@
         <field name="name">Insurance Claims</field>
         <field name="type">ir.actions.act_window</field>
         <field name="res_model">insurance.claim</field>
-        <field name="view_mode">tree,form,kanban</field>
+        <field name="view_mode">list,form,kanban</field>
     </record>
 
 

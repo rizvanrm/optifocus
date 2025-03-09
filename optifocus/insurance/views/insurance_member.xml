@@ -14,14 +14,16 @@
                         type="object"
                         class="oe_stat_button"
                         icon="fa-dollar"
-                        attrs="{'invisible': [('sale_count', '=', 0)]}">
+                        invisible="sale_count==0">
+
                         <field name="sale_count" widget="statinfo" string="Sale"/>
                     </button>
                          <button name="action_view_claim"
                         type="object"
                         class="oe_stat_button"
                         icon="fa-list-alt"
-                        attrs="{'invisible': [('claim_count', '=', 0)]}">
+                        invisible="claim_count==0">
+
                         <field name="claim_count" widget="statinfo" string="Claim"/>
                     </button>
 
@@ -56,7 +58,8 @@
                             <field name="policy_class_id" options="{'no_create': True, 'no_create_edit': True,'no_open': True}" />
                             <field name="co_insurance_type"/>
                             <field name="co_insurance_percent"
-                                   attrs="{'invisible': [('co_insurance_type', '=', 'fixed')]}"/>
+                            invisible="co_insurance_type=='fixed'"/>
+
                             <field name="up_to"/>
                         </group>
                         <group string="Insurance Company">
@@ -74,11 +77,11 @@
     </record>
 
 
-    <record id="insurance_member_tree_view" model="ir.ui.view">
-        <field name="name">insurance.member.tree</field>
+    <record id="insurance_member_list_view" model="ir.ui.view">
+        <field name="name">insurance.member.list</field>
         <field name="model">insurance.member</field>
         <field name="arch" type="xml">
-            <tree string="Insurance Member">
+            <list string="Insurance Member">
                 <field name="name"/>
                 <field name="partner_id"/>
                 <field name="gender"/>
@@ -88,7 +91,7 @@
                 <field name="policy_class_id"/>
                 <field name="co_insurance"/>
                 <field name="insurance_company_id"/>
-            </tree>
+            </list>
         </field>
     </record>
     <record id="insurance_member_kanban_view" model="ir.ui.view">
@@ -174,7 +177,7 @@
         <field name="name">Insurance Members</field>
         <field name="type">ir.actions.act_window</field>
         <field name="res_model">insurance.member</field>
-        <field name="view_mode">tree,form,kanban</field>
+        <field name="view_mode">list,form,kanban</field>
     </record>
 
 

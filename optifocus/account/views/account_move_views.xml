@@ -8,13 +8,16 @@
         <field name="arch" type="xml">
             <xpath expr="//field[@name='partner_id']" position="after">
                 <field name="commercial_partner_setting" invisible="1"/>
-                <field name="cust_commercial_partner_id" attrs="{'invisible': ['|','|',('move_type', 'not in', ('out_invoice', 'out_refund', 'out_receipt')),('cust_move_type','not in','retail'),('commercial_partner_setting','=',False)]}"/>
+                <field name="cust_commercial_partner_id"
+                       invisible="move_type not in ('out_invoice', 'out_refund', 'out_receipt')
+                               or cust_move_type == 'retail'
+                               or not commercial_partner_setting"/>
             </xpath>
             <xpath expr="//group[@id='header_right_group']/label[1]" position="before">
                 <field name="cust_move_type"
-                       attrs="{'invisible': [('move_type', 'not in', ('out_invoice', 'out_refund', 'out_receipt'))]}"/>
+                       invisible="move_type not in ('out_invoice', 'out_refund', 'out_receipt')"/>
             </xpath>
-            <xpath expr="/form/sheet/notebook/page/field[@name='invoice_line_ids']/tree/field[@name='quantity']"
+            <xpath expr="/form/sheet/notebook/page/field[@name='invoice_line_ids']/list/field[@name='quantity']"
                    position="attributes">
                 <attribute name="sum">Sum of Quantity</attribute>
             </xpath>
@@ -22,32 +25,28 @@
         </field>
     </record>
 
-<!--    <record id="view_account_invoice_filter" model="ir.ui.view">-->
-<!--        <field name="name">account.invoice.select</field>-->
-<!--        <field name="model">account.move</field>-->
-<!--        <field name="inherit_id" ref="account.view_account_invoice_filter"/>-->
-<!--        <field name="arch" type="xml">-->
+    <record id="view_account_invoice_filter" model="ir.ui.view">
+        <field name="name">account.invoice.select</field>
+        <field name="model">account.move</field>
+        <field name="inherit_id" ref="account.view_account_invoice_filter"/>
+        <field name="arch" type="xml">
 
-<!--            <xpath expr="//filter[@name='salesperson']" position="after">-->
-<!--                <filter string="Partner" name="groupy_by_partner" domain="[]" context="{'group_by': 'partner_id'}"/>-->
-<!--            </xpath>-->
+            <xpath expr="//filter[@name='status']" position="after">
+                <filter string="Payment Status" name="payment_status" domain="[]"
+                        context="{'group_by': 'payment_state'}"/>
+            </xpath>
+            <xpath expr="//filter[@name='invoicedate']" position="before">
+               <filter string="Journal" name="groupy_by_journal" domain="[]" context="{'group_by': 'journal_id'}"/>
+                        <separator/>
+                <filter string="Date" name="group_by_date" context="{'group_by': 'date'}"/>
+                <filter string="Company" name="group_by_company" context="{'group_by': 'company_id'}" groups="base.group_multi_company"/>
+            </xpath>
 
-<!--            <xpath expr="//filter[@name='status']" position="after">-->
-<!--                <filter string="Payment Status" name="payment_status" domain="[]"-->
-<!--                        context="{'group_by': 'payment_state'}"/>-->
-<!--            </xpath>-->
-<!--            <xpath expr="//filter[@name='invoicedate']" position="before">-->
-<!--               <filter string="Journal" name="groupy_by_journal" domain="[]" context="{'group_by': 'journal_id'}"/>-->
-<!--                        <separator/>-->
-<!--                <filter string="Date" name="group_by_date" context="{'group_by': 'date'}"/>-->
-<!--                <filter string="Company" name="group_by_company" context="{'group_by': 'company_id'}" groups="base.group_multi_company"/>-->
-<!--            </xpath>-->
-<!--             -->
-<!--            <xpath expr="//filter[@name='duedate']" position="after">-->
-<!--                <filter string="Date" name="group_by_date" context="{'group_by': 'date'}"/>-->
-<!--                <filter string="Company" name="group_by_company" context="{'group_by': 'company_id'}" groups="base.group_multi_company"/>-->
-<!--            </xpath>-->
-<!--        </field>-->
-<!--    </record>-->
+            <xpath expr="//filter[@name='duedate']" position="after">
+                <filter string="Date" name="group_by_date" context="{'group_by': 'date'}"/>
+                <filter string="Company" name="group_by_company" context="{'group_by': 'company_id'}" groups="base.group_multi_company"/>
+            </xpath>
+        </field>
+    </record>
 
 </odoo>

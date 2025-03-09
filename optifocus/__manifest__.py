@@ -2,10 +2,10 @@
     'name': 'Optifocus',
     'category': 'Healthcare/Optical',
     'summary': 'A comprehensive solution for multi-store optical eye clinic businesses, featuring modules for sales, purchasing, inventory, accounting, insurance, patient management, prescriptions, and business intelligence reporting.',
-    'version': '16.0.0',
+    'version': '18.0.0.0',
     'author': 'Rizvan Mirza',
     'email': 'rizvan_rm@yahoo.co.in',
-    'price': '999.99',
+    'price': '2000',
     'currency': 'USD',
     'license': 'LGPL-3',
     'data': [
@@ -22,7 +22,7 @@
         'insurance/wizard/audit_claim.xml',
         'insurance/wizard/claim_invoice.xml',
         'insurance/wizard/group_summary_statement.xml',
-        'insurance/wizard/claim_export_report.xml',
+        # 'insurance/wizard/claim_export_report.xml',
         'insurance/views/report_audit_claim.xml',
         'insurance/views/report_claim_invoice.xml',
         'insurance/views/report_claim.xml',
@@ -45,6 +45,7 @@
         'product/views/product_category.xml',
         'product/views/product_brand.xml',
         'product/views/product_views.xml',
+        'product/views/product_supplierinfo_views.xml',
         'product/report/product_product_templates.xml',
         'product/report/product_reports.xml',
         'product/report/product_template_templates.xml',
@@ -71,11 +72,12 @@
         'stock/views/report_inventory_adjustment_history.xml',
         'stock/report/report_stockpicking_operations.xml',
         'stock/report/report_deliveryslip.xml',
+        'stock/views/res_config_settings_views.xml',
 
 
         'sale/views/res_partner_views.xml',
 
-        'sale/views/sale_order_discount.xml',
+        # 'sale/views/sale_order_discount.xml',
         'sale/views/sale_report.xml',
         'sale/views/product_views.xml',
         'sale/views/res_config_settings_views.xml',
@@ -114,8 +116,6 @@
 
         'users/views/res_users_views.xml',
 
-
-        # 'data/stock_location.xml',
         'data/product_attribute.xml',
         'data/product_category.xml',
         'data/product_brand.xml',
@@ -132,7 +132,7 @@
         'security/ir.model.access.csv',
 
          ],
-   'depends': ['stock','sale_management','hr', 'sale_loyalty','purchase','account','l10n_sa_edi','hr_expense'],
+   'depends': ['stock','sale_management','hr', 'sale_loyalty','purchase','account','l10n_sa_edi','hr_expense','om_recurring_payments','om_account_accountant'],
 
     'installable': True,
     'images' : ['static/description/banner.png'],

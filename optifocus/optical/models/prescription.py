@@ -7,7 +7,7 @@ class Prescription(models.Model):
     _description = "Prescription"
     _rec_name = 'prescription_date'
 
-    doctor_id = fields.Many2one('hr.employee', string='Optometrist', required=True, domain="[('job_id', '=', 'Optometrist')]")
+    doctor_id = fields.Many2one('hr.employee', string='Optometrist', required=True, domain="[('job_id', '=', 'Optometrist')]",check_company=False)
     prescription_date = fields.Datetime(string="Date", required=True, default = lambda self: fields.Datetime.now())
 
 
@@ -146,4 +146,5 @@ class Prescription(models.Model):
                 else:
                     raise ValidationError("Left VA Numerator must be 6 (meters) or 20 (feet).")
 
-
+    def get_sudo_doctor_id(self):
+        return self.doctor_id.sudo()

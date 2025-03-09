@@ -3,7 +3,7 @@
     <data>
 
          <record id="product_product_tree_view" model="ir.ui.view">
-            <field name="name">product.product.tree</field>
+            <field name="name">product.product.list</field>
             <field name="model">product.product</field>
             <field eval="7" name="priority"/>
             <field name="inherit_id" ref="product.product_product_tree_view"/>
@@ -41,7 +41,7 @@
 
         <record id="stock.product_template_action_product" model="ir.actions.act_window">
             <field name="name">Products</field>
-            <field name="context">{ 'default_detailed_type': 'service'}</field>
+            <field name="context">{ 'default_type': 'service'}</field>
 
         </record>
 

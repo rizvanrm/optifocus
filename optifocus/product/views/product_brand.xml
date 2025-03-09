@@ -26,10 +26,10 @@
                         <page string="Models">
 
                             <field name="model_ids">
-                                <tree editable="bottom">
+                                <list editable="bottom">
                                     <field name="name"/>
                                     <field name="short_name"  />
-                                </tree>
+                                </list>
 
                             </field>
 
@@ -43,18 +43,18 @@
     </record>
 
 
-    <record id="product_brand_tree_view" model="ir.ui.view">
-        <field name="name">product.brand.tree</field>
+    <record id="product_brand_list_view" model="ir.ui.view">
+        <field name="name">product.brand.list</field>
         <field name="model">product.brand</field>
         <field name="arch" type="xml">
 
-            <tree string="Brand">
+            <list string="Brand">
                 <field name="name"/>
                 <field name="short_name"/>
                 <field name="parent_brand"/>
                 <field name="barcode_prefix"/>
 
-            </tree>
+            </list>
 
         </field>
     </record>
@@ -117,7 +117,7 @@
         <field name="name">Brand</field>
         <field name="type">ir.actions.act_window</field>
         <field name="res_model">product.brand</field>
-        <field name="view_mode">tree,form,kanban</field>
+        <field name="view_mode">list,form,kanban</field>
     </record>
 
 

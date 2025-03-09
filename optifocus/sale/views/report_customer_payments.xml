@@ -30,7 +30,6 @@
                 </div>
 
                 <div class="col-6 text-end">
-                    <!--                    class="col-xs-2 pull-right">-->
                     PAGE
                     <span class="page"/>
                     OF
@@ -62,14 +61,15 @@
 
         <table class="table table-sm"
                style="font-size: 14px;margin-bottom:30px; border:hidden;border-top:2px;border-bottom:2px;">
-            <thead>
-                <tr>
-                    <th class="text-start" style="border:hidden;border-top:1px;">PAYMENT</th>
-                    <th class="text-start" style="border:hidden;border-top:1px;">DATE</th>
-                    <th class="text-start" style="border:hidden;border-top:1px;">PAYMENT TYPE</th>
-                    <th class="text-start" style="border:hidden;border-top:1px;">JOURNAL</th>
-                    <th class="text-start" style="border:hidden;border-top:1px;">APPROVAL CODE</th>
-                    <th class="text-end" style="border:hidden;border-top:1px;">AMOUNT</th>
+              <thead style="display: table-row-group">
+
+                <tr >
+                    <th class="text-start" style="border:hidden;border-top:1px;border-bottom:1px;">PAYMENT</th>
+                    <th class="text-start" style="border:hidden;border-top:1px;border-bottom:1px;">DATE</th>
+                    <th class="text-start" style="border:hidden;border-top:1px;border-bottom:1px;">PAYMENT TYPE</th>
+                    <th class="text-start" style="border:hidden;border-top:1px;border-bottom:1px;">JOURNAL</th>
+                    <th class="text-start" style="border:hidden;border-top:1px;border-bottom:1px;">APPROVAL CODE</th>
+                    <th class="text-end" style="border:hidden;border-top:1px;border-bottom:1px;">AMOUNT</th>
                 </tr>
 
 
@@ -218,8 +218,8 @@
                        style="font-size: 14px;margin-bottom: 0px; border:hidden;border-top:1px;border-bottom:1px;">
                     <thead>
                         <tr>
-                            <th class="text-start" style="border:hidden;border-top:1px;">INVOICE TYPE</th>
-                            <th class="text-end" style="border:hidden;border-top:1px;">AMOUNT</th>
+                            <th class="text-start" style="border:hidden;border-top:1px;border-bottom:1px;">INVOICE TYPE</th>
+                            <th class="text-end" style="border:hidden;border-top:1px;border-bottom:1px;">AMOUNT</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -307,8 +307,8 @@
                        style="font-size: 14px;margin-bottom: 0px;border:hidden;border-top:1px;border-bottom:1px">
                     <thead>
                         <tr>
-                            <th class="text-start" style="border:hidden;border-top:1px;">JOURNAL TYPE</th>
-                            <th class="text-end" style="border:hidden;border-top:1px;">AMOUNT</th>
+                            <th class="text-start" style="border:hidden;border-top:1px;border-bottom:1px;">JOURNAL TYPE</th>
+                            <th class="text-end" style="border:hidden;border-top:1px;border-bottom:1px;">AMOUNT</th>
                         </tr>
                     </thead>
                     <tbody>

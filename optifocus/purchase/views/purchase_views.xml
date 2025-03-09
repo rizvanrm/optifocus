@@ -8,19 +8,25 @@
         <field name="model">purchase.order</field>
         <field name="inherit_id" ref="purchase.purchase_order_form"/>
         <field name="arch" type="xml">
-            <xpath expr="/form/sheet/notebook/page/field[@name='order_line']/tree/field[@name='product_qty']" position="attributes">
+            <xpath expr="/form/sheet/notebook/page/field[@name='order_line']/list/field[@name='product_qty']" position="attributes">
                     <attribute name="sum">Sum of Quantity</attribute>
+            </xpath>
+            <xpath expr="//field[@name='partner_id']" position="attributes">
+                    <attribute name="options">{'no_quick_create': True}</attribute>
+            </xpath>
+            <xpath expr="/form/sheet/notebook/page/field[@name='order_line']/list/field[@name='product_id']" position="attributes">
+                    <attribute name="options">{'no_quick_create': True,'no_create': True}</attribute>
             </xpath>
 
         </field>
      </record>
 
       <record id="purchase_order_tree" model="ir.ui.view">
-            <field name="name">purchase.order.tree</field>
+            <field name="name">purchase.order.list</field>
             <field name="model">purchase.order</field>
             <field name="inherit_id" ref="purchase.purchase_order_tree"/>
             <field name="arch" type="xml">
-                <xpath expr="//tree/field[@name='partner_ref']" position="attributes">
+                <xpath expr="//list/field[@name='partner_ref']" position="attributes">
                     <attribute name="optional">show</attribute>
                 </xpath>
 
@@ -33,7 +39,7 @@
         <field name="name">Products</field>
         <field name="type">ir.actions.act_window</field>
         <field name="res_model">product.template</field>
-        <field name="view_mode">tree,form,kanban,activity</field>
+        <field name="view_mode">list,form,kanban,activity</field>
         <field name="context">{"search_default_filter_to_purchase":1, "purchase_product_template": 1}</field>
         <field name="search_view_id" ref="product.product_template_search_view"/>
         <field name="view_id" eval="False"/> <!-- Force empty -->

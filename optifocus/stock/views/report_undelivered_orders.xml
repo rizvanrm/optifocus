@@ -71,14 +71,14 @@
 
 
                 <tr>
-                    <th class="text-start" style="border:hidden;border-top:1px;">NUMBER</th>
-                    <th class="text-start" style="border:hidden;border-top:1px;">SALE TYPE</th>
-                    <th class="text-start" style="border:hidden;border-top:1px;">DATE</th>
-                    <th class="text-start" style="border:hidden;border-top:1px;">CUSTOMER</th>
-                    <th class="text-start" style="border:hidden;border-top:1px;">MOBILE</th>
-                    <th class="text-end" style="border:hidden;border-top:1px;">AMOUNT</th>
-                    <th class="text-end" style="border:hidden;border-top:1px;">PAID</th>
-                    <th class="text-end" style="border:hidden;border-top:1px;">AMOUNT DUE</th>
+                    <th class="text-start" style="border:hidden;border-top:1px;border-bottom:1px;">NUMBER</th>
+                    <th class="text-start" style="border:hidden;border-top:1px;border-bottom:1px;">SALE TYPE</th>
+                    <th class="text-start" style="border:hidden;border-top:1px;border-bottom:1px;">DATE</th>
+                    <th class="text-start" style="border:hidden;border-top:1px;border-bottom:1px;">CUSTOMER</th>
+                    <th class="text-start" style="border:hidden;border-top:1px;border-bottom:1px;">MOBILE</th>
+                    <th class="text-end" style="border:hidden;border-top:1px;border-bottom:1px;">AMOUNT</th>
+                    <th class="text-end" style="border:hidden;border-top:1px;border-bottom:1px;">PAID</th>
+                    <th class="text-end" style="border:hidden;border-top:1px;border-bottom:1px;">AMOUNT DUE</th>
                 </tr>
 
 
@@ -194,11 +194,11 @@
                        style="font-size: 14px;margin-bottom: 0px; border:hidden;border-top:1px;border-bottom:1px;">
                     <thead>
                         <tr>
-                            <th class="text-start" style="border:hidden;border-top:1px;">SALE TYPE</th>
-                            <th class="text-end" style="border:hidden;border-top:1px;">COUNT</th>
-                            <th class="text-end" style="border:hidden;border-top:1px;">AMOUNT</th>
-                            <th class="text-end" style="border:hidden;border-top:1px;">PAID</th>
-                            <th class="text-end" style="border:hidden;border-top:1px;">AMOUNT DUE</th>
+                            <th class="text-start" style="border:hidden;border-top:1px;border-bottom:1px;">SALE TYPE</th>
+                            <th class="text-end" style="border:hidden;border-top:1px;border-bottom:1px;">COUNT</th>
+                            <th class="text-end" style="border:hidden;border-top:1px;border-bottom:1px;">AMOUNT</th>
+                            <th class="text-end" style="border:hidden;border-top:1px;border-bottom:1px;">PAID</th>
+                            <th class="text-end" style="border:hidden;border-top:1px;border-bottom:1px;">AMOUNT DUE</th>
                         </tr>
                     </thead>
                     <tbody>

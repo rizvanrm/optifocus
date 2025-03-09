@@ -2,23 +2,23 @@
 <odoo>
 
     <template id="report_purchasequotation_document" inherit_id="purchase.report_purchasequotation_document">
-        <xpath expr="//table[hasclass('table', 'table-sm', 'mt-4')]//thead//tr//th[@name='th_description']" position="before">
+        <xpath expr="//table[hasclass('table', 'table-borderless')]//thead//tr//th[@name='th_description']" position="before">
                         <th name="th_barcode" class="text-start">
                             <strong>Barcode</strong>
                         </th>
         </xpath>
-            <xpath expr="//table[hasclass('table', 'table-sm', 'mt-4')]//thead//tr//th[@name='th_description']" position="attributes">
+            <xpath expr="//table[hasclass('table', 'table-borderless')]//thead//tr//th[@name='th_description']" position="attributes">
               <attribute name="class">text-start</attribute>
         </xpath>
-            <xpath expr="//table[hasclass('table', 'table-sm', 'mt-4')]//thead//tr//th[@name='th_expected_date']" position="attributes">
+            <xpath expr="//table[hasclass('table', 'table-borderless')]//thead//tr//th[@name='th_expected_date']" position="attributes">
             <attribute name="class">text-start</attribute>
         </xpath>
-            <xpath expr="//table[hasclass('table', 'table-sm', 'mt-4')]//tbody//tr//td[@id='product']" position="before">
+            <xpath expr="//table[hasclass('table', 'table-borderless')]//tbody//tr//td[@id='product']" position="before">
             <td>
                 <span t-field="order_line.product_id.barcode"/>
             </td>
         </xpath>
-            <xpath expr="//table[hasclass('table', 'table-sm', 'mt-4')]//tbody//tr//td[hasclass('text-center')]" position="attributes">
+            <xpath expr="//table[hasclass('table', 'table-borderless')]//tbody//tr//td[hasclass('text-center')]" position="attributes">
             <attribute name="class">text-start</attribute>
         </xpath>
 </template>

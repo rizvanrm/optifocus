@@ -18,16 +18,13 @@
 
             <xpath expr="/search/field[@name='team_id']" position="after">
                 <field name="sale_type"/>
-                <field name="sale_type"/>
                 <xpath expr="/search/field[@name='partner_id']" position="move"/>
                 <xpath expr="/search/field[@name='country_id']" position="move"/>
                 <xpath expr="/search/field[@name='industry_id']" position="move"/>
                 <field name="insurance_id"/>
                 <field name="policy_id"/>
                 <field name="policy_holder"/>
-               <field name="brand_id"/>
-                <field name="product_tmpl_id"/>
-
+                <field name="brand_id"/>
 
             </xpath>
 
@@ -60,7 +57,7 @@
                 <xpath expr="/search/group[2]/filter[@name='Category']" position="move"/>
             </xpath>
             <xpath expr="/search/group[2]/filter[@name='brand_id']" position="after">
-                <xpath expr="/search/group[2]/filter[@name='Product']" position="move"/>
+                <xpath expr="/search/group[2]/filter[@name='product_id']" position="move"/>
             </xpath>
 
             <xpath expr="/search/group[2]/filter[@name='Customer']" position="after">

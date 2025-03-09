@@ -2,53 +2,54 @@
 <odoo>
 
    <template id="report_prescription_document">
-                    <table class="table table-sm text-center border-top: 20; "   style="page-break-inside: avoid; width:100%" >
+                    <table class="table table-sm text-center"   style=" page-break-inside: avoid; width:100%" >
 
                     <tbody>
 
-                            <tr>
-                                <th rowspan="2" class="align-middle" style="width: 10%;">
+                            <tr style="margin: 0; padding: 0; line-height: 1;">
+                                <th rowspan="2" style="width: 10%; text-align: center;">
                                     <strong>RX</strong>
                                 </th>
-                                <th colspan="4">
+                                <th colspan="4" style="width: 10%; text-align: center;">
                                     <strong>Right Eye</strong>
                                 </th>
-                                <th colspan="4">
+                                <th colspan="4" style="width: 10%; text-align: center;" >
                                     <strong>Left Eye</strong>
                                 </th>
-                                <th rowspan="2" class="align-middle" style="width: 10%;">
+                                <th rowspan="2"  style="width: 10%; text-align: center;">
                                     <strong>IPD</strong>
                                 </th>
 
                             </tr>
-                            <tr>
-                                <th>
+                            <tr style="margin: 0; padding: 0; line-height: 1;">
+                                <th style="width: 10%; text-align: center;">
                                     <strong>SPH</strong>
                                 </th>
-                                <th>
+                                <th style="width: 10%; text-align: center;">
                                     <strong>CYL</strong>
                                 </th>
-                                <th>
+                                <th style="width: 10%; text-align: center;">
                                     <strong>Axis</strong>
                                 </th>
-                                <th>
+                                <th style="width: 10%; text-align: center;">
                                     <strong>VA</strong>
                                 </th>
-                                <th>
+                                <th style="width: 10%; text-align: center;">
                                     <strong>SPH</strong>
                                 </th>
-                                <th>
+                                <th style="width: 10%; text-align: center;">
                                     <strong>CYL</strong>
                                 </th>
-                                <th>
+                                <th style="width: 10%; text-align: center;" >
                                     <strong>Axis</strong>
                                 </th>
-                                <th>
+                                <th style="width: 10%; text-align: center;">
                                     <strong>VA</strong>
                                 </th>
                             </tr>
-                            <tr t-if="prescription_id.prescription_type in ('distance','bifocal_progressive')">
-                                <td >
+                            <tr t-if="prescription_id.prescription_type in ('distance','bifocal_progressive')"
+                            style="margin: 0; padding: 0; line-height: 1;">
+                                <td style="width: 10%; text-align: center;">
                                     <strong>Distance</strong>
                                 </td>
                                 <td>
@@ -81,8 +82,9 @@
                                 </td>
 
                             </tr>
-                            <tr t-if="prescription_id.prescription_type in ('reading')">
-                                <td>
+                            <tr t-if="prescription_id.prescription_type in ('reading')"
+                            style="margin: 0; padding: 0; line-height: 1;">
+                                <td style="width: 10%; text-align: center;">
                                     <strong>Reading</strong>
                                 </td>
                                 <td >
@@ -115,7 +117,8 @@
                                     <span t-field="prescription_id.ipd_addition"/>
                                 </td>
                             </tr>
-                            <tr t-if="prescription_id.prescription_type in ('bifocal_progressive')">
+                            <tr t-if="prescription_id.prescription_type in ('bifocal_progressive')"
+                            style="margin: 0; padding: 0; line-height: 1;">
                                 <td>
                                     <strong>Addition</strong>
                                 </td>
