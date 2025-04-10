@@ -19,13 +19,12 @@
         <field name="arch" type="xml">
 
            <xpath expr="//div[@name='button_box']" position="inside">
-                <button name="action_view_claim"
+                <button name="action_open_claim"
                         type="object"
                         class="oe_stat_button"
                         icon="fa-list-alt"
                         invisible="claim_count==0">
-
-                        <field name="claim_count" widget="statinfo" string="Claim"/>
+                <field name="claim_count" widget="statinfo" string="Claim"/>
                     </button>
             </xpath>
 
@@ -168,6 +167,9 @@
                                                context = "{'default_partner_id': partner_id}"
                                                options="{'no_quick_create': True}"
                 />
+<!--                      <field name="has_line_discount"/>-->
+<!--                      <field name="has_coupon_discount"/>-->
+<!--                      <field name="has_global_discount"/>-->
 
             </xpath>
             <xpath expr="//group[@name='order_details']" position="after">

@@ -22,7 +22,7 @@
         'insurance/wizard/audit_claim.xml',
         'insurance/wizard/claim_invoice.xml',
         'insurance/wizard/group_summary_statement.xml',
-        # 'insurance/wizard/claim_export_report.xml',
+        'insurance/wizard/claim_export_report.xml',
         'insurance/views/report_audit_claim.xml',
         'insurance/views/report_claim_invoice.xml',
         'insurance/views/report_claim.xml',
@@ -116,6 +116,8 @@
 
         'users/views/res_users_views.xml',
 
+        'data/report_paperformat.xml',
+        'data/set_reports_paper_format.xml',
         'data/product_attribute.xml',
         'data/product_category.xml',
         'data/product_brand.xml',
@@ -123,6 +125,7 @@
         'data/product_pricelist.xml',
         'data/res_partner.xml',
         'data/res_company.xml',
+        'data/stock_warehouse.xml',
         'data/insurance_company.xml',
         'data/insurance_policy.xml',
         'data/hr_demo.xml',
@@ -132,7 +135,7 @@
         'security/ir.model.access.csv',
 
          ],
-   'depends': ['stock','sale_management','hr', 'sale_loyalty','purchase','account','l10n_sa_edi','hr_expense','om_recurring_payments','om_account_accountant'],
+   'depends': ['stock','sale_management','hr', 'sale_loyalty','purchase','account','l10n_sa_edi','hr_expense','om_recurring_payments','om_account_accountant','report_xlsx'],
 
     'installable': True,
     'images' : ['static/description/banner.png'],

@@ -7,32 +7,32 @@
             <form string="Insurance Company">
                 <sheet>
                     <div class="oe_button_box" name="button_box">
-                    <button name="action_view_policy"
+                    <button name="action_open_policies"
                         type="object"
                         class="oe_stat_button"
                         icon="fa-th-list"
                         invisible="policy_count==0">
-                        <field name="policy_count" widget="statinfo" string="Policy"/>
+                        <field name="policy_count" widget="statinfo" string="Policies"/>
                     </button>
 
 
-                        <button name="action_view_member"
+                        <button name="action_open_members"
                         type="object"
                         class="oe_stat_button"
                         icon="fa-th-list"
                         invisible="member_count==0">
-                        <field name="member_count" widget="statinfo" string="Member"/>
+                        <field name="member_count" widget="statinfo" string="Members"/>
                     </button>
 
 
-                        <button name="action_view_sale"
+                        <button name="action_open_sales"
                         type="object"
                         class="oe_stat_button"
                         icon="fa-dollar"
                         invisible="sale_count==0">
-                        <field name="sale_count" widget="statinfo" string="Sale"/>
+                        <field name="sale_count" widget="statinfo" string="Sales"/>
                     </button>
-                         <button name="action_view_claim"
+                         <button name="action_open_claims"
                         type="object"
                         class="oe_stat_button"
                         icon="fa-list-alt"
@@ -40,7 +40,7 @@
 
 
 
-                        <field name="claim_count" widget="statinfo" string="Claim"/>
+                        <field name="claim_count" widget="statinfo" string="Claims"/>
                     </button>
                 </div>
 
@@ -53,8 +53,8 @@
                             <field name="provider_id"/>
                     </group>
                     <group >
-                            <field name="partner_id"/>
-                            <field name="pricelist_id"/>
+                            <field name="partner_id" options="{'no_quick_create': True}"/>
+                            <field name="pricelist_id" options="{'no_quick_create': True}"/>
                     </group>
                 </group>
 

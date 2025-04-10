@@ -129,3 +129,4 @@ class SaleOrderDiscount(models.TransientModel):
 
         else:
             self._create_discount_lines()
+            self.sale_order_id._constrains_discount_policy()

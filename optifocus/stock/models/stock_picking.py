@@ -9,15 +9,10 @@ from collections import defaultdict
 class StockPicking(models.Model):
     _inherit = 'stock.picking'
 
-    @api.model
-    def _domain_company_dest_ids(self):
-        return [('id', '!=', self.env.company.id)]
-
-
-
-
-    company_dest_id = fields.Many2one(
-        'res.company', string='Destination Company',domain=_domain_company_dest_ids)
+    company_dest_id = fields.Selection(
+        selection=lambda self: self._get_company_dest_selection(),
+        string="Destination Company",
+    )
 
     state = fields.Selection(selection_add=[('workshop', 'Workshop'),('shop', 'FP @ Shop'),('done',)],
                              help=" * Draft: The transfer is not confirmed yet. Reservation doesn't apply.\n"
@@ -43,6 +38,11 @@ class StockPicking(models.Model):
         compute='_compute_is_workshop_workflow',default=False,
         help='Technical field used to determine whether the order follows the workshop workflow.')
 
+    @api.model
+    def _get_company_dest_selection(self):
+        """ Fetch all companies and return as selection field choices. """
+        company_dest_ids = self.env['res.company'].sudo().search([('id', '!=', self.env.company.id)])
+        return [(str(company_dest_id.id), company_dest_id.name) for company_dest_id in company_dest_ids]
 
     @api.constrains('company_dest_id')
     def _constrains_company_dest_id(self):
@@ -65,8 +65,9 @@ class StockPicking(models.Model):
 
     def get_transfer(self):
         global picking_type_dest_id
-        picking_type_dest_id= self.env['stock.picking.type'].sudo().search([('company_id','=',self.company_dest_id.id),
-                                                               ('code','=', 'internal') ], order='sequence',limit=1)
+        picking_type_dest_id= self.env['stock.picking.type'].sudo().search([
+                                                               ('code','=', 'internal'),('company_id','=', int(self.company_dest_id)) ], order='sequence',limit=1)
+        #('company_id','=',1)# int(self.company_dest_id)
         if not picking_type_dest_id :
             raise ValidationError("Invalid Destination Company/Operation Type.")
 
@@ -92,9 +93,11 @@ class StockPicking(models.Model):
                     line.name = _("[%s] %s") % (line.product_id.default_code,line.product_id.name)
                 else:
                     line.name = _("%s") % line.product_id.name
+                    # 'company_id': self.company_dest_id.id,
+                    # int(self.company_dest_id),
                 value += [({
                             'name': line.name,
-                            'company_id': self.company_dest_id.id,
+                            'company_id': int(self.company_dest_id) ,
                             'product_id': line.product_id.id,
                             'product_uom_qty': line.product_uom_qty,
                             'product_uom': line.product_id.uom_id.id,

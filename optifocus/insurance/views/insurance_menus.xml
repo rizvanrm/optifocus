@@ -53,11 +53,11 @@
                     name="GSS - Group Summary Statement"
                     action="action_group_summary_statement_form"
                     sequence="20"/>
-<!--             <menuitem-->
-<!--                    id="claim_export"-->
-<!--                    name="Claim Export"-->
-<!--                    action="action_claim_export_report_wizard"-->
-<!--                    sequence="30"/>-->
+             <menuitem
+                    id="claim_export"
+                    name="Claim Export"
+                    action="action_claim_export_report_wizard"
+                    sequence="30"/>
         </menuitem>
     </menuitem>
 </odoo>

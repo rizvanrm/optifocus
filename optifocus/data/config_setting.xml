@@ -52,8 +52,6 @@
             <field name="value" eval="','.join(map(str, [ref('optifocus.product_category_powerlens')]))"/>
         </record>
 
-
-
         <record model="res.config.settings" id="res_config_settings">
 
             <field name="group_discount_per_so_line" eval="1"/>
@@ -67,7 +65,9 @@
         <function model="res.config.settings" name="execute"
             eval="[ref('res_config_settings')]" />
 
-
+        <record id="stock.route_warehouse0_mto" model="stock.route">
+            <field name="active">True</field>
+        </record>
 
     </data>
 

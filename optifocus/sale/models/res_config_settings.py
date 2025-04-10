@@ -22,3 +22,9 @@ class ResConfigSettings(models.TransientModel):
         config_parameter='optifocus.invoicing_policy_insurance_selection')
 
     commercial_partner = fields.Boolean(string='Commercial Partner', config_parameter='optifocus.commercial_partner')
+
+    line_coupon_discount = fields.Boolean(string="Dual Discount (Line + Coupon)", config_parameter='sale.line_coupon_discount')
+    line_global_discount = fields.Boolean(string="Dual Discount (Line + Global)", config_parameter='sale.line_global_discount')
+    coupon_global_discount = fields.Boolean(string="Dual Discount (Coupon + Global)", config_parameter='sale.coupon_global_discount')
+    line_coupon_global_discount = fields.Boolean(string="Triple Discount (Line + Coupon + Global)",
+                                            config_parameter='sale.line_coupon_global_discount')

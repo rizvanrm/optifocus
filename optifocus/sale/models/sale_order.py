@@ -5,6 +5,7 @@ READONLY_FIELD_STATES = {
     for state in {'sale', 'done', 'cancel'}
 }
 from datetime import date
+from decimal import Decimal, ROUND_HALF_UP
 class SaleOrder(models.Model):
     _inherit = 'sale.order'
 
@@ -108,10 +109,51 @@ class SaleOrder(models.Model):
         compute="_compute_insurance_sales_order_workflow",
         string="Insurance Sales Order Workflow",store=False)
 
+    @api.model
+    def get_discount_policy(self):
+        """Fetch the configured discount settings from system parameters."""
+        param_env = self.env['ir.config_parameter'].sudo()
+        return {
+            'line_coupon': param_env.get_param('sale.line_coupon_discount', 'False') == 'True',
+            'line_global': param_env.get_param('sale.line_global_discount', 'False') == 'True',
+            'coupon_global': param_env.get_param('sale.coupon_global_discount', 'False') == 'True',
+            'line_coupon_global': param_env.get_param('sale.line_coupon_global_discount', 'False') == 'True',
+        }
+
+    @api.constrains('order_line')
+    def _constrains_discount_policy(self):
+
+        discount_policy = self.get_discount_policy()
+        line_coupon = discount_policy.get('line_coupon', False)
+        line_global = discount_policy.get('line_global', False)
+        coupon_global = discount_policy.get('coupon_global', False)
+        line_coupon_global = discount_policy.get('line_coupon_global', False)
+        has_line_discount = has_coupon_discount = has_global_discount = False
+
+        for order in self:
+            for line in order.order_line:
+                if not has_line_discount and line.discount > 0:
+                    has_line_discount = True
+                if not has_coupon_discount and line.is_reward_line:
+                    has_coupon_discount = True
+                if not has_global_discount and line.product_template_id.name == 'Discount':
+                    has_global_discount = True
+
+            if has_line_discount and has_coupon_discount and has_global_discount and not line_coupon_global:
+                raise ValidationError("You cannot apply a Line Discount, Coupon Discount, and Global Discount together.")
+            if has_line_discount and has_coupon_discount and not line_coupon:
+                raise ValidationError("You cannot apply both a Line Discount and a Coupon Discount together.")
+            if has_line_discount and has_global_discount and not line_global:
+                raise ValidationError("You cannot apply both a Line Discount and a Global Discount together.")
+            if has_coupon_discount and has_global_discount and not coupon_global:
+                raise ValidationError("You cannot apply both a Coupon Discount and a Global Discount together.")
+
+
+
     @api.onchange('sale_type')
     def _compute_insurance_sales_order_workflow(self):
         config_param = self.env['ir.config_parameter'].sudo().get_param('optifocus.insurance_sales_order_workflow_selection')
-        print(config_param)
+        # for record in self:
         for record in self:
             record.insurance_sales_order_workflow_selection = config_param
 
@@ -165,7 +207,7 @@ class SaleOrder(models.Model):
         claim_count = self.env['insurance.claim'].search_count([('claim_origin', '=', self.name)])
         self.claim_count = claim_count
 
-    def action_view_claim(self):
+    def action_open_claim(self):
 
         return {
             'type': 'ir.actions.act_window',
@@ -294,8 +336,9 @@ class SaleOrder(models.Model):
     def get_claim_line(self):
         value=[]
         for order in self:
-            for line in order.order_line:
-                value += [(0,0,   {
+            # for line in order.order_line:
+            for line in order.order_line.filtered(lambda l: l.product_id):
+                    value += [(0,0,   {
 
                             'product_id': line.product_id.id,
                             'product_uom_qty': line.product_uom_qty,
@@ -429,11 +472,18 @@ class SaleOrder(models.Model):
                 order['member_total'] = member_total
 
 
+
     @api.onchange("sale_type", 'order_line', )
     def _compute_insurance(self):
-        for order in self:
+
+       for order in self:
+            co_insurance_difference_amount = order.up_to
+            co_insurance_beyond_up_to_flag = False
+
             for line in order.order_line:
+                co_insurance_beyond_up_to_flag=False
                 if order.sale_type == 'insurance':
+                    last_line = line
                     line.approved_subtotal=line.approved_unit * line.product_uom_qty
 
                     if order.co_insurance_type == 'percentage':
@@ -448,8 +498,10 @@ class SaleOrder(models.Model):
                             # Claim Amount
                             line.claim_subtotal = ((line.approved_unit*line.product_uom_qty * (
                                         100 - order.insurance_discount) / 100) - line.co_insurance_subtotal)
-                            # Co-Insurance Amount
-                            line.co_insurance_subtotal=(order.up_to*line.approved_unit*line.product_uom_qty/order.approved_untaxed)
+                            line.co_insurance_subtotal=round((order.up_to*line.approved_unit*line.product_uom_qty/order.approved_untaxed),2)
+                            co_insurance_beyond_up_to_flag=True
+                            co_insurance_difference_amount -= line.co_insurance_subtotal
+
 
                         else:
                             # Member Discount
@@ -487,11 +539,15 @@ class SaleOrder(models.Model):
                     line.additional_subtotal = (line.price_unit - line.approved_unit)*line.product_uom_qty
                     line.member_subtotal = (line.co_insurance_subtotal + line.additional_subtotal)
 
+            if co_insurance_beyond_up_to_flag and last_line and co_insurance_difference_amount != 0:
+                last_line.co_insurance_subtotal += round(co_insurance_difference_amount, 2)
+                last_line.member_subtotal = (last_line.co_insurance_subtotal + last_line.additional_subtotal)
 
 
 
     @api.constrains('sale_type','order_line')
     def _constrains_discount_sale_type(self):
+
         for order in self:
             for line in order.order_line:
                 if order.sale_type == "retail":
@@ -503,10 +559,6 @@ class SaleOrder(models.Model):
                     if line.discount > line.product_template_id.max_wholesale_line_discount:
                         raise ValidationError("For Product, " + line.product_template_id.name +", Max. allowed discount is " + str(
                             line.product_template_id.max_wholesale_line_discount) + "%")
-
-    # def apply_global_discount(self):
-    #     print("test")
-    #     #self.order_line.create({'product_id': 105, 'order_id': self.id})
 
     def _create_invoices(self, grouped=False, final=False, date=None):
         result = super(SaleOrder, self)._create_invoices()
@@ -585,6 +637,7 @@ class SaleOrder(models.Model):
 
         self.action_request_send_validation()
         self.action_approve_validation()
+
 
         for record in self:
             if record.sale_type == 'insurance' and record.approved_untaxed == 0:
@@ -748,7 +801,8 @@ class SaleOrderLine(models.Model):
 
         """
 
-        for line in self:
+        # for line in self:
+        for line in self.filtered(lambda l: l.product_id):
 
             if line.order_id.sale_type == "insurance":
 

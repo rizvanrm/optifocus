@@ -20,7 +20,11 @@
                 <field name="company_dest_id"
                        invisible="picking_type_code != 'internal' or
                                   location_type != 'internal' or
-                                  location_dest_type != 'transit'"/>
+                                  location_dest_type != 'transit'"
+                       required="location_dest_id != 'internal'"/>
+
+
+
             </xpath>
 
             <xpath expr="/form/header/field[@name='state'][2]" position="replace">

@@ -9,7 +9,7 @@
             <form string="Insurance CLaim" create="false">
                 <sheet>
                     <div class="oe_button_box" name="button_box">
-                        <button name="action_view_sale"
+                        <button name="action_open_sale"
                                 type="object"
                                 class="oe_stat_button"
                                 icon="fa-dollar"
@@ -72,7 +72,7 @@
                                     <field name="name"/>
                                     <field name="product_uom_qty" force_save="1" sum="Sum of Quantity"/>
                                     <field name="price_unit"/>
-                                    <field name="gross_subtotal" invisible="1" force_save="1"/>
+                                    <field name="gross_subtotal"  readonly="True" force_save="1" sum="Sum of Gross1"/>
                                     <field name="approved_unit"/>
                                     <field name="approved_subtotal" readonly="True" force_save="1"
                                            sum="Sum of Approved"/>

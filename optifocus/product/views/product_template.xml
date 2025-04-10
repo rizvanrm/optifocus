@@ -19,6 +19,10 @@
                   </span>
             </xpath>
 
+            <xpath expr="//field[@name='attribute_id']" position="attributes">
+                <attribute name="options">{'no_quick_create': True}</attribute>
+            </xpath>
+
 
            <xpath expr="//page[@name='variants']/field[@name='attribute_line_ids']" position="before">
                <group>
@@ -31,6 +35,8 @@
 
                 </group>
             </xpath>
+
+
 
 
 

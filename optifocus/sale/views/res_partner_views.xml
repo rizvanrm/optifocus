@@ -17,14 +17,13 @@
             </xpath>
 
             <xpath expr="/form/sheet/div" position="inside">
-                <button class="oe_stat_button" type="object" name="action_open_prescriptions" icon="fa-pencil-square-o">
-                    <field name="prescription_count" widget="statinfo"
-                        invisible="company_type=='company'"/>
+                <button class="oe_stat_button" type="object" name="action_open_prescriptions" icon="fa-pencil-square-o" invisible="prescription_count==0">
+                    <field name="prescription_count" widget="statinfo"/>
                 </button>
             </xpath>
             <xpath expr="/form/sheet/div" position="inside">
-                <button class="oe_stat_button" type="object" name="action_open_insurance_policies" icon="fa-linkedin    ">
-                    <field name="insurance_policy_count" widget="statinfo"/>
+                <button class="oe_stat_button" type="object" name="action_open_insurance_memberships" icon="fa-id-badge" invisible="insurance_membership_count==0">
+                    <field name="insurance_membership_count" widget="statinfo"/>
                 </button>
             </xpath>
 

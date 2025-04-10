@@ -10,13 +10,36 @@
             <xpath expr="//setting[@id='proforma_configuration']"
                    position="after">
 
-                  <setting id="sales_settings_insurance_sales_order_workflow" title="Insurance Sales Order Workflow Handling"  help="
+                <setting id="sales_settings_insurance_sales_order_workflow"
+                         title="Insurance Sales Order Workflow Handling" help="
                             Select the Insurance Sales Order workflow.">
-                            <field name="insurance_sales_order_workflow_selection" class="o_light_label" widget="radio"/>
-                  </setting>
-
+                    <field name="insurance_sales_order_workflow_selection" class="o_light_label" widget="radio"/>
+                </setting>
+                <setting id="sales_settings_insurance_sales_order_workflow"
+                         title="Insurance Sales Order Workflow Handling" help="
+                            Select the Insurance Sales Order workflow.">
+                    <field name="insurance_sales_order_workflow_selection" class="o_light_label" widget="radio"/>
+                </setting>
 
             </xpath>
+
+
+            <xpath expr="//setting[@id='show_margins']"
+                   position="after">
+
+                <setting id="sales_settings_discount_policy" title="Sales Order Discount Policy" help="
+                            Select the Discount Policy.">
+
+                    <group string="Allowed Discount Combinations">
+                        <field name="line_coupon_discount"  colspan="1"/>
+                        <field name="line_global_discount"  colspan="1"/>
+                        <field name="coupon_global_discount"  colspan="1"/>
+                        <field name="line_coupon_global_discount"  colspan="1"/>
+                    </group>
+                     </setting>
+
+            </xpath>
+
             <xpath expr="//setting[@id='setting_commission']"
                    position="after">
                 <div class="col-12 col-lg-6 o_setting_box"
@@ -29,7 +52,7 @@
                             Invoices to create on confirming insurance sales orders
                         </div>
                         <div class="text-muted">
-                            <field name="invoicing_policy_insurance_selection"  />
+                            <field name="invoicing_policy_insurance_selection"/>
                         </div>
                     </div>
                 </div>
@@ -59,7 +82,6 @@
             </xpath>
         </field>
     </record>
-
 
 
 </odoo>

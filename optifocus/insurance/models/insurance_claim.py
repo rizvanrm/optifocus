@@ -171,14 +171,12 @@ class InsuranceClaim(models.Model):
         sale_count = self.env['sale.order'].search_count([('name', '=', self.claim_origin)])
         self.sale_count = sale_count
 
-    def action_view_sale(self):
+    def action_open_sale(self):
         return {
             'type': 'ir.actions.act_window',
-            'name': 'Sales',
+            'name': _('Sales'),
             'res_model': 'sale.order',
-            'domain': [('name', '=', self.claim_origin)],
             'view_mode': 'form',
-            'target': 'current',
             'res_id': self.sale_id.id
         }
 
@@ -348,8 +346,12 @@ class InsuranceClaim(models.Model):
     @api.onchange( "claim_line")
     def _compute_insurance(self):
         for claim in self:
+            co_insurance_difference_amount = claim.up_to
+            co_insurance_beyond_up_to_flag = False
             for line in claim.claim_line:
+                co_insurance_beyond_up_to_flag = False
                 line.approved_subtotal = line.approved_unit * line.product_uom_qty
+                last_line = line
                 if claim.co_insurance_type == 'percentage':
 
                     if claim.approved_total * claim.co_insurance_percent / 100 * (
@@ -367,6 +369,8 @@ class InsuranceClaim(models.Model):
                             # Co-Insurance Amount
                             line.co_insurance_subtotal = (
                                     claim.up_to * line.approved_unit * line.product_uom_qty / claim.approved_total)
+                            co_insurance_beyond_up_to_flag = True
+                            co_insurance_difference_amount -= line.co_insurance_subtotal
                     else:
                             # Member Discount
                             line.member_discount_subtotal = (
@@ -406,6 +410,9 @@ class InsuranceClaim(models.Model):
                 line.discount_subtotal = (line.member_discount_subtotal + line.claim_discount_subtotal)
                 line.additional_subtotal = (line.price_unit - line.approved_unit) * line.product_uom_qty
                 line.member_subtotal = (line.co_insurance_subtotal + line.additional_subtotal)
+
+        if co_insurance_beyond_up_to_flag and last_line and co_insurance_difference_amount != 0:
+            last_line.co_insurance_subtotal += round(co_insurance_difference_amount, 2)
 
 
 
@@ -638,7 +645,7 @@ class InsuranceClaimLine(models.Model):
         """
         amount_untaxed = 0
         amount_tax = 0
-        for line in self:
+        for line in self.filtered(lambda l: l.product_id):
 
             tax_results = line.tax_id.compute_all(
                 line.price_unit,
