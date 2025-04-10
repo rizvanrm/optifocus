@@ -8,13 +8,14 @@
                 <button name="action_open_reward_wizard" class="btn btn-secondary"
                         string="Promotions" type="object" groups="base.group_user"
                         help="Update current promotional lines and select new rewards if applicable."
-                        attrs="{'invisible': ['|', ('state', 'not in', ['draft','sent','sale']) ,('sale_type', '=', 'insurance')]}"  />
+                        invisible=" state not in ('draft','sent','sale') or  sale_type=='insurance'" />
             </xpath>
 
             <xpath expr="//button[@name='619']" position="replace">
                   <button name="%(sale_loyalty.sale_loyalty_coupon_wizard_action)d" class="btn btn-secondary"
                         string="Coupon Code" type="action" groups="base.group_user"
-                          attrs="{'invisible': ['|', ('state', 'not in', ['draft','sent','sale']) ,('sale_type', '=', 'insurance')]}"  />
+                          invisible="state not in ['draft','sent','sale'] and sale_type == 'insurance'"  />
+
             </xpath>
     </field>
      </record>

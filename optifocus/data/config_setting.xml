@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <odoo>
-
-    <data noupdate="1">
+        <data noupdate="1">
 
         <record id="default_sphere_min" model="ir.config_parameter" forcecreate="False">
             <field name="key">optifocus.sphere_min</field>
@@ -39,18 +38,18 @@
             <field name="key">optifocus.addition_max</field>
             <field name="value">5.00</field>
         </record>
-        <record id="default_ipd_min" model="ir.config_parameter" forcecreate="True">
+        <record id="default_ipd_min" model="ir.config_parameter" forcecreate="False">
             <field name="key">optifocus.ipd_min</field>
             <field name="value">40</field>
         </record>
-        <record id="default_ipd_max" model="ir.config_parameter" forcecreate="True">
+        <record id="default_ipd_max" model="ir.config_parameter" forcecreate="False">
             <field name="key">optifocus.ipd_max</field>
             <field name="value">75</field>
         </record>
 
-        <record id="default_global_discount_product" model="ir.config_parameter" forcecreate="True">
-            <field name="key">optifocus.default_global_discount_product_id</field>
-            <field name="value" ref="optifocus.product_product_global_discount_product"/>
+        <record id="default_workshop_categories" model="ir.config_parameter" forcecreate="False">
+            <field name="key">optifocus.workshop_categ_ids</field>
+            <field name="value" eval="','.join(map(str, [ref('optifocus.product_category_powerlens')]))"/>
         </record>
 
         <record model="res.config.settings" id="res_config_settings">
@@ -59,12 +58,16 @@
             <field name="group_product_variant" eval="1"/>
             <field name="group_stock_multi_locations" eval="1"/>
             <field name="group_stock_adv_location" eval="1"/>
+            <field name="group_product_pricelist" eval="1"/>
+
         </record>
 
         <function model="res.config.settings" name="execute"
             eval="[ref('res_config_settings')]" />
 
-
+        <record id="stock.route_warehouse0_mto" model="stock.route">
+            <field name="active">True</field>
+        </record>
 
     </data>
 

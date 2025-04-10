@@ -20,38 +20,38 @@
 
 
         <xpath expr="//div[@id='informations']" position="after">
-            <div t-if="doc.sale_type=='insurance'" class="row mt-4 mb-4" id="insurance">
-                <div class="col-auto col-3 mw-100 mb-2" name="insurance_company">
+            <div t-if="doc.sale_type=='insurance'" class="row mb-4" id="insurance">
+                <div class="col" name="insurance_company">
                     <strong>Insurance:</strong>
                     <p class="m-0" t-field="doc.insurance_id"/>
                 </div>
-                <div class="col-auto col-3 mw-100 mb-2" name="insurance_plan">
+                <div class="col"  name="insurance_plan">
                     <strong>Plan:</strong>
                     <p class="m-0" t-field="doc.insurance_company_plan"/>
                 </div>
-                <div class="col-auto col-3 mw-100 mb-2" name="insurance_policy">
+                <div class="col"  name="insurance_policy">
                     <strong>Policy:</strong>
                     <t t-set="policy1" t-value="doc.policy_id.name + ' - '+ doc.policy_id.policy_holder"/>
                     <p class="m-0" t-esc="policy1"/>
                 </div>
-                <div class="col-auto col-3 mw-100 mb-2" name="insurance_policy">
+                <div class="col"  name="insurance_policy">
                     <strong>Approval No:</strong>
                     <p class="m-0" t-field="doc.approval_no"/>
                 </div>
-                <div class="col-auto col-3 mw-100 mb-2" name="insurance_policy">
+                <div class="col"  name="insurance_policy">
                     <strong>Approval Date:</strong>
                     <p class="m-0" t-field="doc.approval_date"/>
                 </div>
 
             </div>
         </xpath>
-               <xpath expr="//table[hasclass('table', 'table-sm', 'o_main_table', 'table-borderless', 'mt-4')]//thead//tr//th['td_name']"
+               <xpath expr="//table[hasclass('o_has_total_table', 'table', 'o_main_table', 'table-borderless')]//thead//tr//th['th_description']"
                position="before">
             <th name="th_barcode" class="text-start">
                 <strong>Barcode</strong>
             </th>
         </xpath>
-               <xpath expr="//table[hasclass('table', 'table-sm', 'o_main_table', 'table-borderless', 'mt-4')]//tbody//tr//td[@name='td_name']"
+               <xpath expr="//table[hasclass('o_has_total_table', 'table', 'o_main_table', 'table-borderless')]//tbody//tr//td[@name='td_name']"
                position="before">
             <td>
                 <span t-field="line.product_id.barcode"/>

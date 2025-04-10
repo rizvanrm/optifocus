@@ -59,24 +59,26 @@ class InsuranceMember(models.Model):
         sale_count = self.env['sale.order'].search_count([('member_id', '=', self.id)])
         self.sale_count = sale_count
 
-    def action_view_sale(self):
+    def action_open_sales(self):
+        self.ensure_one()
         return {
             'type': 'ir.actions.act_window',
-            'name': 'Sale',
+            'name': _('Sales'),
             'res_model': 'sale.order',
             'domain': [('member_id', '=', self.id)],
-            'view_mode': 'tree,form',
-            'target': 'current',
+            'views': [(self.env.ref('optifocus.view_order_tree').id, "list"),
+                      (self.env.ref('optifocus.sale_order_form_view').id, "form")],
         }
-    #
-    def action_view_claim(self):
+
+    def action_open_claims(self):
+        self.ensure_one()
         return {
             'type': 'ir.actions.act_window',
-            'name': 'claim',
+            'name': _('Claims'),
             'res_model': 'insurance.claim',
             'domain': [('member_id', '=', self.id)],
-            'view_mode': 'tree,form',
-            'target': 'current',
+            'views': [(self.env.ref('optifocus.insurance_claim_list_view').id, "list"),
+                      (self.env.ref('optifocus.claim_form_view').id, "form")],
         }
 
 
@@ -101,9 +103,13 @@ class InsuranceMember(models.Model):
         return result
 
     @api.model
-    def _name_search(self, name='', args=None, operator='ilike', limit=100, name_get_uid=None):
-        args = list(args or [])
+    def name_search(self, name='', args=None, operator='ilike', limit=100):
+        args = args or []
+
         if name:
-            args += ['|', '|', ('name', operator, name), ('mobile', operator, name),
-                      ('id_no', operator, name)]
-        return self._search(args, limit=limit, access_rights_uid=name_get_uid)
+            domain = ['|', '|', ('name', operator, name), ('mobile', operator, name), ('id_no', operator, name)]
+        else:
+            domain = []
+
+        records = self.search(domain + args, limit=limit)
+        return records.name_get()

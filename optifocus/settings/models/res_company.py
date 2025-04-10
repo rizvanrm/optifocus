@@ -17,4 +17,3 @@ class ResCompany(models.Model):
         ('nphies_id_uniq', 'unique (nphies_id)', 'Nphies ID must be unique.'),
     ]
 
-

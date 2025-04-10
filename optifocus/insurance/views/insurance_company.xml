@@ -7,30 +7,41 @@
             <form string="Insurance Company">
                 <sheet>
                     <div class="oe_button_box" name="button_box">
-                    <button name="action_view_policy"
+                    <button name="action_open_policies"
                         type="object"
                         class="oe_stat_button"
                         icon="fa-th-list"
-                        attrs="{'invisible': [('policy_count', '=', 0)]}">
-                        <field name="policy_count" widget="statinfo" string="Policy"/>
+                        invisible="policy_count==0">
+                        <field name="policy_count" widget="statinfo" string="Policies"/>
                     </button>
 
-                        <button name="action_view_sale"
+
+                        <button name="action_open_members"
+                        type="object"
+                        class="oe_stat_button"
+                        icon="fa-th-list"
+                        invisible="member_count==0">
+                        <field name="member_count" widget="statinfo" string="Members"/>
+                    </button>
+
+
+                        <button name="action_open_sales"
                         type="object"
                         class="oe_stat_button"
                         icon="fa-dollar"
-                        attrs="{'invisible': [('sale_count', '=', 0)]}">
-                        <field name="sale_count" widget="statinfo" string="Sale"/>
+                        invisible="sale_count==0">
+                        <field name="sale_count" widget="statinfo" string="Sales"/>
                     </button>
-                         <button name="action_view_claim"
+                         <button name="action_open_claims"
                         type="object"
                         class="oe_stat_button"
                         icon="fa-list-alt"
-                        attrs="{'invisible': [('claim_count', '=', 0)]}">
-                        <field name="claim_count" widget="statinfo" string="Claim"/>
+                        invisible="claim_count==0">
+
+
+
+                        <field name="claim_count" widget="statinfo" string="Claims"/>
                     </button>
-
-
                 </div>
 
 
@@ -42,8 +53,8 @@
                             <field name="provider_id"/>
                     </group>
                     <group >
-                            <field name="partner_id"/>
-                            <field name="pricelist_id"/>
+                            <field name="partner_id" options="{'no_quick_create': True}"/>
+                            <field name="pricelist_id" options="{'no_quick_create': True}"/>
                     </group>
                 </group>
 
@@ -51,11 +62,11 @@
                         <page string="Plans">
 
                             <field name="insurance_company_line">
-                                <tree editable="bottom">
+                                <list editable="bottom">
                                     <field name="name"/>
                                     <field name="insurance_discount"/>
                                     <field name="member_discount"/>
-                                </tree>
+                                </list>
 
                             </field>
 
@@ -70,17 +81,16 @@
         </field>
     </record>
 
-    <record id="insurance_company_tree_view" model="ir.ui.view">
-        <field name="name">insurance.company.tree</field>
+    <record id="insurance_company_list_view" model="ir.ui.view">
+        <field name="name">insurance.company.list</field>
         <field name="model">insurance.company</field>
         <field name="arch" type="xml">
-            <tree string="Insurance Company">
+            <list string="Insurance Company">
                 <field name="name"/>
                 <field name="short_name"/>
                 <field name="provider_id"/>
                 <field name="pricelist_id"/>
-<!--                <field name="journal_id"/>-->
-            </tree>
+            </list>
         </field>
     </record>
 
@@ -144,7 +154,7 @@
         <field name="name">Insurance Companies</field>
         <field name="type">ir.actions.act_window</field>
         <field name="res_model">insurance.company</field>
-        <field name="view_mode">tree,form,kanban</field>
+        <field name="view_mode">list,form,kanban</field>
     </record>
 
 </odoo>

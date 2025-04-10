@@ -4,10 +4,12 @@
          <record id="list1" model="product.pricelist">
             <field name="name">AL RAJHI TAKAFUL</field>
             <field name="sequence">2</field>
+            <field name="company_id"></field>
         </record>
         <record id="list2" model="product.pricelist">
             <field name="name">BUPA</field>
             <field name="sequence">3</field>
+            <field name="company_id"></field>
         </record>
 
 

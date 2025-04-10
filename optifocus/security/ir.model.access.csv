@@ -1,11 +1,5 @@
 id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
 access_hr_job_optical_manager,hr.job.optical_manager,hr.model_hr_job,group_optical_manager,1,0,0,0
-access_sale_order_insurance_supervisor,     sale.order_insurance_supervisor,sale.model_sale_order,optifocus.group_insurance_supervisor,1,1,0,0
-access_sale_order_line_insurance_supervisor,sale.order.line_insurance_supervisor,sale.model_sale_order_line,optifocus.group_insurance_supervisor,1,1,0,0
-access_account_move_insurance_supervisor,account.move_insurance_supervisor,account.model_account_move,group_insurance_supervisor,1,0,0,0
-access_account_move_line_insurance_supervisor,account.move.line_insurance_supervisor,account.model_account_move_line,group_insurance_supervisor,1,0,0,0
-access_stock_picking_insurance_supervisor,stock.picking_insurance_supervisor,stock.model_stock_picking,group_insurance_supervisor,1,0,0,0
-access_stock_move_insurance_supervisor,stock.move insurance supervisor,stock.model_stock_move,group_insurance_supervisor,1,0,0,0
 
 access_insurance_company_manager,optifocus.company.manager,optifocus.model_insurance_company,group_insurance_manager,1,1,1,1
 access_insurance_company_user,optifocus.company.user,optifocus.model_insurance_company,group_insurance_user,1,0,0,0
@@ -14,14 +8,20 @@ access_insurance_plan_user,optifocus.plan.user,optifocus.model_insurance_plan,gr
 access_insurance_policy_user,optifocus.policy.user,optifocus.model_insurance_policy,group_insurance_user,1,1,1,1
 access_insurance_policy_class_user,optifocus.policy.class.user,optifocus.model_insurance_policy_class,group_insurance_user,1,1,1,1
 access_insurance_member_manager,optifocus.member.manager,optifocus.model_insurance_member,group_insurance_manager,1,1,1,1
-access_insurance_member_user,optifocus.member.user,optifocus.model_insurance_member,group_insurance_user,1,0,0,0
-access_insurance_claim_claim,optifocus.claim.claim,optifocus.model_insurance_claim,group_insurance_claim,1,1,1,1
-access_insurance_claim_line_claim,optifocus.claim.line.claim,optifocus.model_insurance_claim_line,group_insurance_claim,1,1,1,1
+access_insurance_member_user,optifocus.member.user,optifocus.model_insurance_member,group_insurance_user,1,1,1,1
+access_insurance_claim_claim,optifocus.claim.claim,optifocus.model_insurance_claim,group_insurance_claim,1,1,1,0
+access_insurance_claim_line_claim,optifocus.claim.line.claim,optifocus.model_insurance_claim_line,group_insurance_claim,1,1,1,0
+
+access_insurance_claim_user,optifocus.claim.user,optifocus.model_insurance_claim,group_insurance_user,1,0,1,0
+access_insurance_claim_line_user,optifocus.claim.line.user,optifocus.model_insurance_claim_line,group_insurance_user,1,0,1,0
+
+
 
 access_audit_claim_wizard_claim,audit.claim.wizard.claim,optifocus.model_audit_claim_wizard,group_insurance_claim,1,1,1,0
 access_claim_invoice_wizard_claim,claim.invoice.wizard.claim,optifocus.model_claim_invoice_wizard,group_insurance_claim,1,1,1,0
 access_group_summary_statement_wizard_claim,group.summary.statement.wizard.claim,optifocus.model_group_summary_statement_wizard,group_insurance_claim,1,1,1,0
 access_claim_export_report_wizard,claim.export.report.wizard,optifocus.model_claim_export_report_wizard,group_insurance_claim,1,1,1,0
+
 
 access_optical_prescription_manager,optical.prescription.manger,optifocus.model_optical_prescription,group_optical_manager,1,1,1,1
 access_optical_prescription_user,optical.prescription.user,optifocus.model_optical_prescription,group_optical_user,1,0,0,0
@@ -32,7 +32,7 @@ access_product_brand_user,product.brand.user,optifocus.model_product_brand,stock
 access_product_model1_manager,product.model1.manager,optifocus.model_product_model1,stock.group_stock_manager,1,1,1,1
 access_product_model1_user,product.model1.user,optifocus.model_product_model1,stock.group_stock_user,1,0,0,0
 
-access_sale_order_discount_manager,sale.order.discount.manager,optifocus.model_sale_order_discount,sales_team.group_sale_manager,1,1,1,1
+
 
 access_customer_payments_wizard_manager,customer.payments.wizard.manager,optifocus.model_customer_payments_wizard,sales_team.group_sale_salesman,1,1,1,1
 access_stock_export_report_wizard,stock.export.report.wizard,optifocus.model_stock_export_report_wizard,base.group_user,1,1,1,1
@@ -52,6 +52,9 @@ access_sale_purchase_sale_manager,sale.purchase.sale_manager,optifocus.model_sal
 access_sale_purchase_stock_manager,sale.purchase.stock_manager,optifocus.model_sale_purchase,stock.group_stock_manager,1,0,0,0
 access_sale_purchase_purchase_manager,sale.purchase.purchase_manager,optifocus.model_sale_purchase,purchase.group_purchase_manager,1,0,0,0
 
+access_expenses_payments_wizard_sale_manager,expenses.payments.wizard.sale_manager,optifocus.model_expenses_payments_wizard,sales_team.group_sale_salesman,1,1,1,0
+
+access_res_partner_sales_full,Full Access to Customers for Sales,model_res_partner,sales_team.group_sale_salesman,1,1,1,1
 
 
 

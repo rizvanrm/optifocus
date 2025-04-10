@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+    <data >
+
+    <record id="sw_yar" model="stock.warehouse">
+        <field name="name">AL BASHAWRI OPTICAL (AL YARMUK)</field>
+        <field name="code">YO</field>
+        <field name="company_id" ref="optifocus.rc_yar"/>
+    </record>
+        <record id="sw_rab" model="stock.warehouse">
+        <field name="name">AL BASHAWRI OPTICAL (AL RABEA)</field>
+        <field name="code">RO</field>
+        <field name="company_id" ref="optifocus.rc_rab"/>
+    </record>
+
+
+
+    </data>
+</odoo>

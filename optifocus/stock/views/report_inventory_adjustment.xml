@@ -77,11 +77,6 @@
         <div class="article o_report_layout_standard">
             <t t-out="0"/>
         </div>
-        <!--        <div class="footer o_standard_footer">-->
-        <!--            <div class="text-center">-->
-        <!--                <h1>MY FOOTER</h1>-->
-        <!--            </div>-->
-        <!--        </div>-->
     </template>
 
 

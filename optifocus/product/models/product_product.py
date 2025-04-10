@@ -23,19 +23,21 @@ class ProductProduct(models.Model):
         return products
 
     # Be aware that the exact same function exists in product.template
+        # If user have rights to write on quant, we define the view as editable.
+
     def action_open_quants(self):
         action = super().action_open_quants()
-        hide_location = not self.user_has_groups('stock.group_stock_multi_locations')
+        hide_location = not self.env.user.has_group('stock.group_stock_multi_locations')
         hide_lot = all(product.tracking == 'none' for product in self)
         self = self.with_context(
             hide_location=hide_location, hide_lot=hide_lot,
             no_at_date=True,search_default_internal_loc =True
         )
         # If user have rights to write on quant, we define the view as editable.
-        if self.user_has_groups('stock.group_stock_manager'):
+        if  self.env.user.has_group('stock.group_stock_manager'):
             self = self.with_context(inventory_mode=True)
             # Set default location id if multilocations is inactive
-            if not self.user_has_groups('stock.group_stock_multi_locations'):
+            if not  self.env.user.has_group('stock.group_stock_multi_locations'):
                 user_company = self.env.company
                 warehouse = self.env['stock.warehouse'].search(
                     [('company_id', '=', user_company.id)], limit=1

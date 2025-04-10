@@ -6,7 +6,7 @@
             <field name="name">GLOBAL DISCOUNT</field>
             <field name="barcode"></field>
             <field name="categ_id" ref="product.product_category_all"/>
-            <field name="detailed_type">service</field>
+            <field name="type">service</field>
         </record>
 
 
@@ -15,7 +15,7 @@
             <field name="barcode"></field>
             <field name="categ_id" ref="product.product_category_all"/>
             <field name="list_price">150.0</field>
-            <field name="detailed_type">service</field>
+            <field name="type">service</field>
         </record>
 
 
@@ -27,7 +27,8 @@
             <field name="categ_id" ref="product_category_frame"/>
             <field name="standard_price">500.0</field>
             <field name="list_price">925.0</field>
-            <field name="detailed_type">product</field>
+            <field name="type">consu</field>
+            <field name="is_storable">True</field>
             <field name="max_retail_line_discount">25</field>
             <field name="max_wholesale_line_discount">30</field>
         </record>
@@ -50,7 +51,8 @@
             <field name="categ_id" ref="product_category_sunglass"/>
             <field name="standard_price">500.0</field>
             <field name="list_price">1370.0</field>
-            <field name="detailed_type">product</field>
+            <field name="type">consu</field>
+            <field name="is_storable">True</field>
             <field name="max_retail_line_discount">25</field>
             <field name="max_wholesale_line_discount">30</field>
         </record>
@@ -84,7 +86,8 @@
             <field name="categ_id" ref="product_category_powerlens"/>
             <field name="standard_price">200.0</field>
             <field name="list_price">635.0</field>
-            <field name="detailed_type">product</field>
+            <field name="type">consu</field>
+             <field name="is_storable">True</field>
             <field name="max_retail_line_discount">25</field>
             <field name="max_wholesale_line_discount">30</field>
         </record>
@@ -217,7 +220,8 @@
             <field name="categ_id" ref="product_category_contactlens"/>
             <field name="standard_price">100.0</field>
             <field name="list_price">200.0</field>
-            <field name="detailed_type">product</field>
+            <field name="type">consu</field>
+            <field name="is_storable">True</field>
             <field name="max_retail_line_discount">25</field>
             <field name="max_wholesale_line_discount">30</field>
         </record>
@@ -363,7 +367,8 @@
             <field name="categ_id" ref="product_category_solution"/>
             <field name="standard_price">5.0</field>
             <field name="list_price">25.0</field>
-            <field name="detailed_type">product</field>
+            <field name="type">consu</field>
+             <field name="is_storable">True</field>
             <field name="max_retail_line_discount">25</field>
             <field name="max_wholesale_line_discount">30</field>
         </record>
@@ -382,7 +387,8 @@
             <field name="categ_id" ref="product_category_sunlens"/>
             <field name="standard_price">50.0</field>
             <field name="list_price">200.0</field>
-            <field name="detailed_type">product</field>
+            <field name="type">consu</field>
+            <field name="is_storable">True</field>
             <field name="max_retail_line_discount">25</field>
             <field name="max_wholesale_line_discount">30</field>
         </record>
@@ -411,7 +417,8 @@
             <field name="categ_id" ref="product_category_temple"/>
             <field name="standard_price">50.0</field>
             <field name="list_price">200.0</field>
-            <field name="detailed_type">product</field>
+            <field name="type">consu</field>
+             <field name="is_storable">True</field>
             <field name="max_retail_line_discount">25</field>
             <field name="max_wholesale_line_discount">30</field>
         </record>

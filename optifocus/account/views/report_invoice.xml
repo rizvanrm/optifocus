@@ -72,16 +72,14 @@
         </xpath>
 
 
-        <xpath expr="//table[@class='table table-sm o_main_table table-borderless']//thead//tr//th['th_description']"
+        <xpath expr="//table[hasclass('o_has_total_table', 'table', 'o_main_table', 'table-borderless')]//thead//tr//th['th_description']"
                position="before">
-<!--        <xpath expr="//table[hasclass('table', 'table-sm', 'o_main_table', 'table-borderless')]//thead//tr//th['th_description']"-->
-
             <th name="th_barcode" class="text-start">
                 <strong>Barcode</strong>
             </th>
         </xpath>
 
-        <xpath expr="//table[hasclass('table', 'table-sm', 'o_main_table', 'table-borderless')]//tbody//tr//td[@name='account_invoice_line_name']"
+        <xpath expr="//table[hasclass('o_has_total_table', 'table', 'o_main_table', 'table-borderless')]//tbody//tr//td[@name='account_invoice_line_name']"
                                position="before">
                             <td>
                                 <span t-field="line.product_id.barcode"/>

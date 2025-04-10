@@ -12,8 +12,7 @@
 
             <xpath expr="//field[@name='journal_id']" position="after">
                 <field name="approval_code"
-                       attrs="{'invisible': [('show_partner_bank_account', '=', False)]}"/>
-
+                       invisible="not show_partner_bank_account "/>
             </xpath>
 
             </field>

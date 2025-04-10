@@ -9,6 +9,7 @@ class InsuranceCompany(models.Model):
 
     name = fields.Char(string="Insurance Company", required=True)
     policy_count = fields.Integer(string="Policy Count", compute='_get_policy')
+    member_count = fields.Integer(string="Member Count", compute='_get_member')
     sale_count = fields.Integer(string="Sale Count", compute='_get_sale')
     claim_count = fields.Integer(string="Claim Count", compute='_get_claim')
     short_name = fields.Char(string="Short Name")
@@ -20,6 +21,9 @@ class InsuranceCompany(models.Model):
     def _get_policy(self):
         policy_count = self.env['insurance.policy'].search_count([('insurance_company', '=', self.id)])
         self.policy_count = policy_count
+    def _get_member(self):
+        member_count = self.env['insurance.member'].search_count([('insurance_company_id', '=', self.id)])
+        self.member_count = member_count
     def _get_claim(self):
         claim_count = self.env['insurance.claim'].search_count([('insurance_id', '=', self.id)])
         self.claim_count = claim_count
@@ -27,34 +31,49 @@ class InsuranceCompany(models.Model):
         sale_count = self.env['sale.order'].search_count([('insurance_id', '=', self.id)])
         self.sale_count = sale_count
 
-    def action_view_policy(self):
+    def action_open_policies(self):
+        self.ensure_one()
         return {
+            'name': _('Insurance Policies'),
             'type': 'ir.actions.act_window',
-            'name': 'Policies',
             'res_model': 'insurance.policy',
+            'views': [(self.env.ref('optifocus.insurance_policy_list_view').id, "list"),
+                      (self.env.ref('optifocus.insurance_policy_form_view').id, "form")],
             'domain': [('insurance_company', '=', self.id)],
-            'view_mode': 'tree,form',
-            'target': 'current',
         }
 
-    def action_view_sale(self):
+
+    def action_open_members(self):
+        self.ensure_one()
+        return {
+            'name': _('Insurance Members'),
+            'type': 'ir.actions.act_window',
+            'res_model': 'insurance.member',
+            'views': [(self.env.ref('optifocus.insurance_member_list_view').id, "list"),
+                      (self.env.ref('optifocus.insurance_member_form_view').id, "form")],
+            'domain': [('insurance_company_id', '=', self.id)],
+        }
+
+    def action_open_sales(self):
+        self.ensure_one()
         return {
             'type': 'ir.actions.act_window',
-            'name': 'Sale',
+            'name': _('Sales'),
             'res_model': 'sale.order',
             'domain': [('insurance_id', '=', self.id)],
-            'view_mode': 'tree,form',
-            'target': 'current',
+            'views': [(self.env.ref('optifocus.view_order_tree').id, "list"),
+                      (self.env.ref('optifocus.sale_order_form_view').id, "form")],
         }
 
-    def action_view_claim(self):
+    def action_open_claims(self):
+        self.ensure_one()
         return {
             'type': 'ir.actions.act_window',
-            'name': 'claim',
+            'name': _('Claims'),
             'res_model': 'insurance.claim',
             'domain': [('insurance_id', '=', self.id)],
-            'view_mode': 'tree,form',
-            'target': 'current',
+            'views': [(self.env.ref('optifocus.insurance_claim_list_view').id, "list"),
+                      (self.env.ref('optifocus.claim_form_view').id, "form")],
         }
 
     # Constraint - at least one Child Record required

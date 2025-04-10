@@ -1,39 +1,48 @@
+
 from odoo import models, fields, api, _
-from odoo.tools import format_date,ValidationError,UserError
+
+from odoo.exceptions  import ValidationError,UserError
+from odoo.tools.float_utils import float_compare, float_is_zero
 from datetime import datetime
+from collections import defaultdict
 
 class StockPicking(models.Model):
     _inherit = 'stock.picking'
 
-    @api.model
-    def _domain_company_dest_ids(self):
-        return [('id', '!=', self.env.company.id)]
+    company_dest_id = fields.Selection(
+        selection=lambda self: self._get_company_dest_selection(),
+        string="Destination Company",
+    )
 
-    company_dest_id = fields.Many2one(
-        'res.company', string='Destination Company',domain=_domain_company_dest_ids)
-
-    state = fields.Selection(selection_add=[('waiting2', 'Waiting'), ('workshop', 'Workshop')],
+    state = fields.Selection(selection_add=[('workshop', 'Workshop'),('shop', 'FP @ Shop'),('done',)],
                              help=" * Draft: The transfer is not confirmed yet. Reservation doesn't apply.\n"
                                   " * Waiting another operation: This transfer is waiting for another operation before being ready.\n"
                                   " * Waiting: The transfer is waiting for the availability of some products.\n(a) The shipping policy is \"As soon as possible\": no product could be reserved.\n(b) The shipping policy is \"When all products are ready\": not all the products could be reserved.\n"
+                                  " * Ready: The transfer is ready to be processed.\n(a) The shipping policy is \"As soon as possible\": at least one product has been reserved.\n(b) The shipping policy is \"When all products are ready\": all product have been reserved.\n"
                                   " * To Workshop: The transfer is sent to Workshop for fitting.\n"
                                   " * Finished product to shop : The transfer is ready sent to Shop.\n"
-                                  " * Ready: The transfer is ready to be processed.\n(a) The shipping policy is \"As soon as possible\": at least one product has been reserved.\n(b) The shipping policy is \"When all products are ready\": all product have been reserved.\n"
                                   " * Done: The transfer has been processed.\n"
                                   " * Cancelled: The transfer has been cancelled.")
-
 
     location_type = fields.Selection(related='location_id.usage')
     location_dest_type = fields.Selection(related='location_dest_id.usage')
     sale_type = fields.Selection(related='sale_id.sale_type')
-    power_lens_flag = fields.Boolean(string='Product Category Flag',compute='_compute_power_lens_flag',store=True)
+    show_to_workshop = fields.Boolean(
+        compute='_compute_show_to_workshop',
+        help='Technical field used to compute whether the button "To Workshop" should be displayed.')
+    show_to_shop = fields.Boolean(
+        compute='_compute_show_to_shop',
+        help='Technical field used to compute whether the button "To Shop" should be displayed.')
 
-    @api.depends('move_ids')
-    def _compute_power_lens_flag(self):
-        for line in self.move_ids:
-            if line.product_id.categ_id.name=='POWER LENS':
-                self.power_lens_flag=True
-                break
+    is_workshop_workflow =fields.Boolean(
+        compute='_compute_is_workshop_workflow',default=False,
+        help='Technical field used to determine whether the order follows the workshop workflow.')
+
+    @api.model
+    def _get_company_dest_selection(self):
+        """ Fetch all companies and return as selection field choices. """
+        company_dest_ids = self.env['res.company'].sudo().search([('id', '!=', self.env.company.id)])
+        return [(str(company_dest_id.id), company_dest_id.name) for company_dest_id in company_dest_ids]
 
     @api.constrains('company_dest_id')
     def _constrains_company_dest_id(self):
@@ -56,8 +65,9 @@ class StockPicking(models.Model):
 
     def get_transfer(self):
         global picking_type_dest_id
-        picking_type_dest_id= self.env['stock.picking.type'].sudo().search([('company_id','=',self.company_dest_id.id),
-                                                               ('code','=', 'internal') ], order='sequence',limit=1)
+        picking_type_dest_id= self.env['stock.picking.type'].sudo().search([
+                                                               ('code','=', 'internal'),('company_id','=', int(self.company_dest_id)) ], order='sequence',limit=1)
+        #('company_id','=',1)# int(self.company_dest_id)
         if not picking_type_dest_id :
             raise ValidationError("Invalid Destination Company/Operation Type.")
 
@@ -83,9 +93,11 @@ class StockPicking(models.Model):
                     line.name = _("[%s] %s") % (line.product_id.default_code,line.product_id.name)
                 else:
                     line.name = _("%s") % line.product_id.name
+                    # 'company_id': self.company_dest_id.id,
+                    # int(self.company_dest_id),
                 value += [({
                             'name': line.name,
-                            'company_id': self.company_dest_id.id,
+                            'company_id': int(self.company_dest_id) ,
                             'product_id': line.product_id.id,
                             'product_uom_qty': line.product_uom_qty,
                             'product_uom': line.product_id.uom_id.id,
@@ -94,37 +106,38 @@ class StockPicking(models.Model):
                            })]
         return value
 
-    def action_confirm(self):
-        res = super(StockPicking, self).action_confirm()
-        for picking in self:
-            if picking.picking_type_code == 'outgoing' and picking.products_availability_state=='available' and picking.sale_type in ('retail','insurance') and picking.power_lens_flag:
-                picking.state='waiting2'
-        return res
-
-    def action_assign(self):
-        res = super(StockPicking, self).action_assign()
-
-        for picking in self:
-            if picking.picking_type_code == 'outgoing' and picking.products_availability_state=='available' and picking.sale_type in ('retail','insurance') and picking.power_lens_flag:
-                picking.state='waiting2'
-        return res
-
     def action_to_workshop(self):
         for picking in self:
-            if picking.picking_type_code == 'outgoing' and picking.sale_type in ('retail', 'insurance') and picking.power_lens_flag:
+            if picking.picking_type_code == 'outgoing' :
                 picking.state = 'workshop'
 
     def action_to_shop(self):
         for picking in self:
-            if picking.picking_type_code == 'outgoing' and picking.sale_type in ('retail', 'insurance') and picking.power_lens_flag:
-                picking.state = 'assigned'
+            if picking.picking_type_code == 'outgoing':
+                picking.state = 'shop'
 
-    @api.depends('move_type', 'immediate_transfer', 'move_ids.state', 'move_ids.picking_id')
-    def _compute_state(self):
+    @api.depends('move_ids', 'picking_type_code')
+    def _compute_show_to_workshop(self):
+        for picking in self:
+            picking.show_to_workshop=False
+            if picking.picking_type_code == 'outgoing' and  picking.is_workshop_workflow and  picking.products_availability==_('Available') \
+                    and picking.state=='assigned':
+                picking.show_to_workshop= True
 
-        res = super(StockPicking, self)._compute_state()
+    @api.depends('move_ids', 'picking_type_code')
+    def _compute_show_to_shop(self):
+        for picking in self:
+            picking.show_to_shop = False
+            if picking.picking_type_code == 'outgoing' and picking.is_workshop_workflow and picking.state in ('workshop',):
+                picking.show_to_shop= True
+
+    @api.depends('state', 'picking_type_code', 'move_ids')
+    def _compute_is_workshop_workflow(self):
+        param_value = self.env['ir.config_parameter'].sudo().get_param('optifocus.workshop_categ_ids', '')
+        allowed_categ_ids = [int(cid) for cid in param_value.split(',') if cid]
 
         for picking in self:
-            if picking.picking_type_code == 'outgoing' and picking.products_availability_state=='available' and picking.sale_type in ('retail', 'insurance') and picking.power_lens_flag:
-                picking.state = 'waiting2'
-        return res
+            picking.is_workshop_workflow = False
+            if (any(m.product_id.categ_id.id in allowed_categ_ids for m in picking.move_ids)):
+                picking.is_workshop_workflow = True
+

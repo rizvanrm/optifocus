@@ -2,16 +2,49 @@
 <odoo>
 
 
-    <template id="arabic_english_invoice" inherit_id="l10n_gcc_invoice.arabic_english_invoice">
+    <template id="arabic_english_invoice" inherit_id="l10n_sa.arabic_english_invoice">
 
 
-         <xpath expr="//t[@t-set='address']/address[@t-field='o.partner_id']" position="attributes">
+
+        <xpath expr="//t[@t-set='address']/address[@t-field='o.partner_id']" position="attributes">
             <attribute name="t-options">{"widget": "contact", "fields": ["address","phone", "mobile","name"],
-                "no_marker":
-                True,"phone_icons": True}
+                "no_marker":True,"phone_icons": True}
             </attribute>
+            <attribute name="class">text-start</attribute>
+
         </xpath>
 
+
+        <xpath expr="//div[@name='invoice_date']//div[contains(@class,'col-2 text-end')]//strong[contains(text(), 'تاريخ الفاتورة')]" position="replace">
+            <span>تاريخ الفاتورة
+            </span>
+        </xpath>
+        <xpath expr="//div[@name='due_date']//div[contains(@class,'col-2 text-end')]//strong[contains(text(), 'تاريخ الاستحقاق')]" position="replace">
+            <span>تاريخ الاستحقاق
+            </span>
+        </xpath>
+        <xpath expr="//div[@name='origin']//div[contains(@class,'col-2 text-end')]//strong[contains(text(), 'المصدر')]" position="replace">
+            <span>المصدر
+            </span>
+        </xpath>
+        <xpath expr="//div[@name='customer_code']//div[contains(@class,'col-2 text-end')]//strong[contains(text(), 'كود العميل')]" position="replace">
+            <span>كود العميل
+            </span>
+        </xpath>
+        <xpath expr="//div[@name='reference']//div[contains(@class,'col-2 text-end')]//strong[contains(text(), 'رقم الإشارة')]" position="replace">
+            <span>رقم الإشارة
+            </span>
+        </xpath>
+        <xpath expr="//div[@name='delivery_date']//div[contains(@class,'col-2 text-end')]//strong[contains(text(), 'تاريخ التوصيل')]" position="replace">
+            <span>تاريخ التوصيل
+            </span>
+        </xpath>
+
+        delivery_date
+        <xpath expr="//div[@id='informations']"
+               position="attributes">
+            <attribute name="t-if">o.cust_move_type not in ('claim','member')</attribute>
+        </xpath>
 
         <xpath expr="//div[@id='informations']"
                position="attributes">
@@ -32,9 +65,9 @@
                         <span t-field="o.invoice_line_ids.sale_line_ids.order_id.insurance_id"/>
                     </div>
                     <div class="col-1 text-end">
-                        <strong style="white-space:nowrap">:
+                        <span style="white-space:nowrap">:
                             شركة تأمين
-                        </strong>
+                        </span>
                     </div>
                     <div class="col-1"/>
                     <div class="col-2">
@@ -45,9 +78,9 @@
                         <span t-field="o.invoice_date"/>
                     </div>
                     <div class="col-2 text-end">
-                        <strong style="white-space:nowrap">:
+                        <span style="white-space:nowrap">:
                             تاريخ الفاتورة
-                        </strong>
+                        </span>
                     </div>
 
                 </div>
@@ -60,9 +93,9 @@
                         <span t-field="o.invoice_line_ids.sale_line_ids.order_id.insurance_company_plan"/>
                     </div>
                     <div class="col-1 text-end">
-                        <strong style="white-space:nowrap">:
+                        <span style="white-space:nowrap">:
                             خطة التأمين
-                        </strong>
+                        </span>
                     </div>
                     <div class="col-1"/>
                     <div class="col-2">
@@ -73,9 +106,9 @@
                         <span t-field="o.invoice_date_due"/>
                     </div>
                     <div class="col-2 text-end">
-                        <strong style="white-space:nowrap">:
+                        <span style="white-space:nowrap">:
                             تاريخ الاستحقاق
-                        </strong>
+                        </span>
                     </div>
                 </div>
                 <div class="row" name="row3">
@@ -89,9 +122,9 @@
                         <p class="m-0" t-esc="policy[:15]"/>
                     </div>
                     <div class="col-1 text-end">
-                        <strong style="white-space:nowrap">:
+                        <span style="white-space:nowrap">:
                             بوليصة التأمين
-                        </strong>
+                        </span>
                     </div>
 
                     <div class="col-1"/>
@@ -100,12 +133,13 @@
                         </strong>
                     </div>
                     <div class="col-2">
-                        <span t-field="o.l10n_sa_delivery_date"/>
+                        <span t-field="o.delivery_date"/>
+                        <!--                        <span t-field="o.delivery_date"/>-->
                     </div>
                     <div class="col-2 text-end">
-                        <strong style="white-space:nowrap">:
+                        <span style="white-space:nowrap">:
                             تاريخ او الوصول
-                        </strong>
+                        </span>
                     </div>
                 </div>
                 <div class="row" name="row4">
@@ -119,9 +153,9 @@
                         <p class="m-0" t-esc="membership_no[:15]"/>
                     </div>
                     <div class="col-1 text-end">
-                        <strong style="white-space:nowrap">:
+                        <span style="white-space:nowrap">:
                             رقم العضوية
-                        </strong>
+                        </span>
                     </div>
                     <div class="col-1"/>
                     <div class="col-2">
@@ -132,9 +166,9 @@
                         <span t-field="o.invoice_origin"/>
                     </div>
                     <div class="col-2 text-end">
-                        <strong style="white-space:nowrap">:
+                        <span style="white-space:nowrap">:
                             المصدر
-                        </strong>
+                        </span>
                     </div>
                 </div>
                 <div class="row" name="row5">
@@ -146,12 +180,12 @@
                         <span t-field="o.invoice_line_ids.sale_line_ids.order_id.approval_no"/>
                     </div>
                     <div class="col-1 text-end">
-                        <strong style="white-space:nowrap">:
+                        <span style="white-space:nowrap">:
                             عدد الموافقة
-                        </strong>
+                        </span>
                     </div>
                     <div class="col-1"/>
-                     <div class="col-2">
+                    <div class="col-2">
                         <strong style="white-space:nowrap">Approval Date:
                         </strong>
                     </div>
@@ -159,9 +193,9 @@
                         <span t-field="o.invoice_line_ids.sale_line_ids.order_id.approval_date"/>
                     </div>
                     <div class="col-2 text-end">
-                        <strong style="white-space:nowrap">:
+                        <span style="white-space:nowrap">:
                             تاريخ الموافقة
-                        </strong>
+                        </span>
                     </div>
 
 
@@ -171,27 +205,28 @@
 
         </xpath>
 
-        <!--  <table class="table table-sm o_main_table" name="invoice_line_table">-->
 
-        <xpath expr="//table[@name='invoice_line_table']//thead//tr//th[@name='th_description']"
-               position="after">
-            <th name="th_barcode" class="text-end">
-                <span>
-                    الباركود
-                </span>
-                <br/>
-                <span>
-                    Barcode
-                </span>
-            </th>
-        </xpath>
+        <!--        <xpath expr="//table[@name='invoice_line_table']//thead//tr//th[@name='th_description']"-->
+        <!--               position="after">-->
+        <!--            <th name="th_barcode" class="text-end">-->
+        <!--                <span>-->
+        <!--                    الباركود-->
+        <!--                </span>-->
+        <!--                <br/>-->
+        <!--                <span>-->
+        <!--                    Barcode-->
+        <!--                </span>-->
+        <!--            </th>-->
+        <!--        </xpath>-->
 
-        <xpath expr="//table[@name='invoice_line_table']//tbody//tr//td[@name='account_invoice_line_name']"
-               position="after">
-            <td class="text-end">
-                <span t-field="line.product_id.barcode"/>
-            </td>
-        </xpath>
+        <!--        <xpath expr="//table[@name='invoice_line_table']//tbody//tr//td[@name='account_invoice_line_name']"-->
+        <!--               position="after">-->
+        <!--            <td class="text-end">-->
+        <!--                <span t-field="line.product_id.barcode"/>-->
+        <!--            </td>-->
+        <!--        </xpath>-->
+
+
 
         <xpath expr="//div[@id='total']/div[1]" position="before">
             <div t-attf-class="#{'col-5' if report_type != 'html' else 'col-sm-7 col-md-6'}">
@@ -212,6 +247,9 @@
             </div>
         </xpath>
 
+        <xpath expr="//div[@id='total']" position="attributes">
+            <attribute name="style">margin: 0; padding: 0; line-height: 1;</attribute>
+        </xpath>
         <xpath expr="//div[@id='total']" position="after">
             <br/>
             <div t-if="line.sale_line_ids.order_id.prescription_id" class="row" name="prescription">
@@ -220,6 +258,54 @@
             </div>
         </xpath>
 
+        <xpath expr="//div[contains(@class, 'clearfix')]//strong[contains(text(), 'Invoice Taxable Amount')]" position="replace">
+            <span>Invoice Taxable Amount
+                /
+                المبلغ الخاضع للضريبة غير شامل ضريبة القيمة المضافة</span>
+        </xpath>
+
+        <xpath expr="//tr[contains(@class, 'o_total')]//strong[contains(text(), 'Invoice Total (inclusive of VAT')]" position="replace">
+            <span>                Invoice Total (inclusive of VAT)
+                /
+                إجمالي قيمة الفاتورة شامل ضريبة القيمة المضافة
+            </span>
+        </xpath>
+
+         <xpath expr="//t[@t-as='payment_vals']//tr[hasclass('o_total')]" position="replace">
+              <tr class="o_total">
+             <td class="text-end">
+                                                    <span t-out="payment_vals['amount']"
+                                                          t-options='{"widget": "monetary", "display_currency": o.currency_id}'/>
+                                                </td>
+               <td>
+                                                    <i class="row">
+                                                        <div class="col-7 text-end">
+                                                            <t t-out="payment_vals['date']"/>
+                                                        </div>
+                                                        <div class="col-5 text-end">
+                                                            Paid on/دفعت في
+                                                        </div>
+                                                    </i>
+                                                </td>
+             </tr>
+
+        </xpath>
+
+        <xpath expr="//t[@t-if='len(payments_vals) > 0']//tr[hasclass('border-top')]" position="replace">
+
+                                            <tr class="border-top">
+                                                <td class="text-end">
+                                                    <span t-field="o.amount_residual"/>
+                                                </td>
+                                                <td class="text-end">
+                                                        Amount Due/المبلغ المستحق
+                                                </td>
+                                            </tr>
+        </xpath>
+
+        <xpath expr="//div[@name='payment_communication']" position="attributes">
+                <attribute name="style">margin: 0; padding: 0; line-height: 1;</attribute>
+        </xpath>
 
     </template>
 </odoo>

@@ -15,11 +15,12 @@ class CustomerPaymentsAB(models.AbstractModel):
 
         domain += [('date', '>=', date_from)]
         domain += [('date', '<=', date_to)]
-        domain += [('state', '=', 'posted')]
+        domain += [('state', '=', 'paid')]
         domain += [('partner_type', '=', 'customer')]
 
         payment_ids = self.env['account.payment'].search(domain,order='id desc')
-        payment_id = self.env['account.payment'].search_read([('id','=',9)])
+        print(payment_ids)
+        payment_id = self.env['account.payment'].search([('id','in',[1,2])])
         invoice_id = self.env['account.move'].search_read([('id', '=', 30)])
         return {
             'request': self,
