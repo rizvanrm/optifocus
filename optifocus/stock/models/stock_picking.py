@@ -67,7 +67,7 @@ class StockPicking(models.Model):
         global picking_type_dest_id
         picking_type_dest_id= self.env['stock.picking.type'].sudo().search([
                                                                ('code','=', 'internal'),('company_id','=', int(self.company_dest_id)) ], order='sequence',limit=1)
-        #('company_id','=',1)# int(self.company_dest_id)
+
         if not picking_type_dest_id :
             raise ValidationError("Invalid Destination Company/Operation Type.")
 
@@ -93,8 +93,7 @@ class StockPicking(models.Model):
                     line.name = _("[%s] %s") % (line.product_id.default_code,line.product_id.name)
                 else:
                     line.name = _("%s") % line.product_id.name
-                    # 'company_id': self.company_dest_id.id,
-                    # int(self.company_dest_id),
+
                 value += [({
                             'name': line.name,
                             'company_id': int(self.company_dest_id) ,

@@ -35,8 +35,7 @@ class ProductTemplate(models.Model):
     @api.onchange('brand_id')
     def onchange_brand_id(self):
         self.model1_id = None
-        # for rec in self:
-        #     return {'domain': {'model1_id': [('brand_id', '=', rec.brand_id.name)]}}
+
 
     @api.onchange('brand_id','model1_id','attribute_line_ids')
     def onchange_auto_product_name(self):

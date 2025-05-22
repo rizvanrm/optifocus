@@ -125,7 +125,7 @@
                         <span style="font-weight:bold;">APPROVAL DATE:</span>
                     </td>
                     <td style="border-style:hidden;">
-                        <span t-esc="claim_id.approval_date"/>
+                        <span t-esc="claim_id.approval_date" t-options='{"widget": "date"}'/>
                     </td>
                     <td style="border-style:hidden;">
                         <span style="font-weight:bold;">ID NO:</span>

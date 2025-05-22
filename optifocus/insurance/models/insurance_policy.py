@@ -66,13 +66,10 @@ class InsurancePolicy(models.Model):
                       (self.env.ref('optifocus.claim_form_view').id, "form")],
         }
 
-
     # Onchange - On change Parent Field, List associated Child Records.
     @api.onchange('insurance_company')
     def onchange_insurance_company_name(self):
         self.insurance_company_plan=None
-        # for rec in self:
-        #     return {'domain': {'insurance_company_plan': [('insurance_company_id', '=', rec.insurance_company.name)]}}
 
     # Constraint - at least one Child Record required
     @api.constrains('policy_line_ids')
@@ -108,7 +105,7 @@ class InsurancePolicyClass(models.Model):
     co_insurance_type = fields.Selection([('percentage', '%'), ('fixed', 'Fixed')], string="Co-Insurance Type" , required=True)
     co_insurance_percent = fields.Float(string="Co-Insurance %")
     up_to = fields.Float(string="Up To")
-    policy_id = fields.Many2one('insurance.policy', string='Insurance Policy')
+    policy_id = fields.Many2one('insurance.policy', string='Insurance Policy',required=True)
 
     @api.onchange('co_insurance_type')
     def onchange_insurance_company_name(self):

@@ -20,7 +20,7 @@
 
 
         <xpath expr="//div[@id='informations']" position="after">
-            <div t-if="doc.sale_type=='insurance'" class="row mb-4" id="insurance">
+            <div t-if="doc.sale_type=='insurance'" class="row mb-4" id="insurance1">
                 <div class="col" name="insurance_company">
                     <strong>Insurance:</strong>
                     <p class="m-0" t-field="doc.insurance_id"/>
@@ -34,16 +34,24 @@
                     <t t-set="policy1" t-value="doc.policy_id.name + ' - '+ doc.policy_id.policy_holder"/>
                     <p class="m-0" t-esc="policy1"/>
                 </div>
+
+            </div>
+             <div t-if="doc.sale_type=='insurance'" class="row mb-4" id="insurance2">
                 <div class="col"  name="insurance_policy">
+                    <strong>Membership No:</strong>
+                    <p class="m-0" t-field="doc.member_id"/>
+                </div>
+                  <div class="col"  name="insurance_policy">
                     <strong>Approval No:</strong>
                     <p class="m-0" t-field="doc.approval_no"/>
                 </div>
                 <div class="col"  name="insurance_policy">
                     <strong>Approval Date:</strong>
-                    <p class="m-0" t-field="doc.approval_date"/>
+                    <p class="m-0" t-field="doc.approval_date" t-options='{"widget": "date"}'/>
+
                 </div>
 
-            </div>
+             </div>
         </xpath>
                <xpath expr="//table[hasclass('o_has_total_table', 'table', 'o_main_table', 'table-borderless')]//thead//tr//th['th_description']"
                position="before">

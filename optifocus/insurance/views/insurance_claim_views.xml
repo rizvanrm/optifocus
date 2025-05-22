@@ -6,7 +6,7 @@
         <field name="name">insurance.claim.form</field>
         <field name="model">insurance.claim</field>
         <field name="arch" type="xml">
-            <form string="Insurance CLaim" create="false">
+            <form string="Insurance CLaim" >
                 <sheet>
                     <div class="oe_button_box" name="button_box">
                         <button name="action_open_sale"
@@ -318,7 +318,7 @@
         <field name="model">insurance.claim</field>
         <field name="arch" type="xml">
 
-            <list string="Insurance Claim" create="false">
+            <list string="Insurance Claim">
                 <field name="name"/>
                 <!--                <field name="user_id" optional="hide"/>-->
                 <field name="partner_id"/>

@@ -10,7 +10,6 @@ class ExpensesPaymentsAB(models.AbstractModel):
 
         date_from = data.get('form_data').get('date_from')
         date_to = data.get('form_data').get('date_to')
-        product_id = data.get('form_data').get('product_id')
         employee_id = data.get('form_data').get('employee_id')
         payment_mode = data.get('form_data').get('payment_mode')
 
@@ -22,8 +21,6 @@ class ExpensesPaymentsAB(models.AbstractModel):
         domain += [('partner_type', '=', 'supplier')]
 
         payment_ids = self.env['account.payment'].search(domain, order='id desc')
-
-        print(payment_ids)
 
         return {
             'request': self,

@@ -39,6 +39,7 @@ class InsuranceMember(models.Model):
 
 
 
+
     @api.depends('co_insurance_type', 'co_insurance_percent','up_to')
     def _compute_co_insurance(self):
         for record in self:

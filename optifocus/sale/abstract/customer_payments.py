@@ -19,9 +19,7 @@ class CustomerPaymentsAB(models.AbstractModel):
         domain += [('partner_type', '=', 'customer')]
 
         payment_ids = self.env['account.payment'].search(domain,order='id desc')
-        print(payment_ids)
-        payment_id = self.env['account.payment'].search([('id','in',[1,2])])
-        invoice_id = self.env['account.move'].search_read([('id', '=', 30)])
+
         return {
             'request': self,
             'payment_ids':payment_ids,

@@ -62,6 +62,7 @@
                 <tr/>
 
 
+
                 <t t-foreach="payment_ids" t-as="payment_id">
                     <t t-set="expense_sheet_flag" t-value="False"/>
                     <t t-set="expense_sheet_id" t-value="False"/>

@@ -5,7 +5,6 @@
 
 
             <t t-call="optifocus.stock_pdf_layout">
-            <!--            <t t-call="web.internal_layout">-->
 
                     <div class="page">
 

@@ -190,7 +190,7 @@
                         </strong>
                     </div>
                     <div class="col-2">
-                        <span t-field="o.invoice_line_ids.sale_line_ids.order_id.approval_date"/>
+                        <span t-field="o.invoice_line_ids.sale_line_ids.order_id.approval_date" t-options='{"widget": "date"}'/>
                     </div>
                     <div class="col-2 text-end">
                         <span style="white-space:nowrap">:
