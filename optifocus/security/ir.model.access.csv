@@ -9,11 +9,12 @@ access_insurance_policy_user,optifocus.policy.user,optifocus.model_insurance_pol
 access_insurance_policy_class_user,optifocus.policy.class.user,optifocus.model_insurance_policy_class,group_insurance_user,1,1,1,1
 access_insurance_member_manager,optifocus.member.manager,optifocus.model_insurance_member,group_insurance_manager,1,1,1,1
 access_insurance_member_user,optifocus.member.user,optifocus.model_insurance_member,group_insurance_user,1,1,1,1
-access_insurance_claim_claim,optifocus.claim.claim,optifocus.model_insurance_claim,group_insurance_claim,1,1,1,0
-access_insurance_claim_line_claim,optifocus.claim.line.claim,optifocus.model_insurance_claim_line,group_insurance_claim,1,1,1,0
 
-access_insurance_claim_user,optifocus.claim.user,optifocus.model_insurance_claim,group_insurance_user,1,0,1,0
-access_insurance_claim_line_user,optifocus.claim.line.user,optifocus.model_insurance_claim_line,group_insurance_user,1,0,1,0
+access_insurance_claim_claim,optifocus.claim.claim,optifocus.model_insurance_claim,group_insurance_claim,1,1,1,1
+access_insurance_claim_line_claim,optifocus.claim.line.claim,optifocus.model_insurance_claim_line,group_insurance_claim,1,1,1,1
+
+access_insurance_claim_user,optifocus.claim.user,optifocus.model_insurance_claim,group_insurance_user,1,0,0,0
+access_insurance_claim_line_user,optifocus.claim.line.user,optifocus.model_insurance_claim_line,group_insurance_user,1,0,0,0
 
 
 
@@ -55,6 +56,12 @@ access_sale_purchase_purchase_manager,sale.purchase.purchase_manager,optifocus.m
 access_expenses_payments_wizard_sale_manager,expenses.payments.wizard.sale_manager,optifocus.model_expenses_payments_wizard,sales_team.group_sale_salesman,1,1,1,0
 
 access_res_partner_sales_full,Full Access to Customers for Sales,model_res_partner,sales_team.group_sale_salesman,1,1,1,1
+access_sale_order_insurance_supervisor,sale.order.insurance.supervisor,optifocus.model_sale_order,group_insurance_supervisor,1,1,0,0
+access_sale_order_line_insurance_supervisor,sale.order.line.insurance.supervisor,optifocus.model_sale_order_line,group_insurance_supervisor,1,1,0,0
+access_sale_order_option_insurance_supervisor,sale.order.option.insurance.supervisor,sale_management.model_sale_order_option,group_insurance_supervisor,1,1,0,0
+access_stock_picking_insurance_supervisor,stock.picking.insurance.supervisor,optifocus.model_stock_picking,group_insurance_supervisor,1,1,0,0
+access_stock_move_insurance_supervisor,stock.move.insurance.supervisor,stock.model_stock_move,group_insurance_supervisor,1,1,0,0
+access_stock_move_insurance_supervisor,stock.move.insurance.supervisor,stock.model_stock_move,group_insurance_supervisor,1,1,0,0
 
 
 

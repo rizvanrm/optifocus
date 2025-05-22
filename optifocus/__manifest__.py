@@ -76,8 +76,6 @@
 
 
         'sale/views/res_partner_views.xml',
-
-        # 'sale/views/sale_order_discount.xml',
         'sale/views/sale_report.xml',
         'sale/views/product_views.xml',
         'sale/views/res_config_settings_views.xml',

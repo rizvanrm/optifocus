@@ -15,11 +15,6 @@
                             Select the Insurance Sales Order workflow.">
                     <field name="insurance_sales_order_workflow_selection" class="o_light_label" widget="radio"/>
                 </setting>
-                <setting id="sales_settings_insurance_sales_order_workflow"
-                         title="Insurance Sales Order Workflow Handling" help="
-                            Select the Insurance Sales Order workflow.">
-                    <field name="insurance_sales_order_workflow_selection" class="o_light_label" widget="radio"/>
-                </setting>
 
             </xpath>
 
@@ -34,7 +29,6 @@
                         <field name="line_coupon_discount"  colspan="1"/>
                         <field name="line_global_discount"  colspan="1"/>
                         <field name="coupon_global_discount"  colspan="1"/>
-                        <field name="line_coupon_global_discount"  colspan="1"/>
                     </group>
                      </setting>
 

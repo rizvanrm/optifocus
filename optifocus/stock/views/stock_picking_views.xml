@@ -47,10 +47,6 @@
                         <xpath expr="/form/header/button[@name='action_confirm']" position="after">
 
 
-
-
-
-
 <!--                                 show_to_workshop"-->
 
                 <button name="action_to_workshop" string="To Workshop" type="object" class="btn-primary"
@@ -60,16 +56,8 @@
                 <button name="action_to_shop" string="Finished Product to Shop" type="object" class="btn-primary"
                         invisible="not show_to_shop"
                                     groups="optifocus.group_technician,base.group_system"/>
-                            <!--                        invisible="picking_type_code!='outgoing' or-->
-<!--                                   state !='workshop' or-->
-<!--                                   sale_type not in ['retail','insurance']"-->
-
-<!--show_to_shop"-->
 
             </xpath>
-
-<!--            <button name="button_validate" invisible="state in ('draft', 'confirmed', 'done', 'cancel')" string="Validate" type="object" class="oe_highlight" groups="stock.group_stock_user" data-hotkey="v"/>-->
-<!--            <button name="button_validate" invisible="state in ('waiting', 'assigned', 'done', 'cancel')" string="Validate" type="object" groups="stock.group_stock_user" class="o_btn_validate" data-hotkey="v"/>-->
 
              <xpath expr="//button[@name='button_validate'][1]" position="attributes">
                 <attribute name="groups">!optifocus.group_technician</attribute>
@@ -80,28 +68,14 @@
                 <attribute name="groups">!optifocus.group_technician</attribute>
                 <attribute name="invisible">state in ('waiting', 'assigned', 'workshop','shop', 'done', 'cancel')  </attribute>
             </xpath>
-<!--            <xpath expr="//button[@name='action_set_quantities_to_reservation']" position="attributes">-->
-<!--                <attribute name="groups">!optifocus.group_technician</attribute>-->
-<!--            </xpath>-->
             <xpath expr="//button[@name='do_print_picking']" position="attributes">
                 <attribute name="groups">!optifocus.group_technician</attribute>
                 <attribute name="invisible">state not in ('assigned','workshop','shop')</attribute>
             </xpath>
-<!--            <xpath expr="//button[@name='action_open_label_type']" position="attributes">-->
-<!--                <attribute name="groups">!optifocus.group_technician</attribute>-->
-<!--            </xpath>-->
              <xpath expr="//button[@name='action_cancel']" position="attributes">
                 <attribute name="groups">!optifocus.group_technician</attribute>
                  <attribute name="invisible">state not in ('assigned','workshop','shop', 'confirmed', 'draft', 'waiting')</attribute>
             </xpath>
-
-<!--             <xpath expr="//button[@name='do_unreserve']" position="attributes">-->
-<!--                <attribute name="groups">!optifocus.group_technician</attribute>-->
-<!--            </xpath>-->
-<!--            <xpath expr="//button[@name='button_scrap']" position="attributes">-->
-<!--                <attribute name="groups">!optifocus.group_technician</attribute>-->
-<!--            </xpath>-->
-
 
             <xpath expr="//button[@name='action_cancel']" position="attributes">
                 <attribute name="groups">!optifocus.group_technician</attribute>

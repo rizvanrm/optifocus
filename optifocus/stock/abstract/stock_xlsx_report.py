@@ -21,9 +21,6 @@ class StockXLSXReportAB(models.AbstractModel):
             domain += [('qty_available', '!=', 0)]
 
         product_ids = self.env['product.product'].search(domain).sorted(key=lambda r: r.name)
-        # categ_ids = product_ids.categ_id.sorted(key=lambda r: r.name)
-        # brand_ids = product_ids.brand_id.sorted(key=lambda r: r.name)
-        # model_ids = product_ids.model1_id.sorted(key=lambda r: r.name)
 
         report_name = 'Products'
         sheet=workbook.add_worksheet(report_name[:31])

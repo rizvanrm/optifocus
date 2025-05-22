@@ -22,35 +22,18 @@ class Prescription(models.Model):
     r_sph=fields.Float(string='Right Sphere')
     r_cyl=fields.Float(string='Right Cylinder')
     r_axis=fields.Float(string='Right Axis')
-    # r_va_numerator = fields.Integer(string="Numerator")
-    # r_va_denominator = fields.Integer(string="Denominator")
-    # r_va = fields.Char(string="Right Visual Acuity", compute="_compute_r_va", store=True)
     r_va = fields.Char(string="Right Visual Acuity")
     r_add=fields.Float(string='Right Addition')
     l_sph = fields.Float(string='Lef Sphere')
     l_cyl = fields.Float(string='Left Cylinder')
     l_axis = fields.Float(string='Left Axis')
-    # l_va_numerator = fields.Integer(string="Numerator")
-    # l_va_denominator = fields.Integer(string="Denominator")
     l_va = fields.Char(string="Left Visual Acuity")
-    # l_va = fields.Char(string="Left Visual Acuity", compute="_compute_l_va", store=True)
     l_add = fields.Float(string='Left Addition')
     ipd_distance=fields.Float(string='Interpupillary Distance Distance')
     ipd_addition = fields.Float(string=' Interpupillary Distance  Addition')
     notes=fields.Text()
     prescription_filename = fields.Char(compute='_compute_prescription_filename')
     prescription_attach_id = fields.Binary(string="Prescription Attachment")
-
-
-    # @api.depends('l_va_numerator', 'l_va_denominator')
-    # def _compute_l_va(self):
-    #     for rec in self:
-    #         rec.l_va = f"{rec.l_va_numerator } / {rec.l_va_denominator}"
-    #
-    # @api.depends('r_va_numerator', 'r_va_denominator')
-    # def _compute_r_va(self):
-    #     for rec in self:
-    #         rec.r_va = f"{rec.r_va_numerator} / {rec.r_va_denominator}"
 
 
     @api.depends('prescription_date')

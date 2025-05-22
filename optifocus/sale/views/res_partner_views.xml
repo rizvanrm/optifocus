@@ -32,8 +32,8 @@
                        invisible="company_type=='company'"/>
             </xpath>
             <xpath expr="//field[@name='id_no']" position="after">
-                 <field name="is_commercial_partner"
-                       invisible="company_type!='company' or supplier_rank > 0"
+                     <field name="is_commercial_partner"
+                           invisible="company_type!='company' or supplier_rank > 0  "
                  groups="account.group_account_manager"
                 />
             </xpath>

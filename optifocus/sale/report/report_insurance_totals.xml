@@ -3,9 +3,7 @@
 
     <template id="document_insurance_totals">
 
-<!--        <table class="table table-sm ">-->
             <table class="o_total_table table table-borderless">
-<!--            table table-striped fs-4-->
             <thead>
                 <tr>
                     <th>

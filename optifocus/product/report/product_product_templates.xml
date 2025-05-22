@@ -36,7 +36,6 @@
                     </div>
                     <div t-attf-class="col-5" style="font-size:12px">
                         <t t-if="product_variant_id.barcode">
-                            <!--                        `quiet=0` to remove the left and right margins on the barcode-->
                             <div t-out="product_variant_id.barcode" style="padding:0"
                                  t-options="{'widget': 'barcode', 'symbology': 'auto', 'img_style': barcode_size}"/>
 

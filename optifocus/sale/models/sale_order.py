@@ -127,7 +127,7 @@ class SaleOrder(models.Model):
         line_coupon = discount_policy.get('line_coupon', False)
         line_global = discount_policy.get('line_global', False)
         coupon_global = discount_policy.get('coupon_global', False)
-        line_coupon_global = discount_policy.get('line_coupon_global', False)
+        # line_coupon_global = discount_policy.get('line_coupon_global', False)
         has_line_discount = has_coupon_discount = has_global_discount = False
 
         for order in self:
@@ -139,8 +139,8 @@ class SaleOrder(models.Model):
                 if not has_global_discount and line.product_template_id.name == 'Discount':
                     has_global_discount = True
 
-            if has_line_discount and has_coupon_discount and has_global_discount and not line_coupon_global:
-                raise ValidationError("You cannot apply a Line Discount, Coupon Discount, and Global Discount together.")
+            # if has_line_discount and has_coupon_discount and has_global_discount and not line_coupon_global:
+            #     raise ValidationError("You cannot apply a Line Discount, Coupon Discount, and Global Discount together.")
             if has_line_discount and has_coupon_discount and not line_coupon:
                 raise ValidationError("You cannot apply both a Line Discount and a Coupon Discount together.")
             if has_line_discount and has_global_discount and not line_global:
@@ -148,12 +148,9 @@ class SaleOrder(models.Model):
             if has_coupon_discount and has_global_discount and not coupon_global:
                 raise ValidationError("You cannot apply both a Coupon Discount and a Global Discount together.")
 
-
-
     @api.onchange('sale_type')
     def _compute_insurance_sales_order_workflow(self):
         config_param = self.env['ir.config_parameter'].sudo().get_param('optifocus.insurance_sales_order_workflow_selection')
-        # for record in self:
         for record in self:
             record.insurance_sales_order_workflow_selection = config_param
 
@@ -221,6 +218,8 @@ class SaleOrder(models.Model):
         }
 
     def action_request_send_validation(self):
+        if self.sale_type == 'insurance' and self.expiry_date < date.today():
+            raise ValidationError("The insurance policy has expired.")
         if self.sale_type == 'insurance' and not self.id_no:
             raise ValidationError("Invalid field: Identification No")
         if self.sale_type == 'insurance' and not self.birth_date:
@@ -229,12 +228,12 @@ class SaleOrder(models.Model):
             raise ValidationError("Invalid field: Gender")
         if self.sale_type == 'insurance' and not self.prescription_id:
             raise ValidationError("Invalid field: Prescription")
-        if self.sale_type == 'insurance' and not self.insurance_id:
-            raise ValidationError("Invalid field: Insurance Company")
-        if self.sale_type == 'insurance' and not self.policy_id:
-            raise ValidationError("Invalid field: Policy")
-        if self.sale_type == 'insurance' and not self.policy_class_id:
-            raise ValidationError("Invalid field: Class")
+        # if self.sale_type == 'insurance' and not self.insurance_id:
+        #     raise ValidationError("Invalid field: Insurance Company")
+        # if self.sale_type == 'insurance' and not self.policy_id:
+        #     raise ValidationError("Invalid field: Policy")
+        # if self.sale_type == 'insurance' and not self.policy_class_id:
+        #     raise ValidationError("Invalid field: Class")
         if self.sale_type == 'insurance' and not self.member_id:
             raise ValidationError("Invalid field: Membership No")
         if self.sale_type == 'insurance' and not self.request_attach_id:
@@ -243,6 +242,7 @@ class SaleOrder(models.Model):
             raise ValidationError("Invalid field: Prescription Attachment")
         if self.sale_type == 'insurance' and self.order_line_count==0:
             raise ValidationError("A sales order must include at least one product line to proceed.")
+
 
     def action_request_send(self):
         self.action_request_send_validation()
@@ -255,6 +255,12 @@ class SaleOrder(models.Model):
             raise ValidationError("Invalid field: Approval Date")
         if self.sale_type == 'insurance' and not self.approval_attach_id:
             raise ValidationError("Invalid field: Approval Attachment")
+
+        for record in self:
+            if record.sale_type == 'insurance' and record.approved_untaxed == 0:
+                    raise ValidationError("The sum of the approved amounts must be greater than zero.")
+
+
 
     def action_approve(self):
         self.action_approve_validation()
@@ -496,9 +502,10 @@ class SaleOrder(models.Model):
                             line.member_discount_subtotal = 0
 
                             # Claim Amount
-                            line.claim_subtotal = ((line.approved_unit*line.product_uom_qty * (
-                                        100 - order.insurance_discount) / 100) - line.co_insurance_subtotal)
+
                             line.co_insurance_subtotal=round((order.up_to*line.approved_unit*line.product_uom_qty/order.approved_untaxed),2)
+                            line.claim_subtotal = ((line.approved_unit * line.product_uom_qty * (
+                                    100 - order.insurance_discount) / 100) - line.co_insurance_subtotal)
                             co_insurance_beyond_up_to_flag=True
                             co_insurance_difference_amount -= line.co_insurance_subtotal
 
@@ -542,8 +549,6 @@ class SaleOrder(models.Model):
             if co_insurance_beyond_up_to_flag and last_line and co_insurance_difference_amount != 0:
                 last_line.co_insurance_subtotal += round(co_insurance_difference_amount, 2)
                 last_line.member_subtotal = (last_line.co_insurance_subtotal + last_line.additional_subtotal)
-
-
 
     @api.constrains('sale_type','order_line')
     def _constrains_discount_sale_type(self):
@@ -637,11 +642,6 @@ class SaleOrder(models.Model):
 
         self.action_request_send_validation()
         self.action_approve_validation()
-
-
-        for record in self:
-            if record.sale_type == 'insurance' and record.approved_untaxed == 0:
-                    raise ValidationError("The sum of the approved amounts must be greater than zero.")
 
         order_ids = self.search([('id','=',self.id),
                                  ('state', 'in', ['sale']),

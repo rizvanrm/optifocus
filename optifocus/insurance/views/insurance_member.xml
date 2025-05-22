@@ -1,4 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
+
+
+
+
+
 <odoo>
     <record id="insurance_member_form_view" model="ir.ui.view">
         <field name="name">insurance.member.form</field>
@@ -53,7 +58,9 @@
                                 <div>To</div>
                                 <field name="expiry_date" class="oe_inline"/>
                             </div>
-                            <field name="policy_class_id" options="{'no_create': True, 'no_create_edit': True,'no_open': True}" />
+<!--                            options="{'no_create': True, 'no_create_edit': True,'no_open': True}"-->
+                            <field name="policy_class_id" options="{'no_quick_create': True}"
+                                context="{'default_policy_id': policy_id}"/>
                             <field name="co_insurance_type"/>
                             <field name="co_insurance_percent"
                             invisible="co_insurance_type=='fixed'"/>

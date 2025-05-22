@@ -7,7 +7,6 @@
             <t t-call="optifocus.customer_payments_layout">
                 <div class="page">
                     <t t-call="optifocus.report_customer_payments_detail"/>
-                    <!--                    <t t-esc="move_ids"/>-->
                 </div>
 
             </t>
@@ -61,9 +60,9 @@
 
         <table class="table table-sm"
                style="font-size: 14px;margin-bottom:30px; border:hidden;border-top:2px;border-bottom:2px;">
-              <thead style="display: table-row-group">
+            <thead style="display: table-row-group">
 
-                <tr >
+                <tr>
                     <th class="text-start" style="border:hidden;border-top:1px;border-bottom:1px;">PAYMENT</th>
                     <th class="text-start" style="border:hidden;border-top:1px;border-bottom:1px;">DATE</th>
                     <th class="text-start" style="border:hidden;border-top:1px;border-bottom:1px;">PAYMENT TYPE</th>
@@ -115,87 +114,89 @@
                             </td>
                         </tr>
 
-
                         <t t-foreach="payment_id.reconciled_invoice_ids" t-as="invoice_id">
-                            <t t-foreach="invoice_id.invoice_payments_widget['content']" t-as="i">
+                            <t t-if="invoice_id.invoice_payments_widget  and invoice_id.invoice_payments_widget.get('content')">
 
-                                <t t-if="i['account_payment_id']==payment_id.id ">
+                                <t t-foreach="invoice_id.invoice_payments_widget['content']" t-as="i">
 
-                                    <t t-if="invoice_id.move_type in ['out_invoice','out_refund']">
-                                        <t t-set="amount"  t-value="i['amount']"/>
+                                    <t t-if="i['account_payment_id']==payment_id.id ">
 
-                                        <t t-if="invoice_id.move_type =='out_invoice'">
-                                            <t t-if="i['amount'] > payment_id.amount_company_currency_signed">
-                                                <t t-set="difference_amount"
-                                                        t-value="difference_amount+(i['amount']-payment_id.amount_company_currency_signed)"/>
-                                                <t t-set="amount"
-                                                    t-value="(payment_id.amount_company_currency_signed)"/>
+                                        <t t-if="invoice_id.move_type in ['out_invoice','out_refund']">
+                                            <t t-set="amount" t-value="i['amount']"/>
+
+                                            <t t-if="invoice_id.move_type =='out_invoice'">
+                                                <t t-if="i['amount'] > payment_id.amount_company_currency_signed">
+                                                    <t t-set="difference_amount"
+                                                       t-value="difference_amount+(i['amount']-payment_id.amount_company_currency_signed)"/>
+                                                    <t t-set="amount"
+                                                       t-value="(payment_id.amount_company_currency_signed)"/>
+                                                </t>
                                             </t>
-                                        </t>
-                                        <t t-if="invoice_id.move_type =='out_refund'">
-                                            <t t-set="amount"  t-value="i['amount']*-1"/>
-                                            <t t-if="payment_id.amount_company_currency_signed > i['amount']*-1">
-                                                <t t-set="difference_amount"
-                                                        t-value="difference_amount+(i['amount']+payment_id.amount_company_currency_signed)"/>
-                                                <t t-set="amount"
-                                                    t-value="(payment_id.amount_company_currency_signed)"/>
+                                            <t t-if="invoice_id.move_type =='out_refund'">
+                                                <t t-set="amount" t-value="i['amount']*-1"/>
+                                                <t t-if="payment_id.amount_company_currency_signed > i['amount']*-1">
+                                                    <t t-set="difference_amount"
+                                                       t-value="difference_amount+(i['amount']+payment_id.amount_company_currency_signed)"/>
+                                                    <t t-set="amount"
+                                                       t-value="(payment_id.amount_company_currency_signed)"/>
+                                                </t>
                                             </t>
-                                        </t>
 
-                                        <t t-if="invoice_id.cust_move_type == 'retail' and invoice_id.move_type =='out_invoice'">
+                                            <t t-if="invoice_id.cust_move_type == 'retail' and invoice_id.move_type =='out_invoice'">
                                                 <t t-set="retail_payments" t-value="retail_payments+amount"/>
+                                            </t>
+                                            <t t-elif="invoice_id.cust_move_type=='member' and invoice_id.move_type =='out_invoice'">
+                                                <t t-set="member_payments" t-value="member_payments+amount"/>
+                                            </t>
+                                            <t t-elif="invoice_id.cust_move_type=='claim' and invoice_id.move_type =='out_invoice'">
+                                                <t t-set="claim_payments" t-value="claim_payments+amount"/>
+                                            </t>
+                                            <t t-elif="invoice_id.cust_move_type=='wholesale' and invoice_id.move_type =='out_invoice'">
+                                                <t t-set="wholesale_payments" t-value="wholesale_payments+amount"/>
+                                            </t>
+                                            <t t-elif="invoice_id.cust_move_type==False and invoice_id.move_type =='out_invoice'">
+                                                <t t-set="other_payments" t-value="other_payments+amount"/>
+                                            </t>
+
                                         </t>
-                                        <t t-elif="invoice_id.cust_move_type=='member' and invoice_id.move_type =='out_invoice'">
-                                            <t t-set="member_payments" t-value="member_payments+amount"/>
-                                        </t>
-                                        <t t-elif="invoice_id.cust_move_type=='claim' and invoice_id.move_type =='out_invoice'">
-                                            <t t-set="claim_payments" t-value="claim_payments+amount"/>
-                                        </t>
-                                        <t t-elif="invoice_id.cust_move_type=='wholesale' and invoice_id.move_type =='out_invoice'">
-                                            <t t-set="wholesale_payments" t-value="wholesale_payments+amount"/>
-                                        </t>
-                                        <t t-elif="invoice_id.cust_move_type==False and invoice_id.move_type =='out_invoice'">
-                                            <t t-set="other_payments" t-value="other_payments+amount"/>
+                                        <t t-if="invoice_id.move_type=='out_refund'">
+                                            <t t-set="creditnote_payments" t-value="creditnote_payments+amount"/>
                                         </t>
 
+                                        <t t-if="(invoice_id.cust_move_type in invoice_type)">
+
+                                            <tr>
+                                                <td style="border:hidden;">
+                                                    <div class="row black" style="padding-left: 15px;">
+                                                        <t t-esc="invoice_id.invoice_origin"/>
+                                                    </div>
+                                                </td>
+                                                <td style="border:hidden;">
+                                                    <div class="row black" style="padding-left: 15px;">
+                                                        <t t-esc="invoice_id.name"/>
+                                                    </div>
+                                                </td>
+
+                                                <td style="border:hidden;">
+                                                    <div class="row black" style="padding-left: 15px;">
+                                                        <t t-esc="str(invoice_id.cust_move_type if invoice_id.cust_move_type else '').upper()"/>
+                                                    </div>
+                                                </td>
+                                                <td class="text-end" style="border:hidden;">
+                                                    <t t-esc="amount" t-options='{"widget": "float", "precision": 2}'/>
+                                                </td>
+                                            </tr>
+
+                                        </t>
+                                        <t t-set="allocated_payments" t-value="allocated_payments+amount"/>
                                     </t>
-                                    <t t-if="invoice_id.move_type=='out_refund'">
-                                        <t t-set="creditnote_payments" t-value="creditnote_payments+amount"/>
-                                    </t>
-
-                                    <t t-if="(invoice_id.cust_move_type in invoice_type)">
-
-                                        <tr>
-                                            <td style="border:hidden;">
-                                                <div class="row black" style="padding-left: 15px;">
-                                                    <t t-esc="invoice_id.invoice_origin"/>
-                                                </div>
-                                            </td>
-                                            <td style="border:hidden;">
-                                                <div class="row black" style="padding-left: 15px;">
-                                                    <t t-esc="invoice_id.name"/>
-                                                </div>
-                                            </td>
-
-                                            <td style="border:hidden;">
-                                                <div class="row black" style="padding-left: 15px;">
-                                                    <t t-esc="str(invoice_id.cust_move_type if invoice_id.cust_move_type else '').upper()"/>
-                                                </div>
-                                            </td>
-                                            <td class="text-end" style="border:hidden;">
-                                                <t t-esc="amount" t-options='{"widget": "float", "precision": 2}'/>
-                                            </td>
-                                        </tr>
-
-                                    </t>
-                                    <t t-set="allocated_payments" t-value="allocated_payments+amount"/>
                                 </t>
                             </t>
-
                         </t>
 
                         <t t-set="total_payments" t-value="total_payments+payment_id.amount_company_currency_signed"/>
-                        <t t-set="outstanding_credits" t-value="outstanding_credits+payment_id.amount_company_currency_signed-allocated_payments"/>
+                        <t t-set="outstanding_credits"
+                           t-value="outstanding_credits+payment_id.amount_company_currency_signed-allocated_payments"/>
 
 
                     </t>
@@ -218,7 +219,9 @@
                        style="font-size: 14px;margin-bottom: 0px; border:hidden;border-top:1px;border-bottom:1px;">
                     <thead>
                         <tr>
-                            <th class="text-start" style="border:hidden;border-top:1px;border-bottom:1px;">INVOICE TYPE</th>
+                            <th class="text-start" style="border:hidden;border-top:1px;border-bottom:1px;">INVOICE
+                                TYPE
+                            </th>
                             <th class="text-end" style="border:hidden;border-top:1px;border-bottom:1px;">AMOUNT</th>
                         </tr>
                     </thead>
@@ -265,15 +268,13 @@
                         <tr>
                             <td class="text-start" style="border:hidden;border-bottom:1px;">OUTSTANDING CREDITS</td>
                             <td class="text-end" style="border:hidden;border-bottom:1px;">
-                                <!--                                <t t-esc="total_payments-retail_payments-member_payments-claim_payments-wholesale_payments-creditnote_payments-other_payments"-->
-                                <!--                                   t-options='{"widget": "float", "precision": 2}'/>-->
                                 <t t-esc="outstanding_credits"
                                    t-options='{"widget": "float", "precision": 2}'/>
                             </td>
                         </tr>
-<!--                        <tr>-->
-<!--                            <td colspan="2"></td>-->
-<!--                        </tr>-->
+                        <!--                        <tr>-->
+                        <!--                            <td colspan="2"></td>-->
+                        <!--                        </tr>-->
 
                         <tr>
                             <td class="text-start" style="border:hidden;border-top:1px; border-bottom:1px;">TOTAL</td>
@@ -282,8 +283,10 @@
                             </td>
                         </tr>
 
-                         <tr>
-                            <td class="text-start" style="border:hidden;border-top:1px; border-bottom:1px;">DIFFERENCE AMOUNT</td>
+                        <tr>
+                            <td class="text-start" style="border:hidden;border-top:1px; border-bottom:1px;">DIFFERENCE
+                                AMOUNT
+                            </td>
                             <td class="text-end" style="border:hidden;border-top:1px;border-bottom:1px;">
                                 <t t-esc="difference_amount"
                                    t-options='{"widget": "float", "precision": 2}'/>
@@ -307,7 +310,9 @@
                        style="font-size: 14px;margin-bottom: 0px;border:hidden;border-top:1px;border-bottom:1px">
                     <thead>
                         <tr>
-                            <th class="text-start" style="border:hidden;border-top:1px;border-bottom:1px;">JOURNAL TYPE</th>
+                            <th class="text-start" style="border:hidden;border-top:1px;border-bottom:1px;">JOURNAL
+                                TYPE
+                            </th>
                             <th class="text-end" style="border:hidden;border-top:1px;border-bottom:1px;">AMOUNT</th>
                         </tr>
                     </thead>

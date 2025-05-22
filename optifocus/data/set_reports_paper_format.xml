@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
+
     <record id="sale.action_report_saleorder" model="ir.actions.report">
         <field name="paperformat_id" ref="paperformat_a4_optifocus"/>
     </record>

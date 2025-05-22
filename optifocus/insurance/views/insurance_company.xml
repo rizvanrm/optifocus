@@ -53,7 +53,7 @@
                             <field name="provider_id"/>
                     </group>
                     <group >
-                            <field name="partner_id" options="{'no_quick_create': True}"/>
+                            <field name="partner_id" context="{'default_company_type': 'company'}" options="{'no_quick_create': True}"/>
                             <field name="pricelist_id" options="{'no_quick_create': True}"/>
                     </group>
                 </group>

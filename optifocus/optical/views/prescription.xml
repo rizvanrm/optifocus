@@ -118,14 +118,6 @@
                                     <field name="ipd_addition" style="width: 100%;"/>
                                 </td>
                             </tr>
-<!--                            <tr>-->
-<!--                                <td class="bg-300">-->
-<!--                                    <strong>IPD</strong>-->
-<!--                                </td>-->
-<!--                                <td colspan="8">-->
-<!--                                    <field name="ipd" style="width: 100%;"/>-->
-<!--                                </td>-->
-<!--                            </tr>-->
                         </tbody>
                     </table>
 

@@ -6,6 +6,8 @@ from odoo.exceptions import ValidationError
 class ProductProduct(models.Model):
     _inherit = 'product.product'
 
+  
+
     @api.model_create_multi
     def create(self, vals_list):
         products = super().create(vals_list)
@@ -21,9 +23,6 @@ class ProductProduct(models.Model):
                 product.barcode = product.barcode + self.env['ir.sequence'].next_by_code('product.barcode')
 
         return products
-
-    # Be aware that the exact same function exists in product.template
-        # If user have rights to write on quant, we define the view as editable.
 
     def action_open_quants(self):
         action = super().action_open_quants()
