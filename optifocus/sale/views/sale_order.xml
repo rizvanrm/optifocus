@@ -29,6 +29,13 @@
                     </button>
                 </xpath>
 
+                <xpath expr="/form/sheet/notebook/page/field[@name='order_line']"
+                       position="attributes">
+                    <attribute name="readonly">state in ['approve','reject','sale','cancel']</attribute>
+                </xpath>
+
+
+
 
                 <xpath expr="//field[@name='partner_id']" position="before">
                     <field name="order_line_count" invisible="1"/>
@@ -197,7 +204,7 @@
                                widget="work_permit_upload"
                                invisible="sale_type in ['retail', 'wholesale']"
                                readonly="state not in ['draft','sent']"
-                               groups="!optifocus.group_insurance_supervisor"/>
+                               groups="!optifocus.group_insurance_supervisor,!base.group_erp_manager"/>
 
                         <field name="prescription_attach_id" filename="prescription_filename"
                                widget="work_permit_upload"
@@ -688,18 +695,19 @@
                     <field name="approval_no" class="oe_inline"
                            invisible="sale_type in ['retail', 'wholesale']"
                            readonly="state not in ['waiting_approval']"
-                           groups="optifocus.group_insurance_supervisor,base.group_erp_manager"/>
+                           groups="optifocus.group_insurance_supervisor"/>
                 </xpath>
 
                 <xpath expr="//field[@name='approval_date'][1]" position="after">
                     <field name="approval_date" class="oe_inline"
                            invisible="sale_type in ['retail', 'wholesale']"
                            readonly="state not in ['waiting_approval']"
-                           groups="optifocus.group_insurance_supervisor,base.group_erp_manager"/>
+                           groups="optifocus.group_insurance_supervisor"/>
                 </xpath>
 
                 <xpath expr="//field[@name='request_attach_id'][1]" position="after">
                 <field name="request_attach_id" placeholder="Reqeust" filename="request_filename"
+                       invisible="sale_type in ['retail', 'wholesale']"
                        widget="work_permit_upload"
                        readonly="1"
                        groups="optifocus.group_insurance_supervisor"/>
@@ -709,7 +717,7 @@
                 <field name="approval_attach_id" filename="approval_filename" widget="work_permit_upload"
                        invisible="sale_type in ['retail', 'wholesale']"
                        readonly="state not in ['waiting_approval']"
-                       groups="optifocus.group_insurance_supervisor,base.group_erp_manager"/>
+                       groups="optifocus.group_insurance_supervisor"/>
                 </xpath>
 
             </field>
@@ -743,6 +751,48 @@
             </field>
 
         </record>
+
+        <record id="sale_order_form_view_adm" model="ir.ui.view">
+            <field name="name">sale.order.form.adm</field>
+            <field name="model">sale.order</field>
+            <field name="inherit_id" ref="sale.view_order_form"/>
+            <field name="arch" type="xml">
+
+                <xpath expr="//field[@name='approval_no'][2]" position="after">
+                    <field name="approval_no" class="oe_inline"
+                           invisible="sale_type in ['retail', 'wholesale']"
+                            readonly="state not in ['waiting_approval']"
+                           groups="base.group_erp_manager"/>
+                </xpath>
+
+                <xpath expr="//field[@name='approval_date'][2]" position="after">
+                    <field name="approval_date" class="oe_inline"
+                           invisible="sale_type in ['retail', 'wholesale']"
+                            readonly="state not in ['waiting_approval']"
+                            groups="base.group_erp_manager"/>
+                </xpath>
+
+                <xpath expr="//field[@name='request_attach_id'][2]" position="after">
+                <field name="request_attach_id" placeholder="Reqeust" filename="request_filename"
+                       invisible="sale_type in ['retail', 'wholesale']"
+                       widget="work_permit_upload"
+                       readonly="state not in ['draft','sent']"
+                       groups="base.group_erp_manager"/>
+                </xpath>
+
+                <xpath expr="//field[@name='approval_attach_id'][2]" position="after">
+                <field name="approval_attach_id" filename="approval_filename" widget="work_permit_upload"
+                       invisible="sale_type in ['retail', 'wholesale']"
+                       readonly="state not in ['waiting_approval']"
+                       groups="base.group_erp_manager"/>
+                </xpath>
+
+            </field>
+
+        </record>
+
+
+
 
     </data>
 </odoo>

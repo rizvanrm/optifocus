@@ -20,15 +20,15 @@ class InsurancePolicy(models.Model):
 
 
     def _get_member(self):
-        member_count = self.env['insurance.member'].search_count([('insurance_company_id', '=', self.id)])
+        member_count = self.env['insurance.member'].search_count([('policy_id', '=', self.id)])
         self.member_count = member_count
 
     def _get_claim(self):
-        claim_count = self.env['insurance.claim'].search_count([('insurance_id', '=', self.id)])
+        claim_count = self.env['insurance.claim'].search_count([('policy_id', '=', self.id)])
         self.claim_count = claim_count
 
     def _get_sale(self):
-        sale_count = self.env['sale.order'].search_count([('insurance_id', '=', self.id)])
+        sale_count = self.env['sale.order'].search_count([('policy_id', '=', self.id)])
         self.sale_count = sale_count
 
 
@@ -40,7 +40,7 @@ class InsurancePolicy(models.Model):
             'res_model': 'insurance.member',
             'views': [(self.env.ref('optifocus.insurance_member_list_view').id, "list"),
                       (self.env.ref('optifocus.insurance_member_form_view').id, "form")],
-            'domain': [('insurance_company_id', '=', self.id)],
+            'domain': [('policy_id', '=', self.id)],
         }
 
     def action_open_sales(self):
@@ -49,7 +49,7 @@ class InsurancePolicy(models.Model):
             'type': 'ir.actions.act_window',
             'name': _('Sales'),
             'res_model': 'sale.order',
-            'domain': [('insurance_id', '=', self.id)],
+            'domain': [('policy_id', '=', self.id)],
             'views': [(self.env.ref('optifocus.view_order_tree').id, "list"),
                       (self.env.ref('optifocus.sale_order_form_view').id, "form")],
         }
@@ -61,7 +61,7 @@ class InsurancePolicy(models.Model):
             'type': 'ir.actions.act_window',
             'name': _('Claims'),
             'res_model': 'insurance.claim',
-            'domain': [('insurance_id', '=', self.id)],
+            'domain': [('policy_id', '=', self.id)],
             'views': [(self.env.ref('optifocus.insurance_claim_list_view').id, "list"),
                       (self.env.ref('optifocus.claim_form_view').id, "form")],
         }
@@ -69,7 +69,14 @@ class InsurancePolicy(models.Model):
     # Onchange - On change Parent Field, List associated Child Records.
     @api.onchange('insurance_company')
     def onchange_insurance_company_name(self):
-        self.insurance_company_plan=None
+        plans = self.env['insurance.plan'].search([('insurance_company_id', '=', self.insurance_company.id )])
+        if len(plans) == 1:
+            self.insurance_company_plan = plans.id
+        else:
+            self.insurance_company_plan = None
+
+
+
 
     # Constraint - at least one Child Record required
     @api.constrains('policy_line_ids')

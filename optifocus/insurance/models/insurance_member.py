@@ -50,8 +50,11 @@ class InsuranceMember(models.Model):
 
     @api.onchange('policy_id')
     def _onchange_policy_id(self):
-        """Clear the class_id field when policy_id changes."""
-        self.policy_class_id = False
+        policy_class_ids = self.env['insurance.policy.class'].search([('policy_id', '=', self.policy_id.id)])
+        if len(policy_class_ids) == 1:
+            self.policy_class_id = policy_class_ids.id
+        else:
+            self.policy_class_id = None
 
     def _get_claim(self):
         claim_count = self.env['insurance.claim'].search_count([('member_id', '=', self.id)])

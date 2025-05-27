@@ -7,7 +7,8 @@
     'email': 'rizvan_rm@yahoo.co.in',
     'price': '2000',
     'currency': 'USD',
-    'license': 'LGPL-3',
+    # 'license': 'LGPL-3',
+    'license': 'AGPL-3',
     'data': [
 
         'security/security.xml',
@@ -133,7 +134,7 @@
         'security/ir.model.access.csv',
 
          ],
-   'depends': ['stock','sale_management','hr', 'sale_loyalty','purchase','account','l10n_sa_edi','hr_expense','om_recurring_payments','om_account_accountant','report_xlsx'],
+   'depends': ['stock','sale_management','hr', 'sale_loyalty','purchase','account','l10n_sa_edi','hr_expense','om_recurring_payments','om_account_accountant'],
 
     'installable': True,
     'images' : ['static/description/banner.png'],
