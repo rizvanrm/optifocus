@@ -154,10 +154,10 @@ class SaleOrder(models.Model):
         for record in self:
             record.insurance_sales_order_workflow_selection = config_param
 
-
     @api.onchange('member_id')
     def _onchange_member_id(self):
-        for record in self:
+
+       for record in self:
             if record.sale_type == 'insurance' and record.member_id:
                 record.partner_id = record.member_id.partner_id
                 record.pricelist_id=record.member_id.insurance_company_id.pricelist_id
@@ -175,6 +175,9 @@ class SaleOrder(models.Model):
                 else:
                     record.co_insurance = f"{record.co_insurance_percent:.2f} % Upto {record.up_to:.2f}"
                 self._compute_insurance()
+
+                if record.expiry_date and record.expiry_date < fields.Date.today():
+                    raise ValidationError("The insurance policy has expired.")
 
     @api.depends('member_id')
     def _compute_request_filename(self):
@@ -510,6 +513,7 @@ class SaleOrder(models.Model):
                             co_insurance_difference_amount -= line.co_insurance_subtotal
 
 
+
                         else:
                             # Member Discount
                             line.member_discount_subtotal =  (line.approved_unit*line.product_uom_qty*order.co_insurance_percent/100*order.member_discount/100)
@@ -547,8 +551,11 @@ class SaleOrder(models.Model):
                     line.member_subtotal = (line.co_insurance_subtotal + line.additional_subtotal)
 
             if co_insurance_beyond_up_to_flag and last_line and co_insurance_difference_amount != 0:
+                last_line.claim_subtotal +=round(co_insurance_difference_amount, 2)*-1
+                print(round(co_insurance_difference_amount, 2))
                 last_line.co_insurance_subtotal += round(co_insurance_difference_amount, 2)
                 last_line.member_subtotal = (last_line.co_insurance_subtotal + last_line.additional_subtotal)
+
 
     @api.constrains('sale_type','order_line')
     def _constrains_discount_sale_type(self):

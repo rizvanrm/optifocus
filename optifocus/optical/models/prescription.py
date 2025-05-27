@@ -131,3 +131,11 @@ class Prescription(models.Model):
 
     def get_sudo_doctor_id(self):
         return self.doctor_id.sudo()
+
+    @api.model
+    def default_get(self, fields_list):
+        res = super(Prescription, self).default_get(fields_list)
+        doctors = self.env['hr.employee'].search([('job_id', '=', 'Optometrist')])
+        if len(doctors) == 1:
+            res['doctor_id'] = doctors.id
+        return res
